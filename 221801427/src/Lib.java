@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Lib {
-    static void wordCount() {
+    static void countWord() {
         List<String> lines = Arrays.asList("hello java", "hello world");
         Map<String, Long> words = lines.stream()
            .flatMap(w -> Stream.of(w.split(" ")))
