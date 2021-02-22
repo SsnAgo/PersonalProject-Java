@@ -144,4 +144,11 @@ const c = a ** b;
 
 9. 其他规则
 
-我目前所做的项目都采用`JS` 最严格的规范， [https://github.com/airbnb/javascript](https://github.com/airbnb/javascript) 提供的 `JS` 语法规范进行约束，并采用 `eslint` 工具配合 `vscode` 检查语法。确保语法的正确实施。
+代码规范中，一律使用双引号，单引号只用在双引号中。
+
+```js
+const str = "hello world";
+const say = "I'm huro";
+```
+
+除此之外，采用 [https://github.com/airbnb/javascript](https://github.com/airbnb/javascript) 提供的 `JS` 语法规范进行约束，并采用 `eslint` 工具配合 `vscode` 检查语法。确保语法的正确实施。
