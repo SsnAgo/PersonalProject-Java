@@ -10,5 +10,7 @@ module.exports = {
   },
   rules: {
     quotes: [0, "double"],
+    "import/prefer-default-export": 0,
+    "linebreak-style": 0,
   },
 };

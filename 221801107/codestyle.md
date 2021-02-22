@@ -144,11 +144,39 @@ const c = a ** b;
 
 9. 其他规则
 
-代码规范中，一律使用双引号，单引号只用在双引号中。
+   1. 字符串一律使用双引号，单引号只用在双引号中
 
-```js
-const str = "hello world";
-const say = "I'm huro";
-```
+      ```js
+      const str = "hello world";
+      const say = "I'm huro";
+      ```
+
+   2. 对于模块导出，除了 `utils` 里的工具函数，不采用默认导出模式
+
+      ```js
+      // utils/filterChinese.js
+      
+      import {
+        CHINESE_REGEX,
+      } from "../constants";
+      
+      const filterChinese = (content) => content.replaceAll(CHINESE_REGEX, "");
+      
+      export default filterChinese;
+      
+      // row.js
+      import { EMPTY_ROW_REGEX } from "./constants";
+      
+      const calRowsCount = (content) => content.split(/\n/).length;
+      
+      export {
+        calRowsCount,
+      };
+      
+      ```
+
+   3. 对于行结尾使用 `LF` 或是 `CRLF` 没有要求。
+
+   
 
 除此之外，采用 [https://github.com/airbnb/javascript](https://github.com/airbnb/javascript) 提供的 `JS` 语法规范进行约束，并采用 `eslint` 工具配合 `vscode` 检查语法。确保语法的正确实施。
