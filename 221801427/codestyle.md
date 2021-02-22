@@ -77,13 +77,13 @@ THURSDAY(4),FRIDAY(5),SATURDAY(6),SUNDAY(7);}
 - 大括号位置
 
 >1、每个“{”和“}”都独占一行。
->>正例：<br>if (condition)
-{
-&emsp;&emsp;DoSomething();
-}
-else
-{
-&emsp;&emsp;DoSomethingElse();
+>>正例：<br>if (condition)<br>
+{<br>
+&emsp;&emsp;DoSomething();<br>
+}<br>
+else<br>
+{<br>
+&emsp;&emsp;DoSomethingElse();<br>
 }
 
 >2、在if等语句块较为简单时，也不省略左右大括号的使用，以使程序显得更清晰、工整。
