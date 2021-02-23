@@ -1,0 +1,13 @@
+other: Hello huro!
+huro: Meow! meow!
+other: Which one do you use? windows2000 or windows95 or windows10?
+huro: Of course windows10!
+other: wow!!! so great!
+huro: haha thanks!
+
+...
+
+other: Bye bye!
+huro: bye!
+
+(啦啦啦)

@@ -1,0 +1,13 @@
+223
+21
+10
+huro: 5
+other: 4
+meow: 2
+windows10: 2
+course: 1
+great: 1
+haha: 1
+hello: 1
+thanks: 1
+which: 1
