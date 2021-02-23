@@ -1,6 +1,7 @@
 module.exports = {
   env: {
     node: true,
+    jest: true,
   },
   extends: "airbnb",
   parserOptions: {
@@ -9,7 +10,6 @@ module.exports = {
   },
   rules: {
     quotes: 0,
-    "import/prefer-default-export": 0,
     "linebreak-style": 0,
     "no-console": 0,
     "global-require": 0,
