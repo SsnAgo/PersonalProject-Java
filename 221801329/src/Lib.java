@@ -170,7 +170,7 @@ public class Lib {
         List<HashMap.Entry<String, Integer>> sortedList= getSortedList();
         for(HashMap.Entry<String,Integer> entry:sortedList) {
             if(cnt<=9){
-                System.out.println(entry.getKey()+":"+entry.getValue());
+                System.out.println(entry.getKey() + ":" + entry.getValue());
             }
             cnt++;
         }
@@ -189,5 +189,23 @@ public class Lib {
             }
         }
         return count;
+    }
+    public static void outputToFile(int chars,int words,int lines) throws IOException {
+        FileOutputStream res = new FileOutputStream("output.txt");
+        BufferedOutputStream bos = new BufferedOutputStream(res);
+        String str = "characters: " + chars +"\r\n"
+                    +"words: "      + words +"\r\n"
+                    +"lines: "      + lines +"\r\n";
+        int cnt = 0;
+        List<HashMap.Entry<String, Integer>> sortedList= getSortedList();
+        for(HashMap.Entry<String,Integer> entry:sortedList) {
+            if(cnt<=9){
+                str += entry.getKey() + ":" + entry.getValue() + "\r\n";
+            }
+            cnt++;
+        }
+        bos.write(str.getBytes(),0,str.getBytes().length);
+        bos.flush();
+        bos.close();
     }
 }

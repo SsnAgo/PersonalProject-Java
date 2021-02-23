@@ -12,18 +12,11 @@ public class WordCount {
         String deletedStr = Lib.deleteChineseString(str);
         int chars = Lib.countChars(filterStr);
         int lines = Lib.countLines(new File(Lib.DIR+"\\src\\input.txt"));
-        //Integer count = 0;
         Pair<HashMap<String,Integer>,Integer> pair = Lib.makeWordPair(deletedStr);
-
-
-        //System.out.println(pair.getKey());
-        //System.out.println("MapSize:"+wordMap.size());
-        //int words = Lib.countWords(deletedStr);
         System.out.println("Chars:"+chars);
-        System.out.println("Lines:"+lines);
         System.out.println("Words:"+pair.getValue());
+        System.out.println("Lines:"+lines);
         Lib.outputSortedResult();
-        //System.out.println("Words:"+words);
-        //Lib.wordSort(wordMap);
+        Lib.outputToFile(chars,pair.getValue(),lines);
     }
 }
