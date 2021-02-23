@@ -18,3 +18,7 @@ wordcount-Java提交仓库
 ### 第四次commit
 - 将单词个数统计以及单词存储整合为一个函数，用pair返回
 
+### 第五次commit
+- makeWordPair函数声明以及注释修正
+- 前十单词排序输出
+

@@ -13,15 +13,16 @@ public class WordCount {
         int chars = Lib.countChars(filterStr);
         int lines = Lib.countLines(new File(Lib.DIR+"\\src\\input.txt"));
         //Integer count = 0;
-        Pair<HashMap<String,Integer>,Integer> pair = Lib.makeWordMap(deletedStr);
+        Pair<HashMap<String,Integer>,Integer> pair = Lib.makeWordPair(deletedStr);
 
-        System.out.println("cnt:"+pair.getValue());
-        System.out.println(pair.getKey());
+
+        //System.out.println(pair.getKey());
         //System.out.println("MapSize:"+wordMap.size());
         //int words = Lib.countWords(deletedStr);
         System.out.println("Chars:"+chars);
         System.out.println("Lines:"+lines);
-
+        System.out.println("Words:"+pair.getValue());
+        Lib.outputSortedResult();
         //System.out.println("Words:"+words);
         //Lib.wordSort(wordMap);
     }

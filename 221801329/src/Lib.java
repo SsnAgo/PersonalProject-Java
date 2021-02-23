@@ -105,15 +105,6 @@ public class Lib {
         }
         return sb.toString();
     }
-    public static void wordSort(HashMap<String,Integer> map) {
-        Set keySet = map.keySet();
-        Object[] keyArr = keySet.toArray();
-        Arrays.sort(keyArr);
-        for (Object key:keyArr){
-            System.out.println(key);
-        }
-    }
-
     /*
     * @description 统计文件行数
     * @param file
@@ -131,12 +122,11 @@ public class Lib {
         return count;
     }
     /*
-    * TODO:单词个数统计
-    * @description 将合法单词存入map中
-    * @param wordStr
-    * @return map
+    * @description 将合法单词存入map中，并与单词个数绑定
+    * @param str
+    * @return pair
     * */
-    public static Pair<HashMap<String,Integer>,Integer> makeWordMap(String str) {
+    public static Pair<HashMap<String,Integer>,Integer> makeWordPair(String str) {
         int count = 0;
         str = str.toLowerCase().replaceAll(FLITER_REGEX," ");
         StringTokenizer words = new StringTokenizer(str);
@@ -153,6 +143,37 @@ public class Lib {
         }
         //wordMap.put("_cnt",count);
         return new Pair<>(wordMap,count);
+    }
+    /*
+    * @description 将map中的单词按value大小，key字典序排序，
+    * @param
+    * @return list
+    * */
+    public static List<HashMap.Entry<String, Integer>> getSortedList() {
+        List<HashMap.Entry<String, Integer>> wordList = new ArrayList<>();
+        wordList.addAll(wordMap.entrySet());
+        Comparator<Map.Entry<String, Integer>> cmp = (o1, o2) -> {
+            if(o1.getValue().equals(o2.getValue()))
+                return o1.getKey().compareTo(o2.getKey());
+            return o2.getValue()-o1.getValue();
+        };
+        wordList.sort(cmp);
+        return wordList;
+    }
+    /*
+    * @description 输出排序后的统计次数前十的单词
+    * @param
+    * @return
+    * */
+    public static void outputSortedResult() {
+        int cnt = 0;
+        List<HashMap.Entry<String, Integer>> sortedList= getSortedList();
+        for(HashMap.Entry<String,Integer> entry:sortedList) {
+            if(cnt<=9){
+                System.out.println(entry.getKey()+":"+entry.getValue());
+            }
+            cnt++;
+        }
     }
     /*
     * @description 判断字符串中的合法ASCII码数量
