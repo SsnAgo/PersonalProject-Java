@@ -14,3 +14,7 @@ wordcount-Java提交仓库
 ### 第三次commit
 - 实现合法单词存储进HashMap
 - TODO:统计单词个数功能修改
+
+### 第四次commit
+- 将单词个数统计以及单词存储整合为一个函数，用pair返回
+

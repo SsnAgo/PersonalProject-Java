@@ -1,3 +1,5 @@
+import javafx.util.Pair;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,13 +12,17 @@ public class WordCount {
         String deletedStr = Lib.deleteChineseString(str);
         int chars = Lib.countChars(filterStr);
         int lines = Lib.countLines(new File(Lib.DIR+"\\src\\input.txt"));
-        HashMap<String,Integer> wordMap = Lib.makeWordMap(deletedStr);
-        System.out.println(wordMap);
+        //Integer count = 0;
+        Pair<HashMap<String,Integer>,Integer> pair = Lib.makeWordMap(deletedStr);
+
+        System.out.println("cnt:"+pair.getValue());
+        System.out.println(pair.getKey());
         //System.out.println("MapSize:"+wordMap.size());
         //int words = Lib.countWords(deletedStr);
         System.out.println("Chars:"+chars);
         System.out.println("Lines:"+lines);
 
         //System.out.println("Words:"+words);
+        //Lib.wordSort(wordMap);
     }
 }

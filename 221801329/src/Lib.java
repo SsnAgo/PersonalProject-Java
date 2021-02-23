@@ -1,7 +1,7 @@
+import javafx.util.Pair;
+
 import java.io.*;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -105,6 +105,15 @@ public class Lib {
         }
         return sb.toString();
     }
+    public static void wordSort(HashMap<String,Integer> map) {
+        Set keySet = map.keySet();
+        Object[] keyArr = keySet.toArray();
+        Arrays.sort(keyArr);
+        for (Object key:keyArr){
+            System.out.println(key);
+        }
+    }
+
     /*
     * @description 统计文件行数
     * @param file
@@ -127,23 +136,23 @@ public class Lib {
     * @param wordStr
     * @return map
     * */
-    public static HashMap<String,Integer> makeWordMap(String str) {
+    public static Pair<HashMap<String,Integer>,Integer> makeWordMap(String str) {
         int count = 0;
         str = str.toLowerCase().replaceAll(FLITER_REGEX," ");
         StringTokenizer words = new StringTokenizer(str);
         while (words.hasMoreTokens()) {
             String word = words.nextToken();
-            if (Pattern.matches(WORD_REGEX, word) && !isContainChinese(word)) {
+            if (Pattern.matches(WORD_REGEX, word)) {
                 count++;
                 if (wordMap.containsKey(word)) {
-                    wordMap.put(word,wordMap.get(word)+1);
+                    wordMap.put(word, wordMap.get(word) + 1);
                 } else {
                     wordMap.put(word, 1);
                 }
             }
         }
-        wordMap.put("_cnt",count);
-        return wordMap;
+        //wordMap.put("_cnt",count);
+        return new Pair<>(wordMap,count);
     }
     /*
     * @description 判断字符串中的合法ASCII码数量
