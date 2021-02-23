@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -10,6 +11,7 @@ public class Lib {
     private static String CHINESE_REGEX = "[\\u4e00-\\u9fa5]";
     //TODO:文件路径可以优化
     public static String DIR = System.getProperty("user.dir");
+    public static HashMap<String,Integer> wordMap = new HashMap<>();
     /*
     * @description 将文件读到 StringBuffer中
     * @param stringBuffer filePath
@@ -120,11 +122,12 @@ public class Lib {
         return count;
     }
     /*
-    * @description 统计单词个数
+    * TODO:单词个数统计
+    * @description 将合法单词存入map中
     * @param wordStr
-    * @return count
+    * @return map
     * */
-    public static int countWords(String str) {
+    public static HashMap<String,Integer> makeWordMap(String str) {
         int count = 0;
         str = str.toLowerCase().replaceAll(FLITER_REGEX," ");
         StringTokenizer words = new StringTokenizer(str);
@@ -132,9 +135,15 @@ public class Lib {
             String word = words.nextToken();
             if (Pattern.matches(WORD_REGEX, word) && !isContainChinese(word)) {
                 count++;
+                if (wordMap.containsKey(word)) {
+                    wordMap.put(word,wordMap.get(word)+1);
+                } else {
+                    wordMap.put(word, 1);
+                }
             }
         }
-        return count;
+        wordMap.put("_cnt",count);
+        return wordMap;
     }
     /*
     * @description 判断字符串中的合法ASCII码数量
