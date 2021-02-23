@@ -1,2 +1,2 @@
-# PersonalProject-Java
-wordcount-Java提交仓库
+# PersonalProject-Python
+wordcount-Python提交仓库
