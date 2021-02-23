@@ -36,7 +36,7 @@ ${calSortedWordsFrequency(content, 10).map(
   ).join("")}`;
 
     fs.writeFileSync(output, writeContent);
-    console.log("Finish Program");
+    console.log("Finish Program...");
   } catch (ex) {
     console.error(ex.message);
     console.error("sorry, it must be some error in program");
@@ -46,7 +46,3 @@ ${calSortedWordsFrequency(content, 10).map(
 };
 
 main();
-
-module.exports = {
-  main,
-};
