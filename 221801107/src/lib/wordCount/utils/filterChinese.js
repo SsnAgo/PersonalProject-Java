@@ -1,7 +1,5 @@
-import {
-  CHINESE_REGEX,
-} from "../constants";
+const { CHINESE_REGEX } = require("../constants");
 
 const filterChinese = (content) => content.replace(new RegExp(CHINESE_REGEX, 'gm'), "");
 
-export default filterChinese;
+module.exports = filterChinese;

@@ -11,5 +11,7 @@ module.exports = {
     quotes: 0,
     "import/prefer-default-export": 0,
     "linebreak-style": 0,
+    "no-console": 0,
+    "global-require": 0,
   },
 };

@@ -1,1 +1,3 @@
-export * from './regex';
+module.exports = {
+  ...require('./regex'),
+};

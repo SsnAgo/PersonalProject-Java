@@ -1,5 +1,5 @@
-import { WORD_SPLIT_REGEX } from './constants';
-import filterChinese from './utils/filterChinese';
+const { WORD_SPLIT_REGEX } = require('./constants');
+const filterChinese = require('./utils/filterChinese');
 
 const getWord = (content) => filterChinese(content).split(WORD_SPLIT_REGEX);
 
@@ -34,7 +34,7 @@ const calSortedWordsFrequency = (content, count) => {
   return sortArr.slice(0, count);
 };
 
-export {
+module.exports = {
   getWord,
   calWordCount,
   getWordsFrequency,

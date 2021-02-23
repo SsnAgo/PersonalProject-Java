@@ -1,13 +1,42 @@
-import {
+const path = require("path");
+const fs = require("fs");
+const { ROOT_PATH } = require("./config/paths");
+const {
   calCharacterCount,
   calWordCount,
   calNoEmptyRowsCount,
   calSortedWordsFrequency,
-} from './lib/wordCount';
+} = require("./lib/wordCount");
 
-const str = 'hello worklajf jskdj jjj\ndjks sldj shfdh skj 2fhg axfkh hello asll 120f';
+const main = () => {
+  const argvs = process.argv;
+  if (argvs.length < 4) {
+    console.error("please input two files");
+    return;
+  }
 
-console.log(calCharacterCount(str));
-console.log(calWordCount(str));
-console.log(calNoEmptyRowsCount(str));
-console.log(calSortedWordsFrequency(str, 10));
+  const input = path.join(ROOT_PATH, argvs[2]);
+  const output = path.join(ROOT_PATH, argvs[3]);
+
+  if (!fs.existsSync(input)) {
+    console.error("readFile not exist");
+  }
+
+  const content = fs.readFileSync(input).toString();
+
+  const writeContent = `${calCharacterCount(content)}
+  ${calWordCount(content)}
+  ${calNoEmptyRowsCount(content)}
+  ${calSortedWordsFrequency(content, 10).map(
+    (item) => `${item.word}${item.count}`,
+  )}
+  `;
+
+  fs.writeFileSync(output, writeContent);
+};
+
+main();
+
+module.exports = {
+  main,
+};
