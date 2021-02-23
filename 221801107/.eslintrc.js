@@ -1,7 +1,6 @@
 module.exports = {
   env: {
-    browser: true,
-    es2021: true,
+    node: true,
   },
   extends: "airbnb",
   parserOptions: {
@@ -9,7 +8,7 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    quotes: [0, "double"],
+    quotes: 0,
     "import/prefer-default-export": 0,
     "linebreak-style": 0,
   },
