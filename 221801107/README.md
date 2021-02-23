@@ -22,7 +22,7 @@ yarn
 "start": "node src/index.js input.txt output.txt"
 ```
 
-指定输出文件和输入文件，输入输出文件位置应与 `README.md` 文件同级
+指定输出文件和输入文件，输入输出文件位置应与 `221801107/README.md` 文件同级
 
 3. 开始运行
 
