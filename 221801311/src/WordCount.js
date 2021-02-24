@@ -14,10 +14,13 @@ let tool = require('./Lib');
 let fileData = tool.readFile(inUrl);
 console.log(fileData);
 
+// count charactor
+console.log(tool.countChar(fileData));
+
 // write file
 let outData = "test output"
 let writeSuccess = tool.writeFile(outUrl, outData);
-console.log(writeSuccess);
+// console.log(writeSuccess);
 if(!writeSuccess) {
     return;
 }

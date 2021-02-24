@@ -40,7 +40,9 @@ function writeFile(fileUrl, output) {
  * @param {string} data 
  */
 function countChar(data) {
-
+    let charArrat = data.split("");
+    console.log(charArrat);
+    return charArrat.length;
 }
 
 /**
