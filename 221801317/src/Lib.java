@@ -4,7 +4,6 @@ import java.util.stream.Collectors;
 public class Lib {
     public static void main(String[] args) {
         TextFileSolver solver = new TextFileSolver("/Users/sarisemac/eclipse-workspace/testFunction/src/h.txt");
-
         System.out.println("characters: "+solver.getFileCharNum());
         System.out.println("words: "+solver.getWordNum());
         System.out.println("lines: "+solver.getValidLineNum());
