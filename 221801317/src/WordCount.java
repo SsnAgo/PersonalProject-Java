@@ -26,11 +26,12 @@ public class WordCount{
      * 构造答案字符串
      */
     private void initAnswerBuilder(){
-        answerBuilder.append("characters: ").append(textFileSolver.getFileCharNum()).append("\n");
-        answerBuilder.append("words: ").append(textFileSolver.getWordNum()).append("\n");
-        answerBuilder.append("lines: ").append(textFileSolver.getValidLineNum()).append("\n");
+        String lineSeparator = System.getProperty("line.separator");
+        answerBuilder.append("characters: ").append(textFileSolver.getFileCharNum()).append(lineSeparator);
+        answerBuilder.append("words: ").append(textFileSolver.getWordNum()).append(lineSeparator);
+        answerBuilder.append("lines: ").append(textFileSolver.getValidLineNum()).append(lineSeparator);
         textFileSolver.getOrderedWordFrequencyMap(10).forEach((word,frequency)->{
-            answerBuilder.append(word).append(": ").append(frequency).append("\n");
+            answerBuilder.append(word).append(": ").append(frequency).append(lineSeparator);
         });
     }
 
