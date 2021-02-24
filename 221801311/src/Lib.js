@@ -30,7 +30,7 @@ function writeFile(fileUrl, output) {
  * count charactor quantity
  * @param {string} data 
  */
-function charCount(data) {
+function countChar(data) {
 
 }
 
@@ -38,7 +38,7 @@ function charCount(data) {
  * count word quantity
  * @param {string} data 
  */
-function wordCount(data) {
+function countWord(data) {
     return 2;
 }
 
@@ -46,7 +46,7 @@ function wordCount(data) {
  * return top 10 frequent words and frequency
  * @param {string} data 
  */
-function topOccur(data) {
+function countTopOccur(data) {
     return [
         {
             wrod: "a",
@@ -55,4 +55,4 @@ function topOccur(data) {
     ];
 }
 
-module.exports = { readFile, writeFile, charCount, wordCount, topOccur };
+module.exports = { readFile, writeFile, countChar, countWord, countTopOccur };
