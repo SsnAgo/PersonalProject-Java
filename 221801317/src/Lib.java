@@ -5,25 +5,23 @@ public class Lib {
 
     public static class TextFileSolver{
         String filePath;
-        StringBuilder fileText;
+        StringBuilder solveStringBulder;
+        String fileText;
         List<String> strings;
         Map<String,Long> wordFrequencyMap;
-        int fileCharNum;
         int validLineNum;
 
         public TextFileSolver(String filePath) throws IOException{
             //数据初始化
             this.filePath = filePath;
-            fileCharNum = 0;
             validLineNum=0;
-            fileText = new StringBuilder();
-            strings = IOUtil.getStrings(filePath);
-            for (String s: strings) {
-                solveString(s);
-            }
+            solveStringBulder = new StringBuilder();
+            fileText = IOUtil.getString(filePath);
+            strings = Arrays.asList(fileText.split(System.getProperty("line.separator")));
+            strings.forEach(s -> solveString(s));
 
             //正则表达式切分字符串
-            wordFrequencyMap = Arrays.asList(fileText.toString().split("\\s+"))
+            wordFrequencyMap = Arrays.asList(solveStringBulder.toString().split("\\s+"))
                     .stream()
                     .filter(word->{ //过滤单词
                         if (word.length()<4) return false;
@@ -34,7 +32,6 @@ public class Lib {
                         return true;
                     })
                     .collect(Collectors.groupingBy(String::toLowerCase,Collectors.counting()));
-
         }
 
         /**
@@ -42,7 +39,7 @@ public class Lib {
          * @return
          */
         public int getFileCharNum(){
-                return fileCharNum+strings.size()-1;
+                return fileText.length();
             }
 
         /**
@@ -89,14 +86,12 @@ public class Lib {
             }
 
         /**
-         * 统计s的字符数
          * 统计有效行数
          * 将其中的非数字非英文字符转化为空白字符
-         * 将转化后的字符串并入到fileText中用于进行单词统计
+         * 将转化后的字符串并入到solveStringBulder中用于进行单词统计
          * @param s
          */
         private void solveString(String s){
-                fileCharNum+=s.length(); //统计file中所有字符数目
                 if (s.isEmpty()){       //空则返回
                     return;
                 }
@@ -108,11 +103,29 @@ public class Lib {
                         chars[i] =' ';
                     }
                 }
-                fileText.append(' ').append(chars);
+                solveStringBulder.append(' ').append(chars);
             }
 
     }
     public static class IOUtil{
+
+        /**
+         * 获取所有的字符，构成一个字符串
+         * @param inputFilePath
+         * @return
+         * @throws IOException
+         */
+        public static String getString(String inputFilePath) throws IOException {
+            File inputFile = new File(inputFilePath);
+            StringBuilder textBuilder = new StringBuilder(64);
+            FileInputStream fileInputStream = new FileInputStream(inputFile);
+            for (int c = fileInputStream.read(); c!=-1; c = fileInputStream.read()) {
+                char cur = (char)c;
+                textBuilder.append(cur);
+            }
+            return textBuilder.toString();
+        }
+
         /**
          * 按照acsii编码读取文件内容
          * @param inputFilePath 文件路径
@@ -156,6 +169,5 @@ public class Lib {
                 }
             }
         }
-
     }
 }
