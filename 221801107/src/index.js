@@ -29,12 +29,9 @@ const main = () => {
 
     const content = fs.readFileSync(input).toString();
 
-    const writeContent = `${calCharacterCount(content)}
-${calWordCount(content)}
-${calNoEmptyRowsCount(content)}
-${calSortedWordsFrequencyByHeap(content, 10).map(
-    (item) => `${item.word}: ${item.count}\n`,
-  ).join("")}`;
+    const writeContent = `${calCharacterCount(content)}\n${calWordCount(content)}\n${calNoEmptyRowsCount(content)}\n${calSortedWordsFrequency(content, 10).map(
+      (item) => `${item.word}: ${item.count}\n`,
+    ).join("")}`;
 
     fs.writeFileSync(output, writeContent);
     console.log("Finish Program...");
