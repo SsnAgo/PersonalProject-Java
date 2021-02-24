@@ -20,7 +20,7 @@ public class WordCount{
         answerBuilder.append("words: ").append(textFileSolver.getWordNum()).append("\n");
         answerBuilder.append("lines: ").append(textFileSolver.getValidLineNum()).append("\n");
         textFileSolver.getOrderedWordFrequencyMap(10).forEach((word,frequency)->{
-            answerBuilder.append(word).append(": ").append(textFileSolver.getValidLineNum()).append("\n");
+            answerBuilder.append(word).append(": ").append(frequency).append("\n");
         });
     }
     private void writeAnswerToFile(){
@@ -28,7 +28,8 @@ public class WordCount{
     }
 
     public static void main(String[] args) {
-        WordCount wordCount = new WordCount("/Users/sarisemac/eclipse-workspace/testFunction/src/h.txt","/Users/sarisemac/eclipse-workspace/testFunction/src/output.txt");
+        //WordCount wordCount = new WordCount("/Users/sarisemac/eclipse-workspace/testFunction/src/h.txt","/Users/sarisemac/eclipse-workspace/testFunction/src/output.txt");
+        WordCount wordCount = new WordCount(args[0],args[1]);
         wordCount.procceed();
     }
 }
