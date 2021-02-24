@@ -17,25 +17,31 @@ public class Lib {
     * @param stringBuffer filePath
     * @return
     * */
-    public static void readToBuffer(StringBuffer stringBuffer,String filePath) throws IOException {
-        InputStream is = new FileInputStream(filePath);
-        String line;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        line = reader.readLine();
-        while (line != null) {
-            stringBuffer.append(line);
-            stringBuffer.append("\n");
+    public static void readToBuffer(StringBuffer stringBuffer,String filePath) {
+        try {
+            InputStream is = new FileInputStream(filePath);
+            String line;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             line = reader.readLine();
+            while (line != null) {
+                stringBuffer.append(line);
+                stringBuffer.append("\n");
+                line = reader.readLine();
+            }
+            reader.close();
+            is.close();
+        } catch (IOException e) {
+            System.out.println("文件读取错误:");
+            System.out.println(e.getMessage());
         }
-        reader.close();
-        is.close();
+
     }
     /*
     * @description 将读取过文件的stringBuffer转换为string
     * @param filePath
     * @return String
     * */
-    public static String readFile(String filePath) throws IOException {
+    public static String readFile(String filePath) {
         StringBuffer sb = new StringBuffer();
         readToBuffer(sb, filePath);
         return sb.toString();
@@ -96,9 +102,9 @@ public class Lib {
     public static String deleteChineseString(String str) {
         StringBuffer sb = new StringBuffer();
         StringTokenizer stringTokenizer = new StringTokenizer(str);
-        while (stringTokenizer.hasMoreTokens()){
+        while (stringTokenizer.hasMoreTokens()) {
             String word = stringTokenizer.nextToken();
-            if (!isContainChinese(word)){
+            if (!isContainChinese(word)) {
                 sb.append(word);
                 sb.append(" ");
             }
@@ -110,14 +116,19 @@ public class Lib {
     * @param file
     * @return count
     * */
-    public static int countLines(File file) throws FileNotFoundException {
+    public static int countLines(File file) {
         int count = 0;
-        Scanner sc = new Scanner(file);
-        while (sc.hasNextLine()) {
-            String str = sc.nextLine();
-            if (!"".equals(str)) {
-                count++;
+        try {
+            Scanner sc = new Scanner(file);
+            while (sc.hasNextLine()) {
+                String str = sc.nextLine();
+                if (!"".equals(str)) {
+                    count++;
+                }
             }
+        } catch (FileNotFoundException e) {
+            System.out.println("统计行数出错：");
+            System.out.println(e.getMessage());
         }
         return count;
     }
@@ -141,7 +152,6 @@ public class Lib {
                 }
             }
         }
-        //wordMap.put("_cnt",count);
         return new Pair<>(wordMap,count);
     }
     /*
@@ -190,22 +200,32 @@ public class Lib {
         }
         return count;
     }
+    /*
+     * @description 将统计数据输出成txt文件
+     * @param chars words lines
+     * @return
+     * */
     public static void outputToFile(int chars,int words,int lines) throws IOException {
-        FileOutputStream res = new FileOutputStream("output.txt");
-        BufferedOutputStream bos = new BufferedOutputStream(res);
-        String str = "characters: " + chars +"\r\n"
+        try {
+            FileOutputStream res = new FileOutputStream("output.txt");
+            BufferedOutputStream bos = new BufferedOutputStream(res);
+            String str = "characters: " + chars +"\r\n"
                     +"words: "      + words +"\r\n"
                     +"lines: "      + lines +"\r\n";
-        int cnt = 0;
-        List<HashMap.Entry<String, Integer>> sortedList= getSortedList();
-        for(HashMap.Entry<String,Integer> entry:sortedList) {
-            if(cnt<=9){
-                str += entry.getKey() + ":" + entry.getValue() + "\r\n";
+            int cnt = 0;
+            List<HashMap.Entry<String, Integer>> sortedList= getSortedList();
+            for(HashMap.Entry<String,Integer> entry:sortedList) {
+                if(cnt<=9){
+                    str += entry.getKey() + ":" + entry.getValue() + "\r\n";
+                }
+                cnt++;
             }
-            cnt++;
+            bos.write(str.getBytes(),0,str.getBytes().length);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            System.out.println("文件输出错误：");
+            System.out.println(e.getMessage());
         }
-        bos.write(str.getBytes(),0,str.getBytes().length);
-        bos.flush();
-        bos.close();
     }
 }
