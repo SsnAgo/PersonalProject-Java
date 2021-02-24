@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Date;
 
 public class WordCount{
 
@@ -49,9 +50,16 @@ public class WordCount{
             System.out.println("参数不足两个,请重新运行");
         }else {
             try {
+                Date begin = new Date();
+                long begintime = begin.getTime();
+
                 WordCount wordCount = new WordCount(args[0], args[1]);
                 wordCount.procceed();
-                System.out.println("successful");
+
+                Date end = new Date();
+                long endTime = end.getTime();
+                long time = endTime - begintime;
+                System.out.println("successful,耗时"+time+"毫秒");
             }catch (IOException exception){
                 System.out.println("文件读取错误");
                 exception.printStackTrace();
