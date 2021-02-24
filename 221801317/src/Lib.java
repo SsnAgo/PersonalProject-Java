@@ -11,7 +11,7 @@ public class Lib {
         int fileCharNum;
         int validLineNum;
 
-        public TextFileSolver(String filePath) {
+        public TextFileSolver(String filePath) throws IOException{
             //数据初始化
             this.filePath = filePath;
             fileCharNum = 0;
@@ -118,29 +118,16 @@ public class Lib {
          * @param inputFilePath 文件路径
          * @return {@code List<String>} 一项String代表一行
          */
-        public static List<String> getStrings(String inputFilePath){
+        public static List<String> getStrings(String inputFilePath) throws IOException {
             ArrayList<String> strings = new ArrayList<>();
             File inputFile = new File(inputFilePath);
-            BufferedReader reader = null;
-            try {
-                InputStreamReader fileInputStream = new InputStreamReader(
+            InputStreamReader fileInputStream = new InputStreamReader(
                         new FileInputStream(inputFile),"ascii");
-                reader = new BufferedReader(fileInputStream);
-                for (String temp = reader.readLine() ;temp !=null ; temp=reader.readLine()) {
-                    strings.add(temp);
-                }
-            }catch (IOException e){
-                e.printStackTrace();
-                System.out.println("文件读取错误");
-            }finally {
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        System.out.println("输入流关闭异常");
-                    }
-                }
+            BufferedReader reader = new BufferedReader(fileInputStream);
+            for (String temp = reader.readLine() ;temp !=null ; temp=reader.readLine()) {
+                strings.add(temp);
             }
+            reader.close();
             return strings;
         }
 
