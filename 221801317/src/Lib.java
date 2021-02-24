@@ -2,19 +2,19 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 public class Lib {
-    public static void main(String[] args) {
-        TextFileSolver solver = new TextFileSolver("/Users/sarisemac/eclipse-workspace/testFunction/src/h.txt");
-        System.out.println("characters: "+solver.getFileCharNum());
-        System.out.println("words: "+solver.getWordNum());
-        System.out.println("lines: "+solver.getValidLineNum());
-        solver.getOrderedWordFrequencyMap(10).forEach((word,frequency)->{
-            System.out.println(word+":"+frequency);
-        });
-//        IOUtil.getStrings("/Users/sarisemac/eclipse-workspace/testFunction/src/h.txt").forEach(s -> {
-//            System.out.println(s);
+//    public static void main(String[] args) {
+//        TextFileSolver solver = new TextFileSolver("/Users/sarisemac/eclipse-workspace/testFunction/src/h.txt");
+//        System.out.println("characters: "+solver.getFileCharNum());
+//        System.out.println("words: "+solver.getWordNum());
+//        System.out.println("lines: "+solver.getValidLineNum());
+//        solver.getOrderedWordFrequencyMap(10).forEach((word,frequency)->{
+//            System.out.println(word+":"+frequency);
 //        });
-        IOUtil.writeTo("/Users/sarisemac/eclipse-workspace/testFunction/src/output.txt", "hello");
-    }
+////        IOUtil.getStrings("/Users/sarisemac/eclipse-workspace/testFunction/src/h.txt").forEach(s -> {
+////            System.out.println(s);
+////        });
+//        IOUtil.writeTo("/Users/sarisemac/eclipse-workspace/testFunction/src/output.txt", "hello");
+//    }
     public static class TextFileSolver{
         String filePath;
         StringBuilder fileText;
