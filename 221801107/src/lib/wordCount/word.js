@@ -1,4 +1,5 @@
 const { WORD_SPLIT_REGEX, WORD_REGEX } = require("./constants");
+const Heap = require("./datastructure/heap");
 const filterChinese = require("./utils/filterChinese");
 
 const getWord = (content) => filterChinese(content)
@@ -42,9 +43,29 @@ const calSortedWordsFrequency = (content, count) => {
   return sortArr.slice(0, count);
 };
 
+const calSortedWordsFrequencyByHeap = (content, count) => {
+  const arr = getWordsFrequency(content);
+  const heap = new Heap(count, (a, b) => {
+    if (a.count === b.count) {
+      return a.word < b.word ? -1 : 1;
+    }
+    return b.count - a.count;
+  });
+  arr.forEach((value) => {
+    heap.add(value);
+  });
+  const ret = [];
+  while (!heap.empty()) {
+    ret.push(heap.top());
+    heap.pop();
+  }
+  return ret.reverse();
+};
+
 module.exports = {
   getWord,
   calWordCount,
   getWordsFrequency,
   calSortedWordsFrequency,
+  calSortedWordsFrequencyByHeap,
 };

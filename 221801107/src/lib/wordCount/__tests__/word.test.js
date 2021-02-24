@@ -1,4 +1,4 @@
-const { calWordCount, calSortedWordsFrequency } = require("../word");
+const { calWordCount, calSortedWordsFrequency, calSortedWordsFrequencyByHeap } = require("../word");
 
 test("can get right word", () => {
   expect(calWordCount("abc123")).toBe(0);
@@ -25,6 +25,21 @@ test("can calculate right sort", () => {
   const test2 = "windows95 windows2000 windows98";
   expect(
     calSortedWordsFrequency(test2)
+      .map((item) => `${item.word}: ${item.count}\n`)
+      .join(""),
+  ).toBe("windows2000: 1\nwindows95: 1\nwindows98: 1\n");
+});
+
+test("can calculate right sort by heap", () => {
+  const test1 = "huro huro lero";
+  expect(
+    calSortedWordsFrequencyByHeap(test1)
+      .map((item) => `${item.word}: ${item.count}\n`)
+      .join(""),
+  ).toBe("huro: 2\nlero: 1\n");
+  const test2 = "windows95 windows2000 windows98";
+  expect(
+    calSortedWordsFrequencyByHeap(test2)
       .map((item) => `${item.word}: ${item.count}\n`)
       .join(""),
   ).toBe("windows2000: 1\nwindows95: 1\nwindows98: 1\n");

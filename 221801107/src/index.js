@@ -6,6 +6,7 @@ const {
   calWordCount,
   calNoEmptyRowsCount,
   calSortedWordsFrequency,
+  calSortedWordsFrequencyByHeap,
 } = require("./lib/wordCount");
 
 const main = () => {
@@ -31,7 +32,7 @@ const main = () => {
     const writeContent = `${calCharacterCount(content)}
 ${calWordCount(content)}
 ${calNoEmptyRowsCount(content)}
-${calSortedWordsFrequency(content, 10).map(
+${calSortedWordsFrequencyByHeap(content, 10).map(
     (item) => `${item.word}: ${item.count}\n`,
   ).join("")}`;
 
