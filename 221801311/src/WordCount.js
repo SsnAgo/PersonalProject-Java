@@ -5,5 +5,11 @@ if( (inUrl == undefined) || (outUrl == undefined) ) {
     console.log("missing parameter");
     return;
 }
-console.log("input file is " + inUrl);
-console.log("output file is " + outUrl);
+// console.log("input file is " + inUrl);
+// console.log("output file is " + outUrl);
+
+let tool = require('./Lib');
+
+// read file
+let fileData = tool.readFile(inUrl);
+console.log(fileData);

@@ -5,7 +5,16 @@
  * @param {string} fileUrl
  */
 function readFile(fileUrl) {
-    
+    let fs = require('fs');
+    try {
+        let data = fs.readFileSync(fileUrl, 'utf-8');
+        return data;
+    }
+    catch (err) {
+        console.log("file system can't read file, error msg follow:");
+        console.log(err);
+        return null;
+    }
 }
 
 /**
