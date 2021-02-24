@@ -182,6 +182,18 @@ const c = a ** b;
       // ok
       require("xxx.js")
       ```
+   6. 函数的值参数允许进行修改，但是引用参数不行
+      ```js
+      // ok
+      const fun1 = (index) => {
+        index += 1;
+      } 
+
+      // not
+      const fun2 = (object) => {
+        object = otherObject;
+      }
+   7. class的方法不一定要使用 `this` 关键字
 
    
 
