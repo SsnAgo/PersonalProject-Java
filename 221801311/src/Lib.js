@@ -23,7 +23,16 @@ function readFile(fileUrl) {
  * @param {string} output
  */
 function writeFile(fileUrl, output) {
-
+    let fs = require('fs');
+    try {
+        fs.writeFileSync(fileUrl, output);
+        return true;
+    }
+    catch (err) {
+        console.log("file system can't write file, error msg follow:");
+        console.log(err);
+        return false;
+    }
 }
 
 /**
