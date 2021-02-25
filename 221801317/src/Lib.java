@@ -29,6 +29,11 @@ public class Lib {
                         for (int i = 0 ; i < 4 ; i++){
                             if (! Character.isLetter(chars[i])) return false;
                         }
+                        for (char c: chars) {
+                            if ((int)c > 127 || (int)c < 0){
+                                return false;
+                            }
+                        }
                         return true;
                     })
                     .collect(Collectors.groupingBy(String::toLowerCase,Collectors.counting()));
