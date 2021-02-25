@@ -1,32 +1,14 @@
 package lib.service;
 
-import java.io.*;
-
 public class CharCounter
 {
     /**
      * @param fileName
-     * @return cnt
+     * @return ×Ö·û×ÜÊý
      */
-    public static int countChar(BufferedReader bf)
+    public static int countChar(String content)
     {
-        int b = 0;
-        int cnt = 0;
-
-        try
-        {
-            while ((b = bf.read()) != -1)
-            {
-                if (b != 13)
-                {
-                    cnt++;
-                }
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        int cnt = content.length();
         return cnt;
     }
 }

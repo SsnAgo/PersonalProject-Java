@@ -4,7 +4,7 @@ import java.io.*;
 
 public class FilePrinter
 {
-    public static void writeFile(int charCnt, String fileName)
+    public static void writeFile(int charCnt, int lineCnt, String fileName)
     {
         File file = new File(fileName);
         FileWriter fileWriter = null;
@@ -14,6 +14,7 @@ public class FilePrinter
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             bufferedWriter.write("characters: " + charCnt + "\n");
+            bufferedWriter.write("lines: " + lineCnt + "\n");
             bufferedWriter.flush();
             bufferedWriter.close();
         }
