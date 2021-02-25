@@ -44,59 +44,6 @@ public class WordCount{
         Lib.IOUtil.writeTo(outputPath, answerBuilder.toString());
     }
 
-
-    public static void textBigData(){
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 10000; i++) {
-            stringBuilder.append("aaaa").append(i).append(",");
-        }
-        stringBuilder.append('\n');
-        for (int i = 0; i < 10000; i++) {
-            stringBuilder.append("bbbb").append(i).append(",");
-        }
-        stringBuilder.append('\n');
-        for (int i = 0; i < 10000; i++) {
-            for (int j = 0; j < 10; j++) {
-                stringBuilder.append("maxmax").append(j).append(",");
-            }
-            stringBuilder.append('\n');
-        }
-        String testContent = stringBuilder.toString();
-        System.out.println(testContent.length());
-        Lib.IOUtil.writeTo("/Users/sarisemac/Downloads/softWareHomeWork/PersonalProject-Java/221801317/src/big.txt",testContent);
-    }
-
-    public static void textLongData(){
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 10000; i++) {
-            for (int j = 0; j < 10; j++) {
-                stringBuilder.append("aaa");
-            }
-            stringBuilder.append(i).append(",");
-        }
-        stringBuilder.append('\n');
-        for (int i = 0; i < 10000; i++) {
-            for (int j = 0; j < 10; j++) {
-                stringBuilder.append("bbb");
-            }
-            stringBuilder.append(i).append(",");
-        }
-        stringBuilder.append('\n');
-        StringBuilder maxString = new StringBuilder();
-        for (int i = 0; i < 10; i++) {
-            maxString.append("maxmax");
-        }
-        for (int i = 0; i < 10000; i++) {
-            for (int j = 0; j < 10; j++) {
-                stringBuilder.append(maxString.toString());
-                stringBuilder.append(j).append(",");
-            }
-            stringBuilder.append('\n');
-        }
-        String testContent = stringBuilder.toString();
-        System.out.println(testContent.length());
-        Lib.IOUtil.writeTo("/Users/sarisemac/Downloads/softWareHomeWork/PersonalProject-Java/221801317/src/long.txt",testContent);
-    }
     public static void main(String[] args) {
         //textLongData();
         //textBigData();

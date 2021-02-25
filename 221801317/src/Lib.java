@@ -143,11 +143,10 @@ public class Lib {
         /**
          * 获取所有的字符，构成一个字符串
          * @param inputFilePath
-         * @param fileTextBuffer
          * @return
          * @throws IOException
          */
-        public static String getString(String inputFilePath, StringBuilder fileTextBuffer) throws IOException {
+        public static String getString(String inputFilePath) throws IOException {
             File inputFile = new File(inputFilePath);
             StringBuilder textBuilder = new StringBuilder(64);
             FileInputStream fileInputStream = new FileInputStream(inputFile);
