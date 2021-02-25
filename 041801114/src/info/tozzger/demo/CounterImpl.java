@@ -11,7 +11,7 @@ import java.util.Map;
  *
  */
 public interface CounterImpl {
-    
+
     /**
      * 
      * <p>
@@ -44,7 +44,7 @@ public interface CounterImpl {
 
     /**
      * <p>
-     * 统计<strong>有效行数（对应输出第三行）</strong>：任何包含<strong>非空白</strong>字符的行，都需要统计。
+     * 统计<strong>有效行数</strong>：任何包含<strong>非空白</strong>字符的行，都需要统计。
      * </p>
      * 
      * @return 行数
@@ -54,7 +54,7 @@ public interface CounterImpl {
     /**
      * 
      * <p>
-     * 统计各<strong>单词的出现次数</strong>。
+     * 统计各<strong>单词的出现次数</strong>，最终只输出频率最高的<strong>10</strong>个。
      * </p>
      * <ul>
      * <li>频率相同的单词，优先输出字典序靠前的单词。 <blockquote>
@@ -68,5 +68,5 @@ public interface CounterImpl {
      * @return 单词—频数映射
      */
     Map<String, Integer> getWordFrequency();
-    
+
 }
