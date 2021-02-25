@@ -99,7 +99,7 @@ public class WordCount{
     }
     public static void main(String[] args) {
         //textLongData();
-        textBigData();
+        //textBigData();
         //WordCount wordCount = new WordCount("/Users/sarisemac/eclipse-workspace/testFunction/src/h.txt","/Users/sarisemac/eclipse-workspace/testFunction/src/output.txt");
         if (args.length<2){
             System.out.println("参数不足两个,请重新运行");
