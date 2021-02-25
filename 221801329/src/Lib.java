@@ -1,6 +1,7 @@
 import javafx.util.Pair;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,8 +32,8 @@ public class Lib {
             reader.close();
             is.close();
         } catch (IOException e) {
-            System.out.println("文件读取错误:");
-            System.out.println(e.getMessage());
+            System.out.println("文件读取错误");
+            e.printStackTrace();
         }
 
     }
@@ -127,13 +128,13 @@ public class Lib {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("统计行数出错：");
-            System.out.println(e.getMessage());
+            System.out.println("文件读取失败");
+            e.printStackTrace();
         }
         return count;
     }
     /*
-    * @description 将合法单词存入map中，并与单词个数绑定
+    * @description 将合法单词存入map中，并与单词总数绑定
     * @param str
     * @return pair
     * */
@@ -205,27 +206,36 @@ public class Lib {
      * @param chars words lines
      * @return
      * */
-    public static void outputToFile(int chars,int words,int lines) throws IOException {
+    public static void outputToFile(int chars,int words,int lines,String filePath) {
+        BufferedWriter bw = null;
+        StringBuilder str = new StringBuilder("characters: " + chars + "\r\n"
+                + "words: " + words + "\r\n"
+                + "lines: " + lines + "\r\n");
+        int cnt = 0;
         try {
-            FileOutputStream res = new FileOutputStream("output.txt");
-            BufferedOutputStream bos = new BufferedOutputStream(res);
-            String str = "characters: " + chars +"\r\n"
-                    +"words: "      + words +"\r\n"
-                    +"lines: "      + lines +"\r\n";
-            int cnt = 0;
+            bw = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(filePath), StandardCharsets.UTF_8));
             List<HashMap.Entry<String, Integer>> sortedList= getSortedList();
             for(HashMap.Entry<String,Integer> entry:sortedList) {
                 if(cnt<=9){
-                    str += entry.getKey() + ":" + entry.getValue() + "\r\n";
+                    str.append(entry.getKey()).append(":").append(entry.getValue()).append("\r\n");
                 }
                 cnt++;
             }
-            bos.write(str.getBytes(),0,str.getBytes().length);
-            bos.flush();
-            bos.close();
-        } catch (IOException e) {
-            System.out.println("文件输出错误：");
-            System.out.println(e.getMessage());
+            bw.write(str.toString());
+        } catch (IOException e){
+            System.out.println("文件写入出错");
+            e.printStackTrace();
+        } finally {
+            if (bw != null){
+                try {
+                    bw.flush();
+                    bw.close();
+                } catch (IOException e) {
+                    System.out.println("输出流关闭错误");
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
