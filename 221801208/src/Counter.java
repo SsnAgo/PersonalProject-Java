@@ -53,4 +53,19 @@ public class Counter {
         catch (Exception e){
         }
     }
+
+    //判断一个字符串是否为单词
+    public boolean isWord(String curWord){
+        //长度小于4不属于单词
+        if(curWord.length() < 4)
+            return false;
+        //前四个字符为字母才属于单词
+        for(int i = 0; i < 4; i++){
+            if(!(curWord.charAt(i) >= 65 && curWord.charAt(i) <= 90) &&
+                    !(curWord.charAt(i) >= 97 && curWord.charAt(i) <= 122)){
+                return false;
+            }
+        }
+        return true;
+    }
 }
