@@ -24,7 +24,7 @@ public interface CounterImpl {
      * 
      * @return 字符数
      */
-    int getCharCount();
+    long getCharCount();
 
     /**
      * 
