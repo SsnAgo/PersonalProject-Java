@@ -1,15 +1,15 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.*;
 
 public class Counter {
 
+    File inputFile;
+    File outputFile;
     private static BufferedReader reader;
     private static BufferedWriter writer;
     private int countChar = 0;    //字符个数
     private int countWord = 0;    //单词总数
+    private int countRow = 0;
     private Map<String, Integer> map = new HashMap<>();
     private Set<Word> set = new TreeSet<>();
 
@@ -34,9 +34,15 @@ public class Counter {
         }
     }
 
-    Counter(FileReader inputFile, FileWriter outputFile){
-        reader = new BufferedReader(inputFile);
-        writer = new BufferedWriter(outputFile);
+    Counter(File file1, File file2){
+        inputFile = file1;
+        outputFile = file2;
+        try {
+            reader = new BufferedReader(new FileReader(inputFile));
+            writer = new BufferedWriter(new FileWriter(outputFile));
+        }
+        catch (Exception e){
+        }
     }
 
     //统计字符数
@@ -67,5 +73,16 @@ public class Counter {
             }
         }
         return true;
+    }
+
+    //将单词插入hashmap
+    public void wordToHashMap(String curWord){
+        String lowerWord = curWord.toLowerCase();
+        Integer times = map.get(lowerWord);
+        //times==null说明这个单词已经插入hashmap
+        if(times != null)
+            map.put(lowerWord,times+1);
+        else
+            map.put(lowerWord,1);
     }
 }
