@@ -125,8 +125,10 @@ public class Lib {
             StringBuilder textBuilder = new StringBuilder(64);
             FileInputStream fileInputStream = new FileInputStream(inputFile);
             for (int c = fileInputStream.read(); c!=-1; c = fileInputStream.read()) {
-                char cur = (char)c;
-                textBuilder.append(cur);
+                if (c>0&&c<128) {
+                    char cur = (char) c;
+                    textBuilder.append(cur);
+                }
             }
             return textBuilder.toString();
         }
@@ -143,6 +145,7 @@ public class Lib {
                         new FileInputStream(inputFile),"ascii");
             BufferedReader reader = new BufferedReader(fileInputStream);
             for (String temp = reader.readLine() ;temp !=null ; temp=reader.readLine()) {
+
                 strings.add(temp);
             }
             reader.close();
