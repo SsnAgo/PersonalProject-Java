@@ -9,23 +9,13 @@ import java.util.regex.Pattern;
  * 
  * */
 public class Lib {
-    private static String CHINESE_RE="[\\u4e00-\\u9fa5]";
+    private static String WORDS_RE = "(?<=[^a-zA-Z0-9])[a-zA-Z]{4,}[a-zA-Z0-9]*";
     
     //获取当前工程的路径
-    public static String DIR=System.getProperty("user.dir");
+    public static String DIR = System.getProperty("user.dir");
     
-    
-    /*
-     * 用正则表达式CHINESE_RE过滤中文
-     * @param str
-     * @return newStr
-     * */
-    public static String filterChinese(String str) {
-        Pattern pattern=Pattern.compile(CHINESE_RE);
-        Matcher matcher=pattern.matcher(str);
-        String newStr=matcher.replaceAll("");
-        return newStr;
-    }
+    //Map表用于存放单词以及相对应的个数
+    private static Map<String, Integer> words = new HashMap<String, Integer>();
     
     
     /*
@@ -34,21 +24,21 @@ public class Lib {
      * @return count
      * */
     public static int getLineCount(String filePath) {
-	    //行数的统计量
-	    int count=0;
+        //行数的统计量
+	    int count = 0;
 	    //循环变量
-	    String str="";
+	    String str = "";
 	    
 	    //得到输入流
-	    FileInputStream is=null;
-	    InputStreamReader isr=null;
-	    BufferedReader br=null;
+	    FileInputStream is = null;
+	    InputStreamReader isr = null;
+	    BufferedReader br = null;
 	    
 	    try {
-		    is=new FileInputStream(filePath);
-		    isr=new InputStreamReader(is);
-		    br=new BufferedReader(isr);
-		    while((str=br.readLine())!=null) {
+		    is = new FileInputStream(filePath);
+		    isr = new InputStreamReader(is);
+		    br = new BufferedReader(isr);
+		    while((str = br.readLine()) != null) {
 			    if(!"".equals(str)) {
 				    count++;
 			    }
@@ -78,23 +68,24 @@ public class Lib {
      * */
     public static int getCharactersCount(String filePath) {
         //字符数的统计量
-        int count=0;
+        int count = 0;
         //循环变量
-        String temp="";
+        String str = "";
         
         //得到输入流
-	    FileInputStream is=null;
-	    InputStreamReader isr=null;
-	    BufferedReader br=null;
+        FileInputStream is = null;
+	    InputStreamReader isr = null;
+	    BufferedReader br = null;
+	    
 	    try {
-	        is=new FileInputStream(filePath);
-	        isr=new InputStreamReader(is);
-	        br=new BufferedReader(isr);
-	        while((temp=br.readLine())!=null) {
-	            if(!"".equals(temp)) {
-	                char[] chars=temp.toCharArray();
-	                for(int i=0;i<chars.length;i++) {
-	                    if(chars[i]>=0&&chars[i]<=127) {
+	        is = new FileInputStream(filePath);
+	        isr = new InputStreamReader(is);
+	        br = new BufferedReader(isr);
+	        while((str = br.readLine()) != null) {
+	            if(!"".equals(str)) {
+	                char[] chars = str.toCharArray();
+	                for(int i = 0; i < chars.length; i++) {
+	                    if(chars[i] >= 0 && chars[i] <= 127) {
 	                        count++;
 	                    }
 	                }
@@ -114,6 +105,59 @@ public class Lib {
 	        }catch(IOException e) {
 	            e.printStackTrace();
 	        }
+	    }
+	    return count;
+    }
+    
+    /*
+     * 统计文件的单词
+     * @param filePath
+     * @return count
+     * */
+    public static int getWordsCount(String filePath) {
+        //单词数的统计量
+        int count = 0;
+        //循环变量
+        String str = "";
+        
+        //得到输入流
+        FileInputStream is = null;
+	    InputStreamReader isr = null;
+	    BufferedReader br = null;
+	    
+	    try {
+	        is = new FileInputStream(filePath);
+	        isr = new InputStreamReader(is);
+	        br = new BufferedReader(isr);
+	        while((str = br.readLine()) != null) {
+	            Pattern pattern = Pattern.compile(WORDS_RE);
+	            Matcher matcher = pattern.matcher(str);
+	            while(matcher.find()) {
+	            	String temp = matcher.group();
+	            	temp = temp.toLowerCase();
+	            	System.out.println(temp);
+	            	if(words.containsKey(temp)) {
+	            		int num = words.get(temp);
+	            		words.put(temp, 1 + num);
+	            	}
+	            	else {
+	            		words.put(temp, 1);
+	            	}
+	                count++;
+	            }
+	        }
+	    }catch(FileNotFoundException e) {
+	    	e.printStackTrace();
+	    }catch(IOException e) {
+	    	e.printStackTrace();
+	    }finally {
+	    	try {
+	    		is.close();
+	    		isr.close();
+	    		br.close();
+	    	}catch(IOException e) {
+	    		e.printStackTrace();
+	    	}
 	    }
 	    return count;
     }
