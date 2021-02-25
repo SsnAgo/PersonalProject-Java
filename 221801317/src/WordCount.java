@@ -28,11 +28,11 @@ public class WordCount{
      */
     private void initAnswerBuilder(){
         String lineSeparator = System.getProperty("line.separator");
-        answerBuilder.append("characters: ").append(textFileSolver.getFileCharNum()).append(lineSeparator);
-        answerBuilder.append("words: ").append(textFileSolver.getWordNum()).append(lineSeparator);
-        answerBuilder.append("lines: ").append(textFileSolver.getValidLineNum()).append(lineSeparator);
+        answerBuilder.append("characters: ").append(textFileSolver.getFileCharNum()).append('\n');
+        answerBuilder.append("words: ").append(textFileSolver.getWordNum()).append('\n');
+        answerBuilder.append("lines: ").append(textFileSolver.getValidLineNum()).append('\n');
         textFileSolver.getOrderedWordFrequencyMap(10).forEach((word,frequency)->{
-            answerBuilder.append(word).append(": ").append(frequency).append(lineSeparator);
+            answerBuilder.append(word).append(": ").append(frequency).append('\n');
         });
     }
 
@@ -44,7 +44,62 @@ public class WordCount{
         Lib.IOUtil.writeTo(outputPath, answerBuilder.toString());
     }
 
+
+    public static void textBigData(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < 10000; i++) {
+            stringBuilder.append("aaaa").append(i).append(",");
+        }
+        stringBuilder.append('\n');
+        for (int i = 0; i < 10000; i++) {
+            stringBuilder.append("bbbb").append(i).append(",");
+        }
+        stringBuilder.append('\n');
+        for (int i = 0; i < 10000; i++) {
+            for (int j = 0; j < 10; j++) {
+                stringBuilder.append("maxmax").append(j).append(",");
+            }
+            stringBuilder.append('\n');
+        }
+        String testContent = stringBuilder.toString();
+        System.out.println(testContent.length());
+        Lib.IOUtil.writeTo("/Users/sarisemac/Downloads/softWareHomeWork/PersonalProject-Java/221801317/src/big.txt",testContent);
+    }
+
+    public static void textLongData(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < 10000; i++) {
+            for (int j = 0; j < 10; j++) {
+                stringBuilder.append("aaa");
+            }
+            stringBuilder.append(i).append(",");
+        }
+        stringBuilder.append('\n');
+        for (int i = 0; i < 10000; i++) {
+            for (int j = 0; j < 10; j++) {
+                stringBuilder.append("bbb");
+            }
+            stringBuilder.append(i).append(",");
+        }
+        stringBuilder.append('\n');
+        StringBuilder maxString = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            maxString.append("maxmax");
+        }
+        for (int i = 0; i < 10000; i++) {
+            for (int j = 0; j < 10; j++) {
+                stringBuilder.append(maxString.toString());
+                stringBuilder.append(j).append(",");
+            }
+            stringBuilder.append('\n');
+        }
+        String testContent = stringBuilder.toString();
+        System.out.println(testContent.length());
+        Lib.IOUtil.writeTo("/Users/sarisemac/Downloads/softWareHomeWork/PersonalProject-Java/221801317/src/long.txt",testContent);
+    }
     public static void main(String[] args) {
+        //textLongData();
+        textBigData();
         //WordCount wordCount = new WordCount("/Users/sarisemac/eclipse-workspace/testFunction/src/h.txt","/Users/sarisemac/eclipse-workspace/testFunction/src/output.txt");
         if (args.length<2){
             System.out.println("参数不足两个,请重新运行");
