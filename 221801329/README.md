@@ -34,3 +34,7 @@ wordcount-Java提交仓库
 ### 第八次commit
 - 实现命令行运行
 - 修改部分异常处理
+
+### 第九次commit
+- 将\r\n改为\n
+- 代码换行改为LF

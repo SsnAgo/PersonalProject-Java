@@ -9,7 +9,7 @@ public class WordCount {
         this.inputPath = inputPath;
         this.outputPath = outputPath;
     }
-    public void analyseArticle() {
+    private void analyseArticle() {
         String str = Lib.readFile(inputPath);
         String filterStr = Lib.filterChinese(str);
         String deletedStr = Lib.deleteChineseString(str);
@@ -24,6 +24,7 @@ public class WordCount {
             return;
         }
         WordCount solver = new WordCount(args[0],args[1]);
+        //WordCount solver = new WordCount("input.txt","output2.txt");
         solver.analyseArticle();
     }
 }

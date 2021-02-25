@@ -208,9 +208,9 @@ public class Lib {
      * */
     public static void outputToFile(int chars,int words,int lines,String filePath) {
         BufferedWriter bw = null;
-        StringBuilder str = new StringBuilder("characters: " + chars + "\r\n"
-                + "words: " + words + "\r\n"
-                + "lines: " + lines + "\r\n");
+        StringBuilder str = new StringBuilder("characters: " + chars + "\n"
+                + "words: " + words + "\n"
+                + "lines: " + lines + "\n");
         int cnt = 0;
         try {
             bw = new BufferedWriter(new OutputStreamWriter(
@@ -218,7 +218,7 @@ public class Lib {
             List<HashMap.Entry<String, Integer>> sortedList= getSortedList();
             for(HashMap.Entry<String,Integer> entry:sortedList) {
                 if(cnt<=9){
-                    str.append(entry.getKey()).append(":").append(entry.getValue()).append("\r\n");
+                    str.append(entry.getKey()).append(":").append(entry.getValue()).append("\n");
                 }
                 cnt++;
             }
