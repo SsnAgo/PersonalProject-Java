@@ -40,7 +40,7 @@ public interface CounterImpl {
      * 
      * @return 单词总数
      */
-    int getWordCount();
+    long getWordCount();
 
     /**
      * <p>
@@ -49,7 +49,7 @@ public interface CounterImpl {
      * 
      * @return 行数
      */
-    int getLineCount();
+    long getLineCount();
 
     /**
      * 
@@ -67,6 +67,6 @@ public interface CounterImpl {
      * 
      * @return 单词—频数映射
      */
-    Map<String, Integer> getWordFrequency();
+    Map<String, Long> getWordFrequency();
 
 }
