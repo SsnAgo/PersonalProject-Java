@@ -97,7 +97,7 @@ public class Lib {
          * @param s
          */
         private void solveString(String s){
-                if (s.isEmpty()){       //空则返回
+                if (s.trim().isEmpty()){       //空则返回
                     return;
                 }
                 validLineNum++;
