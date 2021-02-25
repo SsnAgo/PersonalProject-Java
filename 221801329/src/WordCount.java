@@ -11,11 +11,11 @@ public class WordCount {
     }
     private void analyseArticle() {
         String str = Lib.readFile(inputPath);
-        String filterStr = Lib.filterChinese(str);
-        String deletedStr = Lib.deleteChineseString(str);
-        int chars = Lib.countChars(filterStr);
+        String filterStr2 = Lib.filterChinese(str);
+        String filterStr = str.toLowerCase().replaceAll(Lib.FLITER_REGEX," ");
+        int chars = Lib.countChars(filterStr2);
         int lines = Lib.countLines(new File(inputPath));
-        Pair<HashMap<String,Integer>,Integer> pair = Lib.makeWordPair(deletedStr);
+        Pair<HashMap<String,Integer>,Integer> pair = Lib.makeWordPair(filterStr);
         Lib.outputToFile(chars,pair.getValue(),lines,outputPath);
     }
     public static void main(String[] args) {
@@ -24,7 +24,6 @@ public class WordCount {
             return;
         }
         WordCount solver = new WordCount(args[0],args[1]);
-        //WordCount solver = new WordCount("input.txt","output2.txt");
-        solver.analyseArticle();
+        solver.analyseArticle();//        System.out.println(str.toLowerCase().replaceAll(Lib.FLITER_REGEX," "));
     }
 }

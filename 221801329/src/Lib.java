@@ -8,21 +8,19 @@ import java.util.regex.Pattern;
 
 public class Lib {
     private static String WORD_REGEX = "[a-z]{4}[a-z0-9]*";
-    private static String FLITER_REGEX = "[^a-zA-Z0-9]";
+    public static String FLITER_REGEX = "[^a-zA-Z0-9]";
     private static String CHINESE_REGEX = "[\\u4e00-\\u9fa5]";
-    //TODO:文件路径可以优化
-    public static String DIR = System.getProperty("user.dir");
     public static HashMap<String,Integer> wordMap = new HashMap<>();
     /*
-    * @description 将文件读到 StringBuffer中
-    * @param stringBuffer filePath
-    * @return
-    * */
+     * @description 将文件读到 StringBuffer中
+     * @param stringBuffer filePath
+     * @return
+     * */
     public static void readToBuffer(StringBuffer stringBuffer,String filePath) {
         try {
             InputStream is = new FileInputStream(filePath);
             String line;
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             line = reader.readLine();
             while (line != null) {
                 stringBuffer.append(line);
@@ -38,30 +36,30 @@ public class Lib {
 
     }
     /*
-    * @description 将读取过文件的stringBuffer转换为string
-    * @param filePath
-    * @return String
-    * */
+     * @description 将读取过文件的stringBuffer转换为string
+     * @param filePath
+     * @return String
+     * */
     public static String readFile(String filePath) {
         StringBuffer sb = new StringBuffer();
         readToBuffer(sb, filePath);
         return sb.toString();
     }
     /*
-    * @description 判断字符串中是否有中文
-    * @param str
-    * @return true or false
-    * */
+     * @description 判断字符串中是否有中文
+     * @param str
+     * @return true or false
+     * */
     public static boolean isContainChinese(String str) {
         Pattern p = Pattern.compile(CHINESE_REGEX);
         Matcher m = p.matcher(str);
         return m.find();
     }
     /*
-    * @description 判断字符是否为中文字符
-    * @param c
-    * @return true of false
-    * */
+     * @description 判断字符是否为中文字符
+     * @param c
+     * @return true of false
+     * */
     public static boolean isChinese(char c) {
         Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
         return ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
@@ -72,10 +70,10 @@ public class Lib {
                 || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS;
     }
     /*
-    * @description 过滤字符串中的中文字符
-    * @param str
-    * @return String
-    * */
+     * @description 过滤字符串中的中文字符
+     * @param str
+     * @return String
+     * */
     public static String filterChinese(String str) {
         String result = str;
         boolean flag = isContainChinese(str);
@@ -96,10 +94,10 @@ public class Lib {
         return result;
     }
     /*
-    * @description 用于删除字符串中含有中文字符的单词
-    * @param str
-    * @return String
-    * */
+     * @description 用于删除字符串中含有中文字符的单词
+     * @param str
+     * @return String
+     * */
     public static String deleteChineseString(String str) {
         StringBuffer sb = new StringBuffer();
         StringTokenizer stringTokenizer = new StringTokenizer(str);
@@ -113,10 +111,10 @@ public class Lib {
         return sb.toString();
     }
     /*
-    * @description 统计文件行数
-    * @param file
-    * @return count
-    * */
+     * @description 统计文件行数
+     * @param file
+     * @return count
+     * */
     public static int countLines(File file) {
         int count = 0;
         try {
@@ -134,10 +132,10 @@ public class Lib {
         return count;
     }
     /*
-    * @description 将合法单词存入map中，并与单词总数绑定
-    * @param str
-    * @return pair
-    * */
+     * @description 将合法单词存入map中，并与单词总数绑定
+     * @param str
+     * @return pair
+     * */
     public static Pair<HashMap<String,Integer>,Integer> makeWordPair(String str) {
         int count = 0;
         str = str.toLowerCase().replaceAll(FLITER_REGEX," ");
@@ -156,13 +154,12 @@ public class Lib {
         return new Pair<>(wordMap,count);
     }
     /*
-    * @description 将map中的单词按value大小，key字典序排序，
-    * @param
-    * @return list
-    * */
+     * @description 将map中的单词按value大小，key字典序排序，
+     * @param
+     * @return list
+     * */
     public static List<HashMap.Entry<String, Integer>> getSortedList() {
-        List<HashMap.Entry<String, Integer>> wordList = new ArrayList<>();
-        wordList.addAll(wordMap.entrySet());
+        List<HashMap.Entry<String, Integer>> wordList = new ArrayList<>(wordMap.entrySet());
         Comparator<Map.Entry<String, Integer>> cmp = (o1, o2) -> {
             if(o1.getValue().equals(o2.getValue()))
                 return o1.getKey().compareTo(o2.getKey());
@@ -172,10 +169,10 @@ public class Lib {
         return wordList;
     }
     /*
-    * @description 输出排序后的统计次数前十的单词
-    * @param
-    * @return
-    * */
+     * @description 输出排序后的统计次数前十的单词
+     * @param
+     * @return
+     * */
     public static void outputSortedResult() {
         int cnt = 0;
         List<HashMap.Entry<String, Integer>> sortedList= getSortedList();
@@ -187,10 +184,10 @@ public class Lib {
         }
     }
     /*
-    * @description 判断字符串中的合法ASCII码数量
-    * @param str
-    * @return count
-    * */
+     * @description 判断字符串中的合法ASCII码数量
+     * @param str
+     * @return count
+     * */
     public static int countChars(String str) {
         int count = 0;
         char[] c = str.toCharArray();
