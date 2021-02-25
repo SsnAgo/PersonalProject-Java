@@ -6,18 +6,20 @@ public class Lib {
     public static class TextFileSolver{
         String filePath;
         StringBuilder solveStringBulder;
-        String fileText;
+        StringBuilder fileTextBuffer;
         List<String> strings;
         Map<String,Long> wordFrequencyMap;
         int validLineNum;
+        int unvalidCharNum;
 
         public TextFileSolver(String filePath) throws IOException{
             //数据初始化
             this.filePath = filePath;
             validLineNum=0;
             solveStringBulder = new StringBuilder();
-            fileText = IOUtil.getString(filePath);
-            strings = Arrays.asList(fileText.split(System.getProperty("line.separator")));
+            fileTextBuffer = new StringBuilder(64);
+            unvalidCharNum = IOUtil.solveFileInASCII(filePath,fileTextBuffer);
+            strings = Arrays.asList(fileTextBuffer.toString().split(System.getProperty("line.separator")));
             strings.forEach(s -> solveString(s));
 
             //正则表达式切分字符串
@@ -29,6 +31,11 @@ public class Lib {
                         for (int i = 0 ; i < 4 ; i++){
                             if (! Character.isLetter(chars[i])) return false;
                         }
+                        for (char c : chars) {
+                            if (c<0||c>=128) {
+                                return false;
+                            }
+                        }
                         return true;
                     })
                     .collect(Collectors.groupingBy(String::toLowerCase,Collectors.counting()));
@@ -39,7 +46,7 @@ public class Lib {
          * @return
          */
         public int getFileCharNum(){
-                return fileText.length();
+                return fileTextBuffer.length()-unvalidCharNum;
             }
 
         /**
@@ -110,12 +117,37 @@ public class Lib {
     public static class IOUtil{
 
         /**
+         * 读取file，把文件内容存在缓存中
+         * 非法字符用空白字符代替
+         * @param inputFilePath
+         * @param stringBuffer
+         * @return 非法字符数目
+         * @throws IOException
+         */
+        public static int solveFileInASCII(String inputFilePath,StringBuilder stringBuffer) throws IOException {
+            File inputFile = new File(inputFilePath);
+            StringBuilder textBuilder = stringBuffer;
+            FileInputStream fileInputStream = new FileInputStream(inputFile);
+            int unvalidCharNum = 0;
+            for (int c = fileInputStream.read(); c!=-1; c = fileInputStream.read()) {
+                char cur = (char) c;
+                textBuilder.append(cur);
+                if (!(c>0&&c<128)) {
+                    unvalidCharNum++;
+                }
+            }
+            return unvalidCharNum;
+        }
+
+
+        /**
          * 获取所有的字符，构成一个字符串
          * @param inputFilePath
+         * @param fileTextBuffer
          * @return
          * @throws IOException
          */
-        public static String getString(String inputFilePath) throws IOException {
+        public static String getString(String inputFilePath, StringBuilder fileTextBuffer) throws IOException {
             File inputFile = new File(inputFilePath);
             StringBuilder textBuilder = new StringBuilder(64);
             FileInputStream fileInputStream = new FileInputStream(inputFile);
