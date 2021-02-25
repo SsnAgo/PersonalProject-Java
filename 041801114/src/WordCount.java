@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Map.Entry;
 
 import info.tozzger.demo.FileCounter;
 
@@ -20,6 +21,12 @@ public class WordCount{
          * ...
          */
         out.printfln("characters: %d", fc.getCharCount());
+        out.printfln("words: %d", fc.getWordCount());
+        out.printfln("lines: %d", fc.getLineCount());
+        for (Entry<String, Long> e : fc.getWordFrequency().entrySet()) {
+            out.printfln("%s: %d", e.getKey(), e.getValue());
+        }
+        out.close();
     }
     
     private static class Printer implements Closeable{
