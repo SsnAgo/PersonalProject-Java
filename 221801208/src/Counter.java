@@ -39,5 +39,18 @@ public class Counter {
         writer = new BufferedWriter(outputFile);
     }
 
-
+    //统计字符数
+    public void countCharacters(){
+        int c;
+        try{
+            while ((c = reader.read()) != -1){
+                //ASCⅡ码在0到127之间的属于字符
+                if(c >= 0 && c<= 127) {
+                    countChar++;
+                }
+            }
+        }
+        catch (Exception e){
+        }
+    }
 }
