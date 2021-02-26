@@ -116,7 +116,7 @@ public class Utils {
                     map.put(i.toLowerCase(), 1);
                 } else {
                     // 如果存在则num+1
-                    int num = (int) map.get(i.toLowerCase());
+                    int num =map.get(i.toLowerCase());
                     map.put(i.toLowerCase(), num + 1);
                 }
             }
@@ -173,8 +173,7 @@ public class Utils {
 
     public static long getTime(){
         Date newDate=new Date();
-        long newTime = newDate.getTime();
-        return newTime;
+        return newDate.getTime();
     }
 
 //    /**
