@@ -9,5 +9,7 @@ public class WordCount {
         System.out.println("words:"+words);
         int lines=Lib.linesCount("C:\\Users\\WWJ20\\IdeaProjects\\WordCount\\src\\input.txt","C:\\Users\\WWJ20\\IdeaProjects\\WordCount\\src\\output.txt");
         System.out.println("lines:"+lines);
+        Map<String,Integer> wordsMap=Lib.wordNum("C:\\Users\\WWJ20\\IdeaProjects\\WordCount\\src\\input.txt","C:\\Users\\WWJ20\\IdeaProjects\\WordCount\\src\\output.txt");
+        Lib.printWords(wordsMap);
     }
 }
