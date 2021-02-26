@@ -132,13 +132,13 @@ public class Utils {
     }
 
     /**
-     * 用于读取文件所有字符
+     * 5.用于读取文件所有字符
      *
      * @param path
      * @return
      */
     @SuppressWarnings("JavaDoc")
-    public static String readIn(String path) {
+    public static StringBuilder readIn(String path) {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("").getAbsolutePath()+"\\"+path));
             String temp;
@@ -150,15 +150,12 @@ public class Utils {
             System.out.println("文件不存在");
             e.printStackTrace();
         }
-        //处理特殊字符，以免被误以为是单词的一部分
-        String characters = stringBuilder.toString().replace(".", " ").replace(",", " ")
-                .replace("!", " ").replace("?", " ");
-        return characters;
+        return stringBuilder;
     }
 
 
     /**
-     * 写入信息
+     * 6.写入信息
      * @param path
      * @param message
      */
@@ -172,6 +169,12 @@ public class Utils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static long getTime(){
+        Date newDate=new Date();
+        long newTime = newDate.getTime();
+        return newTime;
     }
 
 //    /**
