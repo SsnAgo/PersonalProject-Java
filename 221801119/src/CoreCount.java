@@ -43,6 +43,19 @@ public class CoreCount {
 		
 	}
     private void CountLines() {
-	
+    	try {
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			try {
+				String line = null;
+				while((line = reader.readLine()) != null) {
+					//只统计包含非空白字符的行
+					if(! line.trim().equals(""))
+						lineCount += 1;
+				}
+			} catch (IOException e) {
+			}
+		} catch (FileNotFoundException e) {
+			System.out.print("Can not find file \"" + file.getName() + "\".");
+		}	
     }
 }
