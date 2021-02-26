@@ -46,4 +46,17 @@ public class Lib {
         }
         return num;
     }
+
+    //统计行数，任何包含非空白字符的行，都需要统计。
+    public static int linesCount(String inputFile, String outputFile) throws IOException {
+        Reader reader = openInputFile(inputFile);
+        int temp;
+        int num = 1;
+        while ((temp = reader.read()) != -1) {
+            if ((char) temp == '\n') {
+                num++;
+            }
+        }
+        return num;
+    }
 }
