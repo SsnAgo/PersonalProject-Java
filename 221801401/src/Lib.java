@@ -16,7 +16,50 @@ public class Lib {
     public static String DIR = System.getProperty("user.dir");
     
     //Map表用于存放单词以及相对应的个数
-    private static Map<String, Integer> words = new HashMap<String, Integer>();
+    private static Map<String, Integer> wordsMap = new HashMap<String, Integer>();
+    
+    
+    /*
+     * 统计文件行数
+     * @param filePath
+     * @return count
+     * */
+    public static int getLineCount(String filePath) {
+        //行数的统计量
+	    int count = 0;
+	    //循环变量
+	    String str = "";
+	    
+	    //得到输入流
+	    FileInputStream is = null;
+	    InputStreamReader isr = null;
+	    BufferedReader br = null;
+	   
+	    try {
+		    is = new FileInputStream(filePath);
+		    isr = new InputStreamReader(is);
+		    br = new BufferedReader(isr);
+		    while((str = br.readLine()) != null) {
+			    if(!"".equals(str)) {
+				    count++;
+			    }
+		    }
+	    }catch(FileNotFoundException e) {
+		    e.printStackTrace();
+        }catch(IOException e) {
+		    e.printStackTrace();
+	    }finally {
+		    try {
+			    //关闭输入流
+			    is.close();
+			    isr.close();
+			    br.close();
+		    }catch(IOException e) {
+			    e.printStackTrace();
+		    }
+	    }
+	    return count;
+    }
     
     
     /*
@@ -69,49 +112,6 @@ public class Lib {
     
     
     /*
-     * 统计文件行数
-     * @param filePath
-     * @return count
-     * */
-    public static int getLineCount(String filePath) {
-        //行数的统计量
-	    int count = 0;
-	    //循环变量
-	    String str = "";
-	    
-	    //得到输入流
-	    FileInputStream is = null;
-	    InputStreamReader isr = null;
-	    BufferedReader br = null;
-	    
-	    try {
-		    is = new FileInputStream(filePath);
-		    isr = new InputStreamReader(is);
-		    br = new BufferedReader(isr);
-		    while((str = br.readLine()) != null) {
-			    if(!"".equals(str)) {
-				    count++;
-			    }
-		    }
-	    }catch(FileNotFoundException e) {
-		    e.printStackTrace();
-        }catch(IOException e) {
-		    e.printStackTrace();
-	    }finally {
-		    try {
-			    //关闭输入流
-			    is.close();
-			    isr.close();
-			    br.close();
-		    }catch(IOException e) {
-			    e.printStackTrace();
-		    }
-	    }
-	    return count;
-    }
-    
-    
-    /*
      * 统计文件的单词
      * @param filePath
      * @return count
@@ -137,12 +137,12 @@ public class Lib {
 	            while(matcher.find()) {
 	            	String temp = matcher.group();
 	            	temp = temp.toLowerCase();
-	            	if(words.containsKey(temp)) {
-	            		int num = words.get(temp);
-	            		words.put(temp, 1 + num);
+	            	if(wordsMap.containsKey(temp)) {
+	            		int num = wordsMap.get(temp);
+	            		wordsMap.put(temp, 1 + num);
 	            	}
 	            	else {
-	            		words.put(temp, 1);
+	            		wordsMap.put(temp, 1);
 	            	}
 	                count++;
 	            }
@@ -169,23 +169,64 @@ public class Lib {
      * @param 无参
      * @return 无返回值
      * */
-    public static void sortHashmap() {
+    public static List<Map.Entry<String, Integer>> sortHashmap() {
     	//将words.entrySet()转换为list
     	List<Map.Entry<String, Integer>> list;
-    	list = new ArrayList<Map.Entry<String, Integer>>(words.entrySet());
+    	list = new ArrayList<Map.Entry<String, Integer>>(wordsMap.entrySet());
     	//通过比较器实现排序
     	Collections.sort(list, new Comparator<Map.Entry<String, Integer>>(){
-    		public int compare(Entry<String, Integer> m1, Entry<String, Integer>m2) {
-    			return m2.getValue().compareTo(m1.getValue());
-    		}
-    	});
+    	    public int compare(Entry<String, Integer> m1, Entry<String, Integer> m2) {
+    		    return m2.getValue().compareTo(m1.getValue());
+    	    }
+        });
+    	
+        int i = 0;
+        for(Map.Entry<String, Integer> map : list) {
+    	    if(i < 10) {
+    		    System.out.println(map.getKey() + ":" + map.getValue());
+    	    }
+    	    i++;
+        }
+    	
+        return list;
+    }
+    
+    
+    /*
+     * 将数据输出到指定文件中
+     * @param characters words lines filePath
+     * @return 无返回值
+     * */
+    public static void writeToFile(int characters, int words, int lines, String filePath) {
+    	//获取将要输出的字符串信息
+    	String str = "characters: " + characters + "\nwords: " + words + "\nlines: " + lines +"\n";
+    	List<Map.Entry<String, Integer>> list = sortHashmap();
     	int i = 0;
-    	for(Map.Entry<String, Integer> map : list){
-    		if(i < 10) {
-    			System.out.println(map.getKey() + ":" + map.getValue());
-    			i++;
+    	for(Map.Entry<String, Integer> map : list) {
+    	    if(i < 10) {
+    		    str += map.getKey() + ":" + map.getValue() + "\n";
+    	    }
+    		i++;
+    	}
+    	
+    	//得到输出流
+    	FileOutputStream fos = null; 
+    	OutputStreamWriter writer = null;
+    	
+    	try {
+    		fos = new FileOutputStream(filePath);
+    		writer = new OutputStreamWriter(fos, "UTF-8");
+    		writer.write(str);
+    		writer.flush();
+    	}catch(IOException e) {
+    		e.printStackTrace();
+    	}finally {
+    		try {
+    			fos.close();
+    			writer.close();
+    		}catch(IOException e) {
+    			e.printStackTrace();
     		}
     	}
     }
-    
 }
