@@ -96,6 +96,9 @@ public class Lib {
         }
     }
 
+    /**
+     * process the number of words
+     */
     public void processWordNum() throws IOException {
         int wordNum = this.wordNum;
         this.wordNum = 0;
@@ -109,6 +112,33 @@ public class Lib {
         } catch (IOException e) {
             // restore
             this.wordNum = wordNum;
+            throw e;
+        }
+    }
+
+    /**
+     * process the top 10 number of occurrence of words
+     */
+    public void processWordRank() throws IOException {
+        Map<String, Integer> topWord = this.topWord;
+        this.topWord = new HashMap<>();
+        try {
+            readFileByLine(line -> {
+                Matcher matcher = wordPattern.matcher(line);
+                int index = 0;
+                while (matcher.find()) {
+                    String word = matcher.group(index);
+                    Integer count = this.topWord.get(word);
+                    if (count == null) {
+                        count = 0;
+                    }
+                    this.topWord.put(matcher.group(index), count + 1);
+                    index++;
+                }
+            });
+        } catch (IOException e) {
+            // restore
+            this.topWord = topWord;
             throw e;
         }
     }
