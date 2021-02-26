@@ -54,6 +54,14 @@ function countWord(data) {
 }
 
 /**
+ * count valid line
+ * @param {string} data 
+ */
+function countValidLine(data) {
+    return 0;
+}
+
+/**
  * return top 10 frequent words and frequency
  * @param {string} data 
  */
@@ -66,4 +74,4 @@ function countTopOccur(data) {
     ];
 }
 
-module.exports = { readFile, writeFile, countChar, countWord, countTopOccur };
+module.exports = { readFile, writeFile, countChar, countValidLine, countWord, countTopOccur };
