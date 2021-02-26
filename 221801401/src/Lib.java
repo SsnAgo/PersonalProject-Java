@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,49 +17,6 @@ public class Lib {
     
     //Map表用于存放单词以及相对应的个数
     private static Map<String, Integer> words = new HashMap<String, Integer>();
-    
-    
-    /*
-     * 统计文件行数
-     * @param filePath
-     * @return count
-     * */
-    public static int getLineCount(String filePath) {
-        //行数的统计量
-	    int count = 0;
-	    //循环变量
-	    String str = "";
-	    
-	    //得到输入流
-	    FileInputStream is = null;
-	    InputStreamReader isr = null;
-	    BufferedReader br = null;
-	    
-	    try {
-		    is = new FileInputStream(filePath);
-		    isr = new InputStreamReader(is);
-		    br = new BufferedReader(isr);
-		    while((str = br.readLine()) != null) {
-			    if(!"".equals(str)) {
-				    count++;
-			    }
-		    }
-	    }catch(FileNotFoundException e) {
-		    e.printStackTrace();
-        }catch(IOException e) {
-		    e.printStackTrace();
-	    }finally {
-		    try {
-			    //关闭输入流
-			    is.close();
-			    isr.close();
-			    br.close();
-		    }catch(IOException e) {
-			    e.printStackTrace();
-		    }
-	    }
-	    return count;
-    }
     
     
     /*
@@ -109,6 +67,50 @@ public class Lib {
 	    return count;
     }
     
+    
+    /*
+     * 统计文件行数
+     * @param filePath
+     * @return count
+     * */
+    public static int getLineCount(String filePath) {
+        //行数的统计量
+	    int count = 0;
+	    //循环变量
+	    String str = "";
+	    
+	    //得到输入流
+	    FileInputStream is = null;
+	    InputStreamReader isr = null;
+	    BufferedReader br = null;
+	    
+	    try {
+		    is = new FileInputStream(filePath);
+		    isr = new InputStreamReader(is);
+		    br = new BufferedReader(isr);
+		    while((str = br.readLine()) != null) {
+			    if(!"".equals(str)) {
+				    count++;
+			    }
+		    }
+	    }catch(FileNotFoundException e) {
+		    e.printStackTrace();
+        }catch(IOException e) {
+		    e.printStackTrace();
+	    }finally {
+		    try {
+			    //关闭输入流
+			    is.close();
+			    isr.close();
+			    br.close();
+		    }catch(IOException e) {
+			    e.printStackTrace();
+		    }
+	    }
+	    return count;
+    }
+    
+    
     /*
      * 统计文件的单词
      * @param filePath
@@ -135,7 +137,6 @@ public class Lib {
 	            while(matcher.find()) {
 	            	String temp = matcher.group();
 	            	temp = temp.toLowerCase();
-	            	System.out.println(temp);
 	            	if(words.containsKey(temp)) {
 	            		int num = words.get(temp);
 	            		words.put(temp, 1 + num);
@@ -160,6 +161,31 @@ public class Lib {
 	    	}
 	    }
 	    return count;
+    }
+    
+    
+    /*
+     * 用比较器实现单词排序
+     * @param 无参
+     * @return 无返回值
+     * */
+    public static void sortHashmap() {
+    	//将words.entrySet()转换为list
+    	List<Map.Entry<String, Integer>> list;
+    	list = new ArrayList<Map.Entry<String, Integer>>(words.entrySet());
+    	//通过比较器实现排序
+    	Collections.sort(list, new Comparator<Map.Entry<String, Integer>>(){
+    		public int compare(Entry<String, Integer> m1, Entry<String, Integer>m2) {
+    			return m2.getValue().compareTo(m1.getValue());
+    		}
+    	});
+    	int i = 0;
+    	for(Map.Entry<String, Integer> map : list){
+    		if(i < 10) {
+    			System.out.println(map.getKey() + ":" + map.getValue());
+    			i++;
+    		}
+    	}
     }
     
 }
