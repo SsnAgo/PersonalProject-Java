@@ -95,7 +95,7 @@ public class Lib {
         wordNum = 0;
         Matcher matcher = wordPattern.matcher(str);
         while (matcher.find()) {
-            String word = matcher.group(2);
+            String word = matcher.group(2).toLowerCase();
             Integer count = topWord.get(word);
             if (count == null) {
                 count = 0;
