@@ -1,10 +1,6 @@
 import java.io.*;
 import java.util.concurrent.ExecutionException;
 
-/*
-* JDK环境:	openjdk 14.0.2 2020-07-14
-* @author 	林浩然
-* */
 public class WordCount {
 	public static void main(String[] args){
 		try{
