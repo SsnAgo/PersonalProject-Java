@@ -1,8 +1,10 @@
 import java.io.*;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Text file analyser
@@ -49,13 +51,14 @@ public class Lib {
 
     public Map<String, Integer> getTopWord() {
         // clone a map to prevent modification of the resulted map
-        return new HashMap<>(topWord);
+        return new LinkedHashMap<>(topWord);
     }
 
     public Lib(String inFile, String outFile) throws IOException {
         this.inFile = inFile;
         this.outFile = outFile;
     }
+
     /**
      * process all data
      */
@@ -85,6 +88,13 @@ public class Lib {
                 this.topWord.put(word, count + 1);
                 this.wordNum++;
             }
+            this.topWord = this.topWord.entrySet().stream()
+                .sorted(
+                    Map.Entry.<String, Integer>comparingByValue()
+                        .reversed()
+                        .thenComparing(Map.Entry.comparingByKey()))
+                .limit(10)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
         } catch (IOException e) {
             // restore
@@ -149,6 +159,13 @@ public class Lib {
                 }
                 this.topWord.put(word, count + 1);
             }
+            this.topWord = this.topWord.entrySet().stream()
+                .sorted(
+                    Map.Entry.<String, Integer>comparingByValue()
+                        .reversed()
+                        .thenComparing(Map.Entry.comparingByKey()))
+                .limit(10)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         } catch (IOException e) {
             // restore
             this.topWord = topWord;
@@ -194,7 +211,7 @@ public class Lib {
      */
     public void output() throws IOException {
         BufferedWriter writer = new BufferedWriter(
-                new FileWriter(outFile)
+            new FileWriter(outFile)
         );
         writer.write("characters: " + charNum + "\n");
         writer.write("words: " + wordNum + "\n");
