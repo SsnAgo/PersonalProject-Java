@@ -40,10 +40,8 @@ public class Lib {
 				characterNum++;
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return characterNum;
@@ -55,37 +53,35 @@ public class Lib {
 	  * 输出：该文件中含有的单词数
 	*/
 	 static int statisticsWords(File file) {
-		int wordNum = 0;
-		try {
-			InputStreamReader read = new InputStreamReader(new FileInputStream(file));
-			BufferedReader in = new BufferedReader(read);
-			String str = null;
-			while ((str = in.readLine()) != null){
+	     int wordNum = 0;
+	     try {
+	         InputStreamReader read = new InputStreamReader(new FileInputStream(file));
+	         BufferedReader in = new BufferedReader(read);
+	         String str = null;
+	         while ((str = in.readLine()) != null){
 				
-				//通过正则表达式对每一行的字符串进行匹配查找，若存在符合条件的单词则加入wordsMap
-				String ragex = "[a-zA-Z]{4,}[a-zA-Z0-9]+";
-				Pattern p = Pattern.compile(ragex);
-				Matcher m = p.matcher(str);
-				while (m.find()) {
-					String s = m.group();
-					s = s.toLowerCase();
-					if (wordsMap.containsKey(s)) {
-						int num = wordsMap.get(s);
-						wordsMap.put(s, num + 1);
-					}else {
-						wordsMap.put(s, 1);
-					}
-					wordNum++;
-				}
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return wordNum;
+	             //通过正则表达式对每一行的字符串进行匹配查找，若存在符合条件的单词则加入wordsMap
+	             String ragex = "[a-zA-Z]{4,}[a-zA-Z0-9]+";
+	             Pattern p = Pattern.compile(ragex);
+	             Matcher m = p.matcher(str);
+	             while (m.find()) {
+	                 String s = m.group();
+	                 s = s.toLowerCase();
+	                 if (wordsMap.containsKey(s)) {
+	                     int num = wordsMap.get(s);
+	                     wordsMap.put(s, num + 1);
+	                 }else {
+	                     wordsMap.put(s, 1);
+	                 }
+	                 wordNum++;
+	             }
+	         }
+	     } catch (FileNotFoundException e) {
+	         e.printStackTrace();
+	     } catch (IOException e) {
+	         e.printStackTrace();
+	     }
+	     return wordNum;
 	 }
 	 
      /*
@@ -94,27 +90,25 @@ public class Lib {
      * 输出：该文件中含有的有效行数
    */
     static int statisticsLines(File file) {
-       int lineNum = 0;
-       try {
-           InputStreamReader read = new InputStreamReader(new FileInputStream(file));
-           BufferedReader in = new BufferedReader(read);
-           String str = null;
-           while ((str = in.readLine()) != null){
-               for (int i = 0;i<str.length();i++) {
-                   if (str.charAt(i) != ' ' && str.charAt(i) !='\t') {
-                       lineNum++;
-                       break;
-                   }
-               }
-           }
-       } catch (FileNotFoundException e) {
-           // TODO Auto-generated catch block
-           e.printStackTrace();
-       } catch (IOException e) {
-           // TODO Auto-generated catch block
-           e.printStackTrace();
-       }
-       return lineNum;
+        int lineNum = 0;
+        try {
+            InputStreamReader read = new InputStreamReader(new FileInputStream(file));
+            BufferedReader in = new BufferedReader(read);
+            String str = null;
+            while ((str = in.readLine()) != null){
+                for (int i = 0;i<str.length();i++) {
+                    if (str.charAt(i) != ' ' && str.charAt(i) !='\t') {
+                        lineNum++;
+                        break;
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lineNum;
     }
     
     /*
@@ -133,19 +127,17 @@ public class Lib {
                 }  
             });  
             int num = 1;
-              for(Map.Entry<String, Integer> map : list) {  
-                   if(num <= 10) {  
-                       try {
-                           buffWriter.write("<" + map.getKey() + ">: " + map.getValue());
-                           buffWriter.newLine();
-                       } catch (IOException e) {
-                           // TODO Auto-generated catch block
-                           e.printStackTrace();
-                       }  
-                       num++;  
-                   }  
-                   else break;  
-               }  
+                for(Map.Entry<String, Integer> map : list) {  
+                    if(num <= 10) {  
+                        try {
+                            buffWriter.write("<" + map.getKey() + ">: " + map.getValue());
+                            buffWriter.newLine();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }  
+                        num++;  
+                    }else break;  
+                }  
         }
     }
 
