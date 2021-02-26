@@ -27,12 +27,8 @@ public class WordCount {
         analyser.processCharNum();
         System.out.println(analyser.getCharNum());
 
-        // 单独处理单词数
-        analyser.processWordNum();
-        System.out.println(analyser.getWordNum());
-
         // 单独处理单词频率top10
-        analyser.processWordRank();
+        analyser.processWord();
         analyser.getTopWord().forEach((s, integer) -> {
             System.out.println(s + " " + integer);
         });

@@ -60,55 +60,39 @@ public class Lib {
     }
 
     /**
-     * process all data
+     * computeAll
      */
     public void process() throws IOException {
-        charNum = 0;
-        wordNum = 0;
-        lineNum = 0;
-        topWord = new HashMap<>();
         String str = readFile();
-        charNum = str.length();
-        Matcher matcher = linePattern.matcher(str);
-        while (matcher.find()) {
-            lineNum++;
-        }
-        matcher = wordPattern.matcher(str);
-        while (matcher.find()) {
-            String word = matcher.group(0).trim();
-            Integer count = topWord.get(word);
-            if (count == null) {
-                count = 0;
-            }
-            topWord.put(word, count + 1);
-            wordNum++;
-        }
-        topWord = topWord.entrySet().stream()
-            .sorted(
-                Map.Entry.<String, Integer>comparingByValue()
-                    .reversed()
-                    .thenComparing(Map.Entry.comparingByKey()))
-            .limit(10)
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        processCharNumInternal(str);
+        processLineNumInternal(str);
+        processWordInternal(str);
     }
 
     /**
-     * process character
+     * compute the number of characters
      */
     public void processCharNum() throws IOException {
-        charNum = 0;
         String str = readFile();
+        processCharNumInternal(str);
+    }
+
+    private void processCharNumInternal(String str) {
         charNum = str.length();
     }
 
     /**
-     * process the top 10 number of occurrence of words
+     * compute the number of words
+     * compute the top 10 number of occurrence of words
      */
-    public void processWordRank() throws IOException {
+    public void processWord() throws IOException {
+        String str = readFile();
+        processWordInternal(str);
+    }
+
+    private void processWordInternal(String str) {
         topWord = new HashMap<>();
         wordNum = 0;
-        String str = readFile();
-
         Matcher matcher = wordPattern.matcher(str);
         while (matcher.find()) {
             String word = matcher.group(0).trim();
@@ -126,12 +110,18 @@ public class Lib {
                     .thenComparing(Map.Entry.comparingByKey()))
             .limit(10)
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
     }
 
+    /**
+     * compute the number of not empty lines
+     */
     public void processLineNum() throws IOException {
-        lineNum = 0;
         String str = readFile();
+        processLineNumInternal(str);
+    }
+
+    private void processLineNumInternal(String str) throws IOException {
+        lineNum = 0;
         Matcher matcher = linePattern.matcher(str);
         while (matcher.find()) {
             lineNum++;
