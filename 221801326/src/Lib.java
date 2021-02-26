@@ -68,17 +68,20 @@ public class Lib {
         String word = "";
         Map<String, Integer> words = new HashMap<String, Integer>();
         while ((temp = reader.read()) != -1) {
-            while (temp != -1 && ((char) temp != ' ') && ((char) temp != '\r') && (char) temp != '\n') {//读出完整单词
+            while (isValidChar(temp)){
                 word += (char) temp;
                 temp = reader.read();
             }
-            while (((char) temp == ' ') || ((char) temp == '\r') || ((char) temp == '\n')) {//去除所有空白字符
+            while (!isValidChar(temp)&&temp!=-1) {//去除所有空白字符和分隔符
                 temp = reader.read();
             }
-            if (words.get(word) == null) {
-                words.put(word, Integer.valueOf(1));
-            } else {
-                words.put(word, Integer.valueOf(words.get(word).intValue() + 1));
+            char[] chars = word.toCharArray();
+            if (isValidChars(chars)) {//如果单词不为空。单词数量++
+                if (words.get(word) == null) {
+                    words.put(word, Integer.valueOf(1));
+                } else {
+                    words.put(word, Integer.valueOf(words.get(word).intValue() + 1));
+                }
             }
             word = "" + (char) temp;
         }
@@ -104,6 +107,7 @@ public class Lib {
             }
         }
     }
+    //判断是否为有效的字符
     public static boolean isValidChar(int temp){
         if((temp>= 97 && temp<= 122) || (temp >= 65 && temp <= 90)||(temp >= 48 && temp <= 57)){
             return true;
@@ -111,6 +115,7 @@ public class Lib {
             return false;
         }
     }
+    //判断是否为有效的单词
     public static boolean isValidChars(char[] chars){
         if(chars.length>=4&&!isNum(chars[0])&&!isNum(chars[1])&&!isNum(chars[2])&&!isNum(chars[3])){
             return true;
@@ -118,6 +123,7 @@ public class Lib {
             return false;
         }
     }
+    //判断是否为数字
     public static boolean isNum(int temp){
         if(temp>=48&&temp<=57){
             return true;
