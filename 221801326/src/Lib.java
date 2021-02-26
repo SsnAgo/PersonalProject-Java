@@ -9,26 +9,30 @@ public class Lib {
         return reader;
     }
 
-    public static Writer openOutputFile(String fileName) throws FileNotFoundException {
-        File file = new File(fileName);
-        Writer writer = new OutputStreamWriter(new FileOutputStream(file));
-        return writer;
+    public static FileWriter openOutputFile(String fileName) throws IOException {
+        FileWriter fileWriter = new FileWriter(fileName,true);
+        return fileWriter;
     }
 
     //统计字符数，空格，水平制表符，换行符，均算字符
     public static int charactersCount(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
+        FileWriter writer=new FileWriter(outputFile);
         int num = 0;
         int temp;
         while ((temp = reader.read()) != -1) {
             num++;
         }
+        writer.write("characters:"+num+'\n');
+        writer.close();
+        reader.close();
         return num;
     }
 
     //统计单词总数,至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割，不区分大小写
     public static int wordsCount(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
+        Writer writer=openOutputFile(outputFile);
         int temp;
         int num = 0;
         String word = "";
@@ -46,12 +50,16 @@ public class Lib {
             }
             word = "" + (char) temp;
         }
+        writer.append("words:"+num+'\n');
+        writer.close();
+        reader.close();
         return num;
     }
 
     //统计行数，任何包含非空白字符的行，都需要统计。
     public static int linesCount(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
+        Writer writer=openOutputFile(outputFile);
         int temp;
         int num = 0;
         String line = "";
@@ -67,12 +75,16 @@ public class Lib {
             }
             line = "";
         }
+        writer.append("lines:"+num+"\n");
+        reader.close();
+        writer.close();
         return num;
     }
 
     //统计单词的出现次数（对应输出接下来10行），最终只输出频率最高的10个。
     public static Map wordNum(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
+        FileWriter writer=openOutputFile(outputFile);
         int temp;
         String word = "";
         Map<String, Integer> words = new HashMap<String, Integer>();
@@ -114,14 +126,17 @@ public class Lib {
                 })
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        printWords(result,writer);
+        reader.close();
+        writer.close();
         return result;
     }
 
     //打印出频率前十的单词
-    public static void printWords(Map<String, Integer> map) {
+    public static void printWords(Map<String, Integer> map,FileWriter writer) throws IOException {
         int i = 0;
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            System.out.println(entry.getKey() + ":" + entry.getValue());
+            writer.write(entry.getKey() + ":" + entry.getValue()+"\n");
             if (i++ >= 9) {//打印频率前十的单词
                 break;
             }
