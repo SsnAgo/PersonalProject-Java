@@ -32,14 +32,15 @@ public class Lib {
         int num = 0;
         String word = "";
         while ((temp = reader.read()) != -1) {
-            while (temp != -1 && ((char) temp != ' ') && ((char) temp != '\r') && (char) temp != '\n') {
+            while (isValidChar(temp)){
                 word += (char) temp;
                 temp = reader.read();
             }
-            while (((char) temp == ' ') || ((char) temp == '\r') || (char) temp == '\n') {//去除所有空白字符
+            while (!isValidChar(temp)&&temp!=-1) {//去除所有空白字符和分隔符
                 temp = reader.read();
             }
-            if (word != "") {//如果单词不为空。单词数量++
+            char[] chars = word.toCharArray();
+            if (isValidChars(chars)) {//如果单词不为空。单词数量++
                 num++;
             }
             word = "" + (char) temp;
@@ -93,7 +94,7 @@ public class Lib {
         return (Comparator<Map.Entry<K, V>> & Serializable)
                 (c1, c2) -> c2.getValue().compareTo(c1.getValue());
     }
-
+    //打印出频率前十的单词
     public static void printWords(Map<String, Integer> map) {
         int i = 0;
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
@@ -101,6 +102,27 @@ public class Lib {
             if (i++ >= 9) {//打印频率前十的单词
                 break;
             }
+        }
+    }
+    public static boolean isValidChar(int temp){
+        if((temp>= 97 && temp<= 122) || (temp >= 65 && temp <= 90)||(temp >= 48 && temp <= 57)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public static boolean isValidChars(char[] chars){
+        if(chars.length>=4&&!isNum(chars[0])&&!isNum(chars[1])&&!isNum(chars[2])&&!isNum(chars[3])){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public static boolean isNum(int temp){
+        if(temp>=48&&temp<=57){
+            return true;
+        }else {
+            return false;
         }
     }
 }
