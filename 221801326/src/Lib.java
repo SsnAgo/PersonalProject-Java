@@ -52,11 +52,19 @@ public class Lib {
     public static int linesCount(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
         int temp;
-        int num = 1;
+        int num = 0;
+        String line="";
         while ((temp = reader.read()) != -1) {
-            if ((char) temp == '\n') {
+            while (temp!=-1&&(char) temp != '\n') {
+                if((char)temp!=' '&&(char)temp!='\t'&&(char)temp!='\r'&&(char)temp!='\n'){
+                    line+=(char)temp;
+                }
+                temp=reader.read();
+            }
+            if(line!=""){
                 num++;
             }
+            line="";
         }
         return num;
     }
