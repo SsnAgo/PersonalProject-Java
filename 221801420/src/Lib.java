@@ -17,42 +17,42 @@ import java.util.regex.Pattern;
 
 
 public class Lib {
-	static Map<String,Integer> wordsMap = new TreeMap<>();//单词和频率的映射表	
+    static Map<String,Integer> wordsMap = new TreeMap<>();//单词和频率的映射表	
 
-	/*
-	 * 功能：统计文件字符数
-	 * 输入：File文件指针
-	 * 输出：该文件中含有的字符数
-	 */
-	static int statisticsCharacters(File file) {
-	    int characterNum = 0;
-		try {
-			InputStreamReader read = new InputStreamReader(new FileInputStream(file));
-			BufferedReader in = new BufferedReader(read);
-			String str = null;
-			while ((str = in.readLine()) != null){
-				for (int i = 0;i<str.length();i++) {
-					int characterAscill=str.charAt(i);
-					if (characterAscill >=0 && characterAscill <= 127) {
-						characterNum++;
-					}
-				}
-				characterNum++;
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return characterNum;
-	}
+    /*
+            * 功能：统计文件字符数
+            * 输入：File文件指针
+            * 输出：该文件中含有的字符数
+     */
+    static int statisticsCharacters(File file) {
+        int characterNum = 0;
+        try {
+            InputStreamReader read = new InputStreamReader(new FileInputStream(file));
+            BufferedReader in = new BufferedReader(read);
+            String str = null;
+            while ((str = in.readLine()) != null){
+                for (int i = 0;i<str.length();i++) {
+                    int characterAscill=str.charAt(i);
+                    if (characterAscill >=0 && characterAscill <= 127) {
+                        characterNum++;
+                    }
+                }
+                characterNum++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return characterNum;
+    }
 	 
-	 /*
-	  * 功能：通过正则表达式对单词进行捕获
-	  * 输入：File文件指针
-	  * 输出：该文件中含有的单词数
-	*/
-	 static int statisticsWords(File file) {
+    /*
+            * 功能：通过正则表达式对单词进行捕获
+            * 输入：File文件指针
+            * 输出：该文件中含有的单词数
+     */
+    static int statisticsWords(File file) {
 	     int wordNum = 0;
 	     try {
 	         InputStreamReader read = new InputStreamReader(new FileInputStream(file));
@@ -82,13 +82,13 @@ public class Lib {
 	         e.printStackTrace();
 	     }
 	     return wordNum;
-	 }
+    }
 	 
-     /*
-     * 功能：通过对每一行的字符串的检查来统计文件的有效行数
-     * 输入：File文件指针
-     * 输出：该文件中含有的有效行数
-   */
+    /*
+            * 功能：通过对每一行的字符串的检查来统计文件的有效行数
+            * 输入：File文件指针
+            * 输出：该文件中含有的有效行数
+     */
     static int statisticsLines(File file) {
         int lineNum = 0;
         try {
@@ -112,9 +112,9 @@ public class Lib {
     }
     
     /*
-     * 功能：通过将每个单词放入treemap，再将treemap按照value排序可获得前十个单词的频率
-     * 输入：输出文件的写指针
-     * 输出：无
+            * 功能：通过将每个单词放入treemap，再将treemap按照value排序可获得前十个单词的频率
+            * 输入：输出文件的写指针
+            * 输出：无
      */
     static void wordsFrequency(BufferedWriter buffWriter){
         if (!wordsMap.isEmpty()) {
@@ -140,5 +140,4 @@ public class Lib {
                 }  
         }
     }
-
 }
