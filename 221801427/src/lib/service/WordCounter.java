@@ -22,7 +22,9 @@ public class WordCounter
                 for (; i < 4; i++)
                 {
                     if (!Character.isLetter(chars[i]))
+                    {
                         return false;
+                    }
                 }
             }
             else

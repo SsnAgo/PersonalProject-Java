@@ -1,3 +1,8 @@
 characters: 63
 words: 5
 lines: 4
+<file>: 3
+<abcdefg>: 1
+<file123>: 1
+<hijklm>: 1
+<opqrstuvwxyz>: 1

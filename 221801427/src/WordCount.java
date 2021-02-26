@@ -6,6 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WordCount
 {
@@ -19,6 +22,7 @@ public class WordCount
     private int charCnt = 0;
     private int wordCnt = 0;
     private int lineCnt = 0;
+    ArrayList<HashMap.Entry<String, Long>> freqList;
 
     public WordCount(String inputFileName, String outputFileName)
     {
@@ -57,6 +61,7 @@ public class WordCount
 
             charCnt = CharCounter.countChar(content);
             wordCnt = WordCounter.countWord(content);
+            freqList = FrequencySorter.sortFrequency(content);
 
             bf.close();
             isr.close();
@@ -74,7 +79,7 @@ public class WordCount
 
     public void Print()
     {
-        FilePrinter.writeFile(charCnt, wordCnt, lineCnt, outputFileName);
+        FilePrinter.writeFile(charCnt, wordCnt, lineCnt, freqList, outputFileName);
     }
 
     public static void main(String[] args)
