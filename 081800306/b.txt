@@ -1,1 +1,1 @@
-{"characters":22,"words":4,"lines":3,"iuyhu":1,"werer":1,"werf":1}
+{"characters":22,"words":4,"lines":1,"hello":1,"strong":1,"today":1}
