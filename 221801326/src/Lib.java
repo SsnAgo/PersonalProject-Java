@@ -25,6 +25,7 @@ public class Lib {
         }
         return num;
     }
+
     //统计单词总数,至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割，不区分大小写
     public static int wordsCount(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
@@ -32,11 +33,11 @@ public class Lib {
         int num = 0;
         String word = "";
         while ((temp = reader.read()) != -1) {
-            while (isValidChar(temp)){
+            while (isValidChar(temp)) {
                 word += (char) temp;
                 temp = reader.read();
             }
-            while (!isValidChar(temp)&&temp!=-1) {//去除所有空白字符和分隔符
+            while (!isValidChar(temp) && temp != -1) {//去除所有空白字符和分隔符
                 temp = reader.read();
             }
             char[] chars = word.toCharArray();
@@ -53,18 +54,18 @@ public class Lib {
         Reader reader = openInputFile(inputFile);
         int temp;
         int num = 0;
-        String line="";
+        String line = "";
         while ((temp = reader.read()) != -1) {
-            while (temp!=-1&&(char) temp != '\n') {
-                if((char)temp!=' '&&(char)temp!='\t'&&(char)temp!='\r'&&(char)temp!='\n'){
-                    line+=(char)temp;
+            while (temp != -1 && (char) temp != '\n') {
+                if ((char) temp != ' ' && (char) temp != '\t' && (char) temp != '\r' && (char) temp != '\n') {
+                    line += (char) temp;
                 }
-                temp=reader.read();
+                temp = reader.read();
             }
-            if(line!=""){
+            if (line != "") {
                 num++;
             }
-            line="";
+            line = "";
         }
         return num;
     }
@@ -76,11 +77,14 @@ public class Lib {
         String word = "";
         Map<String, Integer> words = new HashMap<String, Integer>();
         while ((temp = reader.read()) != -1) {
-            while (isValidChar(temp)){
+            while (isValidChar(temp)) {
+                if(temp>=65&&temp<=90){
+                    temp+=32;
+                }
                 word += (char) temp;
                 temp = reader.read();
             }
-            while (!isValidChar(temp)&&temp!=-1) {//去除所有空白字符和分隔符
+            while (!isValidChar(temp) && temp != -1) {//去除所有空白字符和分隔符
                 temp = reader.read();
             }
             char[] chars = word.toCharArray();
@@ -91,20 +95,28 @@ public class Lib {
                     words.put(word, Integer.valueOf(words.get(word).intValue() + 1));
                 }
             }
+            if(temp>=65&&temp<=90){
+                temp+=32;
+            }
             word = "" + (char) temp;
         }
         Map<String, Integer> result = words.entrySet().stream()
-                .sorted(comparingByValue())
+                .sorted(new Comparator<Map.Entry<String, Integer>>() {
+
+                    @Override
+                    public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                        if (o1.getValue().equals(o2.getValue())) {
+                            return o1.getKey().compareTo(o2.getKey());
+                        } else {
+                            return o2.getValue().compareTo(o1.getValue());
+                        }
+                    }
+                })
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
         return result;
     }
 
-    //比较函数
-    public static <K, V extends Comparable<? super V>> Comparator<Map.Entry<K, V>> comparingByValue() {
-        return (Comparator<Map.Entry<K, V>> & Serializable)
-                (c1, c2) -> c2.getValue().compareTo(c1.getValue());
-    }
     //打印出频率前十的单词
     public static void printWords(Map<String, Integer> map) {
         int i = 0;
@@ -115,27 +127,30 @@ public class Lib {
             }
         }
     }
+
     //判断是否为有效的字符
-    public static boolean isValidChar(int temp){
-        if((temp>= 97 && temp<= 122) || (temp >= 65 && temp <= 90)||(temp >= 48 && temp <= 57)){
+    public static boolean isValidChar(int temp) {
+        if ((temp >= 97 && temp <= 122) || (temp >= 65 && temp <= 90) || (temp >= 48 && temp <= 57)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
+
     //判断是否为有效的单词
-    public static boolean isValidChars(char[] chars){
-        if(chars.length>=4&&!isNum(chars[0])&&!isNum(chars[1])&&!isNum(chars[2])&&!isNum(chars[3])){
+    public static boolean isValidChars(char[] chars) {
+        if (chars.length >= 4 && !isNum(chars[0]) && !isNum(chars[1]) && !isNum(chars[2]) && !isNum(chars[3])) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
+
     //判断是否为数字
-    public static boolean isNum(int temp){
-        if(temp>=48&&temp<=57){
+    public static boolean isNum(int temp) {
+        if (temp >= 48 && temp <= 57) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
