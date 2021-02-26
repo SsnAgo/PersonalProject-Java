@@ -25,4 +25,25 @@ public class Lib {
         }
         return num;
     }
+    //统计单词总数,至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割，不区分大小写
+    public static int wordsCount(String inputFile, String outputFile) throws IOException {
+        Reader reader = openInputFile(inputFile);
+        int temp;
+        int num = 0;
+        String word = "";
+        while ((temp = reader.read()) != -1) {
+            while (temp != -1 && ((char) temp != ' ') && ((char) temp != '\r') && (char) temp != '\n') {
+                word += (char) temp;
+                temp = reader.read();
+            }
+            while (((char) temp == ' ') || ((char) temp == '\r') || (char) temp == '\n') {//去除所有空白字符
+                temp = reader.read();
+            }
+            if (word != "") {//如果单词不为空。单词数量++
+                num++;
+            }
+            word = "" + (char) temp;
+        }
+        return num;
+    }
 }
