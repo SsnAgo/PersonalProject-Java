@@ -1,18 +1,18 @@
-const fs = require('fs')
-const App = require('./core/index')
-const {NotFindException,paramException} = require('./exception')
+const fs = require('fs');
+const App = require('./core/index');
+const { NotFindException, ParamException } = require('./exception');
 
-let readFile = process.argv[2]
-let writeFile = process.argv[3]
+const readFile = process.argv[2];
+const writeFile = process.argv[3];
 try {
-  if(!fs.existsSync(readFile)){
-    throw new NotFindException('input文件不存在')
+  if (!fs.existsSync(readFile)) {
+    throw new NotFindException('input文件不存在');
   }
-  if(!writeFile){
-    throw new paramException('output不能为空')
+  if (!writeFile) {
+    throw new ParamException('output不能为空');
   }
 } catch (err) {
-  console.log(err);
+  console.error(err);
 }
-let app = new App('a.txt',writeFile)
-app.getMessage()
+const app = new App('a.txt', writeFile);
+app.getMessage();

@@ -1,15 +1,15 @@
-const {wordRex} = require('../config').reg
+const { wordRex } = require('../config').reg;
 /**
- * 
- * @param  arr type: Array 
- *   
+ *
+ * @param  arr type: Array
+ *
  */
-function countWord(arr){
-  let res = arr.join('')
-  let str = res.match(wordRex)
+function countWord(arr) {
+  const res = arr.join('');
+  const str = res.match(wordRex);
   return {
     words: str.length,
-    table: str
-  }
+    table: str,
+  };
 }
-module.exports = countWord
+module.exports = countWord;

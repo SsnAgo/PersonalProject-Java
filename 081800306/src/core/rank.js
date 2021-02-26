@@ -1,40 +1,42 @@
 /**
- * 
- * @param  arr type: Array  单词列表 
+ *
+ * @param  arr type: Array  单词列表
  * @param  num type: number 返回前几个
  */
 
-function rank(arr,num){
-  let obj = {
-  }
-  arr.sort()
-  var proxy = new Proxy(obj,{
-    get: function(obj,key){
-      if(key in obj){
-        return obj[key]
-      }else{
-        return 0
+function rank(arr, num) {
+  const obj = {
+  };
+  arr.sort();
+  const proxy = new Proxy(obj, {
+    get(key) {
+      if (key in obj) {
+        return obj[key];
       }
-    }
-  })
-  arr.forEach( item => {
-    proxy[item.toLowerCase()]++;
+      return 0;
+    },
   });
-  let data = []
+  arr.forEach((item) => {
+    proxy[item.toLowerCase()] += 1;
+  });
+  const data = [];
   for (const key in obj) {
-    let o = {}
-    o[key] = obj[key]
-    data.push(o)
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      const o = {};
+      o[key] = obj[key];
+      data.push(o);
+    }
   }
-  data.sort(function(a,b){
-    let key1 = Object.keys(a)[0]
-    let key2 = Object.keys(b)[0]
-    return b[key2] - a[key1]
-  })
-  let dataMsg = {}
-  for (let i = 0; i<num;i++){
-    dataMsg = {...dataMsg,...data[i]}
+  function compare(a, b) {
+    const key1 = Object.keys(a)[0];
+    const key2 = Object.keys(b)[0];
+    return b[key2] - a[key1];
   }
-  return dataMsg
+  data.sort(compare);
+  let dataMsg = {};
+  for (let i = 0; i < num; i += 1) {
+    dataMsg = { ...dataMsg, ...data[i] };
+  }
+  return dataMsg;
 }
-module.exports = rank
+module.exports = rank;
