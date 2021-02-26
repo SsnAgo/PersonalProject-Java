@@ -63,27 +63,27 @@ public class Lib {
      * process all data
      */
     public void process() throws IOException {
-        this.charNum = 0;
-        this.wordNum = 0;
-        this.lineNum = 0;
-        this.topWord = new HashMap<>();
+        charNum = 0;
+        wordNum = 0;
+        lineNum = 0;
+        topWord = new HashMap<>();
         String str = readFile();
-        this.charNum = str.length();
+        charNum = str.length();
         Matcher matcher = linePattern.matcher(str);
         while (matcher.find()) {
-            this.lineNum++;
+            lineNum++;
         }
         matcher = wordPattern.matcher(str);
         while (matcher.find()) {
             String word = matcher.group(0).trim();
-            Integer count = this.topWord.get(word);
+            Integer count = topWord.get(word);
             if (count == null) {
                 count = 0;
             }
-            this.topWord.put(word, count + 1);
-            this.wordNum++;
+            topWord.put(word, count + 1);
+            wordNum++;
         }
-        this.topWord = this.topWord.entrySet().stream()
+        topWord = topWord.entrySet().stream()
             .sorted(
                 Map.Entry.<String, Integer>comparingByValue()
                     .reversed()
@@ -96,40 +96,30 @@ public class Lib {
      * process character
      */
     public void processCharNum() throws IOException {
-        this.charNum = 0;
+        charNum = 0;
         String str = readFile();
-        this.charNum = str.length();
-    }
-
-    /**
-     * process the number of words
-     */
-    public void processWordNum() throws IOException {
-        this.wordNum = 0;
-        String str = readFile();
-        Matcher matcher = wordPattern.matcher(str);
-        while (matcher.find()) {
-            this.wordNum++;
-        }
+        charNum = str.length();
     }
 
     /**
      * process the top 10 number of occurrence of words
      */
     public void processWordRank() throws IOException {
-        this.topWord = new HashMap<>();
+        topWord = new HashMap<>();
+        wordNum = 0;
         String str = readFile();
 
         Matcher matcher = wordPattern.matcher(str);
         while (matcher.find()) {
             String word = matcher.group(0).trim();
-            Integer count = this.topWord.get(word);
+            Integer count = topWord.get(word);
             if (count == null) {
                 count = 0;
             }
-            this.topWord.put(word, count + 1);
+            topWord.put(word, count + 1);
+            wordNum++;
         }
-        this.topWord = this.topWord.entrySet().stream()
+        topWord = topWord.entrySet().stream()
             .sorted(
                 Map.Entry.<String, Integer>comparingByValue()
                     .reversed()
@@ -140,11 +130,11 @@ public class Lib {
     }
 
     public void processLineNum() throws IOException {
-        this.lineNum = 0;
+        lineNum = 0;
         String str = readFile();
         Matcher matcher = linePattern.matcher(str);
         while (matcher.find()) {
-            this.lineNum++;
+            lineNum++;
         }
     }
 
