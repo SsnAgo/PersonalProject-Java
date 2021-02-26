@@ -50,7 +50,22 @@ function countChar(data) {
  * @param {string} data 
  */
 function countWord(data) {
-    return 2;
+    let words = data.split(/[^A-Za-z0-9]/);
+    // console.log(words);
+    for(let i=0; i<words.length; i++) {
+        // console.log(words[i]);
+        if(words[i].length<4) {
+            words.splice(i, 1);
+            i--;
+        }
+        const reg = new RegExp("^[a-zA-Z]{4}");
+        if(!reg.test(words[i])) {
+            words.splice(i, 1);
+            i--;
+        }
+    }
+    // console.log(words);
+    return words.length;
 }
 
 /**

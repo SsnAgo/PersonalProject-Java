@@ -17,6 +17,9 @@ console.log(fileData);
 // count charactor
 console.log(tool.countChar(fileData));
 
+// count words
+console.log(tool.countWord(fileData));
+
 // write file
 let outData = "test output"
 let writeSuccess = tool.writeFile(outUrl, outData);
