@@ -20,6 +20,14 @@ public class Lib {
 
     private Pattern wordPattern = Pattern.compile("[A-Za-z]{4}\\S*");
 
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     public int getCharNum() {
         return charNum;
     }
@@ -68,6 +76,22 @@ public class Lib {
             this.charNum = charNum;
             this.wordNum = wordNum;
             this.topWord = topWord;
+            throw e;
+        }
+    }
+
+    /**
+     * process character
+     */
+    public void processChar() throws IOException {
+        int charNum = this.charNum;
+        this.charNum = 0;
+        try {
+            readFileByLine(this::lineChar);
+            this.charNum--;
+        } catch (IOException e) {
+            // restore
+            this.charNum = charNum;
             throw e;
         }
     }
