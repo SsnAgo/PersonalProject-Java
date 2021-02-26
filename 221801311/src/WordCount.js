@@ -12,24 +12,35 @@ let tool = require('./Lib');
 
 // read file
 let fileData = tool.readFile(inUrl);
-console.log(fileData);
+// console.log(fileData);
 
 // count charactor
-console.log(tool.countChar(fileData));
+let charactorSize = tool.countChar(fileData);
+// console.log(tool.countChar(fileData));
 
 // count word
-console.log(tool.countWord(fileData));
+let wordSize = tool.countWord(fileData);
+// console.log(tool.countWord(fileData));
 
 // count line
-console.log(tool.countValidLine(fileData));
+let lineSize = tool.countValidLine(fileData);
+// console.log(tool.countValidLine(fileData));
 
 // count top occur
-console.log(tool.countTopOccur(fileData));
+let topOccur = tool.countTopOccur(fileData);
+// console.log(tool.countTopOccur(fileData));
+
+// generate output
+let outData = "characters: " + charactorSize;
+outData += "\nwords: " + wordSize;
+outData += "\nlines: " + lineSize;
+for(let i=0; i<topOccur.length; i++) {
+    outData += "\n" + topOccur[i].words + ": " + topOccur[i].frequency;
+}
+console.log(outData);
 
 // write file
-let outData = "test output"
 let writeSuccess = tool.writeFile(outUrl, outData);
-// console.log(writeSuccess);
 if(!writeSuccess) {
     return;
 }
