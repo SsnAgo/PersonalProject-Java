@@ -1,5 +1,3 @@
-import com.sun.istack.internal.NotNull;
-
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +10,7 @@ import java.util.regex.Pattern;
 public class Lib {
 
     private String inFile;
+    private String outFile;
     private int charNum;
     private int wordNum;
     private int lineNum;
@@ -19,6 +18,14 @@ public class Lib {
 
     private Pattern wordPattern = Pattern.compile("(^|\\s)[A-Za-z]{4}\\S*");
     private Pattern linePattern = Pattern.compile("(^|\n)\\s*\\S+");
+
+    public String getOutFile() {
+        return outFile;
+    }
+
+    public void setOutFile(String outFile) {
+        this.outFile = outFile;
+    }
 
     public int getLineNum() {
         return lineNum;
@@ -45,20 +52,10 @@ public class Lib {
         return new HashMap<>(topWord);
     }
 
-    public Lib(String inFile) throws IOException {
-        this(inFile, false);
-    }
-
-    /**
-     * @param start start process text immediately
-     */
-    public Lib(String inFile, Boolean start) throws IOException {
+    public Lib(String inFile, String outFile) throws IOException {
         this.inFile = inFile;
-        if (start) {
-            process();
-        }
+        this.outFile = outFile;
     }
-
     /**
      * process all data
      */
@@ -193,12 +190,20 @@ public class Lib {
     }
 
     /**
-     * callback after read a line successfully
+     * write data to file in a hard-encoding format
      */
-    private interface OnLineReadListener {
-        /**
-         * @param line successful read line(without line-termination characters)
-         */
-        void onRead(@NotNull String line);
+    public void output() throws IOException {
+        BufferedWriter writer = new BufferedWriter(
+                new FileWriter(outFile)
+        );
+        writer.write("characters: " + charNum + "\n");
+        writer.write("words: " + wordNum + "\n");
+        writer.write("lines: " + lineNum + "\n");
+        for (Map.Entry<String, Integer> entry : topWord.entrySet()) {
+            String s = entry.getKey();
+            Integer integer = entry.getValue();
+            writer.write(s + ": " + integer + "\n");
+        }
+        writer.close();
     }
 }

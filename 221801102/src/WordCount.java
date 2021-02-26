@@ -8,7 +8,7 @@ public class WordCount {
         }
         String input = args[0];
         String output = args[1];
-        Lib analyser = new Lib(input);
+        Lib analyser = new Lib(input, output);
         analyser.process();
 
         // 全部处理
@@ -36,5 +36,7 @@ public class WordCount {
         analyser.getTopWord().forEach((s, integer) -> {
             System.out.println(s + " " + integer);
         });
+
+        analyser.output();
     }
 }
