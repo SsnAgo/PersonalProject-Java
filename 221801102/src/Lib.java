@@ -3,6 +3,10 @@ import com.sun.istack.internal.NotNull;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Text file analyser
@@ -10,18 +14,90 @@ import java.io.IOException;
 public class Lib {
 
     private String filename;
+    private int charNum;
+    private int wordNum;
+    private Map<String, Integer> topWord;
 
-    public Lib(String filename) {
+    private Pattern wordPattern = Pattern.compile("[A-Za-z]{4}\\S*");
+
+    public int getCharNum() {
+        return charNum;
+    }
+
+    public int getWordNum() {
+        return wordNum;
+    }
+
+    public Map<String, Integer> getTopWord() {
+        // clone a map to prevent modification of the resulted map
+        return new HashMap<>(topWord);
+    }
+
+    public Lib(String filename) throws IOException {
+        this(filename, false);
+    }
+
+    /**
+     * @param start start process text immediately
+     */
+    public Lib(String filename, Boolean start) throws IOException {
         this.filename = filename;
+        if (start) {
+            process();
+        }
+    }
+
+    /**
+     * process all data
+     */
+    public void process() throws IOException {
+        int charNum = this.charNum;
+        int wordNum = this.wordNum;
+        Map<String, Integer> topWord = this.topWord;
+        this.charNum = 0;
+        this.wordNum = 0;
+        this.topWord = new HashMap<>();
+        try {
+            readFileByLine(line -> {
+                lineChar(line);
+                lineWord(line);
+            });
+            this.charNum--;
+        } catch (IOException e) {
+            // restore
+            this.charNum = charNum;
+            this.wordNum = wordNum;
+            this.topWord = topWord;
+            throw e;
+        }
+    }
+
+    private void lineWord(String line) {
+        Matcher matcher = wordPattern.matcher(line);
+        int ret = 0;
+        while (matcher.find()) {
+            String word = matcher.group(ret);
+            Integer count = topWord.get(word);
+            if (count == null) {
+                count = 0;
+            }
+            topWord.put(matcher.group(ret), count + 1);
+            ret++;
+        }
+        wordNum += ret;
+    }
+
+    private void lineChar(String line) {
+        // +1换行符
+        charNum += line.length() + 1;
     }
 
     /**
      * Read text file by line
-     * TODO make private
      *
      * @param l callback after read a line successfully
      */
-    public void readFileByLine(final OnLineReadListener l) throws IOException {
+    private void readFileByLine(final OnLineReadListener l) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         try {
             String line;
