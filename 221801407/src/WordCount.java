@@ -1,5 +1,5 @@
 class WordCount{
-public static void main(String[]args){
+    public static void main(String[]args){
         System.out.println("HelloWorld");
         //System.out.println(args.length);
         //String inputFile = args[0];
@@ -8,7 +8,8 @@ public static void main(String[]args){
         String inputFile = "input.txt";
         String outputFile = "output.txt";
         Lib lib = new Lib(inputFile,outputFile);
-        lib.readFile();
-        System.out.println(lib.countChar);
+        System.out.println("characters:"+lib.getCountChar());
+        System.out.println("words:");
+        System.out.println("lines:"+lib.getCountLine());
     }
 }

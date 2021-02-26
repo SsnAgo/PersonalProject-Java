@@ -13,20 +13,38 @@ class Lib{
         this.inputFile = inputFile;
         this.outputFile = outputFile;
     }
-    void readFile(){
+    int getCountChar() {
         try {
             in = new InputStreamReader(new FileInputStream(inputFile));
             br = new BufferedReader(in);
-            int x ;
-            while((x=br.read())!=-1){
-                if(x>0&&x<255){
-                    System.out.println(x);
-                    countChar++;
-                }
+            int x;
+            while ((x = br.read()) != -1) {
+                countChar++;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        return countChar;
+    }
+    int getCountLine(){
+        try {
+            in = new InputStreamReader(new FileInputStream(inputFile));
+            br = new BufferedReader(in);
+            int x;
+            boolean isBlankLine = true;
+            while ((x = br.read()) != -1) {
+                countChar++;
+                if (x != 13 && x != 10) isBlankLine = false;
+                else if (x == 10 && !isBlankLine) {
+                    countLine++;
+                    isBlankLine = true;
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return countLine;
     }
     void writeFile(){
 
