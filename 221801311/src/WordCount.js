@@ -23,6 +23,9 @@ console.log(tool.countWord(fileData));
 // count line
 console.log(tool.countValidLine(fileData));
 
+// count top occur
+console.log(tool.countTopOccur(fileData));
+
 // write file
 let outData = "test output"
 let writeSuccess = tool.writeFile(outUrl, outData);
