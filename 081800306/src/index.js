@@ -7,6 +7,7 @@ const symbol = /[\n\r]+/
 const asciiRex = /[\x00-\xff]+/
 const wordRex = /[A-Za-z]{4,}[\'\-]?[A-Za-z0-9]*/gi
 let wordCount = 0
+let restCount = 0
 let lineBreaks = 0
 let rows = 0
 let data = fs.readFileSync('a.txt',{encoding: 'utf8'})
@@ -15,7 +16,7 @@ let arr = data.split('')
 
 
 
-arr = arr.filter(word => {
+arr = arr.map(word => {
   // return !han.test(word)
   // if(asciiRex.test(word)){
   //   console.log(word);
@@ -23,17 +24,22 @@ arr = arr.filter(word => {
   if(symbol.test(word)){
     lineBreaks++
   }
-  return !han.test(word) && !symbol.test(word) && asciiRex.test(word)
+  if(!han.test(word) && !symbol.test(word) && asciiRex.test(word)){
+    return word
+  }else{
+    restCount++
+    return " "
+  }
 })
 let res = arr.join('')
-
+console.log(res);
 let str = res.match(wordRex)
 rows = lineBreaks/2 + 1
 wordCount = arr.length + rows-1
 // console.log(countNum(str)); 
 
 message = {
-  characters: wordCount,
+  characters: wordCount-restCount,
   words: str.length,
   lines: rows,
   ...countNum(str)

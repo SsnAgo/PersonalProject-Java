@@ -1,1 +1,1 @@
-{"characters":81,"words":13,"lines":3,"bird":5,"today":3,"helllo":2}
+{"characters":22,"words":4,"lines":3,"iuyhu":1,"werer":1,"werf":1}
