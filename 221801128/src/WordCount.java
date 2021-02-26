@@ -15,12 +15,13 @@ import java.util.Scanner;
 public class WordCount {
 	static String inputfile;
 	static String outputfile;
-	//static String[] words;
+
 	static ArrayList<String> words = new ArrayList<String>();
 	static ArrayList<Integer> value = new ArrayList<Integer>();
+	
 	static int count = 0;
-	//static int[] value;
 	static int num = 0;
+	
 	public static void main(String[] args) throws IOException{
 		Scanner in = new Scanner(System.in);
 		String input = in.nextLine();
@@ -40,18 +41,15 @@ public class WordCount {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//words = new String[100];
-		//value = new int[100];
+		
 		int readline;
 		int len = 0;
 		String word = "";
 		int x = 0;//前一位是数字变1
 		int numOfLine = 1;
-//		while(br.readLine()!=null) {
-//			numOfLine++;
-//		}
+		
 		while((readline = br.read())!= -1) {
-			char c = toLower((char)readline);
+			char c =Lib.toLower((char)readline);
 			if(!String.valueOf(c).matches("[\u4e00-\u9fa5]")) {
 				num++;
 			}
@@ -90,7 +88,7 @@ public class WordCount {
 						len+=1;
 					}
 					else {
-						towords(word);
+						Lib.towords(word,words,value);
 						word = "";
 						len = 0;
 						x = 0;
@@ -108,28 +106,27 @@ public class WordCount {
 					}
 				}
 				else if(!((c>='a' && c<='z')||(c>=0 && c<=9))) {
-					towords(word);
+					Lib.towords(word,words,value);
 					word = "";
 					len = 0;
 					x = 0;
 				}
 			}
-				
-			
 		}
-		if(readline == -1) {
-			towords(word);
+		if(readline == -1 && len>=4) {
+			Lib.towords(word,words,value);
 		}
 		br.close();
 		System.out.println(num);//输出总字符数
-		sortWords(words,value);//排序从大到小
+		Lib.sortWords(words,value);//排序从大到小
 		for(int i = 0;i<words.size();i++) {
 			if(i>=10) {
 				break;
 			}
 			System.out.println(words.get(i).toString()+""+":"+value.get(i));
 		}
-
+		
+		//写入指定文件
 		Path path1 = Paths.get(outputfile);
 		BufferedWriter writer = Files.newBufferedWriter(path1, StandardCharsets.UTF_8);
 		writer.write("字符数:"+num+"\n");//写入总字符数
@@ -143,53 +140,6 @@ public class WordCount {
 			writer.write(words.get(i).toString()+""+":"+value.get(i)+"\n");
 		}
 		writer.close();   
-		
-//		catch(IndexOutOfBoundsException e) {
-//			e.printStackTrace();
-//		}
-
-	}
-	public static char toLower(char ch){
-		if(ch >= 'A' && ch <= 'Z'){
-			return (char) ((ch-'A')+'a');
-		} 
-		return ch;
-	}
-	public static void towords(String word) {
-		int m = 0;
-		if(!word.equals(null)) {
-			for(int i = 0;i<words.size();i++) {
-				if(word.equals(words.get(i).toString())) {
-					int y = (int)value.get(i) + 1;
-					value.set(i, y);
-					m = 1;
-				}
-			}
-			if(m == 0) {
-				words.add(word);
-				value.add(1);
-//				words[count] = word;
-//				value[count] = 1;
-			}
-		}
-		
-	}
-	
-	public static void sortWords(ArrayList<String> words,ArrayList<Integer> value) {
-		for(int i = 0;i<words.size()-1;i++) {
-			for(int j = 1;j<words.size();j++) {
-				if(value.get(i)<value.get(j)) {
-					int x = value.get(i);
-					int y = value.get(j);
-					value.set(j, x);
-					value.set(i, y);
-					String word1 = words.get(i).toString();
-					String word2 = words.get(j).toString();
-					words.set(j, word1);
-					words.set(i, word2);
-				}
-			}
-		}
 	}
 }
 
