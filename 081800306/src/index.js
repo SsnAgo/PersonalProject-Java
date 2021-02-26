@@ -63,7 +63,7 @@ function countNum(arr){
     }
   })
   arr.forEach( item => {
-    proxy[item]++;
+    proxy[item.toLowerCase()]++;
   });
   let data = []
   for (const key in obj) {
