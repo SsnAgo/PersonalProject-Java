@@ -18,8 +18,12 @@ public class WordCount {
             System.out.println(s + " " + integer);
         });
 
-        // 单独处理字符
-        analyser.processChar();
+        // 单独处理字符数
+        analyser.processCharNum();
         System.out.println(analyser.getCharNum());
+
+        // 单独处理单词数
+        analyser.processWordNum();
+        System.out.println(analyser.getWordNum());
     }
 }

@@ -83,7 +83,7 @@ public class Lib {
     /**
      * process character
      */
-    public void processChar() throws IOException {
+    public void processCharNum() throws IOException {
         int charNum = this.charNum;
         this.charNum = 0;
         try {
@@ -92,6 +92,23 @@ public class Lib {
         } catch (IOException e) {
             // restore
             this.charNum = charNum;
+            throw e;
+        }
+    }
+
+    public void processWordNum() throws IOException {
+        int wordNum = this.wordNum;
+        this.wordNum = 0;
+        try {
+            readFileByLine(line -> {
+                Matcher matcher = wordPattern.matcher(line);
+                while (matcher.find()) {
+                    this.wordNum++;
+                }
+            });
+        } catch (IOException e) {
+            // restore
+            this.wordNum = wordNum;
             throw e;
         }
     }
