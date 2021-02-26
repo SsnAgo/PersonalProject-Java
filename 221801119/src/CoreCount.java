@@ -65,10 +65,9 @@ public class CoreCount {
 							else {
 								if(!"".equals(word)) {									
 									if(isProperWord(word)) {
+										wordCount += 1;
 										word = word.toLowerCase();
-										System.out.print(word+" is a word.\n");
 										if(wordsMap.get(word) == null) {
-											wordCount += 1;
 											wordsMap.put(word, 1);
 										}
 										else {
