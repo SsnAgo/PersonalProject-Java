@@ -5,7 +5,8 @@ import java.util.Scanner;
 public interface WordReader {
 	public String nextWord();
 	public boolean setInputStream(InputStream is);
-	public int getLineNumber();
-	public int getWordNumber();
-	public int getCharNumber();
+	public long getLineNumber();
+	public long getWordNumber();
+	public long getCharNumber();
+	public void clear();
 }

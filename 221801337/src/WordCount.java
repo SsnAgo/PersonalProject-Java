@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.concurrent.ExecutionException;
 
 /*
 * JDK环境:	openjdk 14.0.2 2020-07-14
@@ -8,6 +9,10 @@ public class WordCount {
 	public static void main(String[] args){
 		try{
 			int len=args.length;
+			if(len<1){
+				printInfo();
+				return;
+			}
 
 			File inputFile;
 			inputFile = new File(args[0]);
@@ -27,17 +32,18 @@ public class WordCount {
 			Core core = new Core();
 			core.setWordReader(wr);
 			core.start();
+//			HugeDataCore core = new HugeDataCore(inputFile,10);
+//			core.setCacheDir("./tmp");
+//			core.start();
 
 			PrintWriter pw = new PrintWriter(os);
 			pw.println(core.toString());
 			pw.close();
-//			System.out.println(core.toString());
-		}catch (ArrayIndexOutOfBoundsException e){
-			System.out.println("缺少参数");
-			printInfo();
-		} catch (FileNotFoundException e) {
+		}catch (FileNotFoundException e) {
 			System.out.println("无法打开文件");
 			printInfo();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

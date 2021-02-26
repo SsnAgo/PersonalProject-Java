@@ -3,8 +3,7 @@ import java.util.List;
 
 public class Core {
 	private WordReader wr;
-	private TrieTree tt=new TrieTree();
-	private List<String> list = new ArrayList<>();
+	private TopK topK = new TopK();
 
 	public Core(){
 
@@ -16,14 +15,15 @@ public class Core {
 		String s;
 
 		while ((s=wr.nextWord())!=null){
-			list.add(s);
-			tt.add(s);
+			topK.add(s);
 		}
 	}
 	public String next(){
 		String s = wr.nextWord();
-		tt.add(s);
 		return s;
+	}
+	public List<Node> getTopK(Long k){
+		return topK.topK(k);
 	}
 
 	public WordReader getWordReader() {
@@ -32,29 +32,32 @@ public class Core {
 	public void setWordReader(WordReader wr) {
 		this.wr = wr;
 	}
-	public int getCharNumber(){
+	public long getCharNumber(){
 		return wr.getCharNumber();
 	}
-	public int getWordNumber(){
+	public long getWordNumber(){
 		return wr.getWordNumber();
 	}
-	public int getLineNumber(){
+	public long getLineNumber(){
 		return wr.getLineNumber();
-	}
-	public TrieTree getTrieTree() {
-		return tt;
-	}
-
-	public void setTrieTree(TrieTree tt) {
-		this.tt = tt;
 	}
 
 	@Override
 	public String toString() {
 		StringBuffer res = new StringBuffer();
-		res.append("characters: " + wr.getCharNumber()+"\n" );
-		res.append("words: " + wr.getWordNumber() +"\n" );
-		res.append("lines: " + wr.getLineNumber()+"\n");
+		res.append("characters: " + getCharNumber()+"\n" );
+		res.append("words: " + getWordNumber() +"\n" );
+		res.append("lines: " + getLineNumber()+"\n");
+
+		List<Node> topK = getTopK(10L);
+		for (Node node : topK) {
+			res.append(node.string+": "+node.value+"\n");
+		}
 		return res.toString();
+	}
+	public void clear(){
+		if(wr!=null)
+			wr.clear();
+		topK.clear();
 	}
 }
