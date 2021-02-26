@@ -17,8 +17,11 @@ console.log(fileData);
 // count charactor
 console.log(tool.countChar(fileData));
 
-// count words
+// count word
 console.log(tool.countWord(fileData));
+
+// count line
+console.log(tool.countValidLine(fileData));
 
 // write file
 let outData = "test output"

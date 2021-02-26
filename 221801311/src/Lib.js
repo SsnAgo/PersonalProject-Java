@@ -41,12 +41,12 @@ function writeFile(fileUrl, output) {
  */
 function countChar(data) {
     let charArrat = data.split("");
-    console.log(charArrat);
+    // console.log(charArrat);
     return charArrat.length;
 }
 
 /**
- * count word quantity
+ * count total word
  * @param {string} data 
  */
 function countWord(data) {
@@ -54,7 +54,7 @@ function countWord(data) {
     // console.log(words);
     for(let i=0; i<words.length; i++) {
         // console.log(words[i]);
-        if(words[i].length<4) {
+        if(words[i].length < 4) {
             words.splice(i, 1);
             i--;
         }
@@ -73,7 +73,16 @@ function countWord(data) {
  * @param {string} data 
  */
 function countValidLine(data) {
-    return 0;
+    let lines = data.split("\n");
+    // console.log(lines);
+    for(let i=0; i<lines.length; i++) {
+        if(lines[i] == "") {
+            lines.splice(i, 1);
+            i--;
+        }
+    }
+    // console.log(lines);
+    return lines.length;
 }
 
 /**
