@@ -7,7 +7,6 @@ public class WordCount {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Lib lib = new Lib();
-		System.out.println(args.length);
 		if (args.length >= 2) {
 			try {
 				File inputFile = new File(args[0]);
@@ -18,6 +17,11 @@ public class WordCount {
 				//获取字符个数并输出
 				int characterNum = lib.statisticsCharacters(inputFile);
 				buffWriter.write("characters: " + characterNum);
+				buffWriter.newLine();
+				
+				//获取单词个数并输出
+				int wordNum = lib.statisticsWords(inputFile);
+				buffWriter.write("words: " + wordNum);
 				buffWriter.newLine();
 			}catch(IOException e) {
 				e.printStackTrace();
