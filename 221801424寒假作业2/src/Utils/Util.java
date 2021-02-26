@@ -3,8 +3,7 @@ package Utils;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +22,7 @@ public class Util {
     private static int word_num = 0;
     private static int char_num = 0;
     private static int line_num = 0;
-    private static HashMap map = new HashMap<>();
+    private static HashMap<String,Integer> map = new HashMap<String, Integer>();
 
 
     /**
@@ -97,7 +96,43 @@ public class Util {
     }
 
 
-    public static void main(String[] args) {
+    /**
+     * 4.通过map来统计单词的出现次数
+     * @param words
+     * @return
+     */
+    public static List mapNums(String words){
+        String[] temps = words.split("\\s+");
+        String regexs = "^[a-zA-Z]{4,}.*";
+        for (String i : temps) {
+            if (i.matches(regexs)) {
+                // map中不存在则新纪录
+                if (!map.containsKey(i.toLowerCase())) {
+                    map.put(i.toLowerCase(), 1);
+                } else {
+                    // 如果存在则num+1
+                    int num = (int)map.get(i.toLowerCase());
+                    map.put(i.toLowerCase(), num + 1);
+                }
+            }
+        }
+        List list = new ArrayList<>(map.entrySet());
+        // 构造匿名内部类
+        // 首先根据频率比较，如果频率相同，比较字典顺序
+        list.sort(new Comparator<Map.Entry>(){
+            @Override
+            public int compare(Map.Entry o1, Map.Entry o2) {
 
+                return (new Integer((Integer) o1.getValue())).compareTo((Integer) o2.getValue()) != 0 ? new Integer((Integer) o2.getValue()).compareTo((Integer) o1.getValue()) : ((String) o1.getKey()).compareTo((String) o2.getKey());
+            }
+        });
+        // 返回list 前十个 数据，也即出现的前十的高频词
+        return list.size() < 10 ? list.subList(0, list.size()) : list.subList(0, 10);
+    }
+
+
+
+    public static void main(String[] args) {
+        System.out.println(Util.mapNums("ssss444 563ff 11d fase11 windows95 windows98 windows2000"));
     }
 }
