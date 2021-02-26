@@ -33,7 +33,7 @@ public class WordCount {
 		File dir = new File("");
 		inputfile = dir.getCanonicalPath()+"\\"+inputfile;
 		outputfile = dir.getCanonicalPath()+"\\"+outputfile;
-		System.out.println(inputfile);
+		System.out.println("读取文件的地址："+inputfile);
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(inputfile));
@@ -46,15 +46,11 @@ public class WordCount {
 		int len = 0;
 		String word = "";
 		int x = 0;//前一位是数字变1
-		int numOfLine = 1;
 		
 		while((readline = br.read())!= -1) {
 			char c =Lib.toLower((char)readline);
 			if(!String.valueOf(c).matches("[\u4e00-\u9fa5]")) {
 				num++;
-			}
-			if(c == '\n') {
-				numOfLine++;
 			}
 			if(len<4) {
 				if(c>='a' && c<='z') {
@@ -117,7 +113,10 @@ public class WordCount {
 			Lib.towords(word,words,value);
 		}
 		br.close();
-		System.out.println(num);//输出总字符数
+		System.out.println("字符数:"+num);//输出总字符数
+		System.out.println("单词总数:"+Lib.countWords(value));
+		System.out.println("有效行数:"+Lib.countLines(new File(inputfile)));
+		System.out.println("单词的出现次数:（前十）");
 		Lib.sortWords(words,value);//排序从大到小
 		for(int i = 0;i<words.size();i++) {
 			if(i>=10) {
@@ -130,9 +129,9 @@ public class WordCount {
 		Path path1 = Paths.get(outputfile);
 		BufferedWriter writer = Files.newBufferedWriter(path1, StandardCharsets.UTF_8);
 		writer.write("字符数:"+num+"\n");//写入总字符数
-		writer.write("单词总数:"+words.size()+"\n");//写入单词总数
-		writer.write("有效行数:"+numOfLine+"\n");//写入总行数      
-		writer.write("单词的出现次数:"+"\n");
+		writer.write("单词总数:"+Lib.countWords(value)+"\n");//写入单词总数
+		writer.write("有效行数:"+Lib.countLines(new File(inputfile))+"\n");//写入总行数      
+		writer.write("单词的出现次数:（前十）"+"\n");
 		for(int i = 0;i<words.size();i++) {//写入频率前十的单词及频率
 			if(i>=10) {
 				break;

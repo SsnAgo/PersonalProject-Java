@@ -1,4 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Lib {
 	
@@ -42,4 +45,30 @@ public class Lib {
 			}
 		}
 	}
+	
+	public static int countWords(ArrayList<Integer> value) {//统计总单词数
+		int countnum = 0;
+		for(int i = 0;i<value.size();i++) {
+			countnum+=value.get(i);
+		}
+		return countnum;
+	}
+	
+	   public static int countLines(File file) {//统计有效行数
+	        int countline = 0;
+	        try {
+	            Scanner in = new Scanner(file);
+	            while (in.hasNextLine()) {
+	                String str = in.nextLine();
+	                if (!str.equals("")) {
+	                    countline++;
+	                }
+	            }
+	            in.close();
+	        } catch (FileNotFoundException e) {
+	            System.out.println("读取失败");
+	            e.printStackTrace();
+	        }
+	        return countline;
+	    }
 }
