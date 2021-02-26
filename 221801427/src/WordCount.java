@@ -17,6 +17,7 @@ public class WordCount
     private static String outputFileName;
     private static String content = new String();
     private int charCnt = 0;
+    private int wordCnt = 0;
     private int lineCnt = 0;
 
     public WordCount(String inputFileName, String outputFileName)
@@ -30,12 +31,13 @@ public class WordCount
         InputStreamReader isr = null;
         BufferedReader bf = null;
         String line;
-        
+
         try
         {
             isr = new InputStreamReader(new FileInputStream(inputFileName));
             bf = new BufferedReader(isr);
             StringBuffer contents = new StringBuffer();
+            String regex = "[^0-9A-Za-z]";
 
             line = bf.readLine();
             while (line != null)
@@ -51,9 +53,10 @@ public class WordCount
                     contents.append("\n");
                 }
             }
-            content = contents.toString();
+            content = contents.toString().toLowerCase().replaceAll(regex, "|");
 
             charCnt = CharCounter.countChar(content);
+            wordCnt = WordCounter.countWord(content);
 
             bf.close();
             isr.close();
@@ -71,7 +74,7 @@ public class WordCount
 
     public void Print()
     {
-        FilePrinter.writeFile(charCnt, lineCnt, outputFileName);
+        FilePrinter.writeFile(charCnt, wordCnt, lineCnt, outputFileName);
     }
 
     public static void main(String[] args)
