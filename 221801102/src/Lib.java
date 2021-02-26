@@ -63,81 +63,53 @@ public class Lib {
      * process all data
      */
     public void process() throws IOException {
-        int charNum = this.charNum;
-        int wordNum = this.wordNum;
-        int lineNum = this.lineNum;
-        Map<String, Integer> topWord = this.topWord;
         this.charNum = 0;
         this.wordNum = 0;
         this.lineNum = 0;
         this.topWord = new HashMap<>();
-        try {
-            String str = readFile();
-            this.charNum = str.length();
-            Matcher matcher = linePattern.matcher(str);
-            while (matcher.find()) {
-                this.lineNum++;
-            }
-            matcher = wordPattern.matcher(str);
-            while (matcher.find()) {
-                String word = matcher.group(0).trim();
-                Integer count = this.topWord.get(word);
-                if (count == null) {
-                    count = 0;
-                }
-                this.topWord.put(word, count + 1);
-                this.wordNum++;
-            }
-            this.topWord = this.topWord.entrySet().stream()
-                .sorted(
-                    Map.Entry.<String, Integer>comparingByValue()
-                        .reversed()
-                        .thenComparing(Map.Entry.comparingByKey()))
-                .limit(10)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
-        } catch (IOException e) {
-            // restore
-            this.charNum = charNum;
-            this.wordNum = wordNum;
-            this.topWord = topWord;
-            this.lineNum = lineNum;
-            throw e;
+        String str = readFile();
+        this.charNum = str.length();
+        Matcher matcher = linePattern.matcher(str);
+        while (matcher.find()) {
+            this.lineNum++;
         }
+        matcher = wordPattern.matcher(str);
+        while (matcher.find()) {
+            String word = matcher.group(0).trim();
+            Integer count = this.topWord.get(word);
+            if (count == null) {
+                count = 0;
+            }
+            this.topWord.put(word, count + 1);
+            this.wordNum++;
+        }
+        this.topWord = this.topWord.entrySet().stream()
+            .sorted(
+                Map.Entry.<String, Integer>comparingByValue()
+                    .reversed()
+                    .thenComparing(Map.Entry.comparingByKey()))
+            .limit(10)
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
 
     /**
      * process character
      */
     public void processCharNum() throws IOException {
-        int charNum = this.charNum;
         this.charNum = 0;
-        try {
-            String str = readFile();
-            this.charNum = str.length();
-        } catch (IOException e) {
-            // restore
-            this.charNum = charNum;
-            throw e;
-        }
+        String str = readFile();
+        this.charNum = str.length();
     }
 
     /**
      * process the number of words
      */
     public void processWordNum() throws IOException {
-        int wordNum = this.wordNum;
         this.wordNum = 0;
-        try {
-            String str = readFile();
-            Matcher matcher = wordPattern.matcher(str);
-            while (matcher.find()) {
-                this.wordNum++;
-            }
-        } catch (IOException e) {
-            // restore
-            this.wordNum = wordNum;
-            throw e;
+        String str = readFile();
+        Matcher matcher = wordPattern.matcher(str);
+        while (matcher.find()) {
+            this.wordNum++;
         }
     }
 
@@ -145,47 +117,34 @@ public class Lib {
      * process the top 10 number of occurrence of words
      */
     public void processWordRank() throws IOException {
-        Map<String, Integer> topWord = this.topWord;
         this.topWord = new HashMap<>();
-        try {
-            String str = readFile();
+        String str = readFile();
 
-            Matcher matcher = wordPattern.matcher(str);
-            while (matcher.find()) {
-                String word = matcher.group(0).trim();
-                Integer count = this.topWord.get(word);
-                if (count == null) {
-                    count = 0;
-                }
-                this.topWord.put(word, count + 1);
+        Matcher matcher = wordPattern.matcher(str);
+        while (matcher.find()) {
+            String word = matcher.group(0).trim();
+            Integer count = this.topWord.get(word);
+            if (count == null) {
+                count = 0;
             }
-            this.topWord = this.topWord.entrySet().stream()
-                .sorted(
-                    Map.Entry.<String, Integer>comparingByValue()
-                        .reversed()
-                        .thenComparing(Map.Entry.comparingByKey()))
-                .limit(10)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-        } catch (IOException e) {
-            // restore
-            this.topWord = topWord;
-            throw e;
+            this.topWord.put(word, count + 1);
         }
+        this.topWord = this.topWord.entrySet().stream()
+            .sorted(
+                Map.Entry.<String, Integer>comparingByValue()
+                    .reversed()
+                    .thenComparing(Map.Entry.comparingByKey()))
+            .limit(10)
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
     }
 
     public void processLineNum() throws IOException {
-        int lineNum = this.lineNum;
         this.lineNum = 0;
-        try {
-            String str = readFile();
-            Matcher matcher = linePattern.matcher(str);
-            while (matcher.find()) {
-                this.lineNum++;
-            }
-        } catch (IOException e) {
-            // restore
-            this.lineNum = lineNum;
-            throw e;
+        String str = readFile();
+        Matcher matcher = linePattern.matcher(str);
+        while (matcher.find()) {
+            this.lineNum++;
         }
     }
 
