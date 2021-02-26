@@ -12,11 +12,16 @@ public class WordCount {
         analyser.process();
 
         // 全部处理
+        System.out.println(analyser.getLineNum());
         System.out.println(analyser.getCharNum());
         System.out.println(analyser.getWordNum());
         analyser.getTopWord().forEach((s, integer) -> {
             System.out.println(s + " " + integer);
         });
+
+        // 单独处理行数
+        analyser.processLineNum();
+        System.out.println(analyser.getLineNum());
 
         // 单独处理字符数
         analyser.processCharNum();

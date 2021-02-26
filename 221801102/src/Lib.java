@@ -1,8 +1,6 @@
 import com.sun.istack.internal.NotNull;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -13,19 +11,25 @@ import java.util.regex.Pattern;
  */
 public class Lib {
 
-    private String filename;
+    private String inFile;
     private int charNum;
     private int wordNum;
+    private int lineNum;
     private Map<String, Integer> topWord;
 
-    private Pattern wordPattern = Pattern.compile("[A-Za-z]{4}\\S*");
+    private Pattern wordPattern = Pattern.compile("(^|\\s)[A-Za-z]{4}\\S*");
+    private Pattern linePattern = Pattern.compile("(^|\n)\\s*\\S+");
 
-    public String getFilename() {
-        return filename;
+    public int getLineNum() {
+        return lineNum;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public String getInFile() {
+        return inFile;
+    }
+
+    public void setInFile(String inFile) {
+        this.inFile = inFile;
     }
 
     public int getCharNum() {
@@ -41,15 +45,15 @@ public class Lib {
         return new HashMap<>(topWord);
     }
 
-    public Lib(String filename) throws IOException {
-        this(filename, false);
+    public Lib(String inFile) throws IOException {
+        this(inFile, false);
     }
 
     /**
      * @param start start process text immediately
      */
-    public Lib(String filename, Boolean start) throws IOException {
-        this.filename = filename;
+    public Lib(String inFile, Boolean start) throws IOException {
+        this.inFile = inFile;
         if (start) {
             process();
         }
@@ -61,21 +65,36 @@ public class Lib {
     public void process() throws IOException {
         int charNum = this.charNum;
         int wordNum = this.wordNum;
+        int lineNum = this.lineNum;
         Map<String, Integer> topWord = this.topWord;
         this.charNum = 0;
         this.wordNum = 0;
+        this.lineNum = 0;
         this.topWord = new HashMap<>();
         try {
-            readFileByLine(line -> {
-                lineChar(line);
-                lineWord(line);
-            });
-            this.charNum--;
+            String str = readFile();
+            this.charNum = str.length();
+            Matcher matcher = linePattern.matcher(str);
+            while (matcher.find()) {
+                this.lineNum++;
+            }
+            matcher = wordPattern.matcher(str);
+            while (matcher.find()) {
+                String word = matcher.group(0).trim();
+                Integer count = this.topWord.get(word);
+                if (count == null) {
+                    count = 0;
+                }
+                this.topWord.put(word, count + 1);
+                this.wordNum++;
+            }
+
         } catch (IOException e) {
             // restore
             this.charNum = charNum;
             this.wordNum = wordNum;
             this.topWord = topWord;
+            this.lineNum = lineNum;
             throw e;
         }
     }
@@ -87,8 +106,8 @@ public class Lib {
         int charNum = this.charNum;
         this.charNum = 0;
         try {
-            readFileByLine(this::lineChar);
-            this.charNum--;
+            String str = readFile();
+            this.charNum = str.length();
         } catch (IOException e) {
             // restore
             this.charNum = charNum;
@@ -103,12 +122,11 @@ public class Lib {
         int wordNum = this.wordNum;
         this.wordNum = 0;
         try {
-            readFileByLine(line -> {
-                Matcher matcher = wordPattern.matcher(line);
-                while (matcher.find()) {
-                    this.wordNum++;
-                }
-            });
+            String str = readFile();
+            Matcher matcher = wordPattern.matcher(str);
+            while (matcher.find()) {
+                this.wordNum++;
+            }
         } catch (IOException e) {
             // restore
             this.wordNum = wordNum;
@@ -123,19 +141,17 @@ public class Lib {
         Map<String, Integer> topWord = this.topWord;
         this.topWord = new HashMap<>();
         try {
-            readFileByLine(line -> {
-                Matcher matcher = wordPattern.matcher(line);
-                int index = 0;
-                while (matcher.find()) {
-                    String word = matcher.group(index);
-                    Integer count = this.topWord.get(word);
-                    if (count == null) {
-                        count = 0;
-                    }
-                    this.topWord.put(matcher.group(index), count + 1);
-                    index++;
+            String str = readFile();
+
+            Matcher matcher = wordPattern.matcher(str);
+            while (matcher.find()) {
+                String word = matcher.group(0).trim();
+                Integer count = this.topWord.get(word);
+                if (count == null) {
+                    count = 0;
                 }
-            });
+                this.topWord.put(word, count + 1);
+            }
         } catch (IOException e) {
             // restore
             this.topWord = topWord;
@@ -143,53 +159,46 @@ public class Lib {
         }
     }
 
-    private void lineWord(String line) {
-        Matcher matcher = wordPattern.matcher(line);
-        int ret = 0;
-        while (matcher.find()) {
-            String word = matcher.group(ret);
-            Integer count = topWord.get(word);
-            if (count == null) {
-                count = 0;
-            }
-            topWord.put(matcher.group(ret), count + 1);
-            ret++;
-        }
-        wordNum += ret;
-    }
-
-    private void lineChar(String line) {
-        // +1换行符
-        charNum += line.length() + 1;
-    }
-
-    /**
-     * Read text file by line
-     *
-     * @param l callback after read a line successfully
-     */
-    private void readFileByLine(final OnLineReadListener l) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
+    public void processLineNum() throws IOException {
+        int lineNum = this.lineNum;
+        this.lineNum = 0;
         try {
-            String line;
-            while (true) {
-                line = reader.readLine();
-                if (line == null) break;
-                l.onRead(line);
+            String str = readFile();
+            Matcher matcher = linePattern.matcher(str);
+            while (matcher.find()) {
+                this.lineNum++;
+            }
+        } catch (IOException e) {
+            // restore
+            this.lineNum = lineNum;
+            throw e;
+        }
+    }
+
+    private String readFile() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(inFile));
+        StringBuilder builder = new StringBuilder();
+        try {
+            int c;
+            while ((c = reader.read()) != -1) {
+                if (c != 13) {
+                    builder.append((char) c);
+                }
             }
         } catch (IOException e) {
             reader.close();
             throw e;
         }
+        return builder.toString();
     }
 
     /**
      * callback after read a line successfully
      */
-    interface OnLineReadListener {
+    private interface OnLineReadListener {
         /**
          * @param line successful read line(without line-termination characters)
          */
-        public void onRead(@NotNull String line);
+        void onRead(@NotNull String line);
     }
 }
