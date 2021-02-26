@@ -19,20 +19,10 @@ public class WordCount {
             System.out.println(s + " " + integer);
         });
 
-        // 单独处理行数
-        analyser.processLineNum();
-        System.out.println(analyser.getLineNum());
+        // analyser.output();
+    }
 
-        // 单独处理字符数
-        analyser.processCharNum();
-        System.out.println(analyser.getCharNum());
+    public static void makeInput() {
 
-        // 单独处理单词频率top10
-        analyser.processWord();
-        analyser.getTopWord().forEach((s, integer) -> {
-            System.out.println(s + " " + integer);
-        });
-
-        analyser.output();
     }
 }

@@ -18,7 +18,7 @@ public class Lib {
     private int lineNum;
     private Map<String, Integer> topWord;
 
-    private Pattern wordPattern = Pattern.compile("(^|\\s)[A-Za-z]{4}\\S*");
+    private Pattern wordPattern = Pattern.compile("(^|[^A-Za-z0-9])([A-Za-z]{4}[A-Za-z0-9]*)");
     private Pattern linePattern = Pattern.compile("(^|\n)\\s*\\S+");
 
     public String getOutFile() {
@@ -95,7 +95,7 @@ public class Lib {
         wordNum = 0;
         Matcher matcher = wordPattern.matcher(str);
         while (matcher.find()) {
-            String word = matcher.group(0).trim();
+            String word = matcher.group(2);
             Integer count = topWord.get(word);
             if (count == null) {
                 count = 0;
