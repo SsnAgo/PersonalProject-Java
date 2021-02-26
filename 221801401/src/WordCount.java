@@ -11,7 +11,10 @@ public class WordCount {
 		
 	}*/
 	public static void main(String[] args) {
-		if(args.length < 2) {
+		Lib.writeToFile(Lib.getCharactersCount("D://test.txt"), 
+				Lib.getWordsCount("D://test.txt"), 
+				Lib.getLineCount("D://test.txt"), "D://test2.txt");
+	/*	if(args.length < 2) {
 			System.out.println("参数不足两个，请重新运行");
 		}
 		else {
@@ -19,6 +22,6 @@ public class WordCount {
 			Lib.writeToFile(Lib.getCharactersCount(wordcount.inputPath), 
 					Lib.getWordsCount(wordcount.inputPath), 
 					Lib.getLineCount(wordcount.inputPath), wordcount.outputPath);
-		}
+		}*/
 	}
 }

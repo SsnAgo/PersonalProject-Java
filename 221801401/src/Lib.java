@@ -10,13 +10,17 @@ import java.util.regex.Pattern;
  * 
  * */
 public class Lib {
-    private static String WORDS_RE = "(?<=[^a-zA-Z0-9])[a-zA-Z]{4,}[a-zA-Z0-9]*";
+	//单词正则表达式
+    private static String WORDS_RE = "[a-zA-Z]{4,}[a-zA-Z0-9]*";
+    //分隔符正则表达式
+    private static String BREAK_RE = "[^a-zA-Z0-9]";
     
     //获取当前工程的路径
     public static String DIR = System.getProperty("user.dir");
     
     //Map表用于存放单词以及相对应的个数
     private static Map<String, Integer> wordsMap = new HashMap<String, Integer>();
+    
     
     
     /*
@@ -132,6 +136,8 @@ public class Lib {
 	        isr = new InputStreamReader(is);
 	        br = new BufferedReader(isr);
 	        while((str = br.readLine()) != null) {
+	        	
+	        	/*旧的判断方式
 	            Pattern pattern = Pattern.compile(WORDS_RE);
 	            Matcher matcher = pattern.matcher(str);
 	            while(matcher.find()) {
@@ -145,7 +151,23 @@ public class Lib {
 	            		wordsMap.put(temp, 1);
 	            	}
 	                count++;
-	            }
+	            }*/
+	        	
+	        	//新的判断方式
+	        	String[] strs = str.split(BREAK_RE);
+	        	for(int i = 0; i < strs.length; i++) {
+	        		if(strs[i].matches(WORDS_RE)) {
+	        			String temp = strs[i].toLowerCase();
+	        			if(wordsMap.containsKey(temp)) {
+	        				int num = wordsMap.get(temp);
+	        				wordsMap.put(temp, 1 + num);
+	        			}
+	        			else {
+	        				wordsMap.put(temp, 1);
+	        			}
+	        			count++;
+	        		}
+	        	}
 	        }
 	    }catch(FileNotFoundException e) {
 	    	e.printStackTrace();
