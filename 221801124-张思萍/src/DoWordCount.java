@@ -48,6 +48,43 @@ public class DoWordCount {
         return sum;
     }
 
+    //统计文件中各单词的出现次数并排序
+    public static List<Map.Entry<String, Integer>> sortWords(ArrayList<String> lines) throws IOException {
+        Map<String, Integer> map = new HashMap<>();
+        String line;
+        String[] words;
+        String tempWord;
+        for (int i = 0; i < lines.size(); i++) {
+            line = lines.get(i);
+            words = line.split("[^a-zA-Z0-9]+");
+            for (int j = 0; j < words.length; j++) {
+                char[] word = words[j].toCharArray();
+                if (isValidWord(word)) {
+                    tempWord = words[j].toLowerCase();
+                    if (!map.containsKey(tempWord)) {
+                        map.put(tempWord, Integer.valueOf(1));
+                    } else {
+                        map.put(tempWord, Integer.valueOf(map.get(tempWord).intValue() + 1));
+                    }
+                }
+            }
+        }
+        //通过ArrayList构造函数把map.entrySet()转换成list
+        List<Map.Entry<String, Integer>> mappingList = new ArrayList<>(map.entrySet());
+        //通过比较器实现比较排序
+        Collections.sort(mappingList, new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                if (o1.getValue().equals(o2.getValue())) {
+                    return o1.getKey().compareTo(o2.getKey());
+                } else {
+                    return o2.getValue().compareTo(o1.getValue());
+                }
+            }
+        });
+        return mappingList;
+    }
+
     //是否为有效单词
     public static boolean isValidWord(char[] word){
         if(word.length>=4&&isAlpha(word[0])&&isAlpha(word[1])&&isAlpha(word[2])&&isAlpha(word[3])){
