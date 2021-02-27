@@ -7,143 +7,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lib {
+    private static String FLITER_REGEX = "[^a-zA-Z0-9]";
     private static String WORD_REGEX = "[a-z]{4}[a-z0-9]*";
-    public static String FLITER_REGEX = "[^a-zA-Z0-9]";
-    private static String CHINESE_REGEX = "[\\u4e00-\\u9fa5]";
-    public static HashMap<String,Integer> wordMap = new HashMap<>();
-    /*
-     * @description 将文件读到 StringBuffer中
-     * @param stringBuffer filePath
-     * @return
-     * */
-    public static void readToBuffer(StringBuffer stringBuffer,String filePath) {
-        try {
-            InputStream is = new FileInputStream(filePath);
-            String line;
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-            line = reader.readLine();
-            while (line != null) {
-                stringBuffer.append(line);
-                stringBuffer.append("\n");
-                line = reader.readLine();
-            }
-            reader.close();
-            is.close();
-        } catch (IOException e) {
-            System.out.println("文件读取错误");
-            e.printStackTrace();
-        }
-
-    }
-    /*
-     * @description 将读取过文件的stringBuffer转换为string
-     * @param filePath
-     * @return String
-     * */
-    public static String readFile(String filePath) {
-        StringBuffer sb = new StringBuffer();
-        readToBuffer(sb, filePath);
-        return sb.toString();
-    }
-    /*
-     * @description 判断字符串中是否有中文
-     * @param str
-     * @return true or false
-     * */
-    public static boolean isContainChinese(String str) {
-        Pattern p = Pattern.compile(CHINESE_REGEX);
-        Matcher m = p.matcher(str);
-        return m.find();
-    }
-    /*
-     * @description 判断字符是否为中文字符
-     * @param c
-     * @return true of false
-     * */
-    public static boolean isChinese(char c) {
-        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
-        return ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
-                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
-                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
-                || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
-                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
-                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS;
-    }
-    /*
-     * @description 过滤字符串中的中文字符
-     * @param str
-     * @return String
-     * */
-    public static String filterChinese(String str) {
-        String result = str;
-        boolean flag = isContainChinese(str);
-        if (flag) {
-            StringBuffer sb = new StringBuffer();
-            boolean flag2 = false;
-            char chinese = 0;
-            char[] charArray = str.toCharArray();
-            for (int i = 0; i < charArray.length; i++) {
-                chinese = charArray[i];
-                flag2 = isChinese(chinese);
-                if (!flag2) {
-                    sb.append(chinese);
-                }
-            }
-            result = sb.toString();
-        }
-        return result;
-    }
-    /*
-     * @description 用于删除字符串中含有中文字符的单词
-     * @param str
-     * @return String
-     * */
-    public static String deleteChineseString(String str) {
-        StringBuffer sb = new StringBuffer();
-        StringTokenizer stringTokenizer = new StringTokenizer(str);
-        while (stringTokenizer.hasMoreTokens()) {
-            String word = stringTokenizer.nextToken();
-            if (!isContainChinese(word)) {
-                sb.append(word);
-                sb.append(" ");
-            }
-        }
-        return sb.toString();
-    }
-    /*
-     * @description 统计文件行数
-     * @param file
-     * @return count
-     * */
-    public static int countLines(File file) {
+    public static int countChars(String str) {
         int count = 0;
-        try {
-            Scanner sc = new Scanner(file);
-            while (sc.hasNextLine()) {
-                String str = sc.nextLine();
-                if (!"".equals(str)) {
-                    count++;
-                }
+        char[] c = str.toCharArray();
+        for (int i = 0;i<c.length;i++) {
+            if (c[i]<=127) {
+                //if (c[i]==9 || c[i]==10 || c[i]==13) System.out.println((int)c[i]);
+                count++;
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("文件读取失败");
-            e.printStackTrace();
         }
         return count;
     }
-    /*
-     * @description 将合法单词存入map中，并与单词总数绑定
-     * @param str
-     * @return pair
-     * */
-    public static Pair<HashMap<String,Integer>,Integer> makeWordPair(String str) {
-        int count = 0;
-        str = str.toLowerCase().replaceAll(FLITER_REGEX," ");
-        StringTokenizer words = new StringTokenizer(str);
-        while (words.hasMoreTokens()) {
-            String word = words.nextToken();
+    public static int countWords(String line,HashMap<String,Integer> wordMap) {
+        line = line.replaceAll(FLITER_REGEX," ").toLowerCase();
+        int cnt = 0;
+        StringTokenizer tmpWords = new StringTokenizer(line);
+        while (tmpWords.hasMoreTokens()) {
+            String word = tmpWords.nextToken();
             if (Pattern.matches(WORD_REGEX, word)) {
-                count++;
+                cnt++;
                 if (wordMap.containsKey(word)) {
                     wordMap.put(word, wordMap.get(word) + 1);
                 } else {
@@ -151,14 +35,9 @@ public class Lib {
                 }
             }
         }
-        return new Pair<>(wordMap,count);
+        return cnt;
     }
-    /*
-     * @description 将map中的单词按value大小，key字典序排序，
-     * @param
-     * @return list
-     * */
-    public static List<HashMap.Entry<String, Integer>> getSortedList() {
+    public static List<HashMap.Entry<String, Integer>> getSortedList(HashMap<String,Integer> wordMap) {
         List<HashMap.Entry<String, Integer>> wordList = new ArrayList<>(wordMap.entrySet());
         Comparator<Map.Entry<String, Integer>> cmp = (o1, o2) -> {
             if(o1.getValue().equals(o2.getValue()))
@@ -167,72 +46,5 @@ public class Lib {
         };
         wordList.sort(cmp);
         return wordList;
-    }
-    /*
-     * @description 输出排序后的统计次数前十的单词
-     * @param
-     * @return
-     * */
-    public static void outputSortedResult() {
-        int cnt = 0;
-        List<HashMap.Entry<String, Integer>> sortedList= getSortedList();
-        for(HashMap.Entry<String,Integer> entry:sortedList) {
-            if(cnt<=9){
-                System.out.println(entry.getKey() + ":" + entry.getValue());
-            }
-            cnt++;
-        }
-    }
-    /*
-     * @description 判断字符串中的合法ASCII码数量
-     * @param str
-     * @return count
-     * */
-    public static int countChars(String str) {
-        int count = 0;
-        char[] c = str.toCharArray();
-        for (int i = 0;i<c.length;i++) {
-            if ((32 <= c[i] && c[i] <= 126) || c[i] == 9 || c[i] == 10) {
-                count++;
-            }
-        }
-        return count;
-    }
-    /*
-     * @description 将统计数据输出成txt文件
-     * @param chars words lines
-     * @return
-     * */
-    public static void outputToFile(int chars,int words,int lines,String filePath) {
-        BufferedWriter bw = null;
-        StringBuilder str = new StringBuilder("characters: " + chars + "\n"
-                + "words: " + words + "\n"
-                + "lines: " + lines + "\n");
-        int cnt = 0;
-        try {
-            bw = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(filePath), StandardCharsets.UTF_8));
-            List<HashMap.Entry<String, Integer>> sortedList= getSortedList();
-            for(HashMap.Entry<String,Integer> entry:sortedList) {
-                if(cnt<=9){
-                    str.append(entry.getKey()).append(":").append(entry.getValue()).append("\n");
-                }
-                cnt++;
-            }
-            bw.write(str.toString());
-        } catch (IOException e){
-            System.out.println("文件写入出错");
-            e.printStackTrace();
-        } finally {
-            if (bw != null){
-                try {
-                    bw.flush();
-                    bw.close();
-                } catch (IOException e) {
-                    System.out.println("输出流关闭错误");
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 }
