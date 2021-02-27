@@ -21,8 +21,4 @@ public class WordCount {
 
         // analyser.output();
     }
-
-    public static void makeInput() {
-
-    }
 }

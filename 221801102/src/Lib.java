@@ -54,13 +54,13 @@ public class Lib {
         return new LinkedHashMap<>(topWord);
     }
 
-    public Lib(String inFile, String outFile) throws IOException {
+    public Lib(String inFile, String outFile) {
         this.inFile = inFile;
         this.outFile = outFile;
     }
 
     /**
-     * computeAll
+     * compute all
      */
     public void process() throws IOException {
         String str = readFile();
@@ -128,6 +128,10 @@ public class Lib {
         }
     }
 
+    /**
+     *
+     * @return the content of the file
+     */
     private String readFile() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(inFile));
         StringBuilder builder = new StringBuilder();
@@ -138,6 +142,7 @@ public class Lib {
                     builder.append((char) c);
                 }
             }
+            reader.close();
         } catch (IOException e) {
             reader.close();
             throw e;
@@ -149,17 +154,21 @@ public class Lib {
      * write data to file in a hard-encoding format
      */
     public void output() throws IOException {
-        BufferedWriter writer = new BufferedWriter(
-            new FileWriter(outFile)
-        );
-        writer.write("characters: " + charNum + "\n");
-        writer.write("words: " + wordNum + "\n");
-        writer.write("lines: " + lineNum + "\n");
-        for (Map.Entry<String, Integer> entry : topWord.entrySet()) {
-            String s = entry.getKey();
-            Integer integer = entry.getValue();
-            writer.write(s + ": " + integer + "\n");
+        BufferedWriter writer = new BufferedWriter(new FileWriter(outFile));
+        try {
+            writer.write("characters: " + charNum + "\n");
+            writer.write("words: " + wordNum + "\n");
+            writer.write("lines: " + lineNum + "\n");
+            for (Map.Entry<String, Integer> entry : topWord.entrySet()) {
+                String s = entry.getKey();
+                Integer integer = entry.getValue();
+                writer.write(s + ": " + integer + "\n");
+            }
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            writer.close();
+            throw e;
         }
-        writer.close();
     }
 }
