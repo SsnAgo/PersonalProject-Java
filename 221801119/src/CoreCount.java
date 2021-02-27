@@ -21,11 +21,11 @@ public class CoreCount {
 		this.file = new File(fileName);
 		charCount = wordCount = charCount = 0;
 		wordsMap = new HashMap<String, Integer>();
+		wordsList = null;
 	}
 	public void count() {
 		countChars();
 		countWords();
-		countLines();
 		sortWordsMap();
 	}
 	public int getCharCount() {
@@ -63,6 +63,7 @@ public class CoreCount {
 				char ch;
 				while ((line = reader.readLine()) != null) {	
 					if (! line.trim().equals("")) {
+						lineCount += 1;
 						line += "\n";
 						for (int i = 0; i < line.length(); i++) {
 							ch = line.charAt(i);
@@ -94,6 +95,7 @@ public class CoreCount {
 			System.out.print("Can not find file \"" + file.getName() + "\".");
 		}	
 	}
+    /*
     private void countLines() {
     	try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -109,9 +111,9 @@ public class CoreCount {
 		} catch (FileNotFoundException e) {
 			System.out.print("Can not find file \"" + file.getName() + "\".");
 		}	
-    }
+    } */
     private void sortWordsMap() {
-    	wordsList = new ArrayList<Map.Entry<String, Integer>>(wordsMap.entrySet());
+		wordsList = new ArrayList<Map.Entry<String, Integer>>(wordsMap.entrySet());
 		Collections.sort(wordsList, new Comparator<Map.Entry<String, Integer>>() {
 			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
 				if (o1.getValue() == o2.getValue()) {
