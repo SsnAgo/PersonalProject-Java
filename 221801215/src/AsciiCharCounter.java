@@ -15,7 +15,7 @@ public class AsciiCharCounter {
     public int countAsciiChar(File file) {
         int asciiCharNumber =0;
         try{
-            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file));
+            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file),Config.CHARSET);
             int currentChar;
             while ((currentChar = inputStreamReader.read()) != -1) {
                 if (isAsciiChar(currentChar)) {
