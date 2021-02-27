@@ -17,27 +17,50 @@ public class FileCounter implements CounterImpl {
     private static boolean isWord(String str) {
         return WORD_PATTERN.matcher(str).matches();
     }
+
     private static boolean isNotBlank(String str) {
         return !str.trim().isEmpty();
     }
 
-    public FileCounter(Path path) throws IOException {
-        charCount = path.toFile().length();
+    private long solveCharCount(Path path) {
+        return path.toFile().length();
+    }
 
-        String[] words = Files.lines(path).map(String::toLowerCase)
-                .flatMap(str -> Arrays.stream(str.split("[^a-z0-9]+"))).filter(FileCounter::isWord)
-                .toArray(String[]::new);
-        wordCount = words.length;
-
-        HashMap<String, Long> allWord = Arrays.stream(words).collect(() -> new HashMap<String, Long>(),
+    private String[] solveWords(Path path) throws IOException {
+        return Files.lines(path).map(String::toLowerCase).flatMap(str -> Arrays.stream(str.split("[^a-z0-9]+")))
+                .filter(FileCounter::isWord).toArray(String[]::new);
+    }
+    
+    private long solveWordCount(String[] words) {
+        return words.length;
+    }
+    
+    private HashMap<String, Long> solveAllWord(String[] words){
+        return Arrays.stream(words).collect(() -> new HashMap<String, Long>(),
                 (map, word) -> map.merge(word, 1L, Long::sum), HashMap<String, Long>::putAll);
-
+    }
+    
+    private void operateWordFrequency(LinkedHashMap<String, Long> wordFrequency, HashMap<String, Long> allWord) {
         allWord.entrySet().stream()
-                .sorted(Comparator.<Entry<String, Long>>comparingLong(Entry::getValue).reversed()
-                        .thenComparing(Entry::getKey))
-                .limit(10).forEach(e -> wordFrequency.put(e.getKey(), e.getValue()));
+        .sorted(Comparator.<Entry<String, Long>>comparingLong(Entry::getValue).reversed()
+                .thenComparing(Entry::getKey))
+        .limit(10).forEach(e -> wordFrequency.put(e.getKey(), e.getValue()));
+    }
+    
+    private long solveLineCount(Path path) throws IOException {
+        return Files.lines(path).filter(FileCounter::isNotBlank).count();
+    }
 
-        lineCount = Files.lines(path).filter(FileCounter::isNotBlank).count();
+    public FileCounter(Path path) throws IOException {
+        charCount = solveCharCount(path);
+
+        String[] words = solveWords(path);
+        
+        wordCount = solveWordCount(words);
+        
+        operateWordFrequency(wordFrequency, solveAllWord(words));
+
+        lineCount = solveLineCount(path);
     }
 
     private final long charCount;
