@@ -48,4 +48,21 @@ public class DoWordCount {
         return sum;
     }
 
+    //是否为有效单词
+    public static boolean isValidWord(char[] word){
+        if(word.length>=4&&isAlpha(word[0])&&isAlpha(word[1])&&isAlpha(word[2])&&isAlpha(word[3])){
+            return true;
+        }
+        return false;
+    }
+
+    //是否为字母
+    public static boolean isAlpha(int temp){
+        if ((temp >= 97 && temp <= 122) || (temp >= 65 && temp <= 90)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
