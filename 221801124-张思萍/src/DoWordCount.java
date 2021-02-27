@@ -16,6 +16,24 @@ public class DoWordCount {
         return sum;
     }
 
+    //统计文件的单词总数 单词：至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割，不区分大小写。
+    public static int countWords(ArrayList<String> lines) throws IOException{
+        int sum=0;
+        String line;
+        String[] words;
+        for (int i=0;i<lines.size();i++){
+            line=lines.get(i);
+            words=line.split("[^a-zA-Z0-9]+");
+            for (int j=0;j<words.length;j++){
+                char[] word=words[j].toCharArray();
+                if(isValidWord(word)){
+                    sum++;
+                }
+            }
+        }
+        return sum;
+    }
+
     //统计文件的有效行数：任何包含非空白字符的行，都需要统计。
     public static int countLines(ArrayList<String> lines) throws IOException{
         int sum=0;
