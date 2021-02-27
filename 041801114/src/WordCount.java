@@ -1,51 +1,51 @@
 import java.io.Closeable;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map.Entry;
 
 import info.tozzger.demo.FileCounter;
 
-public class WordCount{
-    
+public class WordCount {
+
     public static void main(String[] args) throws IOException {
-        FileCounter fc = new FileCounter(new File(args[0]).toPath());
-        Printer out = new Printer(new File(args[1]));
-        /*
-         * characters: number
-         * words: number
-         * lines: number
-         * word1: number
-         * word2: number
-         * ...
-         */
-        out.printfln("characters: %d", fc.getCharCount());
-        out.printfln("words: %d", fc.getWordCount());
-        out.printfln("lines: %d", fc.getLineCount());
-        for (Entry<String, Long> e : fc.getWordFrequency().entrySet()) {
-            out.printfln("%s: %d", e.getKey(), e.getValue());
-        }
-        out.close();
+        solve(Paths.get(args[0]), Paths.get(args[1]));
     }
-    
-    private static class Printer implements Closeable{
+
+    public static void solve(Path in, Path out) throws IOException {
+        FileCounter fc = new FileCounter(in);
+        Printer printer = new Printer(out);
         
-        private final PrintStream ps;
-        
-        private Printer(File file) throws FileNotFoundException {
-            ps = new PrintStream(file);
+        printer.printfln("characters: %d", fc.getCharCount());
+        printer.printfln("words: %d", fc.getWordCount());
+        printer.printfln("lines: %d", fc.getLineCount());
+        for (Entry<String, Long> e : fc.getWordFrequency().entrySet()) {
+            printer.printfln("%s: %d", e.getKey(), e.getValue());
         }
         
+        printer.close();
+    }
+
+    public static class Printer implements Closeable {
+
+        private final PrintStream ps;
+
+        private Printer(Path path) throws FileNotFoundException {
+            ps = new PrintStream(path.toFile());
+        }
+
         @Override
         public void close() throws IOException {
             ps.close();
         }
-        
-        public void printfln(String format, Object...args) {
+
+        public void printfln(String format, Object... args) {
             ps.format(format.concat("\n"), args);
         }
-        
+
     }
-    
+
 }
