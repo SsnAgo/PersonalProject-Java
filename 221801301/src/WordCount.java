@@ -1,3 +1,4 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,9 +8,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class WordCount {
 	public static void main(String[] args) throws IOException{
+		//File f1=new File("C:\\Users\\31139\\workspace\\WordCount\\src\\input.txt");
+		//FileWriter writer=new FileWriter("C:\\Users\\31139\\workspace\\WordCount\\src\\output.txt");
 		File f1=new File(args[0]);
 		FileWriter writer=new FileWriter(args[1]);
 		
@@ -17,8 +22,18 @@ public class WordCount {
 		try{
 			int num=getCharNum(f1);
 			writer.write("characters："+num);
-			writer.write("\n");
 			System.out.println("characters："+num);
+		}
+		catch(IOException exc){
+			System.out.println("File error!");
+		}
+		
+		//统计文件的单词总数（对应输出第二行）
+		try {
+			String toLine=turnToLine(f1);
+			String[] linewords=splitLine(toLine);
+			writer.write("words："+countWords(linewords));
+			System.out.println("words："+countWords(linewords));
 		}
 		catch(IOException exc){
 			System.out.println("File error!");
@@ -47,7 +62,6 @@ public class WordCount {
 				num++;
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return num;
@@ -59,7 +73,8 @@ public class WordCount {
 		try {
 			if(file.exists()) {
 				long fileLength=file.length();
-				LineNumberReader lineNumberReader=new LineNumberReader(new FileReader(file));
+				FileReader fileReader=new FileReader(file);
+				LineNumberReader lineNumberReader=new LineNumberReader(fileReader);
 				lineNumberReader.skip(fileLength);
 				line=lineNumberReader.getLineNumber();
 				lineNumberReader.close();
@@ -71,5 +86,54 @@ public class WordCount {
 			e.printStackTrace();
 		}
 		return line;
+	}
+	
+	//将文件转化为一个字符串 每行之间用空格分开
+	public static String turnToLine(File file) {
+		BufferedReader bufferedReader=null;
+		try {
+			bufferedReader=new BufferedReader(new FileReader(file));
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		StringBuffer stringBuffer = new StringBuffer();
+		String line = null;
+		try {
+			while((line = bufferedReader.readLine()) != null) {
+				stringBuffer = stringBuffer.append(line+' ');
+			}
+		} 
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			bufferedReader.close();
+		} 
+		catch(IOException e1) {
+			e1.printStackTrace();
+		}
+		String sb=stringBuffer.toString().toLowerCase();
+		return sb;
+	}
+		
+	//分隔每个单词
+	public static String[] splitLine(String str){
+		String[] linewords=str.split("\\W+");
+		return linewords;
+	}
+		
+	//判断是否为合法单词，统计合法单词个数
+	public static int countWords(String[] linewords) {
+		int cnt=0;
+		Pattern pattern = Pattern.compile("[a-zA-Z]{4}([a-zA-Z0-9])*");
+		for(int i=0;i<linewords.length;i++) {
+			Matcher matcher = pattern.matcher(linewords[i]);
+			if(matcher.find()) {
+				//System.out.println(matcher.group());
+			 	cnt++;
+			}
+		}
+		return cnt;
 	}
 }
