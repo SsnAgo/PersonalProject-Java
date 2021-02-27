@@ -9,6 +9,7 @@ public class WordCount {
             System.out.println("characters: "+DoWordCount.countChars(filePath));
             System.out.println("words: "+DoWordCount.countWords(FileIO.readFile(filePath)));
             System.out.println("lines: "+DoWordCount.countLines(FileIO.readFile(filePath)));
+            DoWordCount.printTop10(DoWordCount.sortWords(FileIO.readFile(filePath)));
         } catch (IOException e) {
             e.printStackTrace();
         }
