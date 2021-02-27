@@ -1,1 +1,6 @@
-{"characters":22,"words":4,"lines":1,"hello":1,"strong":1,"today":1}
+characters: 22
+words: 4
+lines: 1
+hello: 1
+strong: 1
+today: 1

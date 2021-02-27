@@ -17,5 +17,7 @@ module.exports = {
     'no-useless-escape': 0,
     'max-classes-per-file': 0,
     'no-console': 0,
+    'no-plusplus': 0,
+    'no-shadow': 0,
   },
 };

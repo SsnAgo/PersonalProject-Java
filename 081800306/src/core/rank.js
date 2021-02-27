@@ -9,7 +9,7 @@ function rank(arr, num) {
   };
   arr.sort();
   const proxy = new Proxy(obj, {
-    get(key) {
+    get(obj, key) {
       if (key in obj) {
         return obj[key];
       }
@@ -17,7 +17,7 @@ function rank(arr, num) {
     },
   });
   arr.forEach((item) => {
-    proxy[item.toLowerCase()] += 1;
+    proxy[item.toLowerCase()]++;
   });
   const data = [];
   for (const key in obj) {

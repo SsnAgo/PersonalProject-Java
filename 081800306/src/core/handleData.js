@@ -9,14 +9,19 @@
  */
 const { han, symbol, asciiRex } = require('../config').reg;
 
+function countRows(data) {
+  if (data.match(symbol)) {
+    return data.match(symbol).length + 1;
+  }
+  return 1;
+}
+
 function handleData(data) {
-  let lineBreaks = 0;
+  const lines = countRows(data);
+  const dataCopy = data.replace(symbol, ' ');
   let restCount = 0;
-  let arr = data.split('');
+  let arr = dataCopy.split('');
   arr = arr.map((word) => {
-    if (symbol.test(word)) {
-      lineBreaks += 1;
-    }
     if (!han.test(word) && !symbol.test(word) && asciiRex.test(word)) {
       return word;
     }
@@ -24,10 +29,9 @@ function handleData(data) {
     return ' ';
   });
   return {
-    lines: lineBreaks / 2 + 1,
+    lines,
     arr,
     restCount,
   };
 }
-
-module.exports = handleData;
+module.exports = { handleData, countRows };
