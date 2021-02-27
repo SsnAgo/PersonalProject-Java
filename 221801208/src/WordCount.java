@@ -12,9 +12,6 @@ public class WordCount {
             File inputFile = new File(args[0]);
             File ouputFile = new File(args[1]);
 
-            Lib counter = new Lib(inputFile, ouputFile);
-            //输出字符数和单词数
-            counter.countCharAndWord();
         }
         catch(Exception e){
             e.printStackTrace();

@@ -120,6 +120,20 @@ public class Lib {
         }
         writer.write("characters: " + CharNum + "\n");
         writer.write("words: " + WordNum + "\n");
+    }
 
+    /**
+     * 统计并打印有效行数
+     * @throws IOException
+     */
+    public void countRowNum() throws IOException{
+        String row;
+        BufferedReader reader1 = new BufferedReader(new FileReader(inputFile));
+        while((row = reader1.readLine()) != null){
+            //只统计包含非空白字符的行
+            if(!row.trim().isEmpty())
+                RowNum++;
+        }
+        writer.write("lines:" + RowNum + "\n");
     }
 }
