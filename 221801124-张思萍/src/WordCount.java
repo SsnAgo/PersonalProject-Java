@@ -1,15 +1,21 @@
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class WordCount {
     public static void main(String[] args) {
 
-        String filePath="C:\\Users\\yy\\Desktop\\input.txt";
+        String inFile = args[0];
+        String outFile = args[1];
+        String outToFile = "";
+
         try {
-            System.out.println("characters: "+DoWordCount.countChars(filePath));
-            System.out.println("words: "+DoWordCount.countWords(FileIO.readFile(filePath)));
-            System.out.println("lines: "+DoWordCount.countLines(FileIO.readFile(filePath)));
-            DoWordCount.printTop10(DoWordCount.sortWords(FileIO.readFile(filePath)));
+            ArrayList<String> lines = FileIO.readFile(inFile);
+            outToFile += "characters: " + DoWordCount.countChars(inFile) + "\n";
+            outToFile += "words: " + DoWordCount.countWords(lines) + "\n";
+            outToFile += "words: " + DoWordCount.countLines(lines) + "\n";
+            outToFile += DoWordCount.printTop10(DoWordCount.sortWords(lines));
+            FileIO.writeToFile(outFile, outToFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
