@@ -24,13 +24,13 @@ public class WordCount {
 			}
 
 
-			InputStreamWordReader wr = new InputStreamWordReader(is);
-			Core core = new Core();
-			core.setWordReader(wr);
-			core.start();
-//			HugeDataCore core = new HugeDataCore(inputFile,10);
-//			core.setCacheDir("./tmp");
+//			InputStreamWordReader wr = new InputStreamWordReader(is);
+//			Core core = new Core();
+//			core.setWordReader(wr);
 //			core.start();
+			HugeDataCore core = new HugeDataCore(inputFile,10);
+			core.setCacheDir("./tmp");
+			core.start();
 
 			PrintWriter pw = new PrintWriter(os);
 			pw.println(core.toString());
