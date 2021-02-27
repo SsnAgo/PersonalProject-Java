@@ -1,11 +1,25 @@
+/**
+ * 计算有效行类
+ */
 public class EffectiveLineCounter {
+    /**
+     * 已扫描行中非空白行的数量
+     */
     public int effectiveLineNumber=0;
 
     private boolean isNewLine=true;
     private static StringBuffer lineContent;
     private final int INIT_LINE_MAX_LENGTH =200;
 
-    public boolean countEffectiveLine(char lineChar, boolean isEndOfFile) {
+    /**
+     * 计算非空白行的数量
+     *
+     * <p>统计任何包含非空白字符的行</p>
+     *
+     * @param lineChar    the line char 文件读取的字符
+     * @param isEndOfFile the is end of file 当前是否读到文件结尾
+     */
+    public void countEffectiveLine(char lineChar, boolean isEndOfFile) {
         if (isNewLine) {
             isNewLine = false;
             lineContent = new StringBuffer(INIT_LINE_MAX_LENGTH);
@@ -19,10 +33,9 @@ public class EffectiveLineCounter {
         if (!isEndOfFile) {
             lineContent.append(lineChar);
         }
-        return isNewLine;
     }
 
-    public boolean isEffectiveLine(){
+    private boolean isEffectiveLine(){
 
         return !(lineContent.toString().isBlank());
     }
