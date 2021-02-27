@@ -82,15 +82,14 @@ public class Lib {
 
     /**
      * 统计并打印字符数和单词数
-     *
      * @throws IOException
      */
-    public void countCharAndWord() throws IOException {
+    public void countCharAndWord() throws IOException{
         int c;
         String curWord = "";
-        while ((c = reader.read()) != -1) {
+        while ((c = reader.read()) != -1){
             //ASCⅡ码在0到127之间的属于字符（汉字不包括在内）
-            if (c >= 0 && c <= 127) {
+            if(c >= 0 && c<= 127) {
                 CharNum++;
                 //如果c为数字或字母，则作为单词的一部分
                 if (Character.isLetterOrDigit(c)) {
@@ -106,7 +105,7 @@ public class Lib {
                 }
             }
             //如果c为中文，则作为分隔符
-            else {
+            else{
                 if (isWord(curWord)) {
                     WordNum++;
                     wordToHashMap(curWord);
@@ -114,7 +113,13 @@ public class Lib {
                 curWord = "";
             }
         }
+        //对最后一个单词进行处理
+        if(isWord(curWord)){
+            WordNum++;
+            wordToHashMap(curWord);
+        }
         writer.write("characters: " + CharNum + "\n");
         writer.write("words: " + WordNum + "\n");
+
     }
 }
