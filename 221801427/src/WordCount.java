@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class WordCount
 {
@@ -41,7 +40,7 @@ public class WordCount
         {
             inputStreamReader = new InputStreamReader(new FileInputStream(inputFileName));
             bufferedReader = new BufferedReader(inputStreamReader);
-            StringBuffer contents = new StringBuffer();
+            StringBuilder contents = new StringBuilder();
 
             line = bufferedReader.readLine();
             while (line != null)
