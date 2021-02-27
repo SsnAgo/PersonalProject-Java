@@ -16,4 +16,18 @@ public class DoWordCount {
         return sum;
     }
 
+    //统计文件的有效行数：任何包含非空白字符的行，都需要统计。
+    public static int countLines(ArrayList<String> lines) throws IOException{
+        int sum=0;
+        String line;
+        for (int i = 0; i < lines.size(); i++) {
+            line=lines.get(i);
+            line=line.replaceAll("\\s*","");
+            if(!(line.equals(""))){
+                sum++;
+            }
+        }
+        return sum;
+    }
+
 }
