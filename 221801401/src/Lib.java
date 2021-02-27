@@ -19,160 +19,91 @@ public class Lib {
     //Map表用于存放单词以及相对应的个数
     private static Map<String, Integer> wordsMap = new HashMap<String, Integer>();
     
+    
     /*
-     * 统计文件行数
+     * 从文件中读取数据
      * @param filePath
+     * @return 字符串
+     * */
+    public static String readFromFile(String filePath) {
+        String str = "";
+        BufferedReader br = null;
+        StringBuilder builder = null;
+        try {
+            br = new BufferedReader(new FileReader(filePath));
+            builder = new StringBuilder();
+            while((str = br.readLine()) != null) {
+                builder.append(str + "\n");
+            }
+            //删除最后一个'\n'
+            builder.deleteCharAt(builder.length()-1);
+        }catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }catch(IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                br.close();
+            }catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return builder.toString();
+    }
+    
+    /*
+     * 使用正则表达式统计字符串行数
+     * @param str
      * @return count
      * */
-    public static int getLineCount(String filePath) {
-        //行数的统计量
-        int count = 0;
-        //循环变量
-        String str = "";
-        //得到输入流
-        FileInputStream is = null;
-        InputStreamReader isr = null;
-        BufferedReader br = null;
-        
-        try {
-            is = new FileInputStream(filePath);
-            isr = new InputStreamReader(is);
-            br = new BufferedReader(isr);
-            while((str = br.readLine()) != null) {
-                if(!"".equals(str)) {
-                    count++;
-                    }
-                }
-            }catch(FileNotFoundException e) {
-                e.printStackTrace();
-                }catch(IOException e) {
-                    e.printStackTrace();
-                    }finally {
-                        try {
-                            //关闭输入流
-                            is.close();
-                            isr.close();
-                            br.close();
-                            }catch(IOException e) {
-                                e.printStackTrace();
-                                }
-                        }
-        return count;
+    public static int getLineCount(String str) {
+        int count = 1;
+        Matcher matcher = Pattern.compile("\r\n|\r|\n").matcher(str);
+        while(matcher.find()) {
+            count++;
         }
+        return count;
+    }
     
     
     /*
-     * 统计文件的字符数
-     * @ filePath
+     * 统计字符串的字符数
+     * @ param str
      * @ return count
      * */
-    public static int getCharactersCount(String filePath) {
-        //字符数的统计量
-        int count = 0;
-        //循环变量
-        String str = "";
-        //得到输入流
-        FileInputStream is = null;
-        InputStreamReader isr = null;
-        BufferedReader br = null;
-        
-        try {
-            is = new FileInputStream(filePath);
-            isr = new InputStreamReader(is);
-            br = new BufferedReader(isr);
-            while((str = br.readLine()) != null) {
-                if(!"".equals(str)) {
-                    char[] chars = str.toCharArray();
-                    for(int i = 0; i < chars.length; i++) {
-                        if(chars[i] >= 0 && chars[i] <= 127) {
-                            count++;
-                            }
-                        }
-                    count++;
-                    }
-                }
-            count--;
-            }catch(FileNotFoundException e) {
-                e.printStackTrace();
-                }catch(IOException e) {
-                    e.printStackTrace();
-                    }finally {
-                        try {
-                            //关闭输入流
-                            is.close();
-                            isr.close();
-                            }catch(IOException e) {
-                                e.printStackTrace();
-                                }
-                        }
-        return count;
+    public static int getCharactersCount(String str) {
+       int count = 0;
+       char[] ch = str.toCharArray();
+       for(int i = 0; i < ch.length; i++) {
+           if(ch[i] >= 0 && ch[i] <= 127) {
+               count++;
+           }
+       }
+       return count;
     }
     
     /*
      * 统计文件的单词
-     * @param filePath
+     * @param str
      * @return count
      * */
-    public static int getWordsCount(String filePath) {
-	    //单词数的统计量
+    public static int getWordsCount(String str) {
+        //单词数的统计量
         int count = 0;
-        //循环变量
-        String str = "";
-        //得到输入流
-        FileInputStream is = null;
-        InputStreamReader isr = null;
-        BufferedReader br = null;
-        
-        try {
-            is = new FileInputStream(filePath);
-            isr = new InputStreamReader(is);
-            br = new BufferedReader(isr);
-            while((str = br.readLine()) != null) {
-                /*旧的判断方式
-	        	Pattern pattern = Pattern.compile(WORDS_RE);
-	        	Matcher matcher = pattern.matcher(str);
-	        	while(matcher.find()) {
-	        		String temp = matcher.group();
-	        		temp = temp.toLowerCase();
-	        		if(wordsMap.containsKey(temp)) {
-	        			int num = wordsMap.get(temp);
-	        			wordsMap.put(temp, 1 + num);
-	        			}
-	        		else {
-	        			wordsMap.put(temp, 1);
-	        			}
-	        		count++;
-	        		}*/
-	        	
-                //新的判断方式
-                String[] strs = str.split(BREAK_RE);
-                for(int i = 0; i < strs.length; i++) {
-                    if(strs[i].matches(WORDS_RE)) {
-                        String temp = strs[i].toLowerCase();
-                        if(wordsMap.containsKey(temp)) {
-                            int num = wordsMap.get(temp);
-                            wordsMap.put(temp, 1 + num);
-                            }
-                        else {
-                            wordsMap.put(temp, 1);
-                            }
-                        count++;
-                        }
+        String[] strs = str.split(BREAK_RE);
+        for(int i = 0; i < strs.length; i++) {
+            if(strs[i].matches(WORDS_RE)) {
+                String temp = strs[i].toLowerCase();
+                if(wordsMap.containsKey(temp)) {
+                    int num = wordsMap.get(temp);
+                    wordsMap.put(temp, 1 + num);
                     }
+                else {
+                    wordsMap.put(temp, 1);
+                    }
+                count++;
                 }
-            }catch(FileNotFoundException e) {
-                e.printStackTrace();
-                }catch(IOException e) {
-                    e.printStackTrace();
-                    }finally {
-                        try {
-                            is.close();
-                            isr.close();
-                            br.close();
-                            }catch(IOException e) {
-                                e.printStackTrace();
-                                }
-                        }
+            }
         return count;
     }
     
@@ -188,7 +119,9 @@ public class Lib {
         //通过比较器实现排序
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>(){
             public int compare(Entry<String, Integer> m1, Entry<String, Integer> m2) {
-                return m2.getValue().compareTo(m1.getValue());
+                if(m1.getValue().equals(m2.getValue())) {
+                    return m1.getKey().compareTo(m2.getKey());
+                }else return m2.getValue()-m1.getValue();
                 }
             });	
         int i = 0;
@@ -213,7 +146,7 @@ public class Lib {
         int i = 0;
         for(Map.Entry<String, Integer> map : list) {
             if(i < 10) {
-                str += map.getKey() + ":" + map.getValue() + "\n";
+                str += map.getKey() + ": " + map.getValue() + "\n";
                 }
             i++;
             }

@@ -20,6 +20,13 @@ public class WordCount {
         this.words = Lib.getWordsCount(this.inputPath);
         }
     public static void main(String[] args) {
+        //测试用
+        System.out.println("lines: " + Lib.getLineCount(Lib.readFromFile("D://test2.txt")));
+        System.out.println("characters: " + Lib.getCharactersCount(Lib.readFromFile("D://test2.txt")));
+        Lib.writeToFile(Lib.getCharactersCount(Lib.readFromFile("D://test2.txt")), 
+                Lib.getWordsCount(Lib.readFromFile("D://test2.txt")), 
+                Lib.getLineCount(Lib.readFromFile("D://test2.txt")), "D://test.txt");
+        
         if(args.length < 2) {
             System.out.println("参数不足两个，请重新运行");
             }
