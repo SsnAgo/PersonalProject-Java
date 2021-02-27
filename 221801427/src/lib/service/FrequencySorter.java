@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 public class FrequencySorter
 {
     public static final int MAX_SIZE = 10;
-
+    private static String FLITER_REGEX = "[^0-9A-Za-z]";
     /**
      * @param words
      * @return freqMap
@@ -27,7 +27,7 @@ public class FrequencySorter
     public static ArrayList<HashMap.Entry<String, Long>> sortFrequency(String content)
     {
         List<String> lines = Arrays.asList(content);
-        Map<String, Long> words = lines.stream().flatMap(w -> Stream.of(w.split("\\|"))).filter(w ->
+        Map<String, Long> words = lines.stream().flatMap(w -> Stream.of(w.split(FLITER_REGEX))).filter(w ->
         {
             int i = 0;
             char[] chars = w.toCharArray();
