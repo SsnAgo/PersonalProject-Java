@@ -1,11 +1,18 @@
 public class Filetest {
-    public String message;
-    public StringBuilder stringBuilder=new StringBuilder();
 
-    public static void main(String []args){
-        Filetest test=new Filetest();
+    /**
+     * 声明两个必要参数
+     */
+    public String message;
+    public StringBuilder stringBuilder = new StringBuilder();
+
+    /**
+     * 生成文件
+     */
+    public void fileTest() {
+        Filetest test = new Filetest();
         for (int i = 0; i < 100000; i++) {
-            for (int j = 0; j < 5 ; j++){
+            for (int j = 0; j < 5; j++) {
                 test.stringBuilder.append("windows").append(i).append(" ");
             }
         }
@@ -21,7 +28,7 @@ public class Filetest {
         for (int i = 0; i < 6; i++) {
             test.stringBuilder.append("wycsjy2099,\n");
         }
-        test.message=test.stringBuilder.toString();
-        Utils.writeTo("test.txt",test.message);
+        test.message = test.stringBuilder.toString();
+        Utils.writeTo("input.txt", test.message);
     }
 }
