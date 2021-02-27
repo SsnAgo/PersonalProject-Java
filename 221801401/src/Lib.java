@@ -14,6 +14,8 @@ public class Lib {
     private static String WORDS_RE = "[a-zA-Z]{4,}[a-zA-Z0-9]*";
     //分隔符正则表达式
     private static String BREAK_RE = "[^a-zA-Z0-9]";
+    //非空行正则表达式
+    private static String LINE_RE = "(^|\n)\\s*\\S+";
     //获取当前工程的路径
     public static String DIR = System.getProperty("user.dir");
     //Map表用于存放单词以及相对应的个数
@@ -27,16 +29,23 @@ public class Lib {
      * */
     public static String readFromFile(String filePath) {
         String str = "";
+        int temp;
         BufferedReader br = null;
         StringBuilder builder = null;
         try {
             br = new BufferedReader(new FileReader(filePath));
             builder = new StringBuilder();
+            //按行读入
+            /*这种方法没有考虑到最后一行仅有'\n'的情况
             while((str = br.readLine()) != null) {
                 builder.append(str + "\n");
             }
             //删除最后一个'\n'
-            builder.deleteCharAt(builder.length()-1);
+            builder.deleteCharAt(builder.length()-1);*/
+            //按字符读入
+            while((temp = br.read()) != -1) {
+                builder.append((char)temp);
+            }
         }catch(FileNotFoundException e) {
             e.printStackTrace();
         }catch(IOException e) {
@@ -57,8 +66,8 @@ public class Lib {
      * @return count
      * */
     public static int getLineCount(String str) {
-        int count = 1;
-        Matcher matcher = Pattern.compile("\r\n|\r|\n").matcher(str);
+        int count = 0;
+        Matcher matcher = Pattern.compile(LINE_RE).matcher(str);
         while(matcher.find()) {
             count++;
         }
