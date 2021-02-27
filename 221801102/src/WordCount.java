@@ -8,17 +8,9 @@ public class WordCount {
         }
         String input = args[0];
         String output = args[1];
+        // 全部处理
         Lib analyser = new Lib(input, output);
         analyser.process();
-
-        // 全部处理
-        System.out.println(analyser.getLineNum());
-        System.out.println(analyser.getCharNum());
-        System.out.println(analyser.getWordNum());
-        analyser.getTopWord().forEach((s, integer) -> {
-            System.out.println(s + " " + integer);
-        });
-
-        // analyser.output();
+        analyser.output();
     }
 }
