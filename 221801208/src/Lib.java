@@ -136,4 +136,26 @@ public class Lib {
         }
         writer.write("lines:" + RowNum + "\n");
     }
+
+    /**
+     * 打印频率最高的10个单词的出现次数
+     * @throws IOException
+     */
+    public void printFrequency() throws IOException{
+        Iterator<Map.Entry<String, Integer>> iterator1 = map.entrySet().iterator();
+        while (iterator1.hasNext()) {
+            Map.Entry<String, Integer> entry = iterator1.next();
+            Word w = new Word(entry.getKey(),entry.getValue());
+            set.add(w);
+        }
+        Iterator<Word> iterator2 = set.iterator();
+        int i = 0;
+        while (iterator2.hasNext()) {
+            Word w = iterator2.next();
+            writer.write(w.word + ": " + w.frequency + "\n");
+            i++;
+            if(i >= 10)
+                break;
+        }
+    }
 }
