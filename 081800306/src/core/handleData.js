@@ -10,10 +10,18 @@
 const { han, symbol, asciiRex } = require('../config').reg;
 
 function countRows(data) {
-  if (data.match(symbol)) {
-    return data.match(symbol).length + 1;
+  const arr = data.split(symbol);
+  let lines = 0;
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].trim()) {
+      lines += 1;
+    }
   }
-  return 1;
+  return lines;
+  // if (data.match(symbol)) {
+  //   return data.match(symbol).length + 1;
+  // }
+  // return 1;
 }
 
 function handleData(data) {
