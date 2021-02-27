@@ -19,6 +19,7 @@ public class WordCount
     private static String inputFileName;
     private static String outputFileName;
     private static String content = new String();
+    private static String FLITER_REGEX = "[^0-9A-Za-z]";
     private int charCnt = 0;
     private int wordCnt = 0;
     private int lineCnt = 0;
@@ -32,39 +33,38 @@ public class WordCount
 
     public void Count()
     {
-        InputStreamReader isr = null;
-        BufferedReader bf = null;
-        String line;
+        InputStreamReader inputStreamReader = null;
+        BufferedReader bufferedReader = null;
+        String line = null;
 
         try
         {
-            isr = new InputStreamReader(new FileInputStream(inputFileName));
-            bf = new BufferedReader(isr);
+            inputStreamReader = new InputStreamReader(new FileInputStream(inputFileName));
+            bufferedReader = new BufferedReader(inputStreamReader);
             StringBuffer contents = new StringBuffer();
-            String regex = "[^0-9A-Za-z]";
 
-            line = bf.readLine();
+            line = bufferedReader.readLine();
             while (line != null)
             {
                 if (!line.equals(""))
                 {
-                    lineCnt++;
+                    lineCnt++;//统计有效行数
                 }
                 contents.append(line);
-                line = bf.readLine();
+                line = bufferedReader.readLine();
                 if (line != null)
                 {
                     contents.append("\n");
                 }
             }
-            content = contents.toString().toLowerCase().replaceAll(regex, "|");
+            content = contents.toString().toLowerCase().replaceAll(FLITER_REGEX, "|");
 
             charCnt = CharCounter.countChar(content);
             wordCnt = WordCounter.countWord(content);
             freqList = FrequencySorter.sortFrequency(content);
 
-            bf.close();
-            isr.close();
+            bufferedReader.close();
+            inputStreamReader.close();
         }
         catch (FileNotFoundException e)
         {
@@ -73,6 +73,7 @@ public class WordCount
         }
         catch (IOException e)
         {
+            System.out.println("Error Reading File");
             e.printStackTrace();
         }
     }
@@ -81,15 +82,18 @@ public class WordCount
     {
         FilePrinter.writeFile(charCnt, wordCnt, lineCnt, freqList, outputFileName);
     }
-
+    
     public static void main(String[] args)
     {
-        if (args.length != 2)
+        WordCount cmd;
+        /*if (args.length != 2)
         {
             System.out.println("Invalid input");
             return;
         }
-        WordCount cmd = new WordCount(args[0], args[1]);
+        cmd = new WordCount(args[0], args[1]);*/
+        cmd = new WordCount("C:\\Users\\asus\\Documents\\GitHub\\PersonalProject-Java\\221801427\\src\\input.txt",
+                "C:\\Users\\asus\\Documents\\GitHub\\PersonalProject-Java\\221801427\\src\\output.txt");
         cmd.Count();
         cmd.Print();
     }

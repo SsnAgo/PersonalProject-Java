@@ -8,6 +8,10 @@ public class FrequencySorter
 {
     public static final int MAX_SIZE = 10;
 
+    /**
+     * @param words
+     * @return freqMap
+     */
     public static Map<String, Long> getFreqMap(Map<String, Long> words)
     {
         return words.entrySet().stream()
@@ -16,6 +20,10 @@ public class FrequencySorter
                         (oldVal, newVal) -> oldVal, LinkedHashMap::new));
     }
 
+    /**
+     * @param content
+     * @return freqList
+     */
     public static ArrayList<HashMap.Entry<String, Long>> sortFrequency(String content)
     {
         List<String> lines = Arrays.asList(content);

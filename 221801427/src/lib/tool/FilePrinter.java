@@ -6,15 +6,23 @@ import java.util.HashMap;
 
 public class FilePrinter
 {
+    /**
+     * @param charCnt
+     * @param wordCnt
+     * @param lineCnt
+     * @param freqList
+     * @param fileName
+     */
     public static void writeFile(int charCnt, int wordCnt, int lineCnt, ArrayList<HashMap.Entry<String, Long>> freqList,
             String fileName)
     {
         File file = new File(fileName);
         FileWriter fileWriter = null;
+        BufferedWriter bufferedWriter = null;
         try
         {
             fileWriter = new FileWriter(file);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter = new BufferedWriter(fileWriter);
 
             bufferedWriter.write("characters: " + charCnt + "\n");
             bufferedWriter.write("words: " + wordCnt + "\n");
@@ -28,6 +36,7 @@ public class FilePrinter
         }
         catch (IOException e)
         {
+            System.out.println("Error Writing File");
             e.printStackTrace();
         }
     }
