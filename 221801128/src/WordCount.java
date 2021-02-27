@@ -4,25 +4,26 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class WordCount {
-	static String inputfile;
-	static String outputfile;
-	static int count = 0;
-	static int num = 0;
+
+	private static String inputfile;
+    private static String outputfile;
+	public WordCount(String inputPath, String outputPath) {
+        this.inputfile = inputPath;
+        this.outputfile = outputPath;
+    }
 	
-	public static void main(String[] args) throws IOException{
-		Scanner in = new Scanner(System.in);
-		String input = in.nextLine();
-		String[] strArr = input.split(" ");
-		inputfile = strArr[0];
-		outputfile = strArr[1];
-		in.close();
-		
-		File dir = new File("");
-		inputfile = dir.getCanonicalPath()+"\\"+inputfile;
-		outputfile = dir.getCanonicalPath()+"\\"+outputfile;
+	public static void main(String[] args) throws IOException {
+		if (args.length<2) {
+            System.out.println("参数不足两个，请重新运行并输入");
+            return;
+        }
+        WordCount solver = new WordCount(args[0],args[1]);
+        
+		File dir = new File(" ");
+		inputfile = dir.getCanonicalPath()+"\\src\\"+inputfile;
+		outputfile = dir.getCanonicalPath()+outputfile;
 		System.out.println("读取文件的地址："+inputfile);
 		
 		BufferedReader br = null;

@@ -7,3 +7,5 @@ input.txt
 output.txt
 
 *.classpath
+
+*.class

@@ -20,14 +20,20 @@ public class Lib {
 	static ArrayList<String> words = new ArrayList<String>();
 	static ArrayList<Integer> value = new ArrayList<Integer>();
 		
-	public static char toLower(char ch){//转化为小写字母
+	/**
+	 * 转化为小写字母
+	 */
+	public static char toLower(char ch){
 		if(ch >= 'A' && ch <= 'Z'){
 			return (char) ((ch-'A')+'a');
 		} 
 		return ch;
 	}
 	
-	public static void towords(String word) {//将单词加入数组
+	/**
+	 * 将单词加入数组
+	 */
+	public static void towords(String word) {
 		int m = 0;
 		if(!word.equals(null)) {
 			for(int i = 0;i<words.size();i++) {
@@ -44,7 +50,10 @@ public class Lib {
 		}	
 	}
 	
-	public static void sortWords() {//按频率从大到小排序
+	/**
+	 * 按频率从大到小排序
+	 */
+	public static void sortWords() {
 		for(int i = 0;i<words.size()-1;i++) {
 			for(int j = 1;j<words.size();j++) {
 				if(value.get(i)<value.get(j)) {
@@ -61,7 +70,10 @@ public class Lib {
 		}
 	}
 	
-	public static int countWords() {//统计总单词数
+	/**
+	 * 统计总单词数
+	 */
+	public static int countWords() {
 		int countnum = 0;
 		for(int i = 0;i<value.size();i++) {
 			countnum+=value.get(i);
@@ -69,7 +81,10 @@ public class Lib {
 		return countnum;
 	}
 	
-	   public static int countLines(File file) {//统计有效行数
+	/**
+	 * 统计有效行数
+	 */
+	   public static int countLines(File file) {
 	        int countline = 0;
 	        try {
 	            Scanner in = new Scanner(file);
@@ -87,6 +102,9 @@ public class Lib {
 	        return countline;
 	    }
 	   
+	   /**
+	    * 对取得数据的处理
+	    */
 	  public static void solve(BufferedReader br) throws IOException {
 		  while((readline = br.read())!= -1) {
 				char c =Lib.toLower((char)readline);
@@ -155,22 +173,26 @@ public class Lib {
 			}
 	  }
 		
+	  /**
+	   * 打印
+	   */
 	 public static void printall(String inputfile) {
 		 
 			System.out.println("字符数:"+num);//输出总字符数
 			System.out.println("单词总数:"+Lib.countWords());
 			System.out.println("有效行数:"+Lib.countLines(new File(inputfile)));
-			System.out.println("单词的出现次数:（前十）");
-			
 			for(int i = 0;i<Lib.words.size();i++) {
 				if(i>=10) {
 					break;
 				}
-				System.out.println(Lib.words.get(i).toString()+""+":"+Lib.value.get(i));
+				System.out.println(Lib.words.get(i).toString()+""+": "+Lib.value.get(i));
 			}
 			
 	 }
 	 
+	 /**
+	  * 写入指定文件
+	  */
 	 public static void writeIn(String inputfile,String outputfile) throws IOException {
 		 Path path1 = Paths.get(outputfile);
 		BufferedWriter writer = null;
@@ -183,12 +205,11 @@ public class Lib {
 		writer.write("字符数:"+Lib.num+"\n");//写入总字符数
 		writer.write("单词总数:"+Lib.countWords()+"\n");//写入单词总数
 		writer.write("有效行数:"+Lib.countLines(new File(inputfile))+"\n");//写入总行数      
-		writer.write("单词的出现次数:（前十）"+"\n");
 		for(int i = 0;i<Lib.words.size();i++) {//写入频率前十的单词及频率
 			if(i>=10) {
 				break;
 			}
-			writer.write(Lib.words.get(i).toString()+""+":"+Lib.value.get(i)+"\n");
+			writer.write(Lib.words.get(i).toString()+""+": "+Lib.value.get(i)+"\n");
 		}
 		writer.close();
 	 }
