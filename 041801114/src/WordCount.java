@@ -30,17 +30,22 @@ public class WordCount{
     }
     
     private static class Printer implements Closeable{
+        
         private final PrintStream ps;
+        
         private Printer(File file) throws FileNotFoundException {
             ps = new PrintStream(file);
         }
+        
         @Override
         public void close() throws IOException {
             ps.close();
         }
+        
         public void printfln(String format, Object...args) {
             ps.format(format.concat("\n"), args);
         }
+        
     }
     
 }

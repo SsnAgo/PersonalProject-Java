@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class FileCounter implements CounterImpl {
 
-    private static final Pattern WORD_PATTERN = Pattern.compile("[a-z]{4,}[a-z0-9]");
+    private static final Pattern WORD_PATTERN = Pattern.compile("[a-z]{4,}[a-z0-9]+");
 
     private static boolean isWord(String str) {
         return WORD_PATTERN.matcher(str).matches();
