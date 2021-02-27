@@ -31,11 +31,10 @@ public class Utils {
      */
     @SuppressWarnings("JavaDoc")
     public static int charNums(String characters) {
-        // 编写正则表达式查询规则
+        // 通过正则表达式来匹配
         String regexs = "\\p{ASCII}";
         Pattern pattern = Pattern.compile(regexs);
         Matcher matcher = pattern.matcher(characters);
-        // 定义一个Integer去存储字母数目
         while (matcher.find()) {
             // 找到一个字母，累加
             char_num++;
@@ -54,12 +53,9 @@ public class Utils {
     public static int wordNums(String words) {
         // 构造正则表达式，去根据空格拆分整篇文章
         // temp字符串数组将保存所有的单词
-
         String[] temps = words.split("\\s+");
-
         // 构造题意：以字母开头且长度大于4的单词
         String regexs = "^[a-zA-Z]{4,}.*";
-
         // 循环遍历这个数组，利用正则表达式去匹配
         for (String i : temps) {
             if (i.matches(regexs)) {
@@ -78,11 +74,11 @@ public class Utils {
      * @return
      */
     @SuppressWarnings("JavaDoc")
-    public static int lineNums(String path) {
-
+    public static int lineNums(String path) throws IOException {
+        BufferedReader bufferedReader = null;
         try {
-            FileReader fileReader = new FileReader(path);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            FileReader fileReader = new FileReader(new File("").getAbsolutePath() + "\\" + path);
+            bufferedReader = new BufferedReader(fileReader);
             String line;
             // 通过循环不断整行读取文件
             // 同时记录读取次数即可
@@ -93,6 +89,9 @@ public class Utils {
                 }
             }
         } catch (IOException e) {
+            if (bufferedReader != null) {
+                bufferedReader.close();
+            }
             e.printStackTrace();
         }
         return line_num;
@@ -107,6 +106,7 @@ public class Utils {
      */
     @SuppressWarnings("JavaDoc")
     public static List mapNums(String words) {
+        //利用空格来分隔单词，并利用正则表达式来匹配正确的单词
         String[] temps = words.split("\\s+");
         String regexs = "^[a-zA-Z]{4,}.*";
         for (String i : temps) {
@@ -116,7 +116,7 @@ public class Utils {
                     map.put(i.toLowerCase(), 1);
                 } else {
                     // 如果存在则num+1
-                    int num =map.get(i.toLowerCase());
+                    int num = map.get(i.toLowerCase());
                     map.put(i.toLowerCase(), num + 1);
                 }
             }
@@ -139,8 +139,10 @@ public class Utils {
      */
     @SuppressWarnings("JavaDoc")
     public static StringBuilder readIn(String path) {
+        //测试文件放在当前项目下
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("").getAbsolutePath()+"\\"+path));
+            BufferedReader bufferedReader = new BufferedReader(
+                    new FileReader(new File("").getAbsolutePath() + "\\" + path));
             String temp;
             while ((temp = bufferedReader.readLine()) != null) {
                 stringBuilder.append(temp).append("\n");
@@ -156,23 +158,26 @@ public class Utils {
 
     /**
      * 6.写入信息
+     *
      * @param path
      * @param message
      */
     @SuppressWarnings("JavaDoc")
-    public static void writeTo(String path,String message) {
+    public static void writeTo(String path, String message) {
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(new File("").getAbsolutePath() + "\\" + path));
-            bw.write(message);
-            bw.flush();
-            bw.close();
+            //生成的文件放在当前项目下
+            BufferedWriter bufferedWriter = new BufferedWriter(
+                    new FileWriter(new File("").getAbsolutePath() + "\\" + path));
+            bufferedWriter.write(message);
+            bufferedWriter.flush();
+            bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static long getTime(){
-        Date newDate=new Date();
+    public static long getTime() {
+        Date newDate = new Date();
         return newDate.getTime();
     }
 
@@ -181,8 +186,8 @@ public class Utils {
 //     *
 //     * @param args
 //     */
-//    @SuppressWarnings("JavaDoc")
-//    public static void main(String[] args) {
+// @SuppressWarnings("JavaDoc")
+// public static void main(String[] args) {
 //        //System.out.println(args[0]);
 //        System.out.println(Utils.wordNums("ssss444 563ff 11d fase11 windows95 windows98 windows2000"));
 //        System.out.println(Utils.charNums("ssss444 563ff 11d fase11 windows95 windows98 windows2000"));
@@ -190,5 +195,5 @@ public class Utils {
 //        System.out.println(Utils.lineNums(new File("").getAbsolutePath()+"\\1.txt"));
 //        System.out.println(new File("").getAbsolutePath());
 //        Utils.writeTo("2.txt","hello world");
-//    }
+//        }
 }
