@@ -3,9 +3,11 @@ import java.util.Map;
 
 public class WordCount {
     public static void main(String[] args) throws IOException {
-        int characters = Lib.charactersCount(args[0],args[1]);
-        int words = Lib.wordsCount(args[0],args[1]);
-        int lines = Lib.linesCount(args[0],args[1]);
-        Map<String, Integer> wordsMap = Lib.wordNum(args[0],args[1]);
+        String inputFile = args[0];
+        String outputFile = args[1];
+        Lib.charactersCount(inputFile, outputFile);//统计字符数
+        Lib.wordsCount(inputFile, outputFile);//统计单词数
+        Lib.linesCount(inputFile, outputFile);//统计行数
+        Lib.wordNum(inputFile, outputFile);//统计单词出现的个数
     }
 }
