@@ -16,6 +16,7 @@ public class CoreCount {
 	private int wordCount;
 	private int lineCount;
 	private Map<String, Integer> wordsMap;
+	private List<Map.Entry<String, Integer>> wordsList;
 	public CoreCount(String fileName) {
 		this.file = new File(fileName);
 		charCount = wordCount = charCount = 0;
@@ -25,6 +26,7 @@ public class CoreCount {
 		countChars();
 		countWords();
 		countLines();
+		sortWordsMap();
 	}
 	public int getCharCount() {
 		return charCount;
@@ -35,13 +37,17 @@ public class CoreCount {
 	public int getLineCount() {
 		return lineCount;
 	}
+	public List<Map.Entry<String, Integer>> getWordsList() {
+		return wordsList;
+	}
 	private void countChars() {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			try {
-				while(reader.read() != -1) {
+				while (reader.read() != -1) {
 					charCount += 1;
 				}
+				reader.close();
 			} catch (IOException e) {
 			}
 		} catch (FileNotFoundException e) {
@@ -55,19 +61,19 @@ public class CoreCount {
 				String line, word;
 				line = word = "";
 				char ch;
-				while((line = reader.readLine()) != null) {	
-					if(! line.trim().equals("")) {
+				while ((line = reader.readLine()) != null) {	
+					if (! line.trim().equals("")) {
 						line += "\n";
-						for(int i = 0; i < line.length(); i++) {
+						for (int i = 0; i < line.length(); i++) {
 							ch = line.charAt(i);
-							if(Character.isLetterOrDigit(ch))
+							if (Character.isLetterOrDigit(ch))
 								word += ch;
 							else {
-								if(!"".equals(word)) {									
-									if(isProperWord(word)) {
+								if (!"".equals(word)) {									
+									if (isProperWord(word)) {
 										wordCount += 1;
 										word = word.toLowerCase();
-										if(wordsMap.get(word) == null) {
+										if (wordsMap.get(word) == null) {
 											wordsMap.put(word, 1);
 										}
 										else {
@@ -81,6 +87,7 @@ public class CoreCount {
 						}
 					}
 				}
+				reader.close();
 			} catch (IOException e) {
 			}
 		} catch (FileNotFoundException e) {
@@ -93,20 +100,34 @@ public class CoreCount {
 			try {
 				String line = null;
 				while((line = reader.readLine()) != null) {	
-					if(! line.trim().equals(""))
+					if (! line.trim().equals(""))
 						lineCount += 1;
 				}
+				reader.close();
 			} catch (IOException e) {
 			}
 		} catch (FileNotFoundException e) {
 			System.out.print("Can not find file \"" + file.getName() + "\".");
 		}	
     }
+    private void sortWordsMap() {
+    	wordsList = new ArrayList<Map.Entry<String, Integer>>(wordsMap.entrySet());
+		Collections.sort(wordsList, new Comparator<Map.Entry<String, Integer>>() {
+			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+				if (o1.getValue() == o2.getValue()) {
+					return o1.getKey().compareTo(o2.getKey());
+				}
+				else {
+					return (o2.getValue() - o1.getValue());
+				}
+			}		
+		});
+    }
     private boolean isProperWord(String word) {
-    	if(word.length() < 4) {
+    	if (word.length() < 4) {
     		return false;
     	}
-    	for(int i = 0; i < 4; i++) {
+    	for (int i = 0; i < 4; i++) {
     		if(! Character.isLetter(word.charAt(i))) {
     			return false;
     		}
