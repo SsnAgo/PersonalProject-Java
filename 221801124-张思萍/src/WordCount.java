@@ -14,7 +14,7 @@ public class WordCount {
             outToFile += "characters: " + DoWordCount.countChars(inFile) + "\n";
             outToFile += "words: " + DoWordCount.countWords(lines) + "\n";
             outToFile += "words: " + DoWordCount.countLines(lines) + "\n";
-            outToFile += DoWordCount.printTop10(DoWordCount.sortWords(lines));
+            outToFile += DoWordCount.sortWords(lines);
             FileIO.writeToFile(outFile, outToFile);
         } catch (IOException e) {
             e.printStackTrace();

@@ -52,7 +52,7 @@ public class DoWordCount {
     }
 
     //统计文件中各单词的出现次数并排序
-    public static List<Map.Entry<String, Integer>> sortWords(ArrayList<String> lines) throws IOException {
+    public static String sortWords(ArrayList<String> lines) throws IOException {
         Map<String, Integer> map = new HashMap<>();
         String line;
         String[] words;
@@ -86,21 +86,18 @@ public class DoWordCount {
                 }
             }
         });
-        return mappingList;
-    }
 
-    //输出使用频率前10的单词
-    public static String printTop10(List<Map.Entry<String, Integer>> maplist) {
         int cnt = 0;
         String outToFile = "";
 
-        for (int i = 0; i < maplist.size(); i++) {
-            Map.Entry<String, Integer> e = maplist.get(i);
+        for (int i = 0; i < mappingList.size(); i++) {
+            Map.Entry<String, Integer> e = mappingList.get(i);
             outToFile += e.getKey() + ": " + e.getValue() + "\n";
             if (cnt++ >= 9) break;
         }
         return outToFile;
     }
+
 
     //是否为有效单词
     public static boolean isValidWord(char[] word) {
