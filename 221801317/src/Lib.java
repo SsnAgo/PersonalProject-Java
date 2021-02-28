@@ -19,7 +19,7 @@ public class Lib {
             solveStringBulder = new StringBuilder();
             fileTextBuffer = new StringBuilder(64);
             unvalidCharNum = IOUtil.solveFileInASCII(filePath,fileTextBuffer);
-            strings = Arrays.asList(fileTextBuffer.toString().split(System.getProperty("line.separator")));
+            strings = Arrays.asList(fileTextBuffer.toString().split("\n"));
             strings.forEach(s -> solveString(s));
 
             //正则表达式切分字符串
@@ -127,9 +127,9 @@ public class Lib {
         public static int solveFileInASCII(String inputFilePath,StringBuilder stringBuffer) throws IOException {
             File inputFile = new File(inputFilePath);
             StringBuilder textBuilder = stringBuffer;
-            FileInputStream fileInputStream = new FileInputStream(inputFile);
+            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(inputFile));
             int unvalidCharNum = 0;
-            for (int c = fileInputStream.read(); c!=-1; c = fileInputStream.read()) {
+            for (int c = inputStream.read(); c!=-1; c = inputStream.read()) {
                 char cur = (char) c;
                 textBuilder.append(cur);
                 if (!(c>0&&c<128)) {
