@@ -87,11 +87,15 @@ public class DoWordCount {
             }
         });
 
+        return printTop10(mappingList);
+    }
+
+    public static String printTop10(List<Map.Entry<String, Integer>> maplist) {
         int cnt = 0;
         String outToFile = "";
 
-        for (int i = 0; i < mappingList.size(); i++) {
-            Map.Entry<String, Integer> e = mappingList.get(i);
+        for (int i = 0; i < maplist.size(); i++) {
+            Map.Entry<String, Integer> e = maplist.get(i);
             outToFile += e.getKey() + ": " + e.getValue() + "\n";
             if (cnt++ >= 9) break;
         }

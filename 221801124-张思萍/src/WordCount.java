@@ -13,7 +13,7 @@ public class WordCount {
             ArrayList<String> lines = FileIO.readFile(inFile);
             outToFile += "characters: " + DoWordCount.countChars(inFile) + "\n";
             outToFile += "words: " + DoWordCount.countWords(lines) + "\n";
-            outToFile += "words: " + DoWordCount.countLines(lines) + "\n";
+            outToFile += "lines: " + DoWordCount.countLines(lines) + "\n";
             outToFile += DoWordCount.sortWords(lines);
             FileIO.writeToFile(outFile, outToFile);
         } catch (IOException e) {
