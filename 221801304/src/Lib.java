@@ -53,7 +53,7 @@ public class Lib {
             }
         }
         if(wordFlag){//防止读到结束时正在截取的单词的丢失
-            String word = chars.substring(chars.length() - wordLength, chars.length() - 1).toLowerCase(Locale.ROOT);
+            String word = chars.substring(chars.length() - wordLength, chars.length()).toLowerCase(Locale.ROOT);
             if(map.containsKey(word)){
                 int value = map.get(word);
                 map.put(word, value + 1);
