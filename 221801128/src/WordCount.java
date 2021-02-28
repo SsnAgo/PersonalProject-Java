@@ -16,10 +16,10 @@ public class WordCount {
 	
 	public static void main(String[] args) throws IOException {
 		if (args.length<2) {
-            System.out.println("参数不足两个，请重新运行并输入");
+            System.out.println("需要两个参数，请重新输入！");
             return;
         }
-        WordCount solver = new WordCount(args[0],args[1]);
+        WordCount wordcount = new WordCount(args[0],args[1]);
         
 		File dir = new File(" ");
 		inputfile = dir.getCanonicalPath()+"\\src\\"+inputfile;
@@ -35,7 +35,6 @@ public class WordCount {
 		}
 		Lib.solve(br);
 		br.close();
-		Lib.sortWords();//排序从大到小
 		Lib.printall(inputfile);
 		//写入指定文件
 		Lib.writeIn(inputfile, outputfile);   

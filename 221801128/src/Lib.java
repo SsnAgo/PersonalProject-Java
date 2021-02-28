@@ -1,14 +1,19 @@
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Lib {
 	
@@ -17,8 +22,7 @@ public class Lib {
 	static String word = "";
 	static int x = 0;//前一位是数字变1
 	static int num = 0;
-	static ArrayList<String> words = new ArrayList<String>();
-	static ArrayList<Integer> value = new ArrayList<Integer>();
+	static HashMap<String, Integer> hash=new HashMap<String,Integer>();
 		
 	/**
 	 * 转化为小写字母
@@ -31,77 +35,88 @@ public class Lib {
 	}
 	
 	/**
+	 * 统计总字符数
+	 */
+	public static int countChar(String inputfile) throws IOException {
+		int charCount = 0;
+		int ch = 0;
+		BufferedReader br = new BufferedReader(new FileReader(inputfile));
+		while((ch=br.read())!=-1){
+			if(ch<128 && ch>0)
+				charCount++;
+		}
+		br.close();
+		return charCount;
+	}
+	 
+	/**
+	 * 统计总单词数
+	 */
+		public static int countWords() {
+			int countnum = 0;
+			Set<Map.Entry<String, Integer>> set=hash.entrySet();
+			Iterator<Map.Entry<String, Integer>> it=set.iterator();
+			while(it.hasNext()){
+				Map.Entry<String, Integer> e=it.next();
+				countnum+=e.getValue();
+			}
+			return countnum;
+		}
+		
+		/**
+		 * 统计有效行数
+		 * @throws IOException 
+		 */
+		   public static int countLines(String inputfile) throws IOException {
+			   BufferedReader br = new BufferedReader(new FileReader(inputfile));
+		        String str = null;
+		        String pattern = "[^ ].*";
+		        int countLine = 0;
+
+		        while((str= br.readLine())!=null){
+		            if(str.matches(pattern)){
+		                countLine++;
+		            }
+		        }
+		        br.close();
+		        return countLine;
+		    }
+	/**
 	 * 将单词加入数组
 	 */
 	public static void towords(String word) {
 		int m = 0;
-		if(!word.equals(null)) {
-			for(int i = 0;i<words.size();i++) {
-				if(word.equals(words.get(i).toString())) {
-					int y = (int)value.get(i) + 1;
-					value.set(i, y);
-					m = 1;
-				}
-			}
-			if(m == 0) {
-				words.add(word);
-				value.add(1);
-			}
-		}	
+		Set<Map.Entry<String, Integer>> set=hash.entrySet();
+	    Iterator<Map.Entry<String, Integer>> it=set.iterator();
+	    while(it.hasNext()){
+	        Map.Entry<String, Integer> e=it.next();
+	        if(!word.equals(null)) {
+	        	if(word.equals(e.getKey())) {
+	        		hash.put(word, (e.getValue()+1));
+	        		m = 1;
+	        	}
+	        }
+	    }
+	    if(m == 0) {
+	    	hash.put(word, 1);
+	    }
 	}
 	
 	/**
 	 * 按频率从大到小排序
 	 */
-	public static void sortWords() {
-		for(int i = 0;i<words.size()-1;i++) {
-			for(int j = 1;j<words.size();j++) {
-				if(value.get(i)<value.get(j)) {
-					int x = value.get(i);
-					int y = value.get(j);
-					value.set(j, x);
-					value.set(i, y);
-					String word1 = words.get(i).toString();
-					String word2 = words.get(j).toString();
-					words.set(j, word1);
-					words.set(i, word2);
-				}
-			}
-		}
-	}
+	public static List<HashMap.Entry<String, Integer>> getSortedList(HashMap<String,Integer> wordMap) {
+        List<HashMap.Entry<String, Integer>> wordOfList = new ArrayList<>(wordMap.entrySet());
+        Comparator<Map.Entry<String, Integer>> cmp = (o1, o2) -> {
+            if(o1.getValue().equals(o2.getValue()))
+                return o1.getKey().compareTo(o2.getKey());
+            return o2.getValue()-o1.getValue();
+        };
+        wordOfList.sort(cmp);
+        return wordOfList;
+    }
 	
-	/**
-	 * 统计总单词数
-	 */
-	public static int countWords() {
-		int countnum = 0;
-		for(int i = 0;i<value.size();i++) {
-			countnum+=value.get(i);
-		}
-		return countnum;
-	}
-	
-	/**
-	 * 统计有效行数
-	 */
-	   public static int countLines(File file) {
-	        int countline = 0;
-	        try {
-	            Scanner in = new Scanner(file);
-	            while (in.hasNextLine()) {
-	                String str = in.nextLine();
-	                if (!str.equals("")) {
-	                    countline++;
-	                }
-	            }
-	            in.close();
-	        } catch (FileNotFoundException e) {
-	            System.out.println("读取失败");
-	            e.printStackTrace();
-	        }
-	        return countline;
-	    }
-	   
+
 	   /**
 	    * 对取得数据的处理
 	    */
@@ -168,25 +183,28 @@ public class Lib {
 					}
 				}
 			}
-			if(readline == -1 && len>=4) {
+			if((readline = br.read()) == -1 && len>=4) {
 				Lib.towords(word);
 			}
 	  }
 		
 	  /**
 	   * 打印
+	 * @throws IOException 
 	   */
-	 public static void printall(String inputfile) {
-		 
-			System.out.println("字符数:"+num);//输出总字符数
-			System.out.println("单词总数:"+Lib.countWords());
-			System.out.println("有效行数:"+Lib.countLines(new File(inputfile)));
-			for(int i = 0;i<Lib.words.size();i++) {
-				if(i>=10) {
-					break;
-				}
-				System.out.println(Lib.words.get(i).toString()+""+": "+Lib.value.get(i));
-			}
+	 public static void printall(String inputfile) throws IOException {
+		 StringBuilder str = new StringBuilder("characters: " + Lib.countChar(inputfile) + "\n"
+	                + "words: " + Lib.countWords() + "\n"
+	                + "lines: " + Lib.countLines(inputfile) + "\n");
+		 int cnt = 0;
+		 List<HashMap.Entry<String, Integer>> sortedList = getSortedList(hash);
+	        for(HashMap.Entry<String,Integer> entry:sortedList) {
+	            if(cnt<=9){
+	                str.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+	            }
+	            cnt++;
+	        }
+	        System.out.print(str.toString());
 			
 	 }
 	 
@@ -196,21 +214,25 @@ public class Lib {
 	 public static void writeIn(String inputfile,String outputfile) throws IOException {
 		 Path path1 = Paths.get(outputfile);
 		BufferedWriter writer = null;
+		StringBuilder str = new StringBuilder("characters: " + Lib.countChar(inputfile) + "\n"
+                + "words: " + Lib.countWords() + "\n"
+                + "lines: " + Lib.countLines(inputfile) + "\n");
+		int cnt = 0;
 		try {
 			writer = Files.newBufferedWriter(path1, StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		writer.write("字符数:"+Lib.num+"\n");//写入总字符数
-		writer.write("单词总数:"+Lib.countWords()+"\n");//写入单词总数
-		writer.write("有效行数:"+Lib.countLines(new File(inputfile))+"\n");//写入总行数      
-		for(int i = 0;i<Lib.words.size();i++) {//写入频率前十的单词及频率
-			if(i>=10) {
-				break;
-			}
-			writer.write(Lib.words.get(i).toString()+""+": "+Lib.value.get(i)+"\n");
-		}
+
+		List<HashMap.Entry<String, Integer>> sortedList = getSortedList(hash);
+        for(HashMap.Entry<String,Integer> entry:sortedList) {
+            if(cnt<=9){
+                str.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+            }
+            cnt++;
+        }
+        writer.write(str.toString());
 		writer.close();
 	 }
 }
