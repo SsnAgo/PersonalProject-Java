@@ -1,5 +1,3 @@
-import java.util.Comparator;
-
 public class Node implements Comparable {
 	public String string;
 	public Long value;
@@ -11,10 +9,10 @@ public class Node implements Comparable {
 
 	@Override
 	public int compareTo(Object o) {
-		Node node = (Node)o;
-		if(this.value.compareTo(node.value)==0){
-			return string.compareTo(node.string)*-1;
-		}else {
+		Node node = (Node) o;
+		if (this.value.compareTo(node.value) == 0) {
+			return string.compareTo(node.string) * -1;
+		} else {
 			return this.value.compareTo(node.value);
 		}
 	}
