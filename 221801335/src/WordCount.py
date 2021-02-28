@@ -13,6 +13,7 @@ def count_char(filename):
             count += len(line)
     return count
 
+
 def count_word(filename):
     if not filename.endswith(".txt"):
         filename += ".txt"
@@ -27,6 +28,7 @@ def count_word(filename):
                     count += 1
     return count
 
+
 def count_row(filename):
     if not filename.endswith(".txt"):
         filename += ".txt"
@@ -35,10 +37,11 @@ def count_row(filename):
     with open(dir, "r", encoding="utf-8") as f:
         for line in f:
             new_line = line.strip('\n')
-            new_line=re.sub(r'\s','',new_line)
+            new_line = re.sub(r'\s', '', new_line)
             if new_line != "":
                 count += 1
     return count
+
 
 def count_fword(filename):
     if not filename.endswith(".txt"):
@@ -58,21 +61,22 @@ def count_fword(filename):
                         dict[new_item] = 1
     return sorted(dict.items(), key=lambda x: (-x[1], x[0]))[:10]
 
-def file_read_out(intxt,outtxt):
+
+def file_read_out(intxt, outtxt):
     if not outtxt.endswith(".txt"):
         outtxt += ".txt"
     dir = os.getcwd() + "/" + outtxt
     with open(dir, "w", encoding="utf-8") as f:
-        f.write("统计字符数: "+str(count_char(intxt))+"\n")
-        f.write("统计单词数: "+str(count_word(intxt))+"\n")
-        f.write("统计行数: "+str(count_row(intxt))+"\n")
+        f.write("统计字符数: " + str(count_char(intxt)) + "\n")
+        f.write("统计单词数: " + str(count_word(intxt)) + "\n")
+        f.write("统计行数: " + str(count_row(intxt)) + "\n")
         for x in count_fword(intxt):
-            f.write(str(x[0])+": "+str(x[1])+"\n")
+            f.write(str(x[0]) + ": " + str(x[1]) + "\n")
 
 
-if __name__=="__main__":
-    if len(sys.argv)<3:
+if __name__ == "__main__":
+    if len(sys.argv) < 3:
         raise Exception('未输入输入输出参数')
-    intxt=sys.argv[1]
-    outtxt=sys.argv[2]
-    file_read_out(intxt,outtxt)
+    intxt = sys.argv[1]
+    outtxt = sys.argv[2]
+    file_read_out(intxt, outtxt)

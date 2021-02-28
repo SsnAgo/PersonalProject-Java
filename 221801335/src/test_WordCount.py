@@ -32,9 +32,9 @@ class TestWordCount(unittest.TestCase):
         """
         filename = "test_count_char1.txt"
         dir = os.getcwd() + "/" + filename
-        str="1\r\n2\n3\'\t4\"5\f\a"
+        str = "1\r\n2\n3\'\t4\"5\f\a"
         with open(dir, "w", encoding="utf-8") as f:
-           f.write(str)
+            f.write(str)
         WordCount.file_read_out(filename, "testout_count_char1")
 
     def test_count_word(self):
@@ -135,8 +135,7 @@ class TestWordCount(unittest.TestCase):
         """
         统计最多的10个单词及其词频测试(频率相同的单词，优先输出字典序靠前的单词)
         """
-        str = ('windows95 windows95 windows98 windows96 '
-               'windows2000\n')
+        str = ('windows95 windows95 windows98 windows96 ' 'windows2000\n')
         filename = "test_count_fword2.txt"
         dir = os.getcwd() + "/" + filename
         with open(dir, "w", encoding="utf-8") as f:
@@ -168,12 +167,12 @@ class TestWordCount(unittest.TestCase):
         dir = os.getcwd() + "/" + filename
         with open(dir, "w", encoding="utf-8") as f:
             i = 0
-            str="test test\n"
+            str = "test test\n"
             while i < 100000:
                 f.write(str)
-                i+=1
+                i += 1
         WordCount.file_read_out(filename, "testout_huge_data")
-    
+
 
 if __name__ == "__main__":
     unittest.main()
