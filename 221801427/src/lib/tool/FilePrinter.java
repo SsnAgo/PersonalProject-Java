@@ -29,7 +29,7 @@ public class FilePrinter
             bufferedWriter.write("lines: " + lineCnt + "\n");
             for (HashMap.Entry<String, Long> map : freqList)
             {
-                bufferedWriter.write("<" + map.getKey() + ">: " + map.getValue() + "\n");
+                bufferedWriter.write(map.getKey() + ": " + map.getValue() + "\n");
             }
             bufferedWriter.flush();
             bufferedWriter.close();

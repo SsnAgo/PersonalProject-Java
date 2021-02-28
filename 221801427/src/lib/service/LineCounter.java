@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public class LineCounter
 {
-    private static String Valid_Line_REGEX = "(^|\n)\\s*\\S+";
-    private static Pattern ValidLinePattern = Pattern.compile(Valid_Line_REGEX);
+    private static String VALID_LINE_REGEX = "(^|\n)\\s*\\S+";
+    private static Pattern VALID_LINE_PATTERN = Pattern.compile(VALID_LINE_REGEX);
 
     /**
      * @param content
@@ -17,7 +17,7 @@ public class LineCounter
         int cnt = 0;
         Matcher matcher;
 
-        matcher = ValidLinePattern.matcher(content);
+        matcher = VALID_LINE_PATTERN.matcher(content);
         while (matcher.find())
         {
             cnt++;
