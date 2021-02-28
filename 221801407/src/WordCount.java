@@ -7,9 +7,9 @@ class WordCount{
         //System.out.println(inputFile+" "+outputFile);
         String inputFile = "input.txt";
         String outputFile = "output.txt";
-        Lib lib = new Lib(inputFile,outputFile);
-        System.out.println("characters:"+lib.getCountChar());
-        System.out.println("words:");
-        System.out.println("lines:"+lib.getCountLine());
+        Lib lib = new Lib();
+        System.out.println("characters:"+lib.getCountChar(inputFile));
+        System.out.println("words:"+lib.getCountWord(inputFile));
+        System.out.println("lines:"+lib.getCountLine(inputFile));
     }
 }
