@@ -119,7 +119,6 @@ public class Lib {
         }
         writer.write("characters: " + CharNum + "\n");
         writer.write("words: " + WordNum + "\n");
-
     }
 
     /**

@@ -14,9 +14,9 @@ public class WordCount {
 
             //输入文件与输出文件
             File inputFile = new File(args[0]);
-            File ouputFile = new File(args[1]);
+            File outputFile = new File(args[1]);
 
-            Lib counter = new Lib(inputFile,ouputFile);
+            Lib counter = new Lib(inputFile,outputFile);
             //输出字符数和单词数
             counter.countCharAndWord();
             //输出有效行数
