@@ -6,9 +6,10 @@ import java.util.PriorityQueue;
 import java.util.concurrent.ExecutionException;
 
 public class HugeDataCore {
+	//一兆文件大小
+	private static final long MINSIZE = 1024 * 1024;
 	private File inputFile;
 	private File files[];
-	private static final long MINSIZE = 1024 * 1024;
 	private int divNum;
 	private File cacheDir;
 	private boolean div = false;
