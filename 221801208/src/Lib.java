@@ -14,51 +14,51 @@ public class Lib {
     private Set<Word> set = new TreeSet<>();
 
     //单词类
-    class Word implements Comparable<Word> {
+    class Word implements Comparable<Word>{
 
         String word;     //单词
         int frequency;    //单词出现次数
 
-        Word(String s, int frqy) {
+        Word(String s,int frqy){
             word = s;
             frequency = frqy;
         }
 
         @Override
         public int compareTo(Word w) {
-            if (this.frequency > w.frequency)
+            if(this.frequency > w.frequency)
                 return -1;
-            else if (this.frequency < w.frequency)
+            else if(this.frequency < w.frequency)
                 return 1;
             else
                 return this.word.compareTo(w.word);
         }
     }
 
-    Lib(File file1, File file2) {
+    Lib(File file1, File file2){
         inputFile = file1;
         outputFile = file2;
         try {
             reader = new BufferedReader(new FileReader(inputFile));
             writer = new BufferedWriter(new FileWriter(outputFile));
-        } catch (Exception e) {
+        }
+        catch (Exception e){
         }
     }
 
     /**
      * 判断一个字符串是否为单词
-     *
      * @param curWord
      * @return
      */
-    public boolean isWord(String curWord) {
+    public boolean isWord(String curWord){
         //长度小于4不属于单词
-        if (curWord.length() < 4)
+        if(curWord.length() < 4)
             return false;
         //前四个字符为字母才属于单词
-        for (int i = 0; i < 4; i++) {
-            if (!(curWord.charAt(i) >= 65 && curWord.charAt(i) <= 90) &&
-                    !(curWord.charAt(i) >= 97 && curWord.charAt(i) <= 122)) {
+        for(int i = 0; i < 4; i++){
+            if(!(curWord.charAt(i) >= 65 && curWord.charAt(i) <= 90) &&
+                    !(curWord.charAt(i) >= 97 && curWord.charAt(i) <= 122)){
                 return false;
             }
         }
@@ -67,17 +67,16 @@ public class Lib {
 
     /**
      * 将单词插入hashmap
-     *
      * @param curWord
      */
-    public void wordToHashMap(String curWord) {
+    public void wordToHashMap(String curWord){
         String lowerWord = curWord.toLowerCase();
         Integer times = map.get(lowerWord);
         //times==null说明这个单词已经插入hashmap
-        if (times != null)
-            map.put(lowerWord, times + 1);
+        if(times != null)
+            map.put(lowerWord,times+1);
         else
-            map.put(lowerWord, 1);
+            map.put(lowerWord,1);
     }
 
     /**
@@ -120,21 +119,7 @@ public class Lib {
         }
         writer.write("characters: " + CharNum + "\n");
         writer.write("words: " + WordNum + "\n");
-    }
 
-    /**
-     * 统计并打印有效行数
-     * @throws IOException
-     */
-    public void countRowNum() throws IOException{
-        String row;
-        BufferedReader reader1 = new BufferedReader(new FileReader(inputFile));
-        while((row = reader1.readLine()) != null){
-            //只统计包含非空白字符的行
-            if(!row.trim().isEmpty())
-                RowNum++;
-        }
-        writer.write("lines:" + RowNum + "\n");
     }
 
     /**
@@ -157,5 +142,29 @@ public class Lib {
             if(i >= 10)
                 break;
         }
+    }
+
+    /**
+     * 统计并打印有效行数
+     * @throws IOException
+     */
+    public void countRowNum() throws IOException{
+        String row;
+        BufferedReader reader1 = new BufferedReader(new FileReader(inputFile));
+        while((row = reader1.readLine()) != null){
+            //只统计包含非空白字符的行
+            if(!row.trim().isEmpty())
+                RowNum++;
+        }
+        writer.write("lines:" + RowNum + "\n");
+    }
+
+    /**
+     * 关闭文件
+     * @throws IOException
+     */
+    public void closeFile() throws IOException{
+        reader.close();
+        writer.close();
     }
 }
