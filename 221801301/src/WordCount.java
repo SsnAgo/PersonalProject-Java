@@ -8,15 +8,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WordCount {
 	public static void main(String[] args) throws IOException{
-		//File f1=new File("C:\\Users\\31139\\workspace\\WordCount\\src\\input.txt");
-		//FileWriter writer=new FileWriter("C:\\Users\\31139\\workspace\\WordCount\\src\\output.txt");
-		File f1=new File(args[0]);
-		FileWriter writer=new FileWriter(args[1]);
+		File f1=new File("C:\\Users\\31139\\workspace\\WordCount\\src\\input.txt");
+		FileWriter writer=new FileWriter("C:\\Users\\31139\\workspace\\WordCount\\src\\output.txt");
+		//File f1=new File(args[0]);
+		//FileWriter writer=new FileWriter(args[1]);
 		
 		//统计文件的字符数（对应输出第一行）：只需要统计Ascii码，汉字不需考虑,空格，水平制表符，换行符，均算字符
 		try{
@@ -29,9 +35,10 @@ public class WordCount {
 		}
 		
 		//统计文件的单词总数（对应输出第二行）
+		String[] linewords= {};
 		try {
 			String toLine=turnToLine(f1);
-			String[] linewords=splitLine(toLine);
+			linewords=splitLine(toLine);
 			writer.write("words："+countWords(linewords));
 			System.out.println("words："+countWords(linewords));
 		}
@@ -43,12 +50,14 @@ public class WordCount {
 		try{
 			int line=getLine(f1);
 			writer.write("lines："+line);
-			writer.close();
 			System.out.println("lines："+line);
 		}
 		catch(IOException exc){
 			System.out.println("File error!");
 		}
+		
+		//统计文件中各单词的出现次数（对应输出接下来10行），最终只输出频率最高的10个。
+		setFrequency(linewords,writer);
 
 	}
 	
@@ -135,5 +144,66 @@ public class WordCount {
 			}
 		}
 		return cnt;
+	}
+	
+	//用hashmap统计词频
+	public static void setFrequency(String[] linewords,FileWriter writer) {
+		Map<String,Integer> hashMap=new HashMap<String,Integer>();
+		Set<String> wordSet=hashMap.keySet();
+		Pattern pattern = Pattern.compile("[a-zA-Z]{4}([a-zA-Z0-9])*");
+		for(int i=0;i<linewords.length;i++) {
+			Matcher matcher = pattern.matcher(linewords[i]);
+			if(matcher.find()) {
+				String word=matcher.group();
+				//如果已经有这个单词了，
+				if(wordSet.contains(word)) {
+					Integer number=hashMap.get(word);
+					number++;
+					hashMap.put(word, number);
+				}
+				else {
+					hashMap.put(word, 1);
+				}
+			}
+		}
+		//排序
+		List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(hashMap.entrySet());
+		list.sort(new Comparator<Map.Entry<String, Integer>>() {
+			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+				if(o2.getValue()!=o1.getValue()) {
+		       		return o2.getValue().compareTo(o1.getValue());//value不同逆序排序
+		       	}
+		       	else
+		       		return -o2.getKey().compareTo(o1.getKey());//value相同按照key字典序正序排序
+			}
+		});
+		//输出前十个单词
+		if(list.size()<=10) {
+			for (int i = 0; i < list.size(); i++) {
+				try {
+					writer.write(list.get(i).getKey()+": "+list.get(i).getValue());
+					System.out.println(list.get(i).getKey()+": "+list.get(i).getValue());
+				}
+				catch(IOException exc){
+					System.out.println("File error!");
+				}
+			}   
+		}
+		else {
+			for (int i=0;i<10;i++) {
+				try {
+					writer.write(list.get(i).getKey()+": "+list.get(i).getValue());
+					System.out.println(list.get(i).getKey()+": "+list.get(i).getValue());
+				}
+				catch(IOException exc){
+					System.out.println("File error!");
+				}
+			}
+		}
+		try {
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
