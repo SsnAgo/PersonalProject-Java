@@ -26,8 +26,9 @@ public class WordCount {
 		
 		//统计文件的字符数（对应输出第一行）：只需要统计Ascii码，汉字不需考虑,空格，水平制表符，换行符，均算字符
 		try{
-			int num=getCharNum(f1);
-			writer.write("characters："+num);
+			int num=0;
+			num=getCharNum(f1);
+			writer.write("characters: "+num);
 			System.out.println("characters："+num);
 		}
 		catch(IOException exc){
@@ -40,7 +41,7 @@ public class WordCount {
 			String toLine=turnToLine(f1);
 			linewords=splitLine(toLine);
 			writer.write("words："+countWords(linewords));
-			System.out.println("words："+countWords(linewords));
+			System.out.println("words: "+countWords(linewords));
 		}
 		catch(IOException exc){
 			System.out.println("File error!");
@@ -50,7 +51,7 @@ public class WordCount {
 		try{
 			int line=getLine(f1);
 			writer.write("lines："+line);
-			System.out.println("lines："+line);
+			System.out.println("lines: "+line);
 		}
 		catch(IOException exc){
 			System.out.println("File error!");
@@ -77,24 +78,17 @@ public class WordCount {
 	}
 	
 	//实现统计文件行数的功能
-	public static int getLine(File file){
-		int line=0;
-		try {
-			if(file.exists()) {
-				long fileLength=file.length();
-				FileReader fileReader=new FileReader(file);
-				LineNumberReader lineNumberReader=new LineNumberReader(fileReader);
-				lineNumberReader.skip(fileLength);
-				line=lineNumberReader.getLineNumber();
-				lineNumberReader.close();
-			}
-			else
-				System.out.println("file does not exist.");
-		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
-		return line;
+	public static int getLine(File file) throws IOException{
+		int linenum=0;
+		BufferedReader input = new BufferedReader(new FileReader(file));
+        String line = null;
+        while ((line = input.readLine()) != null) {
+            if (line.trim().equals("")) 
+            	continue;
+            else
+            	linenum++;
+        }
+		return linenum;
 	}
 	
 	//将文件转化为一个字符串 每行之间用空格分开
