@@ -3,21 +3,28 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Lib {
-    public static Reader openInputFile(String fileName) throws FileNotFoundException {
+    public static Reader openInputFile(String fileName) {
         File file = new File(fileName);
-        Reader reader = new InputStreamReader(new FileInputStream(file));
+        Reader reader = null;
+        try {
+            reader = new InputStreamReader(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("文件不存在");
+        }
         return reader;
     }
 
-    public static FileWriter openOutputFile(String fileName) throws IOException {
+    public static BufferedWriter openOutputFile(String fileName) throws IOException {
         FileWriter fileWriter = new FileWriter(fileName, true);
-        return fileWriter;
+        BufferedWriter bw = new BufferedWriter(fileWriter);
+        return bw;
     }
 
     //统计字符数，空格，水平制表符，换行符，均算字符
     public static int charactersCount(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
-        FileWriter writer = new FileWriter(outputFile);
+        Writer writer = new FileWriter(outputFile);
         int num = 0;
         int temp;
         while ((temp = reader.read()) != -1) {
@@ -45,7 +52,7 @@ public class Lib {
                 temp = reader.read();
             }
             char[] chars = word.toCharArray();
-            if (isValidChars(chars)) {//如果单词不为空。单词数量++
+            if (isValidChars(chars)) {//如果单词合法，则单词总数++
                 num++;
             }
             word = "" + (char) temp;
@@ -84,7 +91,7 @@ public class Lib {
     //统计单词的出现次数（对应输出接下来10行），最终只输出频率最高的10个。
     public static Map wordNum(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
-        FileWriter writer = openOutputFile(outputFile);
+        Writer writer = openOutputFile(outputFile);
         int temp;
         String word = "";
         Map<String, Integer> words = new HashMap<String, Integer>();
@@ -100,7 +107,7 @@ public class Lib {
                 temp = reader.read();
             }
             char[] chars = word.toCharArray();
-            if (isValidChars(chars)) {//如果单词不为空。单词数量++
+            if (isValidChars(chars)) {//如果单词合法，则单词总数++
                 if (words.get(word) == null) {
                     words.put(word, Integer.valueOf(1));
                 } else {
@@ -133,7 +140,7 @@ public class Lib {
     }
 
     //打印出频率前十的单词
-    public static void printWords(Map<String, Integer> map, FileWriter writer) throws IOException {
+    public static void printWords(Map<String, Integer> map, Writer writer) throws IOException {
         int i = 0;
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
             writer.write(entry.getKey() + ": " + entry.getValue() + "\n");

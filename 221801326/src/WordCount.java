@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Map;
 
 public class WordCount {
     public static void main(String[] args) throws IOException {
