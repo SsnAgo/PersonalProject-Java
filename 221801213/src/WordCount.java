@@ -11,17 +11,15 @@ public class WordCount
 	public static void main(String args[])
 	{
 		
-		File file = new File("D:\\Program Files\\github\\PersonalProject-Java\\221801213\\bin\\input.txt");	
 		Lib lib=new Lib();
 		
-		String input="D:\\Program Files\\github\\PersonalProject-Java\\221801213\\bin\\input.txt";
-        String output="D:\\Program Files\\github\\PersonalProject-Java\\221801213\\bin\\output.txt";
+		String input="D:\\Program Files\\github\\PersonalProject-Java\\221801213\\src\\input.txt";
+		String output="D:\\Program Files\\github\\PersonalProject-Java\\221801213\\src\\output.txt";
         
 		File inputFile=new File(input);	
 		File outputFile=new File(output);
 		lib.process(inputFile, outputFile);
 		
-
 	}
 }
 
