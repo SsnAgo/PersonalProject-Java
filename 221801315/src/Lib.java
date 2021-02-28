@@ -13,7 +13,7 @@ public class Lib {
        输入参数：输入文件路径inFilePath，输出文件路径outFilePath
        返回值：空
        异常：输入文件不存在异常FileNotFoundException*/
-    public static void checkFileValid(String inFilePath, String outFilePath) throws FileNotFoundException{
+    public static void checkFileValid(String inFilePath, String outFilePath) throws FileNotFoundException {
         File inFile = new File(inFilePath);
         //当输入文件不存在时，打印提示信息，抛出异常
         if (!inFile.exists()) {
@@ -31,5 +31,24 @@ public class Lib {
             }
         }
     }
-    
+
+    /* 统计输入文件中的字符总数
+       输入参数：文件读取流in
+       返回值：字符总数count */
+    public static int countTotalChar(Reader in) {
+        int count = 0;    //记录字符总数
+        try {
+            int temp = in.read();  //记录读取的字符
+            //读取文件，直到文件结束
+            while (temp != -1) {
+                if (temp >= 0 && temp <= 127)
+                    ++count;
+                temp = in.read();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
 }
