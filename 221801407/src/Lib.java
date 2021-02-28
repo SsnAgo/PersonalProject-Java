@@ -7,6 +7,7 @@ class Lib{
     OutputStreamWriter out;
     BufferedReader br;
     HashMap<String,Integer> wordMap = new HashMap<String, Integer>();
+    List<Map.Entry<String,Integer>>list;
     Lib(){
         charCount = 0;
         wordCount = 0;
@@ -95,7 +96,7 @@ class Lib{
         }
     }
     void getWordTopTen(){
-        List<Map.Entry<String,Integer>>list = new ArrayList<Map.Entry<String, Integer>>(wordMap.entrySet());
+        list = new ArrayList<Map.Entry<String, Integer>>(wordMap.entrySet());
         list.sort(new Comparator<Map.Entry<String, Integer>>() {
             @Override
             public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
@@ -104,11 +105,24 @@ class Lib{
             }
         });
         for(int i = 0;i<(list.size()<10 ? list.size():10);i++){
-            System.out.println(list.get(i).getKey()+" "+list.get(i).getValue());
+            System.out.println(list.get(i).getKey()+": "+list.get(i).getValue());
         }
     }
 
-    void writeFile(){
-
+    void writeFile(String outputFile){
+        try {
+            out = new OutputStreamWriter(new FileOutputStream(outputFile));
+            String str = "characters: "+charCount+"\n"
+                    + "words: "+wordCount+"\n"
+                    +"lines: "+lineCount+"\n";
+            for(int i = 0;i<(list.size()<10 ? list.size():10);i++){
+                str+=(list.get(i).getKey()+": "+list.get(i).getValue()+"\n");
+            }
+            out.write(str);
+            out.flush();
+            out.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
