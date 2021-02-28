@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class WordCount
 {
@@ -41,6 +42,7 @@ public class WordCount
             inputStreamReader = new InputStreamReader(new FileInputStream(inputFileName));
             bufferedReader = new BufferedReader(inputStreamReader);
             StringBuilder contents = new StringBuilder();
+            Map<String, Long> words;
 
             int in;
             while ((in = bufferedReader.read()) != -1)
@@ -51,8 +53,9 @@ public class WordCount
 
             charCnt = CharCounter.countChar(content);
             lineCnt = LineCounter.countLine(content);
-            wordCnt = WordCounter.countWord(content);
-            freqList = FrequencySorter.sortFrequency(content);
+            words = StringAnalyser.analyseString(content);
+            wordCnt = WordCounter.countWord(words);
+            freqList = FrequencySorter.sortFrequency(words);
 
             bufferedReader.close();
             inputStreamReader.close();

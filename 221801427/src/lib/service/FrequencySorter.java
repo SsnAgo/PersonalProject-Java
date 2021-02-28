@@ -2,12 +2,10 @@ package lib.service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class FrequencySorter
 {
     public static final int MAX_SIZE = 10;
-    private static String INVALID_TOKEN_REGEX = "[^0-9A-Za-z]";
     /**
      * @param words
      * @return freqMap
@@ -24,30 +22,8 @@ public class FrequencySorter
      * @param content
      * @return freqList
      */
-    public static ArrayList<HashMap.Entry<String, Long>> sortFrequency(String content)
+    public static ArrayList<HashMap.Entry<String, Long>> sortFrequency(Map<String, Long> words)
     {
-        List<String> lines = Arrays.asList(content);
-        Map<String, Long> words = lines.stream().flatMap(w -> Stream.of(w.split(INVALID_TOKEN_REGEX))).filter(w ->
-        {
-            int i = 0;
-            char[] chars = w.toCharArray();
-            if (w.length() >= 4)
-            {
-                for (; i < 4; i++)
-                {
-                    if (!Character.isLetter(chars[i]))
-                    {
-                        return false;
-                    }
-                }
-            }
-            else
-            {
-                return false;
-            }
-            return true;
-        }).collect(Collectors.groupingBy(w -> w, Collectors.counting()));
-
         ArrayList<HashMap.Entry<String, Long>> freqList = new ArrayList<HashMap.Entry<String, Long>>(
                 getFreqMap(words).entrySet());
 
