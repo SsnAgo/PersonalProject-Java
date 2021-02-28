@@ -138,9 +138,7 @@ public class Lib {
         try {
             int c;
             while ((c = reader.read()) != -1) {
-                if (c != 13) {
-                    builder.append((char) c);
-                }
+                builder.append((char) c);
             }
             reader.close();
         } catch (IOException e) {
