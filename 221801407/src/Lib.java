@@ -1,5 +1,5 @@
 import java.io.*;
-import java.util.HashMap;
+import java.util.*;
 
 class Lib{
     int charCount, wordCount, lineCount;
@@ -69,11 +69,10 @@ class Lib{
                 else if (x<='9'&&x>='0'&&letterCount>=4){
                     word += (char)x;
                 }
-                //分隔符
                 else{
                     if(letterCount>=4){
                         wordCount++;
-                        System.out.println(word);
+                        addWordMap(word);
                     }
                     letterCount = 0;
                     word = "";
@@ -85,6 +84,28 @@ class Lib{
             e.printStackTrace();
         }
         return wordCount;
+    }
+    void addWordMap(String word){
+        word = word.toLowerCase();
+        if(wordMap.containsKey(word)){
+            wordMap.put(word, wordMap.get(word)+1);
+        }
+        else {
+            wordMap.put(word,1);
+        }
+    }
+    void getWordTopTen(){
+        List<Map.Entry<String,Integer>>list = new ArrayList<Map.Entry<String, Integer>>(wordMap.entrySet());
+        list.sort(new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                if(o1.getValue().equals(o2.getValue())) {return o1.getKey().compareTo(o2.getKey());}
+                else {return o2.getValue().compareTo(o1.getValue());}
+            }
+        });
+        for(int i = 0;i<(list.size()<10 ? list.size():10);i++){
+            System.out.println(list.get(i).getKey()+" "+list.get(i).getValue());
+        }
     }
 
     void writeFile(){
