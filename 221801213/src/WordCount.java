@@ -11,13 +11,15 @@ public class WordCount
 	public static void main(String args[])
 	{
 		
-		File file = new File("input.txt");	
+		File file = new File("D:\\Program Files\\github\\PersonalProject-Java\\221801213\\bin\\input.txt");	
 		Lib lib=new Lib();
 		
-		System.out.println("characters: "+lib.countChar(file));	//读取字符数
-		lib.countWord(file);	//读取单词数
-		System.out.println("lines: "+lib.countLine(file));	//读取行数
-		lib.countWordFrequency(file);	//读取单词频率
+		String input="D:\\Program Files\\github\\PersonalProject-Java\\221801213\\bin\\input.txt";
+        String output="D:\\Program Files\\github\\PersonalProject-Java\\221801213\\bin\\output.txt";
+        
+		File inputFile=new File(input);	
+		File outputFile=new File(output);
+		lib.process(inputFile, outputFile);
 		
 
 	}

@@ -32,7 +32,7 @@ public class Lib
 		return false;
 	}
 
-	public int countChar(File file)	//统计字符数
+	public void countChar(File file,File output)	//统计字符数
 	{
 		try 
 		{		
@@ -44,32 +44,12 @@ public class Lib
 			{
 					i++; //累计字符数
 			}
+			
 			bfr.close();
 			fr.close();		
-			return i;
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		
-		return 0;
-	}
-	
-	public void showChar(File file) //展示所有字符
-	{
-		try 
-		{		
-			FileReader fr = new FileReader(file);
-			BufferedReader bfr = new BufferedReader(fr);
-			char ch;
-			while((ch = (char) bfr.read()) != (char)-1)//按字符读取文本内容
-			{
-					System.out.print(ch);
-					System.out.print('|');
-			}
-			bfr.close();
-			fr.close();		
+			
+			System.out.println("characters: "+i);
+			writeToText(output,"characters: "+i+"\n");
 		}
 		catch(Exception e)
 		{
@@ -78,30 +58,31 @@ public class Lib
 		
 	}
 	
-	public int countLine(File file) //统计行数
+	public void countLine(File file,File output) //统计行数
 	{
 		try 
 		{		
-			FileReader fr = new FileReader(file);
-			BufferedReader bufr = new BufferedReader(fr);
-			int i = 0;	//行数
-			while(bufr.readLine() != null)
+			FileReader fr=new FileReader(file);
+			BufferedReader bufr=new BufferedReader(fr);
+			int i=0;	
+			String str;
+			while((str=bufr.readLine())!=null)
 			{
-				i++;//累计行数
+				if (!str.equals("")) 
+					i++;
 			}
 			bufr.close();
 			fr.close();		
-			return i;
+			System.out.println("lines: "+i);
+			writeToText(output,"lines: "+i+"\n");
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		
-		return 0;
 	}
 	
-	public void countWord(File file) //统计单词数
+	public void countWord(File file,File output) //统计单词数
 	{
 		int countWords=0;
 		
@@ -163,9 +144,10 @@ public class Lib
 		}
 
 		System.out.println("words: "+countWords);
+		writeToText(output,"words: "+countWords+"\n");
 	}
 	
-	public void countWordFrequency(File file) //统计单词出现频率
+	public void countWordFrequency(File file,File output) //统计单词出现频率
 	{
 		HashMap<String,Integer> has=new HashMap<String,Integer>(); //统计词频
 		int countWords=0;
@@ -225,7 +207,7 @@ public class Lib
 			e.printStackTrace();
 		}
 
-		outputWords(has); //将HashMap按需求输出
+		outputWords(has,output); //将HashMap按需求输出
 	}
 	
 	public void addWordToHash(HashMap<String,Integer> has,String str)
@@ -257,7 +239,7 @@ public class Lib
 
 	}
 	
-	public void outputWords(HashMap<String,Integer> has) //按频率输出
+	public void outputWords(HashMap<String,Integer> has,File output) //按频率输出
 	{
 	 
 		//遍历map
@@ -294,9 +276,10 @@ public class Lib
         	while(iterator.hasNext())
     		{
     			String word=(String)iterator.next();
-    			if (num<=10)
+    			if (num<10)
     			{
     				System.out.println(word+": "+i);
+    				writeToText(output,word+": "+i+"\n");
     				num++;
     			}
     		}
@@ -304,6 +287,43 @@ public class Lib
 		
 		
 	}
-
-
+	
+	public void writeToText(File file,String str) 
+	{
+		try 
+		{	   
+			FileWriter writer = new FileWriter(file, true);
+			writer.write(str);
+			writer.close();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void clearText(File file) //output.txt
+	{
+		try 
+		{	   
+			FileWriter writer = new FileWriter(file);
+			writer.write("");
+			writer.close();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void process(File input,File output)
+	{
+ 
+		clearText(output);	
+		
+		countChar(input,output);	//
+		countWord(input,output);	//
+		countLine(input,output);	//
+		countWordFrequency(input,output);	//
+	}
 }
