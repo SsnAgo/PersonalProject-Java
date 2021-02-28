@@ -85,8 +85,18 @@ public class Lib {
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         String str;
         while((str = bufferedReader.readLine() )!= null){
-            if(!str.equals(""))
-                lines++;
+            if(!str.equals("")) {
+                int len = str.length();
+                for (int i = 0; i < len; i++) {
+                    char ch = str.charAt(i);
+                    if (ch == '\n' || ch == '\t' || ch == '\r' || ch == 32) {
+                        continue;
+                    } else {
+                        lines++;
+                        break;
+                    }
+                }
+            }
         }
 
         fileWriter.write("\n");
