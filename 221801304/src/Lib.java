@@ -33,19 +33,20 @@ public class Lib {
                 if(countAlpha < 4)
                     countAlpha = 0;//如果没有连续四个英文字母，计数清零
             }
-            if(countAlpha >= 4){//如果有连续四个英文字母，合法单词诞生
+            if(countAlpha >= 4){//如果有连续四个英文字母，单词诞生
+                int len = chars.length();
                 wordFlag = true;
                 if(isAlpha((char) ch) || isNum((char) ch))
                     wordLength++;
                 else{//遇到分隔符，单词确定
                     wordFlag = false;
-                    int len = chars.length();
                     String word = chars.substring(len - wordLength - 1, len - 1).toLowerCase(Locale.ROOT);
-                    if(map.containsKey(word)){
+                    if(word.length() < len - 1 && isNum(chars.charAt(len - wordLength - 2))){
+                        //单词前有分隔符或无字符才算是单词
+                    }else if(map.containsKey(word)){
                         int value = map.get(word);
                         map.put(word, value + 1);
-                    }
-                    else
+                    }else
                         map.put(word, 1);
                     countAlpha = 0;
                     wordLength = 3;
@@ -53,12 +54,13 @@ public class Lib {
             }
         }
         if(wordFlag){//防止读到结束时正在截取的单词的丢失
-            String word = chars.substring(chars.length() - wordLength, chars.length()).toLowerCase(Locale.ROOT);
-            if(map.containsKey(word)){
+            int len = chars.length();
+            String word = chars.substring(len - wordLength, len).toLowerCase(Locale.ROOT);
+            if(word.length() < len - 1 && isNum(chars.charAt(len - wordLength - 1))){
+            }else if(map.containsKey(word)){
                 int value = map.get(word);
                 map.put(word, value + 1);
-            }
-            else
+            }else
                 map.put(word, 1);
         }
         fileReader.close();
