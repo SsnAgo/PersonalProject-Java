@@ -4,15 +4,16 @@ public class Counter {
 
     public static String openFilePath = "D:\\IDEA\\PersonalProject-Java\\input.txt" ;
     public static String writeFilePath = "D:\\IDEA\\PersonalProject-Java\\output.txt" ;
-    public int countLines;
-    public int countChars;
-    public int countWords;
+    public int countLines = 0;
+    public int countChars = 0;
+    public int countWords = 0;
 
     public void open() throws IOException {
         openFile(openFilePath);
     }
     public void write() throws IOException {
         getChars(readFile());
+        getLines();
         writeFile(writeFilePath,"test");
     }
 
@@ -30,6 +31,15 @@ public class Counter {
         return builder.toString();
     }
 
+    public void getLines() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
+        while(reader.readLine() != null)
+        {
+            countLines++;
+        }
+        reader.close();
+    }
+
     //计数写入output.txt
     public void writeFile(String path, String content){
         File file = new File(path);
@@ -37,6 +47,7 @@ public class Counter {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write(content);
             writer.write("characters: " + countChars + "\n");
+            writer.write("lines: " + countLines + "\n");
             writer.flush();
             writer.close();
         }catch(IOException e){
