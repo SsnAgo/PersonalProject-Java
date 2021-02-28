@@ -18,11 +18,11 @@ public class WordCount
     private static String inputFileName;
     private static String outputFileName;
     private static String content = new String();
-    // private static String FLITER_REGEX = "[^0-9A-Za-z]";
+
     private int charCnt = 0;
     private int wordCnt = 0;
     private int lineCnt = 0;
-    //private int invalidLineCnt = 0;
+
     ArrayList<HashMap.Entry<String, Long>> freqList;
 
     public WordCount(String inputFileName, String outputFileName)
@@ -35,7 +35,6 @@ public class WordCount
     {
         InputStreamReader inputStreamReader = null;
         BufferedReader bufferedReader = null;
-        String line = null;
 
         try
         {
@@ -43,18 +42,15 @@ public class WordCount
             bufferedReader = new BufferedReader(inputStreamReader);
             StringBuilder contents = new StringBuilder();
 
-            while ((line = bufferedReader.readLine()) != null)
+            int in;
+            while ((in = bufferedReader.read()) != -1)
             {
-                if (!line.trim().equals(""))
-                {
-                    lineCnt++;// 统计有效行数
-                }
-                contents.append(line);
-                contents.append("\n");
+                contents.append((char) in);
             }
             content = contents.toString().toLowerCase();
 
             charCnt = CharCounter.countChar(content);
+            lineCnt = LineCounter.countLine(content);
             wordCnt = WordCounter.countWord(content);
             freqList = FrequencySorter.sortFrequency(content);
 
