@@ -68,20 +68,35 @@ public class Lib {
     public static int countWords(String inputFile, String outputFile) throws IOException{
         Map<String, Integer> map = handleWords(inputFile);
         FileWriter fileWriter = new FileWriter(outputFile, true);
-        int words = map.size();
+        int words = 0;
+        for(int value : map.values()){
+            words += value;
+        }
         fileWriter.write("\n");
         fileWriter.write("words: " + words);
         fileWriter.close();
         return words;
     }
 
-//    public static int countLines(String inputFile, String outputFile) throws IOException{
-//        FileReader fileReader = new FileReader(inputFile);
-//        FileWriter fileWriter = new FileWriter(outputFile, true);
-//        int lines = 0;
-//
-//    }
-//
+    public static int countLines(String inputFile, String outputFile) throws IOException{
+        FileReader fileReader = new FileReader(inputFile);
+        FileWriter fileWriter = new FileWriter(outputFile, true);
+        int lines = 0;
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String str;
+        while((str = bufferedReader.readLine() )!= null){
+            if(!str.equals(""))
+                lines++;
+        }
+
+        fileWriter.write("\n");
+        fileWriter.write("lines: " + lines);
+        fileReader.close();
+        bufferedReader.close();
+        fileWriter.close();
+        return lines;
+    }
+
     public static void printWords(String inputFile, String outputFile) throws IOException{
         Map<String, Integer> map = handleWords(inputFile);
         FileWriter fileWriter = new FileWriter(outputFile, true);
