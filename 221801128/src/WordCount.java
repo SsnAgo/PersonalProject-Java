@@ -21,10 +21,10 @@ public class WordCount {
         }
         WordCount wordcount = new WordCount(args[0],args[1]);
         
-		File dir = new File(" ");
-		inputfile = dir.getCanonicalPath()+"\\src\\"+inputfile;
-		outputfile = dir.getCanonicalPath()+outputfile;
-		System.out.println("读取文件的地址："+inputfile);
+		File dir = new File(".");
+		inputfile = dir.getCanonicalPath()+"\\"+inputfile;
+		outputfile = dir.getCanonicalPath()+"\\"+outputfile;
+		//System.out.println("读取文件的地址："+inputfile);
 		
 		BufferedReader br = null;
 		try {
@@ -33,7 +33,7 @@ public class WordCount {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Lib.solve(br);
+		Lib.saveWord(inputfile);
 		br.close();
 		Lib.printall(inputfile);
 		//写入指定文件

@@ -1,8 +1,11 @@
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class Lib {
 	
@@ -35,6 +39,51 @@ public class Lib {
 	}
 	
 	/**
+	 * 判断是否属于有效单词
+	 */
+	public static boolean isWord(String word){
+        String pattern = "[a-z]{4}.*";
+        boolean isMatch = Pattern.matches(pattern,word);
+        return isMatch;
+    }
+	
+	/**
+	 * 保存单词
+	 */
+	 public static void saveWord(String inputfile){
+		 BufferedReader br = null;
+	     try {
+	         br = new BufferedReader(new InputStreamReader(new FileInputStream(inputfile)));
+	     } catch (FileNotFoundException e) {
+	            System.out.println("未找到目标文件," + "当前文件位置" + inputfile);
+	     }
+	     String str = null;
+
+	     while(true){
+	         try {
+	             if (!((str= br.readLine())!=null)) break;
+	         } catch (IOException e) {
+	             System.out.println("文件读取出现问题");
+	         }
+	         String[] splitStr = str.split("[^0-9a-zA-Z]");
+	         for(int i=0;i<splitStr.length;i++){
+	             splitStr[i] = splitStr[i].toLowerCase();
+	             if(isWord(splitStr[i])){
+	                 if(hash.get(splitStr[i])==null){
+	                     hash.put(splitStr[i],1);
+	                 }else{
+	                     hash.put(splitStr[i],hash.get(splitStr[i])+1);
+	                 }
+	             }
+	         }
+	     }
+	     try {
+	         br.close();
+	     } catch (IOException e) {
+	         System.out.println("文件读取未能正确关闭");
+	     }
+    }
+	/**
 	 * 统计总字符数
 	 */
 	public static int countChar(String inputfile) throws IOException {
@@ -49,6 +98,7 @@ public class Lib {
 		return charCount;
 	}
 	 
+	
 	/**
 	 * 统计总单词数
 	 */
@@ -81,113 +131,23 @@ public class Lib {
 		        br.close();
 		        return countLine;
 		    }
-	/**
-	 * 将单词加入数组
-	 */
-	public static void towords(String word) {
-		int m = 0;
-		Set<Map.Entry<String, Integer>> set=hash.entrySet();
-	    Iterator<Map.Entry<String, Integer>> it=set.iterator();
-	    while(it.hasNext()){
-	        Map.Entry<String, Integer> e=it.next();
-	        if(!word.equals(null)) {
-	        	if(word.equals(e.getKey())) {
-	        		hash.put(word, (e.getValue()+1));
-	        		m = 1;
-	        	}
-	        }
-	    }
-	    if(m == 0) {
-	    	hash.put(word, 1);
-	    }
-	}
 	
 	/**
-	 * 按频率从大到小排序
+	 * 按词频以及字典序排序
 	 */
 	public static List<HashMap.Entry<String, Integer>> getSortedList(HashMap<String,Integer> wordMap) {
         List<HashMap.Entry<String, Integer>> wordOfList = new ArrayList<>(wordMap.entrySet());
-        Comparator<Map.Entry<String, Integer>> cmp = (o1, o2) -> {
-            if(o1.getValue().equals(o2.getValue()))
-                return o1.getKey().compareTo(o2.getKey());
-            return o2.getValue()-o1.getValue();
+        Comparator<Map.Entry<String, Integer>> cmp = (cmp1, cmp2) -> {
+            if(cmp1.getValue().equals(cmp2.getValue()))
+                return cmp1.getKey().compareTo(cmp2.getKey());
+            return cmp2.getValue()-cmp1.getValue();
         };
         wordOfList.sort(cmp);
         return wordOfList;
     }
 	
 
-	   /**
-	    * 对取得数据的处理
-	    */
-	  public static void solve(BufferedReader br) throws IOException {
-		  while((readline = br.read())!= -1) {
-				char c =Lib.toLower((char)readline);
-				if(!String.valueOf(c).matches("[\u4e00-\u9fa5]")) {
-					num++;
-				}
-				if(len<4) {
-					if(c>='a' && c<='z') {
-						if(x == 0) {
-							word+=c;
-							len+=1;
-						}
-						else {
-							len = 0;
-							word = "";
-							x = 0;
-						}
-					}
-					else if(c>='0' && c<='9'){
-						len = 0;
-						word = "";
-						x = 1;
-					}
-					else {
-						len = 0;
-						word = "";
-						x = 0;
-					}
-					
-					
-				}
-				else if(len>=4){
-					if(c>='a' && c<='z') {
-						if(x == 0) {
-							word+=c;
-							len+=1;
-						}
-						else {
-							Lib.towords(word);
-							word = "";
-							len = 0;
-							x = 0;
-						}
-					}
-					else if(c>='0' && c<='9') {
-						if(x == 0) {
-							x = 1;
-							word = word+""+c;
-							len+=1;
-						}
-						else {
-							word = word+""+c;
-							len+=1;
-						}
-					}
-					else if(!((c>='a' && c<='z')||(c>=0 && c<=9))) {
-						Lib.towords(word);
-						word = "";
-						len = 0;
-						x = 0;
-					}
-				}
-			}
-			if((readline = br.read()) == -1 && len>=4) {
-				Lib.towords(word);
-			}
-	  }
-		
+
 	  /**
 	   * 打印
 	 * @throws IOException 
@@ -197,8 +157,8 @@ public class Lib {
 	                + "words: " + Lib.countWords() + "\n"
 	                + "lines: " + Lib.countLines(inputfile) + "\n");
 		 int cnt = 0;
-		 List<HashMap.Entry<String, Integer>> sortedList = getSortedList(hash);
-	        for(HashMap.Entry<String,Integer> entry:sortedList) {
+		 List<HashMap.Entry<String, Integer>> List = getSortedList(hash);
+	        for(HashMap.Entry<String,Integer> entry:List) {
 	            if(cnt<=9){
 	                str.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
 	            }
@@ -225,8 +185,8 @@ public class Lib {
 			e.printStackTrace();
 		}
 
-		List<HashMap.Entry<String, Integer>> sortedList = getSortedList(hash);
-        for(HashMap.Entry<String,Integer> entry:sortedList) {
+		List<HashMap.Entry<String, Integer>> List = getSortedList(hash);
+        for(HashMap.Entry<String,Integer> entry:List) {
             if(cnt<=9){
                 str.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
             }
