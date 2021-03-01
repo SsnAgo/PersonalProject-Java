@@ -1,4 +1,9 @@
 import java.io.*;
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Counter {
 
@@ -11,6 +16,7 @@ public class Counter {
     public void open() throws IOException {
         openFile(openFilePath);
     }
+
     public void write() throws IOException {
         getChars(readFile());
         getLines();
@@ -31,6 +37,22 @@ public class Counter {
         return builder.toString();
     }
 
+    //单词数统计
+    public void getWords() throws IOException {
+
+        String pattern = "(\\D+\\d+)(\\D*)";
+        // 创建 Pattern 对象
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher("read123hh");
+        if (m.find()) {
+            System.out.println("Found value: " + m.group(0));
+            System.out.println("Found value: " + m.group(1));
+            System.out.println("Found value: " + m.group(2));
+        }
+
+        }
+
+    //行数统计
     public void getLines() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
         while(reader.readLine() != null)
