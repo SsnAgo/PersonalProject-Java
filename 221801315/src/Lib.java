@@ -33,14 +33,15 @@ public class Lib {
     }
 
     /* 统计输入文件中的字符总数
-       输入参数：文件读取流in
+       输入参数：输入文件路径inFilePath
        返回值：字符总数count */
-    public static int countTotalChar(Reader in) {
+    public static int countTotalChar(String inFilePath) {
         int count = 0;    //记录字符总数
         int temp;
 
         //测试文件不会出现ASCII码以外的字符，因此只需统计文件内容+换行+回车的长度即可
         try {
+            Reader in = new InputStreamReader(new FileInputStream(inFilePath));
             //读取文件，直到文件结束
             while ((temp = in.read()) != -1) {
                 ++count;
@@ -53,13 +54,14 @@ public class Lib {
     }
 
     /* 统计输入文件中的单词总数
-       输入参数：文件读取流in
+       输入参数：输入文件路径inFilePath
        返回值：单词总数count */
-    public static int countTotalWord(Reader in) {
+    public static int countTotalWord(String inFilePath) {
         int count = 0;    //记录单词总数
         int letterCount = 0;     //字母数
 
         try {
+            Reader in = new InputStreamReader(new FileInputStream(inFilePath));
             int temp = in.read();  //记录读取的字符
             //读取文件，直到文件结束
             while (temp != -1) {
