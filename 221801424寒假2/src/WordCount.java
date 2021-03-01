@@ -33,7 +33,7 @@ class WordCount {
                 for (int i = 1; i <= list.size(); i++) {
                     mapStringbuild.append(list.get(i - 1)).append("\n");
                 }
-                String mapWord = mapStringbuild.toString().replace("=", ":");
+                String mapWord = mapStringbuild.toString().replace("=", ": ");
 
                 System.out.println(stringBuilder + mapWord);
 
@@ -68,7 +68,7 @@ class WordCount {
                 for (int i = 1; i <= list.size(); i++) {
                     mapStringbuild.append(list.get(i - 1)).append("\n");
                 }
-                String mapWord = mapStringbuild.toString().replace("=", ":");
+                String mapWord = mapStringbuild.toString().replace("=", ": ");
                 System.out.println(stringBuilder + mapWord);
                 utils.writeTo(writePath, (stringBuilder + mapWord));
 //            long endTime = Utils.getTime();
