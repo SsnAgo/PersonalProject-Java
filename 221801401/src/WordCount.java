@@ -15,26 +15,25 @@ public class WordCount {
     
     //变量的初始化
     public void init() {
-        this.lines = Lib.getLineCount(this.inputPath);
-        this.characters = Lib.getCharactersCount(this.inputPath);
-        this.words = Lib.getWordsCount(this.inputPath);
+        this.lines = Lib.getLineCount(Lib.readFromFile(this.inputPath));
+        this.characters = Lib.getCharactersCount(Lib.readFromFile(this.inputPath));
+        this.words = Lib.getWordsCount(Lib.readFromFile(this.inputPath));
         }
+    
+    public void runWordCount() {
+        Lib.writeToFile(this.characters, this.words, this.lines, this.outputPath);
+    }
     public static void main(String[] args) {
-        //测试用
-        System.out.println("lines: " + Lib.getLineCount(Lib.readFromFile("D://test2.txt")));
-        System.out.println("characters: " + Lib.getCharactersCount(Lib.readFromFile("D://test2.txt")));
-        Lib.writeToFile(Lib.getCharactersCount(Lib.readFromFile("D://test2.txt")), 
-                Lib.getWordsCount(Lib.readFromFile("D://test2.txt")), 
-                Lib.getLineCount(Lib.readFromFile("D://test2.txt")), "D://test.txt");
-        
         if(args.length < 2) {
-            System.out.println("参数不足两个，请重新运行");
+            System.out.println("参数不足，请重新运行");
             }
         else {
+            long start = System.currentTimeMillis();
             WordCount wordCount = new WordCount(args[0], args[1]);
             wordCount.init();
-            Lib.writeToFile(wordCount.characters, wordCount.words, wordCount.lines, 
-                    wordCount.outputPath);
+            wordCount.runWordCount();
+            long end = System.currentTimeMillis();
+            System.out.println("time costs: " + (end - start) + "ms");
             }
         }
 }

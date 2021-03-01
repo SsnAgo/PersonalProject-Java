@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
  *
  * */
 public class Lib {
+    Lib lib = new Lib();
     //单词正则表达式
     private static String WORDS_RE = "[a-zA-Z]{4,}[a-zA-Z0-9]*";
     //分隔符正则表达式
@@ -28,7 +29,6 @@ public class Lib {
      * @return 字符串
      * */
     public static String readFromFile(String filePath) {
-        String str = "";
         int temp;
         BufferedReader br = null;
         StringBuilder builder = null;
@@ -86,7 +86,7 @@ public class Lib {
        for(int i = 0; i < ch.length; i++) {
            if(ch[i] >= 0 && ch[i] <= 127) {
                count++;
-           }
+           }else continue;
        }
        return count;
     }
@@ -133,13 +133,6 @@ public class Lib {
                 }else return m2.getValue()-m1.getValue();
                 }
             });	
-        int i = 0;
-        for(Map.Entry<String, Integer> map : list) {
-            if(i < 10) {
-                System.out.println(map.getKey() + ":" + map.getValue());
-                }
-            i++;
-            }
         return list;
     }
     
@@ -156,25 +149,28 @@ public class Lib {
         for(Map.Entry<String, Integer> map : list) {
             if(i < 10) {
                 str += map.getKey() + ": " + map.getValue() + "\n";
-                }
-            i++;
+                i++;
+                }else break;
             }
         
         //得到输出流
         FileOutputStream fos = null; 
         OutputStreamWriter writer = null;
+        BufferedWriter bw = null;
         
         try {
             fos = new FileOutputStream(filePath);
             writer = new OutputStreamWriter(fos, "UTF-8");
-            writer.write(str);
-            writer.flush();
+            bw = new BufferedWriter(writer);
+            bw.write(str);
+            bw.flush();
             }catch(IOException e) {
                 e.printStackTrace();
                 }finally {
                     try {
                         fos.close();
                         writer.close();
+                        bw.close();
                         }catch(IOException e) {
                             e.printStackTrace();
                             }
