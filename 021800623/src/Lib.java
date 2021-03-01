@@ -1,6 +1,5 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +14,7 @@ public class Lib {
     private int wordNum;
     private int lineNum;
     private Map<String,Integer> wordMap;
+
     public Lib(String readFileName, String writeFileName) {
         this.readFileName = readFileName;
         this.writeFileName = writeFileName;
@@ -23,6 +23,7 @@ public class Lib {
         lineNum = 0;
         wordMap = new HashMap<String, Integer>();
     }
+
    private String readFile() throws IOException {
         StringBuilder fileBuilder = new StringBuilder();
        try {
@@ -32,6 +33,7 @@ public class Lib {
            {
                fileBuilder.append((char)c);
            }
+
        } catch (FileNotFoundException e) {
            e.printStackTrace();
        }
@@ -56,7 +58,7 @@ public class Lib {
        }
        bufferedWriter.flush();
    }
-   
+
    private void calculateCharNum() throws IOException {
        fileContent = readFile();
        charNum = fileContent.length();
@@ -68,8 +70,24 @@ public class Lib {
         {
            if (isWord(content)){
                wordNum++;
+               String word = content.toLowerCase();
+               Integer count = wordMap.get(word);
+               if (count==null){
+                   count = 1;
+               } else {
+                   count++;
+               }
+               wordMap.put(word,count);
            }
         }
+        //对单词进行排序
+       List<Map.Entry<String,Integer>> list = new ArrayList<Map.Entry<String,Integer>>(wordMap.entrySet());
+       Collections.sort(list, new Comparator<Map.Entry<String,Integer>>() {
+           @Override
+           public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+               return o2.getValue().compareTo(o1.getValue());
+           }
+       });
    }
 
    private boolean isWord(String str)
@@ -81,3 +99,4 @@ public class Lib {
        }
    }
 }
+
