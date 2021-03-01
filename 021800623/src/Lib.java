@@ -36,14 +36,17 @@ public class Lib {
            }
 
        } catch (FileNotFoundException e) {
+           bufferedReader.close();
            e.printStackTrace();
        }
+       bufferedReader.close();
        return fileBuilder.toString();
    }
 
    public void writeFile() throws IOException {
        calculateCharNum();
        calculateWordNum();
+       calculateLineNum();
        bufferedWriter = new BufferedWriter(new FileWriter(writeFileName));
        bufferedWriter.write("characters: "+charNum+"\n");
        bufferedWriter.write("words: "+wordNum+"\n");
@@ -58,6 +61,7 @@ public class Lib {
            i++;
        }
        bufferedWriter.flush();
+       bufferedWriter.close();
    }
 
    private void calculateCharNum() throws IOException {
@@ -91,13 +95,31 @@ public class Lib {
        });
    }
 
-   private boolean isWord(String str)
-   {
+   private boolean isWord(String str) {
        if (str.matches("[a-zA-Z]{4}[a-zA-Z0-9]*")){
            return true;
        } else{
            return false;
        }
+   }
+
+   private void calculateLineNum() throws IOException {
+        bufferedReader = new BufferedReader(new FileReader(readFileName));
+        String line = null;
+        while ((line=bufferedReader.readLine())!=null){
+            if (isLine(line)){
+                lineNum++;
+            }
+        }
+   }
+
+   private boolean isLine(String line){
+        if (line.matches("\\s*")){
+            return false;
+        }
+        else {
+            return true;
+        }
    }
 }
 
