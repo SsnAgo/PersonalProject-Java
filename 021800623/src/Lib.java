@@ -1,7 +1,11 @@
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Lib {
+
     private String readFileName;
     private String writeFileName;
     private BufferedReader bufferedReader;
@@ -36,6 +40,7 @@ public class Lib {
 
    public void writeFile() throws IOException {
        calculateCharNum();
+       calculateWordNum();
        bufferedWriter = new BufferedWriter(new FileWriter(writeFileName));
        bufferedWriter.write("characters: "+charNum+"\n");
        bufferedWriter.write("words: "+wordNum+"\n");
@@ -51,9 +56,28 @@ public class Lib {
        }
        bufferedWriter.flush();
    }
-
+   
    private void calculateCharNum() throws IOException {
        fileContent = readFile();
        charNum = fileContent.length();
+   }
+
+   private void calculateWordNum(){
+        String[] contents = fileContent.split("[^(a-zA-Z0-9)]");
+        for (String content:contents)
+        {
+           if (isWord(content)){
+               wordNum++;
+           }
+        }
+   }
+
+   private boolean isWord(String str)
+   {
+       if (str.matches("[a-zA-Z]{4}[a-zA-Z0-9]*")){
+           return true;
+       } else{
+           return false;
+       }
    }
 }
