@@ -1,11 +1,16 @@
 import java.io.IOException;
+import java.util.Map;
 
 public class WordCount {
 
     public static void main(String[] args) throws IOException {
-        int count = Lib.countChars("221801304/src/input.txt","221801304/src/output.txt");
-        int num = Lib.countWords("221801304/src/input.txt","221801304/src/output.txt");
-        int line = Lib.countLines("221801304/src/input.txt","221801304/src/output.txt");
-        Lib.printWords("221801304/src/input.txt","221801304/src/output.txt");
+        String str = Lib.getStr("221801304/src/input.txt");
+        int characters = Lib.countChars(str);
+        int lines = Lib.countLines("221801304/src/input.txt");
+        Map<String, Integer> map = Lib.handleWords(str);
+        int words = Lib.countWords(map);
+        String freq = Lib.printWords(map);
+        String result = Lib.writeToFile("221801304/src/output.txt", characters, words, lines, freq);
+        System.out.println(result);
     }
 }

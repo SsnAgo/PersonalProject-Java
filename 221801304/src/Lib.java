@@ -1,33 +1,62 @@
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class Lib {
+    //获得输入流
+    public static BufferedReader getReader(String inputFile) throws FileNotFoundException {
+        return new BufferedReader(new FileReader(inputFile));
+    }
+
+    //获得输出流
+    public static BufferedWriter getWriter(String outputFile) throws IOException {
+        return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8));
+    }
+
+    //标准化输出到文件
+    public static String writeToFile(String outputFile, int characters, int words, int lines, String freq)
+            throws IOException {
+        BufferedWriter writer = getWriter(outputFile);
+        StringBuilder str = new StringBuilder();
+        str.append("characters: ").append(characters).append("\n")//字符数
+                .append("words: ").append(words).append("\n")//单词数
+                .append("lines: ").append(lines).append("\n")//有效行数
+                .append(freq);//词频最高前十个的单词及其词频
+
+        writer.write(String.valueOf(str));
+        writer.close();
+        return String.valueOf(str);
+    }
+
+    //获取流中字符串
+    public static String getStr(String inputFile) throws IOException {
+        BufferedReader reader = getReader(inputFile);
+        StringBuilder stringBuffer = new StringBuilder();
+        int ch;
+        while((ch = reader.read()) != -1){
+            stringBuffer.append((char) ch);
+        }
+        reader.close();
+        return String.valueOf(stringBuffer);
+    }
 
     //统计字符数
-    public static int countChars(String inputFile, String outputFile) throws IOException {
-        FileReader fileReader = new FileReader(inputFile);
-        FileWriter fileWriter = new FileWriter(outputFile, true);
-        int characters = 0;//文件中的字符数
-        while(fileReader.read() != -1){
-            characters++;
-        }
-        fileWriter.write("characters: " + characters);
-        fileReader.close();
-        fileWriter.close();
-        return characters;
+    public static int countChars(String str) {
+        return str.length();
     }
 
     //统计单词并填充入map
-    public static Map<String, Integer> handleWords(String inputFile) throws IOException{
-        FileReader fileReader = new FileReader(inputFile);
+    public static Map<String, Integer> handleWords(String str) {
         Map<String, Integer> map = new HashMap<>();
-        StringBuffer chars = new StringBuffer();
+        StringBuilder chars = new StringBuilder();
+        int i = 0;
         int ch;//每次读取到的字符
         int countAlpha = 0;//字母数
         int wordLength = 3;//单词长度
         boolean wordFlag = false;//是否成单词
-        while((ch = fileReader.read()) != -1){
+        while(i < str.length()){
+            ch = str.charAt(i++);
             chars.append((char) ch);
             if(isAlpha((char) ch))
                 countAlpha++;
@@ -52,12 +81,11 @@ public class Lib {
             int len = chars.length() + 1;
             insertMap(map, chars, wordLength, len);
         }
-        fileReader.close();
         return map;
     }
 
     //判断单词前是否为分隔符或者空格（因为要复用所以提取出来），是则填充map
-    public static void insertMap(Map<String, Integer> map, StringBuffer chars, int wordLength, int len){
+    public static void insertMap(Map<String, Integer> map, StringBuilder chars, int wordLength, int len){
         String word = chars.substring(len - wordLength - 1, len - 1).toLowerCase(Locale.ROOT);
         if(word.length() < len - 1 && isNum(chars.charAt(len - wordLength - 2))){
             //单词前有分隔符或无字符才算是单词
@@ -68,28 +96,21 @@ public class Lib {
             map.put(word, 1);
     }
 
-    //从map提取数据计算并打印单词数
-    public static int countWords(String inputFile, String outputFile) throws IOException{
-        Map<String, Integer> map = handleWords(inputFile);
-        FileWriter fileWriter = new FileWriter(outputFile, true);
+    //从map提取数据计算并返回单词数
+    public static int countWords(Map<String, Integer> map) {
         int words = 0;
         for(int value : map.values()){
             words += value;
         }
-        fileWriter.write("\n");
-        fileWriter.write("words: " + words);
-        fileWriter.close();
         return words;
     }
 
     //统计有效行数
-    public static int countLines(String inputFile, String outputFile) throws IOException{
-        FileReader fileReader = new FileReader(inputFile);
-        FileWriter fileWriter = new FileWriter(outputFile, true);
+    public static int countLines(String inputFile) throws IOException{
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
         int lines = 0;
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
         String str;
-        while((str = bufferedReader.readLine() )!= null){
+        while((str = reader.readLine() )!= null){
             if(!str.equals("")) {
                 int len = str.length();
                 for (int i = 0; i < len; i++) {
@@ -101,19 +122,11 @@ public class Lib {
                 }
             }
         }
-
-        fileWriter.write("\n");
-        fileWriter.write("lines: " + lines);
-        fileReader.close();
-        bufferedReader.close();
-        fileWriter.close();
         return lines;
     }
 
-    //从map提取词频最多的十个单词并打印
-    public static void printWords(String inputFile, String outputFile) throws IOException{
-        Map<String, Integer> map = handleWords(inputFile);
-        FileWriter fileWriter = new FileWriter(outputFile, true);
+    //从map提取词频最多的十个单词并返回字符串
+    public static String printWords(Map<String, Integer> map) {
 
         //自定义比较器
         Comparator<Map.Entry<String, Integer>> valCmp = (o1, o2) -> {
@@ -128,11 +141,11 @@ public class Lib {
         list.sort(valCmp);
 
         int size = Math.min(list.size(), 10);//最高词频，最高为10个
+        StringBuilder str = new StringBuilder();
         for(int i = 0; i < size; i++) {
-            fileWriter.write("\n" + list.get(i).getKey() + ": " + list.get(i).getValue());
+            str.append(list.get(i).getKey()).append(": ").append(list.get(i).getValue()).append("\n");
         }
-        fileWriter.write('\n');
-        fileWriter.close();
+        return String.valueOf(str);
     }
 
     //判断是否是字母
