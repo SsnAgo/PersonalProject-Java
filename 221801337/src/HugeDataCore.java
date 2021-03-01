@@ -49,7 +49,11 @@ public class HugeDataCore {
 				files[0] = inputFile;
 				divNum = 1;
 			} else {
-				divNum = Math.toIntExact(inputFile.length() / (MINSIZE * eachFileSize) + 1);
+				try{
+					divNum = Math.toIntExact(inputFile.length() / (MINSIZE * eachFileSize) + 1);
+				}catch (ArithmeticException e){
+					System.out.println("阈值大小不能为0");
+				}
 				FileWriter fw[] = new FileWriter[divNum];
 				files = new File[divNum];
 				for (int i = 0; i < divNum; i++) {
