@@ -34,7 +34,6 @@ public class FileTool {
     BufferedWriter getWriter(String filePath)
     {
         File file = new File(filePath);
-        System.out.println(file.toString());
         Writer = null;
         try
         {
@@ -82,5 +81,26 @@ public class FileTool {
         {
             e.printStackTrace();
         }
+    }
+    /**
+     * @description      将文件中所有字符转化为一个string并返回
+     */
+    String getFileString()
+    {
+        StringBuilder Builder = new StringBuilder();
+        int AsciiChar;
+        try {
+            //按字符读取
+            while ((AsciiChar = Reader.read()) != -1)
+            {
+                Builder.append((char) AsciiChar);
+                System.out.println(AsciiChar);
+                i ++;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Builder.toString();
     }
 }
