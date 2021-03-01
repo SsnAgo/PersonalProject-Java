@@ -1,6 +1,7 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * 功能：WordCount中main方法要调用的函数
@@ -8,11 +9,13 @@ import java.util.Locale;
  * 学号：221801315
  * 邮箱：784536133@qq.com
  * 创建时间：2021/2/28 15:22
- * 最后修改时间：2021/3/1 15:04
+ * 最后修改时间：2021/3/1 2:27
  */
 public class Lib {
-    public static HashMap<String, Integer> wordFrequencyRecords;  //单词频率记录表
-    public static String recordSource;   //记录表的数据源
+    public static Map<String, Integer> wordFrequencyRecords;  //单词频率记录表
+    public static String recordSource = "";   //记录表的数据源
+    public static boolean isSorted = false;
+    public static List<Map.Entry<String, Integer>> sortedRecord;
 
     /* 检测所给文件路径是否有效，输入文件不存在则抛出异常，输出文件不存在则创建
        输入参数：输入文件路径inFilePath，输出文件路径outFilePath
@@ -100,6 +103,35 @@ public class Lib {
         return count;
     }
 
+    /* 先按频率后按字典序给单词记录表排序
+       输入参数：输入文件路径inFilePath
+       返回值：空 */
+    public static void sortWordFrequencyRecords(String inFilePath) {
+        int count = 0;    //记录单词总数
+
+        //没有输入文件对应的单词频率表的时候先创建
+        if (!recordSource.equals(inFilePath))
+            createWordFrequencyRecords(inFilePath);
+
+        //记录表已被排序，不需要再排序
+        if (isSorted)
+            return;
+
+        sortedRecord = new ArrayList<Map.Entry<String, Integer>>(wordFrequencyRecords.entrySet());
+        sortedRecord.sort(new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                if (o1.getValue() > o2.getValue())
+                    return -1;
+                else if (o1.getValue() == o2.getValue())
+                    return o1.getKey().compareTo(o2.getKey());
+                else
+                    return 1;
+            }
+        });
+        isSorted = true;
+    }
+
     /* 判断字符是否是字母
        输入参数：字符t
        返回值：判断结果的bool值 */
@@ -137,6 +169,8 @@ public class Lib {
         String word = "";
         wordFrequencyRecords = new HashMap<>();
         recordSource = inFilePath;
+        isSorted = false;
+        sortedRecord = null;
 
         try {
             Reader in = new InputStreamReader(new FileInputStream(inFilePath));
