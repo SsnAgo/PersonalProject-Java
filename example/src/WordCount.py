@@ -32,6 +32,16 @@ def count_word(file_name):
 
 
 #统计文件的有效行数
+def count_lines(file_name):
+    f = open(file_name)
+    s = 0
+    for line in f:
+        line = line.strip('\n')
+        if len(line) == 0:
+            continue
+        s += 1
+    print("lines："+str(s))
+
 
 #统计文件中的各单词出现次数
 
@@ -39,3 +49,4 @@ if __name__ == '__main__':
     file = "input.txt"
     count_chars(file)
     count_word(file)
+    count_lines(file)
