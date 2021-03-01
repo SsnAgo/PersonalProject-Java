@@ -116,7 +116,12 @@ public class Lib {
         FileWriter fileWriter = new FileWriter(outputFile, true);
 
         //自定义比较器
-        Comparator<Map.Entry<String, Integer>> valCmp = (o1, o2) -> o2.getValue() - o1.getValue();
+        Comparator<Map.Entry<String, Integer>> valCmp = (o1, o2) -> {
+            if(o1.getValue().equals(o2.getValue())){
+                return o1.getValue().compareTo(o2.getValue());
+            }else
+                return o2.getValue() - o1.getValue();
+        };
 
         //将map转成List，map的一组key，value对应list一个存储空间
         List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
@@ -126,6 +131,7 @@ public class Lib {
         for(int i = 0; i < size; i++) {
             fileWriter.write("\n" + list.get(i).getKey() + ": " + list.get(i).getValue());
         }
+        fileWriter.write('\n');
         fileWriter.close();
     }
 
