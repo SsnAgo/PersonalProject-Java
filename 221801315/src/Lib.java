@@ -1,5 +1,6 @@
 import java.io.*;
-import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * 功能：WordCount中main方法要调用的函数
@@ -10,6 +11,8 @@ import java.util.regex.Pattern;
  * 最后修改时间：2021/3/1 15:04
  */
 public class Lib {
+    public static HashMap<String, Integer> wordFrequencyRecords;  //单词频率记录表
+
     /* 检测所给文件路径是否有效，输入文件不存在则抛出异常，输出文件不存在则创建
        输入参数：输入文件路径inFilePath，输出文件路径outFilePath
        返回值：空
@@ -106,7 +109,7 @@ public class Lib {
             BufferedReader in = new BufferedReader(new FileReader(inFilePath));
             //读取文件，直到文件结束
             while ((str = in.readLine()) != null) {
-                //如果当前行为有效行
+                //如果当前行为非空白字符
                 if (str.matches(validLine))
                     ++count;
             }
@@ -144,5 +147,67 @@ public class Lib {
         else if (isDigit(t))
             return false;
         return true;
+    }
+
+    /* 创建单词频率记录表
+       输入参数：输入文件路径inFilePath
+       返回值：无 */
+    public static void createWordFrequencyRecords(String inFilePath) {
+        int letterCount = 0;     //字母数
+        String word = "";
+        wordFrequencyRecords = new HashMap<>();
+
+        try {
+            Reader in = new InputStreamReader(new FileInputStream(inFilePath));
+            int temp = in.read();  //记录读取的字符
+            //读取文件，直到文件结束
+            while (temp != -1) {
+                if (isLetter((char) temp)) {
+                    ++letterCount;
+                    word += (char) temp;
+                } else {
+                    //是单词，则继续读取直到分隔符
+                    if (letterCount >= 4) {
+                        while (!isSeparator((char) temp)) {
+                            word += (char) temp;
+                            temp = in.read();
+                        }
+
+                        word += '\0';
+                        word = word.toLowerCase(Locale.ROOT);
+
+                        addRecord(word);
+
+                        word = "";
+                        letterCount = 0;
+                    } else {
+                        //发现不是单词后，直接跳到分隔符，开始判断下一个单词
+                        while (!isSeparator((char) temp)) {
+                            temp = in.read();
+                        }
+
+                        word = "";
+                        letterCount = 0;
+                    }
+                }
+                temp = in.read();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /* 往单词频率记录表加入记录
+       输入参数：单词记录表wordFrequencyRecords
+       返回值：无 */
+    public static void addRecord(String keyWord) {
+        //如果记录表中已有该单词，则频率+1
+        if (wordFrequencyRecords.containsKey(keyWord)) {
+            int count = wordFrequencyRecords.get(keyWord);
+            wordFrequencyRecords.remove(keyWord);
+            wordFrequencyRecords.put(keyWord, ++count);
+        } else {
+            wordFrequencyRecords.put(keyWord, 1);
+        }
     }
 }
