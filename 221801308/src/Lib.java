@@ -10,7 +10,9 @@ public class Lib {
     private String outputFile;
     private int charNumber;
     private int lineNumber;
+    private int wordNumber;
     private final Pattern linePattern = Pattern.compile("\n");
+    private final Pattern wordPattern = Pattern.compile("[a-zA-Z]{4}[A-Za-z0-9]*");
 
     public Lib(String inputFile, String outputFile) {
         this.inputFile = inputFile;
@@ -60,6 +62,19 @@ public class Lib {
     }
 
     /**
+     * get the number of words
+     * @throws IOException
+     */
+    public void countWords() throws IOException{
+        wordNumber = 0;
+        String str = readFileContent();
+        Matcher matcher = wordPattern.matcher(str);
+        while(matcher.find()){
+            wordNumber++;
+        }
+    }
+
+    /**
      * write data to the file
      * @throws IOException
      */
@@ -67,6 +82,7 @@ public class Lib {
         BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
         try {
             writer.write("characters: " + charNumber + "\n");
+            writer.write("words: " + wordNumber + "\n");
             writer.write("lines: " + lineNumber + "\n");
             writer.flush();
             writer.close();
