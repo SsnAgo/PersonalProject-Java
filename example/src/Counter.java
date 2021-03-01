@@ -10,6 +10,7 @@ public class Counter {
 
     public static String openFilePath = "D:\\IDEA\\PersonalProject-Java\\input.txt" ;
     public static String writeFilePath = "D:\\IDEA\\PersonalProject-Java\\output.txt" ;
+    public Map<String,Integer> hashMap;
     public int countLines = 0;
     public int countChars = 0;
     public int countWords = 0;
@@ -21,6 +22,7 @@ public class Counter {
     public void write() throws IOException {
         getChars(readFile());
         getLines();
+        getWords();
         writeFile(writeFilePath,"test");
     }
 
@@ -41,7 +43,8 @@ public class Counter {
     //单词数统计
     public void getWords() throws IOException {
         Scanner scanner=new Scanner(new File(openFilePath));
-        Map<String,Integer> hashMap=new HashMap<>();
+
+        hashMap=new HashMap<>();
         while(scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] words = line.split("\\W+");//字母数字下划线
@@ -68,16 +71,28 @@ public class Counter {
                 .sorted(Map.Entry.<String, Integer> comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
                 .collect(toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
                         LinkedHashMap::new));
-        System.out.println("sort map by values: " + sorted);
+        //System.out.println("sort map by values: " + sorted);
+        hashMap = sorted;
 
     }
 
     //行数统计
     public void getLines() throws IOException {
+//        BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
+//        while(reader.readLine() != null)
+//        {
+//            countLines++;
+//        }
+//        reader.close();
+        String pattern = "(^|\\n)\\s*\\S+";
+        String line;
         BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
-        while(reader.readLine() != null)
+        while((line = reader.readLine())!= null)
         {
-            countLines++;
+            line = line.trim();
+            if(line.matches(pattern)){
+                countLines++;
+            }
         }
         reader.close();
     }
@@ -90,6 +105,11 @@ public class Counter {
             writer.write(content);
             writer.write("characters: " + countChars + "\n");
             writer.write("lines: " + countLines + "\n");
+            for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
+                Integer integer = entry.getValue();
+                String str = entry.getKey();
+                writer.write(str + ": " + integer + "\n");
+            }
             writer.flush();
             writer.close();
         }catch(IOException e){
@@ -102,7 +122,10 @@ public class Counter {
         File file=new File(path);
         if (file.exists()) {
             readFile();
-            System.out.println("input.txt文件存在！");
+            System.out.println("文件打开成功");
+        }
+        else{
+            System.out.println("文件打开失败");
         }
     }
 
