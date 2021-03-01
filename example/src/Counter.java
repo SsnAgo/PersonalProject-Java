@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,27 +41,26 @@ public class Counter {
         HashMap<String,Integer> hashMap=new HashMap<>();
         while(scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            //字母数字下划线
-            String[] words = line.split("\\W+");
-            String pattern = "([A-Za-z]{4}[A-Za-z]*[0-9]*)(\\D*)";
-            // 创建 Pattern 对象
+            String[] words = line.split("\\W+");//字母数字下划线
+            String pattern = "^([A-Za-z]{4}[A-Za-z]*[0-9]*)(\\D*)";
             Pattern r = Pattern.compile(pattern);
             Set<String> wordSet = hashMap.keySet();
             for (int i = 0; i < words.length; i++) {
                 Matcher m = r.matcher(words[i]);
-                System.out.println(words[i]);
                 if (m.find()) {
-                    if (wordSet.contains(m.group(1))) {
-                        Integer num = hashMap.get(words[i]);
+                    String str = m.group(0).toLowerCase();
+                    if (wordSet.contains(str)) {
+                        Integer num = hashMap.get(str);
                         num++;
-                        hashMap.put(words[i], num);
+                        hashMap.put(str, num);
                     } else {
-                        hashMap.put(m.group(1), 1);
+                        hashMap.put(str, 1);
                     }
                 }
             }
 
         }
+
 
         for(HashMap.Entry<String, Integer> entry : hashMap.entrySet()){
             System.out.println("key = " + entry.getKey() + ", value = " + entry.getValue());
