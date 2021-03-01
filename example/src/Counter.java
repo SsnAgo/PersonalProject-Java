@@ -2,6 +2,9 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toMap;
 
 public class Counter {
 
@@ -58,13 +61,15 @@ public class Counter {
                     }
                 }
             }
-
         }
 
+        Map<String, Integer> sorted = hashMap.entrySet()
+                .stream()
+                .sorted(Map.Entry.<String, Integer> comparingByValue().reversed())
+                .collect(toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
+                        LinkedHashMap::new));
+        System.out.println("sort map by values: " + sorted);
 
-        for(HashMap.Entry<String, Integer> entry : hashMap.entrySet()){
-            System.out.println("key = " + entry.getKey() + ", value = " + entry.getValue());
-        }
 
     }
 
