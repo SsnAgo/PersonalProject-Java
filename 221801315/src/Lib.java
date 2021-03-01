@@ -12,6 +12,7 @@ import java.util.Locale;
  */
 public class Lib {
     public static HashMap<String, Integer> wordFrequencyRecords;  //单词频率记录表
+    public static String recordSource;   //记录表的数据源
 
     /* 检测所给文件路径是否有效，输入文件不存在则抛出异常，输出文件不存在则创建
        输入参数：输入文件路径inFilePath，输出文件路径outFilePath
@@ -62,35 +63,14 @@ public class Lib {
        返回值：单词总数count */
     public static int countTotalWord(String inFilePath) {
         int count = 0;    //记录单词总数
-        int letterCount = 0;     //字母数
 
-        try {
-            Reader in = new InputStreamReader(new FileInputStream(inFilePath));
-            int temp = in.read();  //记录读取的字符
-            //读取文件，直到文件结束
-            while (temp != -1) {
-                if (isLetter((char) temp))
-                    ++letterCount;
-                else {
-                    //是单词，则继续读取直到分隔符
-                    if (letterCount >= 4) {
-                        while (!isSeparator((char) temp)) {
-                            temp = in.read();
-                        }
-                        ++count;
-                        letterCount = 0;
-                    } else {
-                        //发现不是单词后，直接跳到分隔符，开始判断下一个单词
-                        while (!isSeparator((char) temp)) {
-                            temp = in.read();
-                        }
-                        letterCount = 0;
-                    }
-                }
-                temp = in.read();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        //没有输入文件对应的单词频率表的时候先创建
+        if (!recordSource.equals(inFilePath))
+            createWordFrequencyRecords(inFilePath);
+
+        Object[] frequency = wordFrequencyRecords.values().toArray();
+        for (int i = 0; i < frequency.length; i++) {
+            count += (int) frequency[i];
         }
 
         return count;
@@ -156,6 +136,7 @@ public class Lib {
         int letterCount = 0;     //字母数
         String word = "";
         wordFrequencyRecords = new HashMap<>();
+        recordSource = inFilePath;
 
         try {
             Reader in = new InputStreamReader(new FileInputStream(inFilePath));
