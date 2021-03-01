@@ -87,9 +87,10 @@ public class Utils {
     @SuppressWarnings("JavaDoc")
     public int lineNums(String path) throws IOException {
         BufferedReader bufferedReader = null;
+        String pre_path=new File("").getAbsolutePath();
         try {
-            FileReader fileReader = new FileReader(new File("").getAbsolutePath() + "\\" + path);
-            bufferedReader = new BufferedReader(fileReader);
+            bufferedReader = new BufferedReader(
+                    new InputStreamReader(new FileInputStream( pre_path+ "\\" + path),"utf-8"));
             String line;
             // 通过循环不断整行读取文件
             // 同时记录读取次数即可
@@ -185,9 +186,10 @@ public class Utils {
     @SuppressWarnings("JavaDoc")
     public StringBuilder readIn(String path) {
         //测试文件放在当前项目下
+        String pre_path=new File("").getAbsolutePath();
         try {
             BufferedReader bufferedReader = new BufferedReader(
-                    new FileReader(new File("").getAbsolutePath() + "\\" + path));
+                    new InputStreamReader(new FileInputStream( pre_path+ "\\" + path),"utf-8"));
             String temp;
             while ((temp = bufferedReader.readLine()) != null) {
                 stringBuilder.append(temp).append("\n");
@@ -211,8 +213,9 @@ public class Utils {
     public void writeTo(String path, String message) {
         try {
             //生成的文件放在当前项目下
-            BufferedWriter bufferedWriter = new BufferedWriter(
-                    new FileWriter(new File("").getAbsolutePath() + "\\" + path));
+            String pre_path=new File("").getAbsolutePath().toString();
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream( pre_path+ "\\" + path),"utf-8"));
             bufferedWriter.write(message);
             bufferedWriter.flush();
             bufferedWriter.close();
