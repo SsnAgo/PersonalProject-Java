@@ -1,6 +1,17 @@
 # PersonalProject-Java
-wordcount-Java提交仓库
+## 项目描述
+本项目用于英文文本的词频统计，可以统计出总字符数、总单词数，以及频率top10的单词
+## 运行方式
+`javac -encoding UTF-8 WordCount.java`
 
+`java WordCount input.txt output.txt`
+
+JVM内存支持的话可以运行100,000,000行以上的数据
+## 作业链接
+[寒假作业(2/2)]()
+## 博客链接
+[个人博客](https://www.cnblogs.com/FZU-SE-LYK/)
+## commit记录
 ### 第一次commit
 - 文件读取、转化为字符串
 - 单词统计
@@ -53,3 +64,8 @@ wordcount-Java提交仓库
 - 代码重审
 - TODO：以随机化分块大小减小线程阻塞概率
 - TODO: 接口完善
+
+### 第十三次commit
+- 代码重构
+- 多线程重构
+- 修改为命令行使用
