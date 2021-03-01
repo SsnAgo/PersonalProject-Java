@@ -41,7 +41,7 @@ public class Counter {
     //单词数统计
     public void getWords() throws IOException {
         Scanner scanner=new Scanner(new File(openFilePath));
-        HashMap<String,Integer> hashMap=new HashMap<>();
+        Map<String,Integer> hashMap=new HashMap<>();
         while(scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] words = line.split("\\W+");//字母数字下划线
@@ -65,11 +65,10 @@ public class Counter {
 
         Map<String, Integer> sorted = hashMap.entrySet()
                 .stream()
-                .sorted(Map.Entry.<String, Integer> comparingByValue().reversed())
+                .sorted(Map.Entry.<String, Integer> comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
                 .collect(toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
                         LinkedHashMap::new));
         System.out.println("sort map by values: " + sorted);
-
 
     }
 
