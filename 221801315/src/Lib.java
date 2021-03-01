@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.regex.Pattern;
 
 /**
  * 功能：WordCount中main方法要调用的函数
@@ -84,6 +85,30 @@ public class Lib {
                     }
                 }
                 temp = in.read();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+    /* 统计输入文件中的有效行数
+       输入参数：输入文件路径inFilePath
+       返回值：行数count */
+    public static int countValidLine(String inFilePath) {
+        int count = 0;    //记录字符总数
+        String str = null;
+        String validLine = ".*\\S+.*";   //非空白字符行的正则表达式
+
+        //关注点在行数，则这里使用BufferedReader
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(inFilePath));
+            //读取文件，直到文件结束
+            while ((str = in.readLine()) != null) {
+                //如果当前行为有效行
+                if (str.matches(validLine))
+                    ++count;
             }
         } catch (IOException e) {
             e.printStackTrace();
