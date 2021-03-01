@@ -1,5 +1,6 @@
 # -*- coding:UTF-8 -*-
 import re
+import copy
 
 def count_chars(file_name):
     c_cs = 0
@@ -44,9 +45,31 @@ def count_lines(file_name):
 
 
 #统计文件中的各单词出现次数
+def count_words(file_name):
+    words = {}
+    r = re.compile(r"[,!?\*\.]")
+    with open(file_name, "r") as f:
+        for line in f:
+            for word in r.sub("", line.strip()).split(" "):
+                if word in words:
+                    words[word] += 1
+                words.setdefault(word, 1)
+    # words = sorted(words.keys())
+    # print(type(words))
+    words2 = copy.deepcopy(sorted(words.items(), key=lambda k:(k[1],k[0]),reverse=True))
+    # print(sorted(words.items(), key=lambda k:(k[1],k[0]),reverse=True)[:10])
+    # print(words2[:10])
+    # print(words2)
+    m = 0
+    for i in words2:
+        if (m<10):
+            print(str(i[0])+":"+str(i[1]))
+            m+=1
+
 
 if __name__ == '__main__':
     file = "input.txt"
     count_chars(file)
     count_word(file)
     count_lines(file)
+    count_words(file)
