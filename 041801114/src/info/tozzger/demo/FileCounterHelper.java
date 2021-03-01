@@ -20,7 +20,7 @@ class FileCounterHelper {
         return Files.lines(path)// 分行
                 .map(String::toLowerCase)// 转小写
                 .flatMap(CounterHelper::split)// 分词
-                .filter(CounterHelper::isWord1)// 保留单词
+                .filter(CounterHelper::isWord)// 保留单词
                 .toArray(String[]::new);
     }
 
