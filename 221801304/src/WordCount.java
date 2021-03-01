@@ -4,13 +4,20 @@ import java.util.Map;
 public class WordCount {
 
     public static void main(String[] args) throws IOException {
-        String str = Lib.getStr("221801304/src/input.txt");
+        long startTime = System.currentTimeMillis();
+        run("221801304/src/input.txt", "221801304/src/output.txt");
+//        run(args[0], args[1]);
+        System.out.printf("耗时： %d ms\n",System.currentTimeMillis() - startTime);
+    }
+
+    public static void run(String inputFile, String outputFile) throws IOException {
+        String str = Lib.getStr(inputFile);
         int characters = Lib.countChars(str);
-        int lines = Lib.countLines("221801304/src/input.txt");
+        int lines = Lib.countLines(inputFile);
         Map<String, Integer> map = Lib.handleWords(str);
         int words = Lib.countWords(map);
         String freq = Lib.printWords(map);
-        String result = Lib.writeToFile("221801304/src/output.txt", characters, words, lines, freq);
-        System.out.println(result);
+        Lib.writeToFile(outputFile, characters, words, lines, freq);
     }
+
 }

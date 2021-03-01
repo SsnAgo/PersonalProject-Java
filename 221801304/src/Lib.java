@@ -131,7 +131,7 @@ public class Lib {
         //自定义比较器
         Comparator<Map.Entry<String, Integer>> valCmp = (o1, o2) -> {
             if(o1.getValue().equals(o2.getValue())){
-                return o1.getValue().compareTo(o2.getValue());
+                return o1.getKey().compareTo(o2.getKey());
             }else
                 return o2.getValue() - o1.getValue();
         };
