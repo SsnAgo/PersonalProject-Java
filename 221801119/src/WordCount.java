@@ -12,30 +12,22 @@ import java.lang.String;
  */
 public class WordCount {
 	public static void main(String[] args) {
-		//get filename from users
+		//get filename from users and process input string
 		Scanner input = new Scanner(System.in);
 		String inputStr = input.nextLine();
 		input.close();
+		if (! isValid(inputStr)) {
+			System.out.print("Invalid input!");
+			return;
+		}
         String[] files = inputStr.split(" "); 
         String inputFile = files[0];
         String outputFile = files[1];
 		//main function
         CoreCount coreCount = new CoreCount(inputFile);
         coreCount.count();
-        /*
-        System.out.print("characters: " + coreCount.getCharCount() + "\n");
-        System.out.print("words: " + coreCount.getWordCount() + "\n");
-        System.out.print("lines: " + coreCount.getLineCount() + "\n");
-        Iterator<Map.Entry<String,Integer>> iterator = coreCount.getWordsList().iterator();
-        while (iterator.hasNext()) {
-        	Map.Entry<String,Integer> entry = (Map.Entry<String,Integer>) iterator.next();
-        	System.out.print(entry.getKey().toString() + ": " + entry.getValue().toString() + "\n");
-        }*/
         //create output file
 		File file = new File(outputFile);
-		if (file.exists()) {
-			System.out.print("File \"" + outputFile + "\" already exist.");
-		}
 		try {
 			file.createNewFile();
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -44,14 +36,23 @@ public class WordCount {
 			writer.append("lines: " + coreCount.getLineCount() + "\n");
 			int wordsNum = 0;
 			Iterator<Map.Entry<String,Integer>> iterator = coreCount.getWordsList().iterator();
-	        while (iterator.hasNext() && wordsNum < 10) {
-	        	Map.Entry<String,Integer> entry = (Map.Entry<String,Integer>) iterator.next();
+			Map.Entry<String,Integer> entry = null;
+	        while (iterator.hasNext()==true && wordsNum < 10) {
+	        	entry = (Map.Entry<String,Integer>) iterator.next();
 	        	writer.append(entry.getKey().toString() + ": " + entry.getValue().toString() + "\n");
 	        	wordsNum += 1;
 	        }
 	        writer.close();
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	} 
+	public static boolean isValid(String string) {
+		string = string.trim();
+		if(! string.contains(" ")) {
+			return false;
+		}
+		return true;
+	}
 }
 

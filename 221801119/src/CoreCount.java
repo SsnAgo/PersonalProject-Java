@@ -23,11 +23,7 @@ public class CoreCount {
 		wordsMap = new HashMap<String, Integer>();
 		wordsList = null;
 	}
-	public void count() {
-		countChars();
-		countWords();
-		sortWordsMap();
-	}
+
 	public int getCharCount() {
 		return charCount;
 	}
@@ -37,10 +33,20 @@ public class CoreCount {
 	public int getLineCount() {
 		return lineCount;
 	}
+	public Map<String, Integer> getWordsMap() {
+		return wordsMap;
+	}
 	public List<Map.Entry<String, Integer>> getWordsList() {
 		return wordsList;
 	}
-	private void countChars() {
+	
+	public void count() {
+		countChars();
+		countWords();
+		sortWordsMap();
+	}
+	
+	public void countChars() {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			try {
@@ -49,12 +55,14 @@ public class CoreCount {
 				}
 				reader.close();
 			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
-			System.out.print("Can not find file \"" + file.getName() + "\".");
+			e.printStackTrace();
 		}
 	}
-    private void countWords() {
+	
+    public void countWords() {
     	try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			try {
@@ -90,29 +98,14 @@ public class CoreCount {
 				}
 				reader.close();
 			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
-			System.out.print("Can not find file \"" + file.getName() + "\".");
+			e.printStackTrace();
 		}	
 	}
-    /*
-    private void countLines() {
-    	try {
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			try {
-				String line = null;
-				while((line = reader.readLine()) != null) {	
-					if (! line.trim().equals(""))
-						lineCount += 1;
-				}
-				reader.close();
-			} catch (IOException e) {
-			}
-		} catch (FileNotFoundException e) {
-			System.out.print("Can not find file \"" + file.getName() + "\".");
-		}	
-    } */
-    private void sortWordsMap() {
+
+    public void sortWordsMap() {
 		wordsList = new ArrayList<Map.Entry<String, Integer>>(wordsMap.entrySet());
 		Collections.sort(wordsList, new Comparator<Map.Entry<String, Integer>>() {
 			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
@@ -125,6 +118,7 @@ public class CoreCount {
 			}		
 		});
     }
+    
     private boolean isProperWord(String word) {
     	if (word.length() < 4) {
     		return false;
