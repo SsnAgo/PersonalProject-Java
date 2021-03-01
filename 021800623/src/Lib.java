@@ -1,18 +1,16 @@
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-
 public class Lib {
-
     private String readFileName;
     private String writeFileName;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
+    private String fileContent;
     private int charNum;
     private int wordNum;
     private int lineNum;
     private Map<String,Integer> wordMap;
-
     public Lib(String readFileName, String writeFileName) {
         this.readFileName = readFileName;
         this.writeFileName = writeFileName;
@@ -21,7 +19,6 @@ public class Lib {
         lineNum = 0;
         wordMap = new HashMap<String, Integer>();
     }
-
    private String readFile() throws IOException {
         StringBuilder fileBuilder = new StringBuilder();
        try {
@@ -38,8 +35,7 @@ public class Lib {
    }
 
    public void writeFile() throws IOException {
-       String fileContent = readFile();
-       charNum = fileContent.length();
+       calculateCharNum();
        bufferedWriter = new BufferedWriter(new FileWriter(writeFileName));
        bufferedWriter.write("characters: "+charNum+"\n");
        bufferedWriter.write("words: "+wordNum+"\n");
@@ -54,5 +50,10 @@ public class Lib {
            i++;
        }
        bufferedWriter.flush();
+   }
+
+   private void calculateCharNum() throws IOException {
+       fileContent = readFile();
+       charNum = fileContent.length();
    }
 }
