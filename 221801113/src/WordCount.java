@@ -27,6 +27,7 @@ public class WordCount {
             }
         }
         return cnt;
+        //test
     }
 
     public static void main(String[] args) throws IOException {
