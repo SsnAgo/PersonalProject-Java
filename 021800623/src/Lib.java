@@ -14,6 +14,7 @@ public class Lib {
     private int wordNum;
     private int lineNum;
     private Map<String,Integer> wordMap;
+    private List<Map.Entry<String,Integer>> list;
 
     public Lib(String readFileName, String writeFileName) {
         this.readFileName = readFileName;
@@ -48,7 +49,7 @@ public class Lib {
        bufferedWriter.write("words: "+wordNum+"\n");
        bufferedWriter.write("lines: "+lineNum+"\n");
        int i = 1;
-       for (Map.Entry<String,Integer> entry:wordMap.entrySet())
+       for (Map.Entry<String,Integer> entry:list)
        {
            if (i>10) {
                break;
@@ -81,7 +82,7 @@ public class Lib {
            }
         }
         //对单词进行排序
-       List<Map.Entry<String,Integer>> list = new ArrayList<Map.Entry<String,Integer>>(wordMap.entrySet());
+       list = new ArrayList<Map.Entry<String,Integer>>(wordMap.entrySet());
        Collections.sort(list, new Comparator<Map.Entry<String,Integer>>() {
            @Override
            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
