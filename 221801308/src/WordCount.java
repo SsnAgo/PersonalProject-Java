@@ -11,6 +11,7 @@ public class WordCount {
             try{
                 Lib  wordCount = new Lib(args[0], args[1]);
                 wordCount.countChars();
+                wordCount.countLines();
                 wordCount.writeFileContent();
             }catch (IOException e){
                 e.printStackTrace();

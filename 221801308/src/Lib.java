@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.regex.Pattern;
 
 /**
  * @author wangyu
@@ -7,6 +8,7 @@ public class Lib {
     private String inputFile;
     private String outputFile;
     private int charNumber;
+    private int lineNumber;
 
     public Lib(String inputFile, String outputFile) {
         this.inputFile = inputFile;
@@ -43,6 +45,19 @@ public class Lib {
     }
 
     /**
+     * get the number of lines
+     * @throws IOException
+     */
+    public void countLines() throws IOException{
+        lineNumber = 0;
+        String str = readFileContent();
+        Pattern linePattern = Pattern.compile("\n");
+        while(linePattern.matcher(str).find()){
+            lineNumber++;
+        }
+    }
+
+    /**
      * write data to the file
      * @throws IOException
      */
@@ -50,6 +65,7 @@ public class Lib {
         BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
         try {
             writer.write("characters: " + charNumber + "\n");
+            writer.write("lines: " + lineNumber + "\n");
             writer.flush();
             writer.close();
         } catch (IOException e) {
