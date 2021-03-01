@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -9,6 +10,7 @@ public class Lib {
     private String outputFile;
     private int charNumber;
     private int lineNumber;
+    private final Pattern linePattern = Pattern.compile("\n");
 
     public Lib(String inputFile, String outputFile) {
         this.inputFile = inputFile;
@@ -24,9 +26,9 @@ public class Lib {
         BufferedReader reader = new BufferedReader(new FileReader(inputFile));
         StringBuilder builder = new StringBuilder();
         try {
-            String tempStr;
-            while ((tempStr = reader.readLine()) != null) {
-                builder.append(tempStr);
+            int tempStr;
+            while ((tempStr = reader.read()) != -1) {
+                builder.append((char)tempStr);
             }
             reader.close();
         } catch (IOException e) {
@@ -51,8 +53,8 @@ public class Lib {
     public void countLines() throws IOException{
         lineNumber = 0;
         String str = readFileContent();
-        Pattern linePattern = Pattern.compile("\n");
-        while(linePattern.matcher(str).find()){
+        Matcher matcher = linePattern.matcher(str);
+        while(matcher.find()){
             lineNumber++;
         }
     }
