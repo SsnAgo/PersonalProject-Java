@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -39,18 +40,37 @@ public class Counter {
 
     //单词数统计
     public void getWords() throws IOException {
+        Scanner scanner=new Scanner(new File(openFilePath));
+        HashMap<String,Integer> hashMap=new HashMap<>();
+        while(scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            //字母数字下划线
+            String[] words = line.split("\\W+");
+            String pattern = "([A-Za-z]{4}[A-Za-z]*[0-9]*)(\\D*)";
+            // 创建 Pattern 对象
+            Pattern r = Pattern.compile(pattern);
+            Set<String> wordSet = hashMap.keySet();
+            for (int i = 0; i < words.length; i++) {
+                Matcher m = r.matcher(words[i]);
+                System.out.println(words[i]);
+                if (m.find()) {
+                    if (wordSet.contains(m.group(1))) {
+                        Integer num = hashMap.get(words[i]);
+                        num++;
+                        hashMap.put(words[i], num);
+                    } else {
+                        hashMap.put(m.group(1), 1);
+                    }
+                }
+            }
 
-        String pattern = "(\\D+\\d+)(\\D*)";
-        // 创建 Pattern 对象
-        Pattern r = Pattern.compile(pattern);
-        Matcher m = r.matcher("read123hh");
-        if (m.find()) {
-            System.out.println("Found value: " + m.group(0));
-            System.out.println("Found value: " + m.group(1));
-            System.out.println("Found value: " + m.group(2));
         }
 
+        for(HashMap.Entry<String, Integer> entry : hashMap.entrySet()){
+            System.out.println("key = " + entry.getKey() + ", value = " + entry.getValue());
         }
+
+    }
 
     //行数统计
     public void getLines() throws IOException {
