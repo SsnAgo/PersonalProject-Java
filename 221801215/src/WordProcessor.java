@@ -95,6 +95,7 @@ public class WordProcessor {
      */
     public boolean individualWordSumUp(String legalWord) {
         boolean isCounted = false;
+        legalWord = legalWord.toLowerCase();
         if (wordSumMap.containsKey(legalWord)) {
             wordSumMap.replace(legalWord,wordSumMap.get(legalWord) + 1);
             isCounted = true;
@@ -102,6 +103,20 @@ public class WordProcessor {
             wordSumMap.put(legalWord,1);
         }
         return isCounted;
+    }
+
+    /**
+     * 统计所有合法单词频数（忽略大小写）
+     *
+     * <p>
+     *     统计合法单词的出现次数总和，字母全部转换为<em>小写</em>，不区分大小写
+     *     <em>请在{@link #buildPossibleWord(char scanChar,boolean isEndOfFile) buildPossibleWord} 返回true时调用</em>
+     * </p>
+     */
+    public void allWordSumUp(){
+        if (isLegalWord(possibleWord) && individualWordSumUp(possibleWord.toString())) {
+            wordSum++;
+        }
     }
 
     private boolean isLetterChar(char charToExam) {
