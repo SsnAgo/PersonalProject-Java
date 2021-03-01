@@ -16,8 +16,7 @@ public class Lib {
     }
 
     public static BufferedWriter openOutputFile(String fileName) throws IOException {
-        FileWriter fileWriter = new FileWriter(fileName, true);
-        BufferedWriter bw = new BufferedWriter(fileWriter);
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(fileName),true),"utf-8"));
         return bw;
     }
 
