@@ -49,12 +49,10 @@ public class WordCount{
             FileChannel fileChannel = null;
             MappedByteBuffer byteBuffer = null;
             try {
-                long time = System.currentTimeMillis();
                 File file = new File(inputPath);
                 fileChannel = new RandomAccessFile(file,"r").getChannel();
                 byteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY,0,file.length());
                 if(byteBuffer != null) {
-                    System.out.println("read"+(System.currentTimeMillis()-time) + "ms");
                     return StandardCharsets.UTF_8.decode(byteBuffer).toString();
                 } else {
                     return "";
@@ -62,7 +60,6 @@ public class WordCount{
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
-                long time = System.currentTimeMillis();
                 if (byteBuffer != null) {
                     Cleaner cleaner = ((DirectBuffer)byteBuffer).cleaner();
                     if (cleaner != null) {
@@ -76,7 +73,6 @@ public class WordCount{
                         e.printStackTrace();
                     }
                 }
-                System.out.println("Close and Clean:" + (System.currentTimeMillis()-time) + "ms");
             }
             return "";
         }
@@ -86,9 +82,7 @@ public class WordCount{
         public void setList() {
             str = readFileInit();
             chars = str.length();
-            long time = System.currentTimeMillis();
             strArr = new StringTokenizer(str,"\n");
-            System.out.println("split:" + (System.currentTimeMillis()-time) + "ms");
             allLines = strArr.countTokens();
             System.out.println(allLines);
         }
@@ -134,7 +128,7 @@ public class WordCount{
         public void poolSolve() {
             int begin = 0;
             int j;
-            pool.execute(() -> countLine());
+            pool.execute(Solver::countLine);
             int MAX_LEN = chars >> 3;
             for (int i = 0;i<chars;i+=MAX_LEN) {
                 if (i > begin) {
