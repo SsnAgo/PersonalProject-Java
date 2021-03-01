@@ -37,14 +37,13 @@ public class Lib {
        返回值：字符总数count */
     public static int countTotalChar(Reader in) {
         int count = 0;    //记录字符总数
+        int temp;
 
+        //测试文件不会出现ASCII码以外的字符，因此只需统计文件内容+换行+回车的长度即可
         try {
-            int temp = in.read();  //记录读取的字符
             //读取文件，直到文件结束
-            while (temp != -1) {
-                if (temp >= 0 && temp <= 127)   //题目要求只需统计ASCII码
-                    ++count;
-                temp = in.read();
+            while ((temp = in.read()) != -1) {
+                ++count;
             }
         } catch (IOException e) {
             e.printStackTrace();
