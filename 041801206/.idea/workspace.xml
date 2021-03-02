@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="222867e0-6fce-4642-bdf7-9a08a8444a6a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Lib/LineAndCharacterCounter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Lib/wordCounter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Lib/CharacterCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lib/CharacterCounter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lib/wordCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lib/WordCounter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/WordCount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/WordCount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Lib/CharacterCounter$MultiCounter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Lib/CharacterCounter$MultiCounter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Lib/CharacterCounter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Lib/CharacterCounter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/WordCount.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/WordCount.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,6 +41,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -84,7 +82,7 @@
       <workItem from="1614656421335" duration="1665000" />
       <workItem from="1614668553050" duration="1764000" />
       <workItem from="1614671470448" duration="6453000" />
-      <workItem from="1614678332496" duration="3713000" />
+      <workItem from="1614678332496" duration="7558000" />
     </task>
     <servers />
   </component>
@@ -100,30 +98,30 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="376" y="143" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.680@0.0.1280.680" timestamp="1614656684561" />
-    <state x="446" y="42" key="#com.intellij.ide.util.MemberChooser" timestamp="1614688237901">
+    <state x="446" y="42" key="#com.intellij.ide.util.MemberChooser" timestamp="1614691920643">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="446" y="42" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1614688237901" />
+    <state x="446" y="42" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1614691920643" />
     <state x="421" y="96" key="FileChooserDialogImpl" timestamp="1614669172573">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="421" y="96" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1614669172573" />
-    <state width="1237" height="163" key="GridCell.Tab.0.bottom" timestamp="1614687483301">
+    <state width="1237" height="163" key="GridCell.Tab.0.bottom" timestamp="1614696128736">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1614687483301" />
-    <state width="1237" height="163" key="GridCell.Tab.0.center" timestamp="1614687483301">
+    <state width="1237" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1614696128736" />
+    <state width="1237" height="163" key="GridCell.Tab.0.center" timestamp="1614696128736">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1614687483301" />
-    <state width="1237" height="163" key="GridCell.Tab.0.left" timestamp="1614687483301">
+    <state width="1237" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1614696128736" />
+    <state width="1237" height="163" key="GridCell.Tab.0.left" timestamp="1614696128736">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1614687483301" />
-    <state width="1237" height="163" key="GridCell.Tab.0.right" timestamp="1614687483301">
+    <state width="1237" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1614696128736" />
+    <state width="1237" height="163" key="GridCell.Tab.0.right" timestamp="1614696128736">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1614687483301" />
+    <state width="1237" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1614696128736" />
     <state x="142" y="0" key="SettingsEditor" timestamp="1614671661234">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
