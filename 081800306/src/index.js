@@ -17,6 +17,6 @@ try {
   console.error(err);
 }
 const app = new App(readFile, writeFile);
-// app.getMessage();
-app.handle();
-// console.timeEnd('test');
+// app.getMessage(); // v1
+app.handle(); // v2
+// console.timeEnd('test'); // v1

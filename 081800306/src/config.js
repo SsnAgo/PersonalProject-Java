@@ -4,6 +4,6 @@ module.exports = {
     symbol: /\n/g, // 匹配换行符
     asciiRex: /[\x00-\xff]+/, // 匹配ascii码
     wordRex: /[a-zA-Z]{4}([a-zA-Z0-9])*/, // 匹配单词
-    wordSplit: /[^A-Za-z0-9]+/,
+    wordSplit: /[^A-Za-z0-9]+/, // 切割单词
   },
 };

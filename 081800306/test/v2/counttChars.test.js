@@ -1,8 +1,14 @@
 /* eslint-disable */
 const {countChar} = require('../../src/lib/v2/countChar');
-
+// 测试计算换行符
 test('测试字符个数',() => {
-  let obj = `abcd,
+  let obj1 = `abcd,
 hello`
-  expect(countChar(obj)).toBe(11)
+  expect(countChar(obj1)).toBe(11)
+})
+
+// 测试计算空格
+test('测试字符个数',() => {
+  let obj1 = `abcd, hello`
+  expect(countChar(obj1)).toBe(11)
 })
