@@ -1,11 +1,15 @@
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.Map.Entry.comparingByValue;
+import static java.util.stream.Collectors.toMap;
 
 public class WordCount{
 
     public String inputPath;
     public String outputPath;
-    public int validLine=1;       //有效行
+    public int validLine;       //有效行
     public int validWord;       //有效单词
     public int characterNum;    //字符数
     public Map<String,Integer> mapWord=new HashMap<String, Integer>();//用于存单词
@@ -40,7 +44,8 @@ public class WordCount{
             wordCount.characterNum++;
             if((char)tempChar=='\r'){               //如果碰到\r，先将行数+1
                 enterFlag=true;
-                wordCount.validLine++;
+                if(tempString.length()>0)
+                    wordCount.validLine++;
                 wordCount.statisticsLine(tempString.toString());
                 tempString.delete(0,tempString.length());
             }
@@ -48,7 +53,8 @@ public class WordCount{
                 if(enterFlag)                       //如果\r后遇到\n，不处理
                     enterFlag=false;
                 else{                                //如果直接遇到\n,将行数+1
-                    wordCount.validLine++;
+                    if(tempString.length()>0)
+                        wordCount.validLine++;
                     wordCount.statisticsLine(tempString.toString());
                     tempString.delete(0,tempString.length());
                 }
@@ -114,19 +120,21 @@ public class WordCount{
 
     public void bigDateTest() throws IOException {
             StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < 100000; i++) {
-                stringBuilder.append("aaaa").append(i).append(",");
-            }
-            stringBuilder.append('\n');
-            for (int i = 0; i < 100000; i++) {
-                stringBuilder.append("bbbb").append(i).append(",");
-            }
-            stringBuilder.append('\n');
-            for (int i = 0; i < 10000; i++) {
-                for (int j = 0; j < 100; j++) {
-                    stringBuilder.append("maxmax").append(j).append(",");
+            for(int k=0;k<100;k++){
+                for (int i = 0; i < 100000; i++) {
+                    stringBuilder.append("aaaa").append(i).append(",");
                 }
                 stringBuilder.append('\n');
+                for (int i = 0; i < 100000; i++) {
+                    stringBuilder.append("bbbb").append(i).append(",");
+                }
+                stringBuilder.append('\n');
+                for (int i = 0; i < 10000; i++) {
+                    for (int j = 0; j < 100; j++) {
+                        stringBuilder.append("maxmax").append(j).append(",");
+                    }
+                    stringBuilder.append('\n');
+                }
             }
             String testContent = stringBuilder.toString();
             System.out.println(testContent.length());
@@ -135,29 +143,19 @@ public class WordCount{
             out.close();
     }
 
-    public static Map<String, Integer> sortWord(Map<String,Integer> map){   //将存单词的map按值排序
-        Map<String, Integer> sortedMap=new HashMap<String, Integer>();
-        if(map==null || map.isEmpty())      //若map为空直接返回
-            return sortedMap;
-        List<Map.Entry<String, Integer>> entryList=new ArrayList<Map.Entry<String, Integer>>(map.entrySet());
-        Collections.sort(entryList, new MapValueComparator());
-        Iterator<Map.Entry<String, Integer>> iter = entryList.iterator();
-        Map.Entry<String, Integer> tmpEntry = null;
-        while (iter.hasNext()) {
-            tmpEntry = iter.next();
-            sortedMap.put(tmpEntry.getKey(), tmpEntry.getValue());
-        }
-        return sortedMap;
-    }
-    static class MapValueComparator implements Comparator<Map.Entry<String,Integer>>{       //map比较器类
+    //map排序，将值按升序排序，当值相同时键按字典序排序
+    //返回一个map
+    public static Map<String, Integer> sortWord(Map<String,Integer> map) {
+        Map<String, Integer> sorted = map.entrySet().stream()
+                .sorted(Map.Entry.<String, Integer> comparingByValue().reversed()       //值升序排序
+                        .thenComparing(Map.Entry.comparingByKey()))                     //键排序
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey,
+                                Map.Entry::getValue,
+                                (oldVal, newVal) -> oldVal,
+                                LinkedHashMap::new)
+                );
+        return sorted;
 
-        @Override
-        public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-            int re=o2.getValue().compareTo(o1.getValue());
-            if(re!=0)
-                return re;
-            else
-                return o1.getKey().compareTo(o2.getKey());
-        }
     }
 }
