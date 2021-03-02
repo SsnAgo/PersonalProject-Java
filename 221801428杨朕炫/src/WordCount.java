@@ -50,6 +50,19 @@ public class WordCount {
     }
 
     /**
+     * calculate the number of valid lines(expects lines that just contain space) in input file
+     *
+     * @param list
+     */
+    public static void countLines(List<String> list) {
+        list.forEach(x -> {
+            if (!x.trim().equals("")) {
+                linesCount++;
+            }
+        });
+    }
+
+    /**
      * get a List contains every line in the input file
      *
      * @param filename
@@ -63,16 +76,49 @@ public class WordCount {
     }
 
     /**
-     * calculate the number of valid lines(expects lines that just contain space) in input file
-     *
-     * @param list
+     * compare two String type values by dictionary order
+     * @param str1
+     * @param str2
+     * @return
      */
-    public static void countLines(List<String> list) {
-        list.forEach(x -> {
-            if (!x.trim().equals("")) {
-                linesCount++;
+    public static int compareStringByDict(String str1, String str2) {
+        for (int i = 0, j = 0; i < str1.length() && j < str2.length(); i++, j++) {
+            if (str1.charAt(i) >= str2.charAt(i)) {
+                return -1;
+            } else if (str1.charAt(i) < str2.charAt(i)) {
+                return 1;
             }
-        });
+        }
+        if (str1.length() == str2.length()) {
+            return 0;
+        } else if (str1.length() > str2.length()) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
+
+    /**
+     * sort Map by the count of words
+     *
+     * @param map
+     * @return
+     */
+    public static Map<String, Integer> sortMapByCount(Map<String, Integer> map) {
+        HashMap<String, Integer> finalOut = new LinkedHashMap<>();
+
+        map.entrySet()
+                .stream()
+                .sorted((p1, p2) -> {
+                    if (p1.getValue() != p2.getValue()) {
+                        return p2.getValue().compareTo(p1.getValue());
+                    } else {
+                        return compareStringByDict(p2.getKey(),p1.getKey());
+                    }
+                })
+                .collect(Collectors.toList()).forEach(ele -> finalOut.put(ele.getKey(), ele.getValue()));
+        return finalOut;
     }
 
     /**
@@ -101,51 +147,6 @@ public class WordCount {
     }
 
     /**
-     * sort Map by the count of words
-     *
-     * @param map
-     * @return
-     */
-    public static Map<String, Integer> sortMapByCount(Map<String, Integer> map) {
-        HashMap<String, Integer> finalOut = new LinkedHashMap<>();
-
-        map.entrySet()
-                .stream()
-                .sorted((p1, p2) -> {
-                    if (p1.getValue() != p2.getValue()) {
-                        return p2.getValue().compareTo(p1.getValue());
-                    } else {
-                        return compareStringByDict(p2.getKey(),p1.getKey());
-                    }
-                })
-                .collect(Collectors.toList()).forEach(ele -> finalOut.put(ele.getKey(), ele.getValue()));
-        return finalOut;
-    }
-
-    /**
-     * compare two String type values by dictionary order
-     * @param str1
-     * @param str2
-     * @return
-     */
-    public static int compareStringByDict(String str1, String str2) {
-        for (int i = 0, j = 0; i < str1.length() && j < str2.length(); i++, j++) {
-            if (str1.charAt(i) >= str2.charAt(i)) {
-                return -1;
-            } else if (str1.charAt(i) < str2.charAt(i)) {
-                return 1;
-            }
-        }
-        if (str1.length() == str2.length()) {
-            return 0;
-        } else if (str1.length() > str2.length()) {
-            return 1;
-        } else {
-            return -1;
-        }
-    }
-
-    /**
      * generate output string message
      * @param map
      * @return
@@ -162,6 +163,19 @@ public class WordCount {
         return sb;
     }
 
+    public static void writeOutputToFile(String filename,String message) throws IOException{
+        FileWriter writer = null;
+        try{
+            writer = new FileWriter(filename);
+            writer.write(message);
+        }finally {
+            try{
+                if (writer != null) writer.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
 
     public static void main(String[] args) throws IOException {
 
@@ -173,13 +187,13 @@ public class WordCount {
         // make sure input file exist
         String outputFile = args[1];
         try {
-            // 主体代码
             countCharacters(inputFile);
             List<String> lineList = getLineList(inputFile);
             countLines(lineList);
             Map<String, Integer> stringIntegerMap = calculateWordAndTransform(lineList);
             stringIntegerMap = sortMapByCount(stringIntegerMap);
             StringBuilder sb = generateOutputString(stringIntegerMap);
+            writeOutputToFile(outputFile,sb.toString());
 
         } catch (FileNotFoundException e) {
             System.out.println("No Such File Found!");
