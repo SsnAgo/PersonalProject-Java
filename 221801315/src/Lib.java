@@ -1,7 +1,5 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 /**
  * 功能：WordCount中main方法要调用的函数
@@ -12,10 +10,10 @@ import java.util.stream.Collectors;
  * 最后修改时间：2021/3/1 2:27
  */
 public class Lib {
-    public static Map<String, Integer> wordFrequencyRecords;  //单词频率记录表
+    public static Map<String, Integer> wordFrequencyRecords = new HashMap<>();  //单词频率记录表
     public static String recordSource = "";   //记录表的数据源
-    public static boolean isSorted = false;
-    public static List<Map.Entry<String, Integer>> sortedRecord;
+    public static boolean isSorted = false;   //记录表是否被排序过
+    public static List<Map.Entry<String, Integer>> sortedRecord = null;   //排序后频率最高的10个单词
 
     /* 检测所给文件路径是否有效，输入文件不存在则抛出异常，输出文件不存在则创建
        输入参数：输入文件路径inFilePath，输出文件路径outFilePath
@@ -121,14 +119,18 @@ public class Lib {
         sortedRecord.sort(new Comparator<Map.Entry<String, Integer>>() {
             @Override
             public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                if (o1.getValue() > o2.getValue())
-                    return -1;
-                else if (o1.getValue() == o2.getValue())
-                    return o1.getKey().compareTo(o2.getKey());
-                else
-                    return 1;
+                return o1.getKey().compareTo(o2.getKey());
             }
         });
+        sortedRecord.sort(new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                return o2.getValue() - o1.getValue();
+            }
+        });
+
+        if (sortedRecord.size() > 10)
+            sortedRecord = sortedRecord.subList(0, 10);
         isSorted = true;
     }
 
@@ -167,16 +169,16 @@ public class Lib {
     public static void createWordFrequencyRecords(String inFilePath) {
         int letterCount = 0;     //字母数
         String word = "";
-        wordFrequencyRecords = new HashMap<>();
         recordSource = inFilePath;
+        wordFrequencyRecords.clear();
         isSorted = false;
         sortedRecord = null;
 
         try {
             Reader in = new InputStreamReader(new FileInputStream(inFilePath));
-            int temp = in.read();  //记录读取的字符
+            int temp;
             //读取文件，直到文件结束
-            while (temp != -1) {
+            while ((temp = in.read()) != -1) {
                 if (isLetter((char) temp)) {
                     ++letterCount;
                     word += (char) temp;
@@ -188,25 +190,24 @@ public class Lib {
                             temp = in.read();
                         }
 
-                        word += '\0';
-                        word = word.toLowerCase(Locale.ROOT);
-
-                        addRecord(word);
+                        addRecord((word += '\0').toLowerCase(Locale.ROOT));
 
                         word = "";
                         letterCount = 0;
                     } else {
                         //发现不是单词后，直接跳到分隔符，开始判断下一个单词
-                        while (!isSeparator((char) temp)) {
+                        while (!isSeparator((char) temp))
                             temp = in.read();
-                        }
 
                         word = "";
                         letterCount = 0;
                     }
                 }
-                temp = in.read();
             }
+
+            //如果最后一个单词没有碰到分隔符，文件就结束，应当加入该单词
+            if (!word.equals(""))
+                addRecord((word += '\0').toLowerCase(Locale.ROOT));
         } catch (IOException e) {
             e.printStackTrace();
         }
