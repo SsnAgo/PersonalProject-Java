@@ -16,9 +16,9 @@ public class Lib {
             bufferedReader=new BufferedReader(reader);
             str=new StringBuilder();
             int flag;
-            str.append(bufferedReader.read());
+            //str.append(bufferedReader.read());
             while ((flag=bufferedReader.read())!=-1){
-                str.append(flag);
+                str.append((char)flag);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -35,15 +35,22 @@ public class Lib {
         return str.toString();
     }
 
-    static int GetCharactersNum(String temp){
+    static int GetCharactersNum(String str){
 
         int num=0;
+
+        char[] temp=str.toCharArray();
+        for(int i=0;i<temp.length;i++){
+            if(temp[i]>=0&&temp[i]<=127){
+                num++;
+            }
+        }
 
         return num;
 
     }
 
-    static int GetWordsNum(String temp){
+    static int GetWordsNum(String str){
 
         int num=0;
 

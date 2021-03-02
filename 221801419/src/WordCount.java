@@ -8,9 +8,10 @@ public class WordCount {
         String inputPath= args[0];
         String outputPath=args[1];
 
-        String Char_Num=lib.GetCharacters(inputPath);
-        int Word_Num=lib.GetWordsNum(inputPath);
-        int Line_Num=lib.GetLinesNum(inputPath);
+        String Char=lib.GetCharacters(inputPath);
+        int Char_Num=lib.GetCharactersNum(Char);
+        int Word_Num=lib.GetWordsNum(Char);
+        int Line_Num=lib.GetLinesNum(Char);
 
         System.out.print(args[0]);
         /*bufferedWriter.write("characters:"+Char_Num);
@@ -22,11 +23,13 @@ public class WordCount {
         FileOutputStream fileOutputStream=new FileOutputStream(outputPath);
         OutputStreamWriter outputStreamWriter=new OutputStreamWriter(fileOutputStream,"UTF-8");
         BufferedWriter bufferedWriter=new BufferedWriter(outputStreamWriter);
-        bufferedWriter.write(inputPath);
+        bufferedWriter.write(Char);
+        bufferedWriter.newLine();
+        bufferedWriter.write(Char_Num);
         bufferedWriter.flush();
 
 
-        System.out.print("BBBB");
+        System.out.print(Char_Num);
 
 
     }
