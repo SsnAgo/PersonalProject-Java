@@ -35,7 +35,7 @@ public class WordProcessor {
     /**
      * The Word sum.
      */
-    public int wordSum = 0;
+    private int wordSum = 0;
 
     /**
      * 判断字符串是否符合单词要求
@@ -127,20 +127,25 @@ public class WordProcessor {
      * 统计所有合法单词频数（忽略大小写）
      *
      * <p>
-     *     统计合法单词的出现次数总和，字母全部转换为<em>小写</em>，不区分大小写
-     *     <em>请在{@link #buildPossibleWord(char scanChar,boolean isEndOfFile) buildPossibleWord} 返回true时调用</em>
+     * 统计合法单词的出现次数总和，字母全部转换为<em>小写</em>，不区分大小写
+     * <em>请在{@link #buildPossibleWord(char scanChar, boolean isEndOfFile) buildPossibleWord} 返回true时调用</em>
      * </p>
+     *
+     * @return the boolean
      */
-    public void allWordSumUp(){
-        if (isLegalWord(possibleWord) && !individualWordSumUp(possibleWord.toString())) {
+    public boolean allWordSumUp(){
+        boolean isLegal = false;
+        if (isLegalWord(possibleWord)) {
             wordSum++;
+            isLegal = true;
         }
+        return isLegal;
     }
 
 
     /**
      * 获取排序后的单词频数对数组
-     *
+     * <p>
      * 使用{@link WordProcessor#wordComparator}比较器对数组进行排序
      *
      * @return the sorted word count list
@@ -153,7 +158,7 @@ public class WordProcessor {
 
     /**
      * 获取传入单词已统计总数
-     *
+     * <p>
      * 统计的单词不区分大小写
      *
      * @param word the word 要获取频数的单词<em>字母小写</em>
@@ -161,6 +166,16 @@ public class WordProcessor {
      */
     public int getWordCount(String word) {
         return wordSumMap.getOrDefault(word, 0);
+    }
+
+
+    /**
+     * 获取已统计单词总数
+     *
+     * @return the word sum 当前已统计单词总数
+     */
+    public int getWordSum() {
+        return wordSum;
     }
 
     private boolean isLetterChar(char charToExam) {
