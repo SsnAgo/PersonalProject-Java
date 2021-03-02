@@ -2,16 +2,23 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;;
 
 public class WordCount {
 	static HashMap<String, Integer > hashMap=new HashMap<String,Integer>();
     public static void main(String args[])
     {
-      	 String finname = args[0];
+      	 String finname = new String(args[0]);
       	 //String foutname = args[1];
+      	 wordmanage(finname);
+ 		Set<Map.Entry<String, Integer>> ms =hashMap.entrySet();
+ 		for (Map.Entry<String, Integer> entry : ms) {
+ 			System.out.print(entry.getKey()+"="+entry.getValue());
+ 		}
     }
-    public void wordmanage(String finname) {
+    public static void wordmanage(String finname) {
     	try 
         {
     		 FileInputStream fr=new FileInputStream(new File(finname));
@@ -68,25 +75,20 @@ public class WordCount {
 	        		 }
         			 tempword=null;
         			 canbeword=0;
-        			 continue;
-	        	 }
-	        	 if (Character.isLetter(ch)){
+	        	 }else if (Character.isLetter(ch)){
 	        		 canbeword++;
 	        		 if(Character.isUpperCase(ch)) {
 	        			 ch = Character.toLowerCase(ch);
 	        		 }
 	        		 tempword.append(ch);
-	        		 continue;
-	        	 }
-	        	 if(Character.isDigit(ch)) {
+	        	 }else if(Character.isDigit(ch)) {
 	        		 if (canbeword < 4) {
-	        			 if(hashMap.containsKey(tempword)) {
-	        				 Integer hvalue = ((Integer)hashMap.get(tempword))+1;
-	        				 hashMap.put(tempword.toString(), hvalue);
-	        			 }
+	        			 canbeword=0;
+	        			 tempword=null;
+	        		 }else {
+	        			 tempword.append(ch);
 	        		 }
 	        	 }
-	        	 
 	         } 
 	         fr.close(); 
         } 
