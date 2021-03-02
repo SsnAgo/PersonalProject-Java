@@ -5,7 +5,7 @@ public class WordCount{
 
     public String inputPath;
     public String outputPath;
-    public int validLine;       //有效行
+    public int validLine=1;       //有效行
     public int validWord;       //有效单词
     public int characterNum;    //字符数
     public Map<String,Integer> mapWord=new HashMap<String, Integer>();//用于存单词
@@ -32,14 +32,30 @@ public class WordCount{
         BufferedReader reader=null;
 
         reader=new BufferedReader(new FileReader(inputFile));
-        String tempString = null;
-        int line = 1;
+        StringBuilder tempString = new StringBuilder();
+        int tempChar;                  //记录临时字符
+        boolean enterFlag=false;                    //记录遇到换行符
         // 一次读入一行，直到读入null为文件结束
-        while ((tempString = reader.readLine()) != null) {
-            // 显示行号
-            System.out.println("line " + line + ": " + tempString);
-            line++;
-            wordCount.statisticsLine(tempString);
+        while ((tempChar = reader.read()) != -1) {
+            wordCount.characterNum++;
+            if((char)tempChar=='\r'){               //如果碰到\r，先将行数+1
+                enterFlag=true;
+                wordCount.validLine++;
+                wordCount.statisticsLine(tempString.toString());
+                tempString.delete(0,tempString.length());
+            }
+            else if((char)tempChar=='\n'){
+                if(enterFlag)                       //如果\r后遇到\n，不处理
+                    enterFlag=false;
+                else{                                //如果直接遇到\n,将行数+1
+                    wordCount.validLine++;
+                    wordCount.statisticsLine(tempString.toString());
+                    tempString.delete(0,tempString.length());
+                }
+            }
+            else{
+                tempString.append((char)tempChar);
+            }
         }
         reader.close();
 
@@ -50,23 +66,24 @@ public class WordCount{
         System.out.println("字符数："+wordCount.characterNum);
 
         Map<String,Integer> tempMap=sortWord(wordCount.mapWord);        //用于存排序后的单词map
-        Set<Map.Entry<String,Integer>> entrySet=tempMap.entrySet();
+        Set<Map.Entry<String,Integer>> entrySet= new HashSet<>();
+        entrySet=tempMap.entrySet();
         Iterator<Map.Entry<String, Integer>> iter=entrySet.iterator();
-        while (iter.hasNext()){
+        int l=0;                                                        //限制输出10次
+        while (iter.hasNext() && l<10){
             Map.Entry<String,Integer> entry=iter.next();
             System.out.println(entry.getKey()+":"+entry.getValue());
+            l++;
         }
     }
 
     public void statisticsLine(String line){
         if(line.trim().isEmpty())       //如果是空行，直接跳过进入下一行
             return ;
-        validLine++;                    //不是空行就是有效行
 
         int wordFlag=0;
         StringBuilder tempWord=new StringBuilder();                //存单词
 
-        characterNum+=line.length();    //字符数+=每行的字符数
 
         for(int i=0;i<line.length();i++){
             if(Character.isLetter(line.charAt(i))){
@@ -96,29 +113,32 @@ public class WordCount{
     }
 
     public void bigDateTest() throws IOException {
-        BufferedWriter out=new BufferedWriter(new FileWriter(outputPath));
-
-        for(int j=0;j<100000;j++){
-            for(int i=0;i<10000;i++){
-                out.write("a");
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < 100000; i++) {
+                stringBuilder.append("aaaa").append(i).append(",");
             }
-            out.write("\n");
-            for(int i=0;i<10000;i++){
-                out.write("b");
+            stringBuilder.append('\n');
+            for (int i = 0; i < 100000; i++) {
+                stringBuilder.append("bbbb").append(i).append(",");
             }
-            out.write("\n");
-            for(int i=0;i<10000;i++){
-                out.write("c");
+            stringBuilder.append('\n');
+            for (int i = 0; i < 10000; i++) {
+                for (int j = 0; j < 100; j++) {
+                    stringBuilder.append("maxmax").append(j).append(",");
+                }
+                stringBuilder.append('\n');
             }
-            out.write("\n");
-        }
-        out.close();
+            String testContent = stringBuilder.toString();
+            System.out.println(testContent.length());
+            BufferedWriter out=new BufferedWriter(new FileWriter(outputPath));
+            out.write(testContent);
+            out.close();
     }
 
     public static Map<String, Integer> sortWord(Map<String,Integer> map){   //将存单词的map按值排序
+        Map<String, Integer> sortedMap=new HashMap<String, Integer>();
         if(map==null || map.isEmpty())      //若map为空直接返回
-            return null;
-        Map<String, Integer> sortedMap=new LinkedHashMap<String, Integer>();
+            return sortedMap;
         List<Map.Entry<String, Integer>> entryList=new ArrayList<Map.Entry<String, Integer>>(map.entrySet());
         Collections.sort(entryList, new MapValueComparator());
         Iterator<Map.Entry<String, Integer>> iter = entryList.iterator();
@@ -133,7 +153,11 @@ public class WordCount{
 
         @Override
         public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-            return o2.getValue().compareTo(o1.getValue());
+            int re=o2.getValue().compareTo(o1.getValue());
+            if(re!=0)
+                return re;
+            else
+                return o1.getKey().compareTo(o2.getKey());
         }
     }
 }
