@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Lib {
@@ -33,9 +31,10 @@ public class Lib {
     private int charactersNum;
     private int wordsNum;
     private int linesNum;
-    private String inputFile;
+    private final String inputFile;
     private String outputFile;
     private Map<String, Integer> map;
+    private List<Map.Entry<String, Integer>> wordsRank;
 
     private String pattern = "^[A-Za-z]{4}[A-Za-z0-9]*";
 
@@ -52,6 +51,8 @@ public class Lib {
         String file = readFile();
         CountCharacters(file);
         CountWords(file);
+        sortWords();
+        showWordsRank();
     }
 
     public String readFile() throws IOException {
@@ -88,11 +89,25 @@ public class Lib {
                 }
             }
         }
-        map.forEach((k,v) -> System.out.println(k + ":" + v));
     }
 
     private boolean isWord(String str) {
         return Pattern.matches(pattern, str);
     }
 
+    private void sortWords() {
+        wordsRank = new ArrayList<>(map.entrySet());
+        Comparator<Map.Entry<String, Integer>> comparator = (o1, o2) -> o2.getValue()- o1.getValue();
+        wordsRank.sort(comparator);
+    }
+
+    private void showWordsRank() {
+        if (wordsRank.size() > 10) {
+            for (int i = 0; i < wordsRank.size(); i++ ) {
+                System.out.print(wordsRank.get(i).getKey() + ": " + wordsRank.get(i).getValue() + "\n");
+            }
+        }
+        else
+            wordsRank.forEach(item -> System.out.print(item.getKey() + ": " + item.getValue() + "\n"));
+    }
 }
