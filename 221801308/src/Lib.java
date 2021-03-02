@@ -12,8 +12,7 @@ public class Lib {
     private int lineNumber;
     private int wordNumber;
     private final Pattern linePattern = Pattern.compile("\n");
-    private final Pattern wordPattern = Pattern.compile("[a-zA-Z]{4}[A-Za-z0-9]*");
-
+    private final Pattern wordPattern = Pattern.compile("(^|[^A-Za-z0-9])([a-zA-Z]{4}[A-Za-z0-9]*)");
     public Lib(String inputFile, String outputFile) {
         this.inputFile = inputFile;
         this.outputFile = outputFile;
