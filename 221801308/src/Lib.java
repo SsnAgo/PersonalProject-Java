@@ -118,12 +118,18 @@ public class Lib {
      */
     public void writeFileContent() throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+        int i = 0;
         try {
             writer.write("characters: " + charNumber + "\n");
             writer.write("words: " + wordNumber + "\n");
             writer.write("lines: " + lineNumber + "\n");
             for(Entry<String, Integer> entry: linkedMapWords.entrySet()) {
-                writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
+                i++;
+                if(i<10) {
+                    writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
+                } else {
+                    break;
+                }
             }
             writer.flush();
             writer.close();
