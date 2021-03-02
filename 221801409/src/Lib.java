@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class Lib {
     public static String readFormTxt(String txtPath){
@@ -47,5 +44,10 @@ public class Lib {
             }
         }
         return count;
+    }
+    public static int getLineCount(String str){
+        str=str.replaceAll("[^\\S\\r\\n]","");//将str中除了换行符以外的空白字符删掉
+        String count[]=str.split("\r|\n|\r\n");//将新字符串以split方法进行换行符分割后，利用length方法统计行数
+        return count.length;
     }
 }
