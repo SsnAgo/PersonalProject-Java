@@ -5,66 +5,45 @@ import java.util.HashMap;
 
 public class Lib 
 {
-	public boolean isLetter(char ch) //判断是不是字母
-	{
-		if ((ch>='a' && ch<='z') || (ch>='A' && ch<='Z'))
-		{
-			return true;
-		}
-		return false;
-	}
+	HashMap<String,Integer> has=new HashMap<String,Integer>(); //统计词频
 	
-	public boolean isNumber(char ch) //判断是不是数字
+	public int countChar(File file)	//统计字符数
 	{
-		if (ch>='0' && ch<='9')
-		{
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean isSeparator(char ch) //判断是不是分隔符
-	{
-		if ( ch==' ' || (!isLetter(ch) && !isNumber(ch)) )
-		{
-			return true;
-		}
-		return false;
-	}
-
-	public void countChar(File file,File output)	//统计字符数
-	{
+		int i=0; //记录字符数
 		try 
 		{		
 			FileReader fr=new FileReader(file);
 			BufferedReader bfr=new BufferedReader(fr);
 			char ch;
-			int i=0; //记录字符数
+			
 			while((ch=(char)bfr.read()) != (char)-1) //按字符读取文本内容
 			{
-					i++; //累计字符数
+				if(ch>=0 && ch<=127) 
+				{
+		               i++; //累计字符数
+		        }	
 			}
 			
 			bfr.close();
 			fr.close();		
 			
-			System.out.println("characters: "+i);
-			writeToText(output,"characters: "+i+"\n");
+			
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		
+		return i;
 	}
 	
-	public void countLine(File file,File output) //统计行数
+	public int countLine(File file) //统计行数
 	{
+		int i=0;
 		try 
 		{		
 			FileReader fr=new FileReader(file);
 			BufferedReader bufr=new BufferedReader(fr);
-			int i=0;	
+				
 			String str;
 			while((str=bufr.readLine())!=null)
 			{
@@ -73,17 +52,17 @@ public class Lib
 			}
 			bufr.close();
 			fr.close();		
-			System.out.println("lines: "+i);
-			writeToText(output,"lines: "+i+"\n");
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+		return i;
 	}
 	
-	public void countWord(File file,File output) //统计单词数
+	public int countWord(File file) //统计单词出现频率
 	{
+		
 		int countWords=0;
 		
 		try
@@ -93,47 +72,21 @@ public class Lib
 			char ch;
 			
 			String str="";
-			
 			while((ch=(char)bfr.read()) != (char)-1)//按字符读取文本内容
 			{						
-				if (isLetter(ch)) //遇到字母就计入
-				{
-					str+=ch;	
-				}
-				
-				if (isNumber(ch))	
-				{
-					if (str.length()>=4) //有4个字母开头时才开始记录数字
-						str+=ch;
-					else
-					{
-						str=""; //不形成单词，清空
-					}
-				}
-				
-				if (isSeparator(ch))
-				{
-					if (str.length()>=4) //形成单词，计数加一
-					{
-						countWords++;
-						//System.out.println(str);
-						str="";
-					}
-					else
-					{
-						str=""; //不形成单词，清空
-					}
-				}
-				
+				str+=ch;
 			}
 			
-			if(str.length()>=4) //统计最后一个单词
-			{
-				countWords++;
-				//System.out.println(str);
-			}
+			String[] strs=str.split("[^a-zA-Z0-9]"); //将文本内容按分隔符分开成若干字符串
 			
-			
+	        for(int i=0;i<strs.length;i++) 
+	        {
+	            if(strs[i].matches("[a-zA-Z]{4,}[a-zA-Z0-9]*")) //依次判断字符串是否是单词
+	            {
+	            	addWordToHash(has,strs[i]); //是单词则加入统计用的hashMap
+	            	countWords++; //计数加一
+	            }
+	        }
 			bfr.close();
 			fr.close();
 			
@@ -142,72 +95,8 @@ public class Lib
 		{
 			e.printStackTrace();
 		}
-
-		System.out.println("words: "+countWords);
-		writeToText(output,"words: "+countWords+"\n");
-	}
-	
-	public void countWordFrequency(File file,File output) //统计单词出现频率
-	{
-		HashMap<String,Integer> has=new HashMap<String,Integer>(); //统计词频
-		int countWords=0;
 		
-		try
-		{
-			FileReader fr=new FileReader(file);
-			BufferedReader bfr=new BufferedReader(fr);
-			char ch;
-			
-			String str="";
-			
-			while((ch=(char)bfr.read()) != (char)-1)//按字符读取文本内容
-			{						
-				if (isLetter(ch)) //遇到字母就计入
-				{
-					str+=ch;	
-				}
-				
-				if (isNumber(ch))	
-				{
-					if (str.length()>=4) //有4个字母开头时才开始记录数字
-						str+=ch;
-					else
-					{
-						str=""; //不形成单词，清空
-					}
-				}
-				
-				if (isSeparator(ch))
-				{
-					if (str.length()>=4) //形成单词，计数加一
-					{
-						countWords++;
-						addWordToHash(has,str);
-						str="";
-					}
-					else
-					{
-						str=""; //不形成单词，清空
-					}
-				}			
-			}
-			
-			if(str.length()>=4) //统计最后一个单词
-			{
-				countWords++;
-				addWordToHash(has,str);
-			}			
-			
-			bfr.close();
-			fr.close();
-			
-		}
-		catch(Exception e) 
-		{
-			e.printStackTrace();
-		}
-
-		outputWords(has,output); //将HashMap按需求输出
+		return countWords;
 	}
 	
 	public void addWordToHash(HashMap<String,Integer> has,String str)
@@ -302,7 +191,7 @@ public class Lib
 		}
 	}
 	
-	public void clearText(File file) //output.txt
+	public void clearText(File file) //clear output.txt
 	{
 		try 
 		{	   
@@ -320,9 +209,20 @@ public class Lib
 	{
 		clearText(output);
 		
-		countChar(input,output);
-		countWord(input,output);
-		countLine(input,output);
-		countWordFrequency(input,output);
+		int countChar1=countChar(input);
+		int countWord1=countWord(input);
+		int countLine1=countLine(input);
+		
+		System.out.println("characters: "+countChar1);
+		System.out.println("words: "+countWord1);
+		System.out.println("lines: "+countLine1);
+		
+		writeToText(output,"characters: "+countChar1+"\n");
+		writeToText(output,"words: "+countWord1+"\n");
+		writeToText(output,"lines: "+countLine1+"\n");
+		
+		outputWords(has,output);
 	}
+
+
 }
