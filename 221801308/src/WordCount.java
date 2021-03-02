@@ -5,16 +5,16 @@ import java.io.*;
  */
 public class WordCount {
     public static void main(String [] args) {
-        if (args.length<2) {
+        if(args.length<2) {
             System.out.println("The parameter is less than two, please run again");
-        }else {
-            try{
+        } else {
+            try {
                 Lib  wordCount = new Lib(args[0], args[1]);
                 wordCount.countChars();
                 wordCount.countLines();
                 wordCount.countWords();
                 wordCount.writeFileContent();
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
