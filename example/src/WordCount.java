@@ -1,5 +1,3 @@
-
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,7 +15,7 @@ public class WordCount {
       	System.out.println("asda");
  		Set<Map.Entry<String, Integer>> ms =hashMap.entrySet();
  		for (Map.Entry entry : ms) {
- 			System.out.print(entry.getKey()+"="+entry.getValue());
+ 			System.out.println(entry.getKey()+"="+entry.getValue());
  		}
     }
     public static void wordmanage(String finname) {
@@ -30,7 +28,7 @@ public class WordCount {
 	         int wordcount=0;	//单词总数
 	         int canbeword=0; 	//每次增加，当最后大于四的时候成立
 	         int canbetransferred=0;//可能为\n\r
-	         StringBuffer tempword = new StringBuffer();
+	         String tempword ="";
 	         //每个单词一次循环
 	         while ((i=fr.read()) != -1){
 	        	 
@@ -73,23 +71,25 @@ public class WordCount {
 	        		 if (canbeword >= 4) {
 	        			 if(hashMap.containsKey(tempword)) {
 	        				 Integer hvalue = ((Integer)hashMap.get(tempword))+1;
-	        				 hashMap.put(tempword.toString(), hvalue);
+	        				 hashMap.put(tempword, hvalue);
+	        			 }else {
+	        				 hashMap.put(tempword, 1);
 	        			 }
 	        		 }
-        			 tempword.delete(0,tempword.length());
+        			 tempword="";
         			 canbeword=0;
 	        	 }else if (Character.isLetter(ch)){
 	        		 canbeword++;
 	        		 if(Character.isUpperCase(ch)) {
 	        			 ch = Character.toLowerCase(ch);
 	        		 }
-	        		 tempword.append(ch);
+	        		 tempword+=ch;
 	        	 }else if(Character.isDigit(ch)) {
 	        		 if (canbeword < 4) {
 	        			 canbeword=0;
-	        			 tempword.delete(0,tempword.length());
+	        			 tempword="";
 	        		 }else {
-	        			 tempword.append(ch);
+	        			 tempword+=ch;
 	        		 }
 	        	 }
 	         } 
