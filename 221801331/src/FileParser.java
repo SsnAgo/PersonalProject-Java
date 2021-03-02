@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 文件解析
@@ -26,7 +28,7 @@ public class FileParser
   BufferedInputStream inputStream;
 
   //文件输出流
-  FileWriter outputStream;
+  BufferedWriter outputStream;
 
   //单词统计
   Map<String,Integer> wordCountMap;
@@ -52,7 +54,6 @@ public class FileParser
     this.wordCountMap=new HashMap<>();
     this.inputStream=new BufferedInputStream(new FileInputStream(file));
     this.outputFile=outputFile;
-    this.outputStream=new FileWriter(outputFile);
   }
 
   /**
@@ -66,7 +67,7 @@ public class FileParser
    * @param wordCountMap
    */
   public FileParser(File file, String outputFile, int validCharsNum, int validLinesNum,int wordNum,
-                    BufferedInputStream inputStream, FileWriter outputStream, Map<String, Integer> wordCountMap)
+                    BufferedInputStream inputStream, BufferedWriter outputStream, Map<String, Integer> wordCountMap)
   {
     this.file = file;
     this.outputFile = outputFile;
@@ -85,6 +86,7 @@ public class FileParser
    */
   public int countValidChars() throws IOException
   {
+    inputStream=new BufferedInputStream(new FileInputStream(file));
     int c;
     while((c=inputStream.read())!=-1)
     {
@@ -93,6 +95,7 @@ public class FileParser
         validCharsNum++;
       }
     }
+    inputStream.close();
     return c;
   }
 
@@ -103,6 +106,7 @@ public class FileParser
    */
   public int countWord() throws IOException
   {
+    inputStream=new BufferedInputStream(new FileInputStream(file));
     boolean isWordReading=false; //单词读取位；判断是否正在读取单词
     StringBuilder wordReader=new StringBuilder(); //单词读取器
     int c;
@@ -121,6 +125,7 @@ public class FileParser
           wordNum++;   //单词数量+1
           Integer count;
           String word=wordReader.toString();
+          numToWord=0;  //清空连续字母数量
           wordReader.delete(0,wordReader.length());   //清空单词读取器
           wordCountMap.put(word,(count=wordCountMap.get(word))==null?1:count+1);  //更新map
         }
@@ -138,6 +143,7 @@ public class FileParser
         }
       }
     }
+    inputStream.close();
     return wordNum;
   }
 
@@ -147,14 +153,79 @@ public class FileParser
    */
   public int countValidLines() throws IOException
   {
+    inputStream=new BufferedInputStream(new FileInputStream(file));
     BufferedReader reader=new BufferedReader(new InputStreamReader(inputStream));
     while (reader.readLine()!=null)
     {
       validLinesNum++;
     }
+    inputStream.close();
     return validLinesNum;
   }
 
+  //get
+  public File getFile() {
+    return file;
+  }
+
+  public String getOutputFile() {
+    return outputFile;
+  }
+
+  public BufferedInputStream getInputStream() {
+    return inputStream;
+  }
+
+  public BufferedWriter getOutputStream() {
+    return outputStream;
+  }
+
+  /**
+   * 获取有效字符数量
+   * @return
+   */
+  public int getValidCharsNum() {
+    return validCharsNum;
+  }
+
+  /**
+   * 获取有效行数
+   * @return
+   */
+  public int getValidLinesNum() {
+    return validLinesNum;
+  }
+
+  /**
+   * 获取单词数量
+   * @return
+   */
+  public int getWordNum() {
+    return wordNum;
+  }
+
+  /**
+   * 获取单词统计map
+   * @return
+   */
+  public Map<String, Integer> getWordCountMap()
+  {
+    return wordCountMap
+        .entrySet() //获取set
+        .stream()   //获取流
+        .sorted(Map.Entry.<String, Integer> comparingByValue() //按照数值排序，默认升序
+            .reversed()//倒序
+            .thenComparing(Map.Entry.comparingByKey()))//按照key排序
+        .limit(10) //选择最前面的十个
+        .collect(  //以map形式返回
+            Collectors.toMap(
+                Map.Entry::getKey,
+                Map.Entry::getValue,
+                (oldVal, newVal) -> oldVal,
+                LinkedHashMap::new
+            )
+        );
+  }
 
   /**
    * 输出到文件
@@ -162,17 +233,19 @@ public class FileParser
    */
   public void writeToFile() throws IOException
   {
+    this.outputStream=new BufferedWriter(new OutputStreamWriter(
+        new FileOutputStream(outputFile), "utf-8"));
+
     StringBuilder content=new StringBuilder("characters:"+validCharsNum+"\n" +
         "words:"+wordNum+"\n" +
         "lines:"+validLinesNum+"\n");
-    int count=0;
-    for (String key: wordCountMap.keySet())
+    Map<String,Integer> map=getWordCountMap();
+    for (String key: map.keySet())
     {
-        count++;
-        content.append("word"+count+":"+" "+wordCountMap.get(key)+"\n");
+        content.append(key+":"+map.get(key)+"\n");
     }
     outputStream.write(content.toString());
-    System.out.println(content.toString());
+
   }
 
 

@@ -5,12 +5,14 @@ public class WordCount
 {
   public static void main(String[] args) throws IOException
   {
-
-    FileParser fileParser=new FileParser(new File(args[0]),args[1]);
-    fileParser.countValidChars();
-    fileParser.countValidLines();
-    fileParser.countWord();
-    fileParser.writeToFile();
+    TextParser textParser =new TextParser("D:\\DeskTop\\input.txt","D:\\DeskTop\\output.txt");
+    textParser.parseFile();
+    textParser.countValidChars();
+    textParser.countValidLines();
+    textParser.countWordNum();
+    textParser.getWordCountMapBySize(10);
+    textParser.writeToFile();
+    
   }
 
 }
