@@ -1,5 +1,4 @@
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * 对单词校验、统计的类
@@ -9,6 +8,25 @@ public class WordProcessor {
     private final int INIT_WORD_MAX_LENGTH = 200;
     private boolean isPossibleWordAvailable;
     private Map<String,Integer> wordSumMap = new TreeMap<>();
+
+    /**
+     * 单词-频数对比较器
+     *
+     * 降序
+     * 比较标准：
+     * 1.频数大的靠前
+     * 2.单词字典序小的靠前
+     */
+    private final Comparator<Map.Entry<String,Integer> > wordComparator = new Comparator<Map.Entry<String, Integer>>() {
+        @Override
+        public int compare(Map.Entry<String, Integer> stringIntegerEntry, Map.Entry<String, Integer> t1) {//s<t1返回正
+            int result = t1.getValue() - stringIntegerEntry.getValue();
+            if (result ==0 ) {
+                result = stringIntegerEntry.getKey().compareTo(t1.getKey());
+            }
+            return result;
+        }
+    };
 
     /**
      * The Possible word.
@@ -114,9 +132,35 @@ public class WordProcessor {
      * </p>
      */
     public void allWordSumUp(){
-        if (isLegalWord(possibleWord) && individualWordSumUp(possibleWord.toString())) {
+        if (isLegalWord(possibleWord) && !individualWordSumUp(possibleWord.toString())) {
             wordSum++;
         }
+    }
+
+
+    /**
+     * 获取排序后的单词频数对数组
+     *
+     * 使用{@link WordProcessor#wordComparator}比较器对数组进行排序
+     *
+     * @return the sorted word count list
+     */
+    public List<Map.Entry<String,Integer> > getSortedWordCountList() {
+        List<Map.Entry<String,Integer> > wordList = new ArrayList<>(wordSumMap.entrySet());
+        wordList.sort(wordComparator);
+        return wordList;
+    }
+
+    /**
+     * 获取传入单词已统计总数
+     *
+     * 统计的单词不区分大小写
+     *
+     * @param word the word 要获取频数的单词<em>字母小写</em>
+     * @return the word count 单词频数
+     */
+    public int getWordCount(String word) {
+        return wordSumMap.getOrDefault(word, 0);
     }
 
     private boolean isLetterChar(char charToExam) {
