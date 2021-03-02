@@ -6,15 +6,18 @@ import java.util.*;
 
 public class WordCount {
     public static void main(String[] args) {
-        String filename = "E:/input.txt";
+        String filename = "E:/input1.txt";
         String content = "";//文本内容
+        Map<String, Integer> map = new HashMap<String, Integer>();
 
-        content = Getfile(filename);
+        content = GetFile(filename);//输入文件
 
-        CountFrequency(content);
+
+        map=CountFrequency(content);//词频统计
+        SortFrequency(map,5);//词频排序和输出
     }
 
-    public static String Getfile(String filename) {
+    public static String GetFile(String filename) {
         String content = "";
         FileReader fr = null;
         try {
@@ -36,7 +39,7 @@ public class WordCount {
         return content;
     }
 
-    public static void CountFrequency(String content){
+    public static Map CountFrequency(String content){
         Map<String, Integer> map = new HashMap<String, Integer>();
 
         StringTokenizer st = new StringTokenizer(content, " ,.!?\"'");
@@ -54,7 +57,10 @@ public class WordCount {
             } else
                 continue;
         }
+        return map;
+    }
 
+    private static void SortFrequency(Map map,int num){
         List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(map.entrySet()); //转换为list
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
             @Override
@@ -62,8 +68,7 @@ public class WordCount {
                 return o2.getValue().compareTo(o1.getValue());
             }
         });
-
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < num; i++) {
             System.out.println(list.get(i).getKey() + ": " + list.get(i).getValue());
         }
     }
