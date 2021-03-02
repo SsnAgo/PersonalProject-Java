@@ -25,7 +25,7 @@ public class Lib {
     static int statisticsCharacters(File file) {
         int characterNum = 0;
         try {
-            InputStreamReader read = new InputStreamReader(new FileInputStream(file));
+            InputStreamReader read = new InputStreamReader(new FileInputStream(file),"UTF-8");
             BufferedReader in = new BufferedReader(read);
             while (true) {
                 int characterAscill=in.read();
@@ -50,7 +50,7 @@ public class Lib {
     static int statisticsWords(File file) {
 	     int wordNum = 0;
 	     try {
-	         InputStreamReader read = new InputStreamReader(new FileInputStream(file));
+	         InputStreamReader read = new InputStreamReader(new FileInputStream(file),"UTF-8");
 	         BufferedReader in = new BufferedReader(read);
 	         String str = null;
 	         while ((str = in.readLine()) != null){
@@ -80,7 +80,7 @@ public class Lib {
     static int statisticsLines(File file) {
         int lineNum = 0;
         try {
-            InputStreamReader read = new InputStreamReader(new FileInputStream(file));
+            InputStreamReader read = new InputStreamReader(new FileInputStream(file),"UTF-8");
             BufferedReader in = new BufferedReader(read);
             String str = null;
             while ((str = in.readLine()) != null){
@@ -107,7 +107,7 @@ public class Lib {
     static  List<Map.Entry<String, Integer>> wordsFrequency(File file){
         Map<String,Integer> wordsMap = new TreeMap<>();//单词和频率的映射表
         try {
-            InputStreamReader read = new InputStreamReader(new FileInputStream(file));
+            InputStreamReader read = new InputStreamReader(new FileInputStream(file),"UTF-8");
             BufferedReader in = new BufferedReader(read);
             String str = null;
             while ((str = in.readLine()) != null){

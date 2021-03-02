@@ -1,18 +1,19 @@
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.List;
 import java.util.Map;
 public class WordCount {
     public static void main(String[] args) {
         Lib lib = new Lib();
-        if (args.length >= 2) {
+        if (args.length == 2) {
             try {
                 File inputFile = new File(args[0]);
                 File outputFile = new File(args[1]);
-                FileWriter fw = new FileWriter(outputFile);
-                BufferedWriter buffWriter = new BufferedWriter(fw);
+                BufferedWriter buffWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "utf-8"));
 				
                 //获取字符个数并输出
                 int characterNum = lib.statisticsCharacters(inputFile);
@@ -34,20 +35,17 @@ public class WordCount {
                 int num = 1;
                 for(Map.Entry<String, Integer> map : list) {  
                     if(num <= 10) {  
-                        try {
-                            buffWriter.write(map.getKey() + ": " + map.getValue());
-                            buffWriter.newLine();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }  
+                        buffWriter.write(map.getKey() + ": " + map.getValue());
+                        buffWriter.newLine();
                         num++;  
                     }else break;  
                 }
                 buffWriter.close();
-                fw.close();
             }catch(IOException e) {
                 e.printStackTrace();
             }
+        }else {
+            System.out.println("文件输入个数错误");
         }
     }
 }
