@@ -38,7 +38,7 @@ public class Lib
 	
 	public int countLine(File file) //统计行数
 	{
-		int i=0;
+		int count=0;
 		try 
 		{		
 			FileReader fr=new FileReader(file);
@@ -48,7 +48,7 @@ public class Lib
 			while((str=bfr.readLine())!=null)
 			{
 				if (!str.equals("")) 
-					i++;
+					count++;
 			}
 			bfr.close();
 			fr.close();		
@@ -57,7 +57,7 @@ public class Lib
 		{
 			e.printStackTrace();
 		}
-		return i;
+		return count;
 	}
 	
 	public int countWord(File file) //统计单词出现频率
@@ -79,14 +79,14 @@ public class Lib
 			
 			String[] strs=str.split("[^a-zA-Z0-9]"); //将文本内容按分隔符分开成若干字符串
 			
-	        for(int i=0;i<strs.length;i++) 
-	        {
-	            if(strs[i].matches("[a-zA-Z]{4,}[a-zA-Z0-9]*")) //依次判断字符串是否是单词
-	            {
-	            	addWordToHash(hashMap,strs[i]); //是单词则加入统计用的hashMap
-	            	countWords++; //计数加一
-	            }
-	        }
+			for(int i=0;i<strs.length;i++) 
+			{
+			    if(strs[i].matches("[a-zA-Z]{4,}[a-zA-Z0-9]*")) //依次判断字符串是否是单词
+			    {
+			    	addWordToHash(hashMap,strs[i]); //是单词则加入统计用的hashMap
+			    	countWords++; //计数加一
+			    }
+			}
 			bfr.close();
 			fr.close();
 			
@@ -99,7 +99,7 @@ public class Lib
 		return countWords;
 	}
 	
-	public void addWordToHash(HashMap<String,Integer> hash,String str)
+	public void addWordToHash(HashMap<String,Integer> hash,String str) //把字符串加入一个HashMap
 	{
 		//全部置为小写
 		str=str.toLowerCase();
@@ -115,7 +115,7 @@ public class Lib
 	
 	}
 	
-	public void addWordToTree(TreeMap<String,Integer> tree,String str)
+	public void addWordToTree(TreeMap<String,Integer> tree,String str) //把字符串加入一个TreeMap
 	{
 		if (!tree.containsKey(str)) //若尚无此单词
 		{ 
@@ -148,7 +148,7 @@ public class Lib
 		{
 			wordArray[i]=new TreeMap<String,Integer>();
 		}
-	    
+		
 		//增改TreeMap数组
 		iterator=hash.keySet().iterator(); //重置迭代器
 		while(iterator.hasNext())
@@ -161,31 +161,30 @@ public class Lib
 		int num=1;
 		for (int i=maxOccur;i>0;i--) 
 		{
-	    	iterator=wordArray[i].keySet().iterator();
-	    	while(iterator.hasNext())
-	    	{
-	    		String word=(String)iterator.next();
-	    		if (num<10)
-	    		{
-	    			//System.out.println(word+": "+i);
-	    			result+=word+": "+i+"\n";
-	    			num++;
-	    		}
-	    	}
+			iterator=wordArray[i].keySet().iterator();
+			while(iterator.hasNext())
+			{
+				String word=(String)iterator.next();
+				if (num<10)
+				{
+					//System.out.println(word+": "+i);
+					result+=word+": "+i+"\n";
+					num++;
+				}
+			}
 		}
 		
 		return result;
 	}
 	
-	public void writeToText(File file,String str) 
+	public void writeToText(File file,String str) //追加写入 output.txt
 	{
 		try 
 		{	   
 			FileWriter fw=new FileWriter(file,true); //第二个参数true则为append方式打开文件
 			BufferedWriter bfw=new BufferedWriter(fw);
 			bfw.write(str);
-			
-			
+				
 			bfw.close();
 			fw.close();
 		} 
@@ -195,11 +194,11 @@ public class Lib
 		}
 	}
 	
-	public void clearText(File file) //clear output.txt
+	public void clearText(File file) //清空 output.txt
 	{
 		try 
 		{	   
-			FileWriter writer=new FileWriter(file);
+			FileWriter writer=new FileWriter(file); //没有第二个参数true则为写方式打开
 			writer.write("");
 			writer.close();
 		} 
@@ -209,9 +208,10 @@ public class Lib
 		}
 	}
 	
-	public void process(File input,File output)
+	public void process(File input,File output) //汇总输出
 	{
-		clearText(output);	//输出前清空原有内容
+		//输出前清空原有内容
+		clearText(output);	
 		
 		//统计文本
 		int countChar1=countChar(input);
