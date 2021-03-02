@@ -1,7 +1,9 @@
 const fs = require('fs');
-const App = require('./core/index');
+const App = require('./lib/v2/index');
+// const App = require('./lib/v1/index');
 const { NotFindException, ParamException } = require('./exception');
 
+console.time('test');
 const readFile = process.argv[2];
 const writeFile = process.argv[3];
 try {
@@ -14,5 +16,7 @@ try {
 } catch (err) {
   console.error(err);
 }
-const app = new App('a.txt', writeFile);
-app.getMessage();
+const app = new App(readFile, writeFile);
+// app.getMessage();
+app.handle();
+// console.timeEnd('test');
