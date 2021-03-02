@@ -16,11 +16,25 @@ public class WordCount {
         { 
     		 FileInputStream fr=new FileInputStream(new File(finname)); 
 	         int i=0; 
+	         char ch;
+	         int chcount=0;
 	         int wordcount=0;
-	         int canbeword=0;
+	         int canbeword=0; //每次增加，当最后大于四的时候成立
+	         StringBuffer tempword;
+	         //每个单词一次循环
 	         while((i=fr.read())!=-1) 
 	         {
-	        	 
+	        	 ch=(char)i;
+	        	 chcount++;
+	        	 if(Character.isLetter(ch)) {
+	        		 canbeword++;
+	        		 if(Character.isUpperCase(ch)) {
+	        			 ch=Character.toLowerCase(ch);
+	        		 }
+	        		 tempword.append(ch);
+	        	 }else if() {
+	        		 
+	        	 }
 	        	 
 	         } 
 	         fr.close(); 
