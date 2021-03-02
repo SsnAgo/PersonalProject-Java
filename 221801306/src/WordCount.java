@@ -12,13 +12,15 @@ public class WordCount {
 
         content = GetFile(filename);//输入文件
 
-       // System.out.println(CountCharacters(filename));//输出字符总数
-        System.out.println("lines:"+CountWords(content));//输出单词总数
-        System.out.println("words:"+CountLines(filename));//输出总行数
+        //System.out.println(CountCharacters(filename));//输出字符总数
+        System.out.println("words:" + CountWords(content));//输出单词总数
+        System.out.println("lines:" + CountLines(filename));//输出总行数
 
         map = CountFrequency(content);//词频统计
         SortFrequency(map, 10);//词频排序和输出
     }
+
+
 
     public static String GetFile(String filename) {
         StringBuilder content = new StringBuilder();
@@ -35,12 +37,24 @@ public class WordCount {
                     e.printStackTrace();
                 }
                 content.append(temp);
+                content.append(" ");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return content.toString();
     }
+
+    /*private static int CountCharacters(String filename) {
+        int ch=0;
+        FileReader fr = null;
+        try {
+            fr = new FileReader(filename);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }*/
 
     public static int CountWords(String content) {
         int num = 0;
@@ -49,28 +63,32 @@ public class WordCount {
             String word = st.nextToken();
             if (Isword(word) && word.length() >= 4) {
                 num++;
-            } else
-                continue;
+            } else {
+            }
         }
         return num;
     }
 
     private static int CountLines(String filename) {
-        int lines=0;
+        int lines = 0;
         FileReader fr = null;
         try {
             fr = new FileReader(filename);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        assert fr != null;
         BufferedReader br = new BufferedReader(fr);
-        while(true){
+        String temp = "";
+        while (true) {
             try {
-                if (br.readLine() == null) break;
+                if ((temp = br.readLine()) == null) break;
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            lines++;
+            if (!"".equals(temp)) {
+                lines++;
+            }
         }
         return lines;
     }
@@ -104,6 +122,9 @@ public class WordCount {
                 return o2.getValue().compareTo(o1.getValue());
             }
         });
+        if (num > list.size()) {
+            num = list.size();
+        }
         for (int i = 0; i < num; i++) {
             System.out.println(list.get(i).getKey() + ": " + list.get(i).getValue());
         }
