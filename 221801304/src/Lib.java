@@ -57,7 +57,7 @@ public class Lib {
         boolean wordFlag = false;//是否成单词
         while(i < str.length()){
             ch = str.charAt(i++);
-            chars.append((char) ch);
+            chars.append((char) ch);//每一次拼接一个字符
             if(isAlpha((char) ch))
                 countAlpha++;
             else{
@@ -71,7 +71,7 @@ public class Lib {
                     wordLength++;
                 else{//遇到分隔符
                     wordFlag = false;
-                    insertMap(map, chars, wordLength, len);
+                    insertMap(map, chars, wordLength, len);//填充map
                     countAlpha = 0;
                     wordLength = 3;
                 }
@@ -131,9 +131,9 @@ public class Lib {
         //自定义比较器
         Comparator<Map.Entry<String, Integer>> valCmp = (o1, o2) -> {
             if(o1.getValue().equals(o2.getValue())){
-                return o1.getKey().compareTo(o2.getKey());
+                return o1.getKey().compareTo(o2.getKey());//词频相同按照字典序排序
             }else
-                return o2.getValue() - o1.getValue();
+                return o2.getValue() - o1.getValue();//词频高的在前
         };
 
         //将map转成List，map的一组key，value对应list一个存储空间

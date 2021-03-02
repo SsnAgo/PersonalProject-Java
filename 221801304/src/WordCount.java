@@ -5,8 +5,7 @@ public class WordCount {
 
     public static void main(String[] args) throws IOException {
         long startTime = System.currentTimeMillis();
-        run("221801304/src/input.txt", "221801304/src/output.txt");
-//        run(args[0], args[1]);
+        run(args[0], args[1]);
         System.out.printf("耗时： %d ms\n",System.currentTimeMillis() - startTime);
     }
 
