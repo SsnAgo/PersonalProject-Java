@@ -47,4 +47,10 @@ public class Lib {
         return content.toString();
     }
 
+    public int getCharTotalCount(String content){
+        char[] arr = content.toCharArray();
+        return arr.length;
+    }
+
+
 }
