@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,6 +18,23 @@ import java.util.regex.Pattern;
 
 
 public class Lib {
+    
+    /*
+     * 功能：返回utf-8编码的读指针
+     * 输入：File文件指针
+     * 输出：BufferedReader指针
+     */
+    static BufferedReader getReader(File file) {
+        InputStreamReader read = null;
+        try {
+            read = new InputStreamReader(new FileInputStream(file),"UTF-8");
+        } catch (UnsupportedEncodingException | FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return new BufferedReader(read);
+    }
+    
     /*
      * 功能：统计文件字符数
      * 输入：File文件指针
@@ -25,8 +43,7 @@ public class Lib {
     static int statisticsCharacters(File file) {
         int characterNum = 0;
         try {
-            InputStreamReader read = new InputStreamReader(new FileInputStream(file),"UTF-8");
-            BufferedReader in = new BufferedReader(read);
+            BufferedReader in = getReader(file);
             while (true) {
                 int characterAscill=in.read();
                 if (characterAscill >= 0 && characterAscill <= 127) {
@@ -50,8 +67,7 @@ public class Lib {
     static int statisticsWords(File file) {
 	     int wordNum = 0;
 	     try {
-	         InputStreamReader read = new InputStreamReader(new FileInputStream(file),"UTF-8");
-	         BufferedReader in = new BufferedReader(read);
+	         BufferedReader in = getReader(file);
 	         String str = null;
 	         while ((str = in.readLine()) != null){
 				
@@ -80,8 +96,7 @@ public class Lib {
     static int statisticsLines(File file) {
         int lineNum = 0;
         try {
-            InputStreamReader read = new InputStreamReader(new FileInputStream(file),"UTF-8");
-            BufferedReader in = new BufferedReader(read);
+            BufferedReader in = getReader(file);
             String str = null;
             while ((str = in.readLine()) != null){
                 for (int i = 0;i<str.length();i++) {
@@ -107,8 +122,7 @@ public class Lib {
     static  List<Map.Entry<String, Integer>> wordsFrequency(File file){
         Map<String,Integer> wordsMap = new TreeMap<>();//单词和频率的映射表
         try {
-            InputStreamReader read = new InputStreamReader(new FileInputStream(file),"UTF-8");
-            BufferedReader in = new BufferedReader(read);
+            BufferedReader in = getReader(file);
             String str = null;
             while ((str = in.readLine()) != null){
                
