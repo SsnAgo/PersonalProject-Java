@@ -10,9 +10,11 @@ public class WordCount {
         } else {
             try {
                 Lib  wordCount = new Lib(args[0], args[1]);
-                wordCount.countChars();
-                wordCount.countLines();
-                wordCount.countWords();
+//                wordCount.readFileContent();
+//                wordCount.countChars();
+//                wordCount.countLines();
+//                wordCount.countWords();
+                wordCount.beginCount();
                 wordCount.writeFileContent();
             } catch (IOException e) {
                 e.printStackTrace();

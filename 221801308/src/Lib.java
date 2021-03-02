@@ -20,6 +20,7 @@ public class Lib {
     private int charNumber;
     private int lineNumber;
     private int wordNumber;
+    private String bufferString;
     private Map<String, Integer> linkedMapWords;
     private final Pattern linePattern = Pattern.compile("(^|\n)(\\s*\\S+)");
     private final Pattern wordPattern = Pattern.compile("(^|[^a-z0-9])([a-z]{4}[a-z0-9]*)");
@@ -29,12 +30,19 @@ public class Lib {
         this.outputFile = outputFile;
     }
 
+    public void beginCount() throws IOException {
+        readFileContent();
+        countChars();
+        countWords();
+        countLines();
+    }
+
     /**
      *
      * @return the file content
      * @throws IOException
      */
-    public String readFileContent() throws IOException {
+    public void readFileContent() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(inputFile));
         StringBuilder builder = new StringBuilder();
         try {
@@ -46,7 +54,7 @@ public class Lib {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return builder.toString().toLowerCase();
+        bufferString=new String(builder.toString().toLowerCase());
     }
 
     /**
@@ -54,8 +62,7 @@ public class Lib {
      * @throws IOException
      */
     public void countChars() throws IOException {
-        String str = readFileContent();
-        charNumber = str.length();
+        charNumber = bufferString.length();
     }
 
     /**
@@ -64,8 +71,7 @@ public class Lib {
      */
     public void countLines() throws IOException {
         lineNumber = 0;
-        String str = readFileContent();
-        Matcher matcher = linePattern.matcher(str);
+        Matcher matcher = linePattern.matcher(bufferString);
         while(matcher.find()) {
             lineNumber++;
         }
@@ -78,8 +84,7 @@ public class Lib {
     public void countWords() throws IOException {
         wordNumber = 0;
         Map<String, Integer> mapWords = new HashMap<>();
-        String str = readFileContent();
-        Matcher matcher = wordPattern.matcher(str);
+        Matcher matcher = wordPattern.matcher(bufferString);
         while(matcher.find()) {
             wordNumber++;
             String word = matcher.group(2);
@@ -90,7 +95,6 @@ public class Lib {
             }
         }
         sortMapByValues(mapWords);
-
     }
 
     /**
