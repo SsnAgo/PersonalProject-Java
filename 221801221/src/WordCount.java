@@ -7,6 +7,10 @@ public class WordCount {
         String s = FileUtil.getFullFile(args[0]);
     }
 
+    public static int countChars(String s){
+        return s.length();
+    }
+
     public static int countWords(String s){
         String[] splitString = s.split("[^0-9|^A-z]");
         int wordsNum = splitString.length;
