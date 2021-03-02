@@ -92,7 +92,7 @@ public class Lib {
            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
                //频率相同，则按字典序排序
                if (o2.getValue()==o1.getValue()){
-                   return o2.getKey().compareTo(o1.getKey());
+                   return o1.getKey().compareTo(o2.getKey());
                }
                return o2.getValue().compareTo(o1.getValue());
            }
