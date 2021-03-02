@@ -50,7 +50,11 @@ public class Lib {
     public void handleFile() throws IOException {
         String file = readFile();
         CountCharacters(file);
+        CountLines(file);
         CountWords(file);
+        System.out.println("characters：" + charactersNum);
+        System.out.println("words: " + wordsNum);
+        System.out.println("lines：" + linesNum);
         sortWords();
         showWordsRank();
     }
@@ -70,22 +74,28 @@ public class Lib {
         charactersNum = str.length();
     }
 
+    private void CountLines(String str) {
+        String[] list = str.split("\n");
+        for (String s: list) {
+            if (s.length() > 0)
+                linesNum++;
+        }
+    }
+
     private void CountWords(String str) {
         map = new TreeMap<>();
         String[] list = str.split("[^a-zA-z0-9]");
-        System.out.println(list.length);
         for (String s : list) {
-            System.out.println("长度为：" + s.length() + " " + s);
-
             //判断字符串是否为空
             if (s.length() != 0 && isWord(s)) {
-                String lowstring = s.toLowerCase();
-                if (map.get(lowstring) == null) {
-                    map.put(lowstring, 1);
+                wordsNum++;
+                String lowerCase = s.toLowerCase();
+                if (map.get(lowerCase) == null) {
+                    map.put(lowerCase, 1);
                 }
                 else {
-                    int cnt = map.get(lowstring);
-                    map.put(lowstring, cnt+1);
+                    int cnt = map.get(lowerCase);
+                    map.put(lowerCase, cnt+1);
                 }
             }
         }
