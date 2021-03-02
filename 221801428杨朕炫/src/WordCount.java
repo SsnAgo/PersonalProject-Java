@@ -19,6 +19,36 @@ public class WordCount {
     private static int linesCount = 0;
     private static int wordsCount = 0;
 
+    /**
+     * calculate the number of characters in input file
+     *
+     * @param filename
+     */
+    public static void countCharacters(String filename) throws FileNotFoundException, IOException, RuntimeException {
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader(filename);
+            int c;
+            boolean content = false;
+            while ((c = fileReader.read()) != -1) {
+                charactersCount++;
+                if (!content) content = true;
+            }
+            if (!content) {
+                throw new RuntimeException("No content found!");
+            }
+        } finally {
+            if (fileReader != null) {
+                try {
+                    fileReader.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
 
     public static void main(String[] args) throws IOException {
 
@@ -31,6 +61,7 @@ public class WordCount {
         String outputFile = args[1];
         try {
             // 主体代码
+            countCharacters(inputFile);
 
         } catch (FileNotFoundException e) {
             System.out.println("No Such File Found!");
