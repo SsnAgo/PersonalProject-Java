@@ -47,7 +47,7 @@ public class Lib {
 
         //测试文件不会出现ASCII码以外的字符，因此只需统计文件内容+换行+回车的长度即可
         try {
-            Reader in = new InputStreamReader(new FileInputStream(inFilePath));
+            Reader in = new InputStreamReader(new FileInputStream(inFilePath), "UTF-8");
             //读取文件，直到文件结束
             while ((temp = in.read()) != -1) {
                 ++count;
@@ -134,6 +134,27 @@ public class Lib {
         isSorted = true;
     }
 
+    /* 将统计结果写入输出文件
+       输入参数：输入文件路径inFilePath，输出文件路径outFilePath
+       返回值：空 */
+    public static void writeToOutFile(String inFilePath, String outFilePath) {
+        try {
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFilePath), "utf-8"));
+            writer.write(("characters: " + countTotalChar(inFilePath) + '\n').toString());
+            writer.write(("words: " + countTotalWord(inFilePath) + '\n').toString());
+            writer.write(("lines: " + countValidLine(inFilePath) + '\n').toString());
+            sortWordFrequencyRecords(inFilePath);
+            for (int i = 0; i < sortedRecord.size(); i++) {
+                writer.write((sortedRecord.get(i).getKey() + ": " + sortedRecord.get(i).getValue() + '\n').toString());
+            }
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /* 判断字符是否是字母
        输入参数：字符t
        返回值：判断结果的bool值 */
@@ -175,7 +196,7 @@ public class Lib {
         sortedRecord = null;
 
         try {
-            Reader in = new InputStreamReader(new FileInputStream(inFilePath));
+            Reader in = new InputStreamReader(new FileInputStream(inFilePath), "UTF-8");
             int temp;
             //读取文件，直到文件结束
             while ((temp = in.read()) != -1) {
@@ -190,7 +211,7 @@ public class Lib {
                             temp = in.read();
                         }
 
-                        addRecord((word += '\0').toLowerCase(Locale.ROOT));
+                        addRecord(word.toLowerCase(Locale.ROOT));
 
                         word = "";
                         letterCount = 0;
@@ -207,7 +228,7 @@ public class Lib {
 
             //如果最后一个单词没有碰到分隔符，文件就结束，应当加入该单词
             if (!word.equals(""))
-                addRecord((word += '\0').toLowerCase(Locale.ROOT));
+                addRecord(word.toLowerCase(Locale.ROOT));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -19,9 +19,11 @@ public class WordCount {
         String outFilePath = args[1];
 
         try {
-            Lib.checkFileValid(inFilePath,outFilePath);
+            Lib.checkFileValid(inFilePath, outFilePath);
         } catch (FileNotFoundException e) {
             System.exit(-1);
         }
+
+        Lib.writeToOutFile(inFilePath, outFilePath);
     }
 }
