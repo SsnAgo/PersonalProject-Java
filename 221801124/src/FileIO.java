@@ -42,7 +42,7 @@ public class FileIO {
 
     public static void writeToFile(String filePath, String str) throws IOException {
         File file = new File(filePath);
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"));
         bufferedWriter.write(str);
         bufferedWriter.close();
     }
