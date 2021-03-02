@@ -117,14 +117,14 @@ public class Lib {
 		//排序
 		List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(hashMap.entrySet());
 		list.sort(new Comparator<Map.Entry<String, Integer>>() {
-			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-				if(o2.getValue()!=o1.getValue()) {
-		       		return o2.getValue().compareTo(o1.getValue());//value不同逆序排序
-		       	}
-		       	else
-		       		return -o2.getKey().compareTo(o1.getKey());//value相同按照key字典序正序排序
-			}
-		});
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                if(o1.getValue().equals(o2.getValue())) {
+                    return o1.getKey().compareTo(o2.getKey());//value相同按照key字典序正序排序
+                }
+                else
+                    return o2.getValue().compareTo(o1.getValue());//value不同逆序排序
+            }
+        });
 		//输出前十个单词
 		if(list.size()<=10) {
 			for (int i = 0; i < list.size(); i++) {
