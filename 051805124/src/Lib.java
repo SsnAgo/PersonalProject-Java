@@ -68,5 +68,18 @@ public class Lib {
         return wordNum;
     }
 
+    public int getLineCount(String content){
+        String[] arr = content.split("\n");
+        int num = arr.length;
+        Pattern pattern = Pattern.compile("^\s*");
+        for(String str : arr){
+            Matcher matcher = pattern.matcher(str);
+            if (matcher.matches()){
+                num--;
+            }
+        }
+        return num;
+    }
+
 
 }
