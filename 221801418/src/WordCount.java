@@ -19,8 +19,10 @@ public class WordCount {
                         lines++;
                     }      
                     read.close();
-                    System.out.print(countChars(lineText.toString()));
-                    //countTimes();
+                    
+                    System.out.println("characters:"+countChars(lineText.toString()));
+                    System.out.println("words:"+countWords(lineText.toString()));
+                    System.out.print("lines:"+lines);
                     //countWords(lineText);
                     
                 }else{
@@ -34,6 +36,22 @@ public class WordCount {
     }
     public static int countChars(String str) {
     	return str.length();        
+    }
+    public static int countWords(String str) {
+    	str=str.toLowerCase();
+    	String[] strArray=str.split("[^a-z0-9]");
+    	int words=0;
+    	for(int i=0;i<strArray.length;i++) {
+    		if(strArray[i].length()<4)continue;
+    		else {
+    			System.out.println(strArray[i]);
+    			String temp=strArray[i].substring(1,4);
+    			if(!temp.matches("[0-9]")) {
+    				words++;
+    			}
+    		}
+    	}
+    	return words;
     }
     public static void main(String argv[]){
         readTxtFile("input.txt");
