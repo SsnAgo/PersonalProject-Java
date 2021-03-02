@@ -24,13 +24,13 @@ public class Lib {
      * 输入：File文件指针
      * 输出：BufferedReader指针
      */
-    static BufferedReader getReader(File file) {
+    static BufferedReader getReader(File file) throws IOException {
         InputStreamReader read = null;
         try {
             read = new InputStreamReader(new FileInputStream(file),"UTF-8");
         } catch (UnsupportedEncodingException | FileNotFoundException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+          throw e;
         }
         return new BufferedReader(read);
     }
@@ -40,7 +40,7 @@ public class Lib {
      * 输入：File文件指针
      * 输出：文件中含有的字符数
      */
-    static int statisticsCharacters(File file) {
+    static int statisticsCharacters(File file) throws FileNotFoundException {
         int characterNum = 0;
         try {
             BufferedReader in = getReader(file);
@@ -52,7 +52,7 @@ public class Lib {
                 if (characterAscill == -1) break;
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw e;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +64,7 @@ public class Lib {
      * 输入：File文件指针
      * 输出：该文件中含有的单词数
      */
-    static int statisticsWords(File file) {
+    static int statisticsWords(File file) throws FileNotFoundException {
 	     int wordNum = 0;
 	     try {
 	         BufferedReader in = getReader(file);
@@ -81,7 +81,7 @@ public class Lib {
 	             }
 	         }
 	     } catch (FileNotFoundException e) {
-	         e.printStackTrace();
+	         throw e;
 	     } catch (IOException e) {
 	         e.printStackTrace();
 	     }
@@ -93,7 +93,7 @@ public class Lib {
      * 输入：File文件指针
      * 输出：该文件中含有的有效行数
      */
-    static int statisticsLines(File file) {
+    static int statisticsLines(File file) throws FileNotFoundException {
         int lineNum = 0;
         try {
             BufferedReader in = getReader(file);
@@ -107,7 +107,7 @@ public class Lib {
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+           throw e;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,7 +119,7 @@ public class Lib {
      * 输入：文件的指针
      * 输出：按字典序排序完成的List
      */
-    static  List<Map.Entry<String, Integer>> wordsFrequency(File file){
+    static  List<Map.Entry<String, Integer>> wordsFrequency(File file) throws FileNotFoundException{
         Map<String,Integer> wordsMap = new TreeMap<>();//单词和频率的映射表
         try {
             BufferedReader in = getReader(file);
@@ -142,7 +142,7 @@ public class Lib {
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw e;
         } catch (IOException e) {
             e.printStackTrace();
         }

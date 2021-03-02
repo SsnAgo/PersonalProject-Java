@@ -1,5 +1,6 @@
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -41,6 +42,8 @@ public class WordCount {
                     }else break;  
                 }
                 buffWriter.close();
+            }catch (FileNotFoundException e) {
+                System.out.print("无法找到文件");
             }catch(IOException e) {
                 e.printStackTrace();
             }
