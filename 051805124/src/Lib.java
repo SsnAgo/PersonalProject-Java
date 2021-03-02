@@ -81,5 +81,50 @@ public class Lib {
         return num;
     }
 
+    @SuppressWarnings("unchecked")
+    public Map<String,Integer> getWordNum(String content){
+        Map map = new TreeMap<String ,Integer>();
+        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+        Pattern wordPattern = Pattern.compile("^([a-z]|[A-Z]){4}([a-z]|[A-Z]|[0-9])*");
+        String[] arr = pattern.split(content);
+        for(String str : arr){
+            Matcher m = wordPattern.matcher(str);
+            if (m.matches()){
+                String t = m.group(0).toLowerCase();
+                if (map.containsKey(t)){
+                    map.put(t,(Integer)map.get(t)+1);
+                }else{
+                    map.put(t,1);
+                }
+            }
+        }
+        return sortMapByValue(map);
+    }
 
+    public Map<String, Integer> sortMapByValue(Map<String, Integer> oriMap) {
+        if (oriMap == null || oriMap.isEmpty()) {
+            return null;
+        }
+        Map<String, Integer> sortedMap = new LinkedHashMap<>();
+        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(oriMap.entrySet());
+        entryList.sort(new MapValueComparator());
+
+        int num = 0;
+        Iterator<Map.Entry<String, Integer>> iter = entryList.iterator();
+        Map.Entry<String, Integer> tmpEntry;
+        while (iter.hasNext() && num < 10) {
+            num++;
+            tmpEntry = iter.next();
+            sortedMap.put(tmpEntry.getKey(), tmpEntry.getValue());
+        }
+        return sortedMap;
+    }
+
+    static class MapValueComparator implements Comparator<Map.Entry<String, Integer>> {
+        @Override
+        public int compare(Map.Entry<String, Integer> me1, Map.Entry<String, Integer> me2) {
+
+            return me2.getValue().compareTo(me1.getValue());
+        }
+    }
 }
