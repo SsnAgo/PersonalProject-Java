@@ -11,20 +11,32 @@ public class CharacterCounter {
     private long startTime;
     private int theadNum;
     private int onceReadCount;
+
+
+
     private int threadReadNum;
+    private String filePath;
 
     private StringBuffer sbf=new StringBuffer();
     private HashMap<Character, Integer> characterMap;
 
 
-    public CharacterCounter(long startTime, int theadNum, int onceReadCount, int threadReadNum) {
+    public CharacterCounter(String filePath, int theadNum, int onceReadCount, int threadReadNum) {
         this.startTime = System.currentTimeMillis();
         this.theadNum = theadNum;
         this.onceReadCount = onceReadCount;
         this.threadReadNum = threadReadNum;
-        characterMap=new HashMap<Character, Integer>();
+        this.filePath=filePath;
+        this.count(new File(filePath),0);
+        useTime=System.currentTimeMillis()-startTime;
+        System.out.println("获取字符总长度:" + this.getSbf().length()+"耗时"+useTime);
+//        characterMap=new HashMap<Character, Integer>();
+
     }
 
+    public StringBuffer getSbf() {
+        return sbf;
+    }
     public int getTheadNum() {
         return theadNum;
     }
@@ -77,7 +89,7 @@ public class CharacterCounter {
         List<MultiCounter> list = new ArrayList<MultiCounter>();
         for (int i=0; i < threadReadNum;i++){
             list.add(new MultiCounter(file,startPosition+i*onceReadCount*threadReadNum));
-            list.get(list.size()).start();
+            list.get(list.size()-1).start();
         }
 
         for(int i=0; i<list.size();i++){

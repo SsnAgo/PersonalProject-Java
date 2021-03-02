@@ -31,11 +31,11 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../WordCount" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -43,6 +43,13 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration name="WordCount" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WordCount" />
+      <module name="041801206" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
       <module name="041801206" />
       <option name="VM_PARAMETERS" />
@@ -90,6 +97,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.WordCount" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -102,7 +114,7 @@
       <option name="presentableId" value="Default" />
       <updated>1614656418795</updated>
       <workItem from="1614656421335" duration="1665000" />
-      <workItem from="1614668553050" duration="110000" />
+      <workItem from="1614668553050" duration="1764000" />
     </task>
     <servers />
   </component>
@@ -118,10 +130,30 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="376" y="143" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.680@0.0.1280.680" timestamp="1614656684561" />
-    <state x="142" y="0" key="SettingsEditor" timestamp="1614668664205">
+    <state x="421" y="96" key="FileChooserDialogImpl" timestamp="1614669172573">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1614668664205" />
+    <state x="421" y="96" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1614669172573" />
+    <state width="1237" height="163" key="GridCell.Tab.0.bottom" timestamp="1614671196531">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1614671196531" />
+    <state width="1237" height="163" key="GridCell.Tab.0.center" timestamp="1614671196531">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1614671196531" />
+    <state width="1237" height="163" key="GridCell.Tab.0.left" timestamp="1614671196531">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1614671196530" />
+    <state width="1237" height="163" key="GridCell.Tab.0.right" timestamp="1614671196531">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1614671196531" />
+    <state x="142" y="0" key="SettingsEditor" timestamp="1614671098702">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1614671098702" />
     <state x="325" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1614668633620">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
