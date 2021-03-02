@@ -2,9 +2,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map.Entry;
 
-public class WordCountHelper {
-    
-    public static void solve(Path in, Path out) throws IOException {
+class WordCountHelper {
+
+    static void solve(Path in, Path out) throws IOException {
         FileCounter fc = new FileCounter(in);
         Printer printer = new Printer(out);
 
@@ -17,5 +17,5 @@ public class WordCountHelper {
 
         printer.close();
     }
-    
+
 }

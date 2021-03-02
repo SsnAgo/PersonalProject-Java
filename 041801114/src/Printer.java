@@ -5,11 +5,11 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Path;
 
-public class Printer implements Closeable {
+class Printer implements Closeable {
 
     private final PrintStream ps;
 
-    public Printer(Path path) throws FileNotFoundException, UnsupportedEncodingException {
+    Printer(Path path) throws FileNotFoundException, UnsupportedEncodingException {
         ps = new PrintStream(path.toFile(), StaticField.CHARSET);
     }
 
@@ -18,7 +18,7 @@ public class Printer implements Closeable {
         ps.close();
     }
 
-    public void printfln(String format, Object... args) {
+    void printfln(String format, Object... args) {
         ps.format(format.concat(StaticField.LINE_SEPARATOR), args);
     }
 
