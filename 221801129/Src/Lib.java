@@ -4,6 +4,23 @@ import java.util.regex.Pattern;
 
 public class Lib {
 
+    private int charactersNum;
+    private int wordsNum;
+    private int linesNum;
+    private final String inputFile;
+    private final String outputFile;
+    private Map<String, Integer> map;
+    private List<Map.Entry<String, Integer>> wordsRank;
+    private String WordPattern = "^[A-Za-z]{4}[A-Za-z0-9]*";
+
+    public Lib(String inputFile, String outputFile) {
+        this.inputFile = inputFile;
+        this.outputFile = outputFile;
+        charactersNum = 0;
+        wordsNum = 0;
+        linesNum = 0;
+    }
+
     public int getCharactersNum() {
         return charactersNum;
     }
@@ -28,35 +45,14 @@ public class Lib {
         this.linesNum = linesNum;
     }
 
-    private int charactersNum;
-    private int wordsNum;
-    private int linesNum;
-    private final String inputFile;
-    private String outputFile;
-    private Map<String, Integer> map;
-    private List<Map.Entry<String, Integer>> wordsRank;
-
-    private String pattern = "^[A-Za-z]{4}[A-Za-z0-9]*";
-
-
-    public Lib(String inputFile, String outputFile) {
-        this.inputFile = inputFile;
-        this.outputFile = outputFile;
-        charactersNum = 0;
-        wordsNum = 0;
-        linesNum = 0;
-    }
 
     public void handleFile() throws IOException {
         String file = readFile();
-        CountCharacters(file);
-        CountLines(file);
-        CountWords(file);
-        System.out.println("characters：" + charactersNum);
-        System.out.println("words: " + wordsNum);
-        System.out.println("lines：" + linesNum);
+        countCharacters(file);
+        countLines(file);
+        countWords(file);
         sortWords();
-        showWordsRank();
+        setOutputFile();
     }
 
     public String readFile() throws IOException {
@@ -70,11 +66,11 @@ public class Lib {
         return builder.toString();
     }
 
-    private void CountCharacters(String str) {
+    private void countCharacters(String str) {
         charactersNum = str.length();
     }
 
-    private void CountLines(String str) {
+    private void countLines(String str) {
         String[] list = str.split("\n");
         for (String s: list) {
             if (s.length() > 0)
@@ -82,7 +78,7 @@ public class Lib {
         }
     }
 
-    private void CountWords(String str) {
+    private void countWords(String str) {
         map = new TreeMap<>();
         String[] list = str.split("[^a-zA-z0-9]");
         for (String s : list) {
@@ -102,7 +98,7 @@ public class Lib {
     }
 
     private boolean isWord(String str) {
-        return Pattern.matches(pattern, str);
+        return Pattern.matches(WordPattern, str);
     }
 
     private void sortWords() {
@@ -119,5 +115,29 @@ public class Lib {
         }
         else
             wordsRank.forEach(item -> System.out.print(item.getKey() + ": " + item.getValue() + "\n"));
+    }
+
+    private void showDetails() {
+        System.out.println("characters：" + charactersNum);
+        System.out.println("words: " + wordsNum);
+        System.out.println("lines：" + linesNum);
+        showWordsRank();
+    }
+    
+    private void setOutputFile() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+        writer.write("characters: " + charactersNum + "\n");
+        writer.write("words: " + wordsNum + "\n");
+        writer.write("lines: " + linesNum + "\n");
+        wordsRank.forEach(item -> {
+            try {
+                writer.write(item.getKey() + ": " + item.getValue() + "\n");
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        writer.flush();
+        writer.close();
     }
 }
