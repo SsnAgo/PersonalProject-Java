@@ -6,14 +6,13 @@ public class WordCount {
         String filename = "E:/JavaTest/input1.txt";
         String output = "E:/JavaTest/output.txt";
         String content;//文本内容
+        Map<String, Integer> map;
         int num = 10;//输出词频最高的10个单词
 
         content = GetFile(filename);//输入文件，仅用于统计单词
-
-
+        //输出字符、单词、行数统计
         PrintInfo(output, CountCharacters(filename), CountWords(content), CountLines(filename));
 
-        Map<String, Integer> map;
         map = CountFrequency(content);//词频统计
         SortFrequency(output, map, num);//词频排序和输出
     }
@@ -23,9 +22,9 @@ public class WordCount {
         try {
             fw = new FileWriter(output);
             try {
-                fw.write("characters:" + chars + "\n");
-                fw.write("words:" + words + "\n");
-                fw.write("lines:" + lines + "\n");
+                fw.write("characters:" + chars + "\n");//输出字符总数
+                fw.write("words:" + words + "\n");//输出单词总数
+                fw.write("lines:" + lines + "\n");//输出总行数
                 fw.flush();
                 fw.close();
             } catch (IOException e) {
@@ -46,15 +45,14 @@ public class WordCount {
         try {
             fr = new FileReader(filename);
             BufferedReader br = new BufferedReader(fr);
-
-            String temp = "";
+            String temp = new String();
             while (true) {
                 try {
                     if ((temp = br.readLine()) == null) break;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                content.append(temp);
+                content.append(temp);//使用StringBuilder加快字符串拼接速度
                 content.append(" ");//针对换行，在每行之间增加一个空格，仅用于统计单词
             }
         } catch (FileNotFoundException e) {
@@ -145,9 +143,9 @@ public class WordCount {
         }
         FileWriter fw;
         try {
-            fw = new FileWriter(output,true);
+            fw = new FileWriter(output, true);
             try {
-                for (int i = 0; i < num-1; i++) {
+                for (int i = 0; i < num - 1; i++) {
                     fw.write(list.get(i).getKey() + ": " + list.get(i).getValue() + "\n");
                 }
                 fw.write(list.get(num).getKey() + ": " + list.get(num).getValue());
