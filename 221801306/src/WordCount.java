@@ -33,7 +33,6 @@ public class WordCount {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         System.out.println("characters:" + chars);//输出字符总数
         System.out.println("words:" + words);//输出单词总数
         System.out.println("lines:" + lines);//输出总行数
@@ -45,7 +44,7 @@ public class WordCount {
         try {
             fr = new FileReader(filename);
             BufferedReader br = new BufferedReader(fr);
-            String temp = new String();
+            String temp = "";
             while (true) {
                 try {
                     if ((temp = br.readLine()) == null) break;
@@ -67,7 +66,7 @@ public class WordCount {
         try {
             fr = new FileReader(filename);
             try {
-                while (fr.read() != -1) {
+                while (fr.read() != -1) {//按字符读取文件，计算字符数
                     ch++;
                 }
             } catch (IOException e) {
@@ -84,7 +83,7 @@ public class WordCount {
         StringTokenizer st = new StringTokenizer(content, " ,.!?\"'");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
-            if (IsWord(word) && word.length() >= 4) {
+            if (IsWord(word) && word.length() >= 4) {//根据作业要求，判断截取字符串是否为单词
                 num++;
             }
         }
@@ -121,8 +120,8 @@ public class WordCount {
         StringTokenizer st = new StringTokenizer(content, " ,.!?\"'");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
-            word = word.toLowerCase();
-            if (IsWord(word) && word.length() >= 4) {
+            if (IsWord(word) && word.length() >= 4) {//根据作业要求，判断截取字符串是否为单词
+                word = word.toLowerCase();//将单词全部转为小写
                 if (map.get(word) != null) {
                     int value = map.get(word);
                     value++;
