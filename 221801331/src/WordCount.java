@@ -10,9 +10,11 @@ public class WordCount
     textParser.countValidChars();
     textParser.countValidLines();
     textParser.countWordNum();
+//    textParser.wordParser.wordsCount();
     textParser.getWordCountMapBySize(10);
     textParser.writeToFile();
-    
+
+
   }
 
 }

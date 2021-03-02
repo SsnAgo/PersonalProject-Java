@@ -151,7 +151,8 @@ public class TextParser
      */
     public int countValidChars()
     {
-      return textContent.length();
+      validCharsNum=textContent.length();
+      return validCharsNum;
     }
 
     /**
@@ -165,7 +166,7 @@ public class TextParser
       for (int i=0;i<textContent.length();i++)
       {
         c=textContent.charAt(i);
-        if(c>32&&c!=127)      //非空白字符
+        if(c!='\t'||c!='\r'||c!='\n'||c!=' ')      //非空白字符
         {
           isLineHasChar=true;
         }
@@ -178,7 +179,8 @@ public class TextParser
           }
         }
       }
-      return validCharsNum=num;
+      validLinesNum=num;
+      return validLinesNum;
     }
   }
 
@@ -191,7 +193,44 @@ public class TextParser
 
     private boolean isWordReading=false; //单词读取位；判断是否正在读取单词
 
+    private boolean isThisWordValid=true;   //单词合法判断位;判断当前单词是否合法
+
     private StringBuilder wordReader=new StringBuilder(); //单词读取器
+
+     /**
+      * 判断是否是字母
+      * @param c
+      * @return
+      */
+    public boolean isLetter(char c)
+    {
+      if((c>='A'&&c<='Z')||(c>='a'&&c<='z'))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+     /**
+      * 判断是否是有效字符
+      * @param c
+      * @return
+      */
+    public boolean isValidChar(char c)
+    {
+      if((c>='A'&&c<='Z')||(c>='a'&&c<='z')||(c>='0'&&c<='9'))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
 
     /**
     * 统计单词
@@ -200,21 +239,24 @@ public class TextParser
     public int countWord()
     {
       char c;
+      int num=0;
       for (int i=0;i<textContent.length();i++)
       {
         c=textContent.charAt(i);
         if(isWordReading)   //正在读取单词
         {
-          if((c>='A'&&c<='Z')||(c>='a'&&c<='z')||(c>='0'&&c<='9')) //若是字母或数字
+          if(isValidChar(c)) //若是有效单词
           {
             wordReader.append(c);   //加入单词读取器
           }
           else  //否则
           {
             isWordReading=false;    //单词读取结束，读取位改为false
-            wordNum++;   //单词数量+1
+            isThisWordValid=true;   //单词读取结束,重置合法位
+            num++;   //单词数量+1
             Integer count;
-            String word=wordReader.toString();
+            String word=wordReader.toString().toLowerCase();
+
             letterNum=0;  //清空连续字母数量
             wordReader.delete(0,wordReader.length());   //清空单词读取器
             wordCountMap.put(word,(count=wordCountMap.get(word))==null?1:count+1);  //更新map
@@ -222,10 +264,26 @@ public class TextParser
         }
         else   //若否
         {
-          if((c>='A'&&c<='Z')||(c>='a'&&c<='z')) //判断字符;若为字母
+          if(!isValidChar(c))   //若为分隔符
+          {
+            isThisWordValid=true;   //重置合法位；开始读取下一个单词
+            letterNum=0;  //清空连续字母数量
+            wordReader.delete(0,wordReader.length());   //清空单词读取器
+            continue;
+          }
+          if(!isThisWordValid)    //若此单词已不合法
+          {
+            continue;
+          }
+
+          if(isLetter(c))     //若为字母
           {
             wordReader.append(c);  //加入单词读取器
             letterNum++;  //字母数量+1
+          }
+          else
+          {
+            isThisWordValid=false;    //此单词不合法;将合法位置false
           }
           if(letterNum>=4)    //连续字母数量超过4个
           {
@@ -233,6 +291,17 @@ public class TextParser
           }
         }
       }
+      if(isWordReading)
+      {
+        isWordReading=false;
+        num++;   //单词数量+1
+        Integer count;
+        String word=wordReader.toString().toLowerCase();
+        letterNum=0;  //清空连续字母数量
+        wordReader.delete(0,wordReader.length());   //清空单词读取器
+        wordCountMap.put(word,(count=wordCountMap.get(word))==null?1:count+1);  //更新map
+      }
+      wordNum=num;
       return wordNum;
     }
 

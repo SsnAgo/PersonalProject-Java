@@ -24,6 +24,7 @@ public class IOHandler
           resultBuilder.append((char) r);
         }
       }
+      reader.close();
       return resultBuilder.toString();    //返回预处理后的文本内容
     }
     catch (FileNotFoundException e)
@@ -47,10 +48,11 @@ public class IOHandler
   {
     try
     {
-      BufferedWriter writer=new BufferedWriter
-          (new OutputStreamWriter(new FileOutputStream(outputFile),"utf-8"));
+      BufferedWriter writer = new BufferedWriter(new OutputStreamWriter
+          (new FileOutputStream(new File(outputFile),true),"utf-8"));
 
       writer.write(textContent);
+      writer.close();
     }
     catch (FileNotFoundException e)
     {
@@ -67,7 +69,5 @@ public class IOHandler
       e.printStackTrace();
       System.out.println("IO异常!!!");
     }
-
-
   }
 }
