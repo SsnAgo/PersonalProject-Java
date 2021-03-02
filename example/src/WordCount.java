@@ -1,3 +1,4 @@
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,7 +10,7 @@ public class WordCount {
 	static HashMap<String, Integer > hashMap=new HashMap<String,Integer>();
     public static void main(String args[])
     {
-      	 String finname = new String("C:\\ccc\\s1.txt");
+      	 String finname = new String("C:\\ccc\\s2.txt");
       	 //String foutname = args[1];
       	 wordmanage(finname);
       	System.out.println("asda");
@@ -17,6 +18,7 @@ public class WordCount {
  		for (Map.Entry entry : ms) {
  			System.out.println(entry.getKey()+"="+entry.getValue());
  		}
+ 		
     }
     public static void wordmanage(String finname) {
     	try 
@@ -26,6 +28,7 @@ public class WordCount {
 	         char ch;
 	         int chcount=0;   //字符总数
 	         int wordcount=0;	//单词总数
+	         int rowcount=0;	//行总数
 	         int canbeword=0; 	//每次增加，当最后大于四的时候成立
 	         int canbetransferred=0;//可能为\n\r
 	         String tempword ="";
@@ -34,7 +37,9 @@ public class WordCount {
 	        	 
 	        	 ch = (char)i;
 	        	 chcount++;  //字符统计
-	        	 
+	        	 if(ch=='\n') {
+	        		 rowcount++;
+	        	 }
 	        	 if (canbetransferred == 1){
 	        	/* 处理\n\r
 	        	 * 一、若是下一个为'r'或'n'，则说明'\'的作用是用于转义
@@ -47,8 +52,13 @@ public class WordCount {
 	        	 * 2、将进入下一层判断首字母
 	        	 */
 	        		 canbetransferred=0;
-	        		 if (ch == 'r' || ch == 'n'){
+	        		 if (ch == 'r'){
 	        			 chcount--;
+	        			 continue;
+	        		 }
+	        		 if (ch == 'n'){
+	        			 chcount--;
+	        			 rowcount++;
 	        			 continue;
 	        		 }
 	        	 }
@@ -75,6 +85,7 @@ public class WordCount {
 	        			 }else {
 	        				 hashMap.put(tempword, 1);
 	        			 }
+	        			 wordcount++;
 	        		 }
         			 tempword="";
         			 canbeword=0;
@@ -93,7 +104,19 @@ public class WordCount {
 	        		 }
 	        	 }
 	         } 
+	         if (canbeword >= 4) {
+    			 if(hashMap.containsKey(tempword)) {
+    				 Integer hvalue = ((Integer)hashMap.get(tempword))+1;
+    				 hashMap.put(tempword, hvalue);
+    			 }else {
+    				 hashMap.put(tempword, 1);
+    			 }
+    			 wordcount++;
+    		 }
 	         fr.close(); 
+	         System.out.println(chcount);
+	         System.out.println(rowcount);
+	         System.out.println(wordcount);
         } 
         catch(ArrayIndexOutOfBoundsException ex) 
         { 
