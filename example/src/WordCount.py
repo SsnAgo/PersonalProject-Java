@@ -5,7 +5,7 @@ import copy
 #统计文件的字符数（对应输出第一行）
 def count_chars(file_name):
     c_cs = 0
-    with open(file_name) as file_obj:
+    with open(file_name,"r",encoding='utf-8') as file_obj:
         for content in file_obj:
             c_cs += count_line_chars(content)
     m = "characters：" + str(c_cs)+"\n"
@@ -21,7 +21,7 @@ def count_line_chars(content):
 def analy_word(file_name):
     words = {}
     r = re.compile(r"[,!\*\.]")
-    with open(file_name, "r") as f:
+    with open(file_name, "r",encoding='utf-8') as f:
         for line in f:
             for word in r.sub("", line.strip()).lower().split(" "):
                 if word in words:
@@ -38,7 +38,7 @@ def count_word(file_name):
 
 #统计文件的有效行数
 def count_lines(file_name):
-    f = open(file_name)
+    f = open(file_name,encoding='utf-8')
     s = 0
     for line in f:
         line = line.strip('\n')
@@ -61,19 +61,23 @@ def count_words(file_name):
     return s
 
 def out_file(filename,s):
-    with open(filename, 'a') as file_object:
+    with open(filename, 'a',encoding='utf-8') as file_object:
         file_object.write(s)
 
 def clear_file(filename):
-    with open(filename, 'w') as f1:
+    with open(filename, 'w',encoding='utf-8') as f1:
         f1.seek(0)
         f1.truncate()
+
+def count_file(file1,file2):
+
+    clear_file(file2)
+    out_file(file2, count_chars(file1))
+    out_file(file2, count_word(file1))
+    out_file(file2, count_lines(file1))
+    out_file(file2, count_words(file1))
 
 if __name__ == '__main__':
     file1 = input("请输入文件路径：")
     file2 = input("请输入输出文件名称：")
-    clear_file(file2)
-    out_file(file2,count_chars(file1))
-    out_file(file2,count_word(file1))
-    out_file(file2,count_lines(file1))
-    out_file(file2,count_words(file1))
+    count_file(file1,file2)
