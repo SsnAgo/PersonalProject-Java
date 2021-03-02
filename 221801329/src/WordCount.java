@@ -181,7 +181,7 @@ public class WordCount{
             try {
                 bw = new BufferedWriter(new OutputStreamWriter(
                         new FileOutputStream(outputPath), StandardCharsets.UTF_8));
-                List<HashMap.Entry<String, Integer>> sortedList = Lib.getSortedList(wordMap);
+                List<HashMap.Entry<String, Integer>> sortedList = Lib.getSortedList(wordMap,false);
                 for(HashMap.Entry<String,Integer> entry:sortedList) {
                     if(cnt<=9){
                         str.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");

@@ -17,7 +17,6 @@ public class Lib {
         File file = new File(str);
         FileChannel fileChannel = new RandomAccessFile(file,"r").getChannel();
         ByteBuffer byteBuffer = ByteBuffer.allocate(1 << 15);
-        byte[] temp = new byte[0];
         int count = 0;
         while(fileChannel.read(byteBuffer) != -1) {
             byte[] bs = new byte[byteBuffer.position()];
@@ -56,15 +55,28 @@ public class Lib {
     /**
      * @description     将map按照value降序 key字典序升序排序
      * @param wordMap   存放有词频的无序HashMap
+     * @param isPrint   是否输出排序后的Top10
      * @return wordList 排序后的List
      */
-    public static List<HashMap.Entry<String, Integer>> getSortedList(ConcurrentHashMap<String,Integer> wordMap) {
+    public static List<HashMap.Entry<String, Integer>> getSortedList(
+            ConcurrentHashMap<String,Integer> wordMap, boolean isPrint) {
         List<HashMap.Entry<String, Integer>> wordList = new ArrayList<>(wordMap.entrySet());
         Comparator<Map.Entry<String, Integer>> cmp = (o1, o2) -> {
             if(o1.getValue().equals(o2.getValue()))
                 return o1.getKey().compareTo(o2.getKey());
             return o2.getValue()-o1.getValue();
         };
+        if (isPrint) {
+            int cnt = 0;
+            StringBuilder str = new StringBuilder();
+            for(HashMap.Entry<String,Integer> entry:wordList) {
+                if(cnt<=9){
+                    str.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+                }
+                cnt++;
+            }
+            System.out.println(str.toString());
+        }
         wordList.sort(cmp);
         return wordList;
     }
