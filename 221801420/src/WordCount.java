@@ -2,6 +2,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 public class WordCount {
     public static void main(String[] args) {
         Lib lib = new Lib();
@@ -28,7 +30,19 @@ public class WordCount {
                 buffWriter.newLine();
                 
                 //对单词频率映射表进行排序并输出出现频率最高的前十个单词
-                lib.wordsFrequency(buffWriter);
+                List<Map.Entry<String, Integer>> list=lib.wordsFrequency(inputFile);
+                int num = 1;
+                for(Map.Entry<String, Integer> map : list) {  
+                    if(num <= 10) {  
+                        try {
+                            buffWriter.write(map.getKey() + ": " + map.getValue());
+                            buffWriter.newLine();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }  
+                        num++;  
+                    }else break;  
+                }
                 buffWriter.close();
                 fw.close();
             }catch(IOException e) {
