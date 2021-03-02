@@ -1,9 +1,20 @@
 import java.io.*;
 import java.util.*;
+import java.util.Map.Entry;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Lib
 {
     Lib lib = new Lib();
+    //单词正则表达式
+    private static String WORD_RE = "[A-Za-z]";
+    //分隔符正则表达式
+    private static String SEPARATOR_RE = "[^A-Za-z0-9]";
+    //有效行数正则表达式
+    private static String LINE_RE = "(^|\n)\\s*\\S+";
+    private static String DIR = System.getProperty("user.dir");
+    private static Map<String, Integer> wordsMap = new HashMap<String, Integer>();
 
     /**
      * 文件读取数据
@@ -46,5 +57,21 @@ public class Lib
             }
         }
         return builder.toString();
+    }
+
+    /**
+     * 统计有效行数
+     * @param str
+     * @return count
+     */
+    public static int getLineCount(String str)
+    {
+        int count = 0;
+        Matcher matcher = Pattern.compile(LINE_RE).matcher(str);
+        while(matcher.find())
+        {
+            count++;
+        }
+        return count;
     }
 }
