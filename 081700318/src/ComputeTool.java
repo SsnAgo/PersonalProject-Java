@@ -1,9 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,5 +72,34 @@ public class ComputeTool {
         }
         return ValidWords.size();
     }
+    /**
+     * @description      获取所有单词的集合并且根据出现频率对其排序
+     */
+    public ArrayList<String> getTOPWords(int k)
+    {
+        PriorityQueue<Map.Entry<String, Integer>> Queue=new PriorityQueue<>((O1, O2) -> {
+            if(O2.getValue() - O1.getValue()!=0)
+            {
+                return O2.getValue() - O1.getValue();
+            }
+            else
+            {
+                return  O1.getKey().compareTo(O2.getKey());
+            }
+
+        });
+
+        for(Map.Entry<String, Integer> Entry:ValidWords.entrySet())
+        {
+            Queue.add(Entry);
+        }
+        ArrayList<String> TopList=new ArrayList<>();
+        for(int i=0;i<k;i++)
+        {
+            TopList.add(Queue.poll().getKey());
+        }
+        return  TopList;
+    }
+
 
 }
