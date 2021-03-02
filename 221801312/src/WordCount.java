@@ -60,7 +60,8 @@ public class WordCount{
                 }
             }
             else{
-                tempString.append((char)tempChar);
+                if(Character.isLetterOrDigit((char)tempChar))
+                    tempString.append((char)tempChar);
             }
         }
         reader.close();
