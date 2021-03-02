@@ -44,7 +44,7 @@ public class WordCount{
             wordCount.characterNum++;
             if((char)tempChar=='\r'){               //如果碰到\r，先将行数+1
                 enterFlag=true;
-                if(tempString.length()>0)
+                if(tempString.toString().trim().length()>0)
                     wordCount.validLine++;
                 wordCount.statisticsLine(tempString.toString());
                 tempString.delete(0,tempString.length());
@@ -53,17 +53,17 @@ public class WordCount{
                 if(enterFlag)                       //如果\r后遇到\n，不处理
                     enterFlag=false;
                 else{                                //如果直接遇到\n,将行数+1
-                    if(tempString.length()>0)
+                    if(tempString.toString().trim().length()>0)
                         wordCount.validLine++;
                     wordCount.statisticsLine(tempString.toString());
                     tempString.delete(0,tempString.length());
                 }
             }
             else{
-                if(Character.isLetterOrDigit((char)tempChar))
-                    tempString.append((char)tempChar);
+                tempString.append((char)tempChar);
             }
         }
+        wordCount.statisticsLine(tempString.toString());
         reader.close();
 
         long endTime=System.currentTimeMillis();;   //获取程序结束时间
@@ -121,7 +121,7 @@ public class WordCount{
 
     public void bigDateTest() throws IOException {
             StringBuilder stringBuilder = new StringBuilder();
-            for(int k=0;k<100;k++){
+            //for(int k=0;k<100;k++){
                 for (int i = 0; i < 100000; i++) {
                     stringBuilder.append("aaaa").append(i).append(",");
                 }
@@ -136,7 +136,7 @@ public class WordCount{
                     }
                     stringBuilder.append('\n');
                 }
-            }
+            //}
             String testContent = stringBuilder.toString();
             System.out.println(testContent.length());
             BufferedWriter out=new BufferedWriter(new FileWriter(outputPath));
