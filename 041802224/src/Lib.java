@@ -2,31 +2,42 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
 
-public class Counter {
+public class Lib {
 
-    public static String openFilePath = "D:\\IDEA\\PersonalProject-Java\\input.txt" ;
-    public static String writeFilePath = "D:\\IDEA\\PersonalProject-Java\\output.txt" ;
+    Lib(String openFilePath, String writeFilePath){
+        this.openFilePath = openFilePath;
+        this.writeFilePath = writeFilePath;
+    }
+    public  String openFilePath = "D:\\IDEA\\PersonalProject-Java\\input.txt" ;
+    public  String writeFilePath = "D:\\IDEA\\PersonalProject-Java\\output.txt" ;
     public Map<String,Integer> hashMap;
     public int countLines = 0;
     public int countChars = 0;
     public int countWords = 0;
 
-    public void open() throws IOException {
-        openFile(openFilePath);
+    public void open() {
+        try {
+            openFile(openFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void write() throws IOException {
-        getChars(readFile());
-        getLines();
-        getWords();
-        writeFile(writeFilePath,"test");
+    public void write() {
+        try {
+            getChars(readFile());
+            getLines();
+            getWords();
+            writeFile(writeFilePath,"test");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    //以StringBuilder读取input.txt
+    //以StringBuilder读取文件
     public String readFile() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
         StringBuilder builder = new StringBuilder();
@@ -69,6 +80,7 @@ public class Counter {
         Map<String, Integer> sorted = hashMap.entrySet()
                 .stream()
                 .sorted(Map.Entry.<String, Integer> comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
+                .limit(10)
                 .collect(toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
                         LinkedHashMap::new));
         //System.out.println("sort map by values: " + sorted);
@@ -128,7 +140,6 @@ public class Counter {
             System.out.println("文件打开失败");
         }
     }
-
     public void getChars(String str){
         countChars = str.length();
     }
