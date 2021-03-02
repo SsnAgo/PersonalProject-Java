@@ -1,4 +1,5 @@
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,11 +11,12 @@ public class WordCount {
 	static HashMap<String, Integer > hashMap=new HashMap<String,Integer>();
     public static void main(String args[])
     {
-      	 String finname = new String(args[0]);
+      	 String finname = new String("C:\\ccc\\s1.txt");
       	 //String foutname = args[1];
       	 wordmanage(finname);
+      	System.out.println("asda");
  		Set<Map.Entry<String, Integer>> ms =hashMap.entrySet();
- 		for (Map.Entry<String, Integer> entry : ms) {
+ 		for (Map.Entry entry : ms) {
  			System.out.print(entry.getKey()+"="+entry.getValue());
  		}
     }
@@ -31,6 +33,7 @@ public class WordCount {
 	         StringBuffer tempword = new StringBuffer();
 	         //每个单词一次循环
 	         while ((i=fr.read()) != -1){
+	        	 
 	        	 ch = (char)i;
 	        	 chcount++;  //字符统计
 	        	 
@@ -73,7 +76,7 @@ public class WordCount {
 	        				 hashMap.put(tempword.toString(), hvalue);
 	        			 }
 	        		 }
-        			 tempword=null;
+        			 tempword.delete(0,tempword.length());
         			 canbeword=0;
 	        	 }else if (Character.isLetter(ch)){
 	        		 canbeword++;
@@ -84,7 +87,7 @@ public class WordCount {
 	        	 }else if(Character.isDigit(ch)) {
 	        		 if (canbeword < 4) {
 	        			 canbeword=0;
-	        			 tempword=null;
+	        			 tempword.delete(0,tempword.length());
 	        		 }else {
 	        			 tempword.append(ch);
 	        		 }
