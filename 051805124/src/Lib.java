@@ -52,5 +52,21 @@ public class Lib {
         return arr.length;
     }
 
+    public int getWordTotalCount(String content){
+        int wordNum = 0;
+        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+        Pattern wordPattern = Pattern.compile("^([a-z]|[A-Z]){4}([a-z]|[A-Z]|[0-9])*");
+        String[] arr = pattern.split(content);
+        for(String str : arr){
+            if (str.equals(""))
+                continue;
+            Matcher m = wordPattern.matcher(str);
+            if (m.matches()){
+                wordNum++;
+            }
+        }
+        return wordNum;
+    }
+
 
 }
