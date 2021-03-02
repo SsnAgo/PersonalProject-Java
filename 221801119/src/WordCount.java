@@ -35,10 +35,10 @@ public class WordCount {
 			writer.append("words: " + coreCount.getWordCount() + "\n");
 			writer.append("lines: " + coreCount.getLineCount() + "\n");
 			int wordsNum = 0;
-			Iterator<Map.Entry<String,Integer>> iterator = coreCount.getWordsList().iterator();
-			Map.Entry<String,Integer> entry = null;
-	        while (iterator.hasNext()==true && wordsNum < 10) {
-	        	entry = (Map.Entry<String,Integer>) iterator.next();
+			Iterator<Map.Entry<String, Long>> iterator = coreCount.getWordsList().iterator();
+			Map.Entry<String, Long> entry = null;
+	        while (iterator.hasNext() == true && wordsNum < 10) {
+	        	entry = (Map.Entry<String, Long>) iterator.next();
 	        	writer.append(entry.getKey().toString() + ": " + entry.getValue().toString() + "\n");
 	        	wordsNum += 1;
 	        }

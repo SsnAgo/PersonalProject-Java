@@ -12,31 +12,32 @@ import java.lang.Character;
  */
 public class CoreCount {
 	private File file;
-	private int charCount;
-	private int wordCount;
-	private int lineCount;
-	private Map<String, Integer> wordsMap;
-	private List<Map.Entry<String, Integer>> wordsList;
+	private Long charCount;
+	private Long wordCount;
+	private Long lineCount;
+	private Map<String, Long> wordsMap;
+	private List<Map.Entry<String, Long>> wordsList;
+	
 	public CoreCount(String fileName) {
 		this.file = new File(fileName);
-		charCount = wordCount = charCount = 0;
-		wordsMap = new HashMap<String, Integer>();
+		wordCount = lineCount = charCount = 0L;
+		wordsMap = new HashMap<String, Long>();
 		wordsList = null;
 	}
 
-	public int getCharCount() {
+	public Long getCharCount() {
 		return charCount;
 	}
-	public int getWordCount() {
+	public Long getWordCount() {
 		return wordCount;
 	}
-	public int getLineCount() {
+	public Long getLineCount() {
 		return lineCount;
 	}
-	public Map<String, Integer> getWordsMap() {
+	public Map<String, Long> getWordsMap() {
 		return wordsMap;
 	}
-	public List<Map.Entry<String, Integer>> getWordsList() {
+	public List<Map.Entry<String, Long>> getWordsList() {
 		return wordsList;
 	}
 	
@@ -49,6 +50,7 @@ public class CoreCount {
 	public void countChars() {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
+			charCount = 0L;
 			try {
 				while (reader.read() != -1) {
 					charCount += 1;
@@ -65,15 +67,18 @@ public class CoreCount {
     public void countWords() {
     	try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
+			wordCount = lineCount = 0L;
 			try {
 				String line, word;
 				line = word = "";
 				char ch;
+				Long value;
 				while ((line = reader.readLine()) != null) {	
 					if (! line.trim().equals("")) {
 						lineCount += 1;
 						line += "\n";
-						for (int i = 0; i < line.length(); i++) {
+						int len = line.length();
+						for (int i = 0; i < len; i++) {
 							ch = line.charAt(i);
 							if (Character.isLetterOrDigit(ch))
 								word += ch;
@@ -83,19 +88,19 @@ public class CoreCount {
 										wordCount += 1;
 										word = word.toLowerCase();
 										if (wordsMap.get(word) == null) {
-											wordsMap.put(word, 1);
+											wordsMap.put(word, 1L);
 										}
 										else {
-											int value = wordsMap.get(word);
+											value = wordsMap.get(word);
 											wordsMap.put(word, ++value);
 										}
-									}
+									} // end if
 									word = "";
-								}
+								} // end if
 							}
-						}
-					}
-				}
+						} // end for
+					} // end if
+				} // end while
 				reader.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -106,14 +111,14 @@ public class CoreCount {
 	}
 
     public void sortWordsMap() {
-		wordsList = new ArrayList<Map.Entry<String, Integer>>(wordsMap.entrySet());
-		Collections.sort(wordsList, new Comparator<Map.Entry<String, Integer>>() {
-			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+		wordsList = new ArrayList<Map.Entry<String, Long>>(wordsMap.entrySet());
+		Collections.sort(wordsList, new Comparator<Map.Entry<String, Long>>() {
+			public int compare(Map.Entry<String, Long> o1, Map.Entry<String, Long> o2) {
 				if (o1.getValue() == o2.getValue()) {
 					return o1.getKey().compareTo(o2.getKey());
 				}
 				else {
-					return (o2.getValue() - o1.getValue());
+					return (int)(o2.getValue() - o1.getValue());
 				}
 			}		
 		});
