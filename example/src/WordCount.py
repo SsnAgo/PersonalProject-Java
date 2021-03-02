@@ -9,9 +9,7 @@ def count_chars(file_name):
         for content in file_obj:
             c_cs += count_line_chars(content)
     m = "characters：" + str(c_cs)+"\n"
-    # print(m)
-    out_file("output.txt",m)
-
+    return m
 
 #计算文件中每一行的字符数
 def count_line_chars(content):
@@ -20,22 +18,23 @@ def count_line_chars(content):
         result = result + int(content.count(i))
     return result
 
-
-#统计文件的单词总数（对应输出第2行）
-def count_word(file_name):
+def analy_word(file_name):
     words = {}
     r = re.compile(r"[,!\*\.]")
-    with open(file_name , "r") as f:
+    with open(file_name, "r") as f:
         for line in f:
             for word in r.sub("", line.strip()).lower().split(" "):
                 if word in words:
                     words[word] += 1
-                words.setdefault(word , 1)
-    result = sum(words.values())
-    #print(words)
-    m = "words："+str(result)+"\n"
-    out_file("output.txt",m)
+                words.setdefault(word, 1)
+    return words
 
+#统计文件的单词总数（对应输出第2行）
+def count_word(file_name):
+    words = analy_word(file_name)
+    result = sum(words.values())
+    m = "words："+str(result)+"\n"
+    return m
 
 #统计文件的有效行数
 def count_lines(file_name):
@@ -47,34 +46,21 @@ def count_lines(file_name):
             continue
         s += 1
     m = "lines："+str(s)+"\n"
-    out_file("output.txt",m)
-
+    return m
 
 #统计文件中的各单词出现次数
 def count_words(file_name):
-    words = {}
-    r = re.compile(r"[,!?\*\.]")
-    with open(file_name, "r") as f:
-        for line in f:
-            for word in r.sub("", line.strip()).lower().split(" "):
-                if word in words:
-                    words[word] += 1
-                words.setdefault(word, 1)
-    # words = sorted(words.keys())
-    # print(type(words))
+    words = analy_word(file_name)
     words2 = copy.deepcopy(sorted(words.items(), key=lambda k:(k[1],k[0]),reverse=True))
-    # print(sorted(words.items(), key=lambda k:(k[1],k[0]),reverse=True)[:10])
-    # print(words2[:10])
-    # print(words2)
     m = 0
+    s = ""
     for i in words2:
         if (m<10):
-            s = str(i[0])+":"+str(i[1])+"\n"
-            out_file("output.txt", s)
+            s += str(i[0])+":"+str(i[1])+"\n"
             m+=1
+    return s
 
 def out_file(filename,s):
-    filename = 'output.txt'
     with open(filename, 'a') as file_object:
         file_object.write(s)
 
@@ -82,15 +68,12 @@ def clear_file(filename):
     with open(filename, 'w') as f1:
         f1.seek(0)
         f1.truncate()
-    # f1.close()
 
 if __name__ == '__main__':
-
     file1 = input("请输入文件路径：")
-    # file2 = input("请输入输出文件名称：")
-    # file = str
-    clear_file("output.txt")
-    count_chars(file1)
-    count_word(file1)
-    count_lines(file1)
-    count_words(file1)
+    file2 = input("请输入输出文件名称：")
+    clear_file(file2)
+    out_file(file2,count_chars(file1))
+    out_file(file2,count_word(file1))
+    out_file(file2,count_lines(file1))
+    out_file(file2,count_words(file1))
