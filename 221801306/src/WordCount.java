@@ -7,16 +7,21 @@ import java.util.*;
 public class WordCount {
     public static void main(String[] args) {
         String filename = "E:/input.txt";
-        String content = "";
+        String content = "";//文本内容
 
+        content = Getfile(filename);
+
+        CountFrequency(content);
+    }
+
+    public static String Getfile(String filename) {
+        String content = "";
         FileReader fr = null;
-        Map<String, Integer> map = new HashMap<String, Integer>();
         try {
             fr = new FileReader(filename);
             BufferedReader br = new BufferedReader(fr);
 
             String temp = "";
-
             while (true) {
                 try {
                     if (!((temp = br.readLine()) != null)) break;
@@ -25,22 +30,25 @@ public class WordCount {
                 }
                 content += temp;
             }
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return content;
+    }
+
+    public static void CountFrequency(String content){
+        Map<String, Integer> map = new HashMap<String, Integer>();
 
         StringTokenizer st = new StringTokenizer(content, " ,.!?\"'");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
             word.toLowerCase();
             if (Isword(word)) {
-                if(map.get(word) != null) {
-                    int value = ((Integer)map.get(word)).intValue();
+                if (map.get(word) != null) {
+                    int value = ((Integer) map.get(word)).intValue();
                     value++;
                     map.put(word, new Integer(value));
-                }
-                else {
+                } else {
                     map.put(word, new Integer(1));
                 }
             } else
