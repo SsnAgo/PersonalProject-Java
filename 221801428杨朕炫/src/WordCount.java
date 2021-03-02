@@ -75,6 +75,31 @@ public class WordCount {
         });
     }
 
+    /**
+     * calculate the count of words and put valid words into HashMap
+     *
+     * @param list
+     * @return
+     */
+    public static Map<String, Integer> calculateWordAndTransform(List<String> list) {
+
+        Map<String, Integer> map = new HashMap<>();
+        Pattern pattern = Pattern.compile("[A-Za-z]{4}.*?");
+        list.forEach(x -> {
+            String[] strings = x.split("\\s+|\\t");
+            for (String s : strings) {
+                Matcher matcher = pattern.matcher(s);
+                if (matcher.matches()) {
+                    wordsCount++;
+                    map.merge(s, 1, Integer::sum);
+                }
+            }
+        });
+        return map;
+
+
+    }
+
 
     public static void main(String[] args) throws IOException {
 
@@ -90,6 +115,7 @@ public class WordCount {
             countCharacters(inputFile);
             List<String> lineList = getLineList(inputFile);
             countLines(lineList);
+            Map<String, Integer> stringIntegerMap = calculateWordAndTransform(lineList);
 
         } catch (FileNotFoundException e) {
             System.out.println("No Such File Found!");
