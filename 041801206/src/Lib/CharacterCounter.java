@@ -85,7 +85,7 @@ public class CharacterCounter {
             try {
                 list.get(i).join();
                 sbf.append(list.get(i).getSbf());
-                list.get(i).getMHashMap().forEach((key,value) -> hashMap.merge(key,value,Integer::sum));
+//                list.get(i).getMHashMap().forEach((key,value) -> hashMap.merge(key,value,Integer::sum));
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -137,7 +137,7 @@ public class CharacterCounter {
                 reader.skip(this.start);
                 for(int i=0;i<threadReadNum && (lastNum=reader.read(tempChars))!= -1;i++){
                   sbf.append(new String(tempChars,0,lastNum));
-                  saveAsMap(tempChars,lastNum);
+//                  saveAsMap(tempChars,lastNum);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
