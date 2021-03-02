@@ -49,6 +49,32 @@ public class WordCount {
 
     }
 
+    /**
+     * get a List contains every line in the input file
+     *
+     * @param filename
+     * @return
+     * @throws IOException
+     */
+    public static List<String> getLineList(String filename) throws IOException {
+        Path path = Path.of(filename);
+        Stream<String> stringStream = Files.lines(path);
+        return stringStream.collect(Collectors.toList());
+    }
+
+    /**
+     * calculate the number of valid lines(expects lines that just contain space) in input file
+     *
+     * @param list
+     */
+    public static void countLines(List<String> list) {
+        list.forEach(x -> {
+            if (!x.trim().equals("")) {
+                linesCount++;
+            }
+        });
+    }
+
 
     public static void main(String[] args) throws IOException {
 
@@ -62,6 +88,8 @@ public class WordCount {
         try {
             // 主体代码
             countCharacters(inputFile);
+            List<String> lineList = getLineList(inputFile);
+            countLines(lineList);
 
         } catch (FileNotFoundException e) {
             System.out.println("No Such File Found!");
