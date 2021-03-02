@@ -1,5 +1,8 @@
 import java.io.*;
+import java.util.Comparator;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.regex.Pattern;
 
 public class Lib {
 
@@ -34,6 +37,9 @@ public class Lib {
     private String outputFile;
     private Map<String, Integer> map;
 
+    private String pattern = "^[A-Za-z]{4}[A-Za-z0-9]*";
+
+
     public Lib(String inputFile, String outputFile) {
         this.inputFile = inputFile;
         this.outputFile = outputFile;
@@ -64,11 +70,29 @@ public class Lib {
     }
 
     private void CountWords(String str) {
+        map = new TreeMap<>();
         String[] list = str.split("[^a-zA-z0-9]");
         System.out.println(list.length);
         for (String s : list) {
             System.out.println("长度为：" + s.length() + " " + s);
+
+            //判断字符串是否为空
+            if (s.length() != 0 && isWord(s)) {
+                String lowstring = s.toLowerCase();
+                if (map.get(lowstring) == null) {
+                    map.put(lowstring, 1);
+                }
+                else {
+                    int cnt = map.get(lowstring);
+                    map.put(lowstring, cnt+1);
+                }
+            }
         }
+        map.forEach((k,v) -> System.out.println(k + ":" + v));
+    }
+
+    private boolean isWord(String str) {
+        return Pattern.matches(pattern, str);
     }
 
 }
