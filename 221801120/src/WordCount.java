@@ -9,6 +9,7 @@ public class WordCount {
             String inputFile = args[0];
             String outputFile = args[1];
             Lib lib = new Lib(inputFile, outputFile);
+            lib.readFile();
             lib.writeFile();
             System.out.println("succeed");
         }
