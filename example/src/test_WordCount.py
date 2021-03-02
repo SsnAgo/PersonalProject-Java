@@ -11,7 +11,7 @@ class TestWordCount(unittest.TestCase):
         :return:
         '''
         warnings.simplefilter('ignore', ResourceWarning)
-        str = "I have a brother. He is four years older than me. Now he is fifteen years old， and he is a student of Grade Nine. He is tall and handsome. His classmates like playing with him. He works hard in study. His teachers speak highly of him. Besides， basketball and running are his favorites."
+        str = "I have! a brother? \n He * is four years older than me. "
         filename = "test_count_char.txt"
         dir = os.getcwd() + "/" + filename
         with open(dir,"w",encoding="utf-8") as f:
@@ -39,12 +39,12 @@ class TestWordCount(unittest.TestCase):
         :return:
         '''
         warnings.simplefilter('ignore', ResourceWarning)
-        str = "I have a brother. He is four years older than me. Now he is fifteen years old， and he is a student of Grade Nine. He is tall and handsome. His classmates like playing with him. He works hard in study. His teachers speak highly of him. Besides， basketball and running are his favorites."
-        filename = "test_count_word.txt"
+        str = "I have a brother.have a brother. He is four years older than me. Now he is fifteen years old， and he is a student of Grade Nine. He is tall and handsome. His classmates like playing with him. He works hard in study. His teachers speak highly of him. Besides， basketball and running are his favorites."
+        filename = "test_count_words.txt"
         dir = os.getcwd() + "/" + filename
         with open(dir, "w", encoding='utf-8') as f:
             f.write(str)
-        WordCount.count_file(dir, "output_count_word.txt")
+        WordCount.count_file(dir, "output_count_words.txt")
 
     def test_count_line(self):
         '''
