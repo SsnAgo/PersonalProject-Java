@@ -1,10 +1,9 @@
-package info.tozzger.demo;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map.Entry;
 
-public class DemoHelper {
+public class WordCountHelper {
+    
     public static void solve(Path in, Path out) throws IOException {
         FileCounter fc = new FileCounter(in);
         Printer printer = new Printer(out);
@@ -18,4 +17,5 @@ public class DemoHelper {
 
         printer.close();
     }
+    
 }

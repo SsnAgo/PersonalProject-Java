@@ -1,5 +1,3 @@
-package info.tozzger.demo;
-
 import java.util.Map;
 
 /**

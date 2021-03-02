@@ -1,6 +1,5 @@
-package info.tozzger.demo;
-
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -9,18 +8,38 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.function.BiConsumer;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 class FileCounterHelper {
+    
+    private static final Pattern WORD_PATTERN = Pattern.compile("[a-z]{4,}[a-z0-9]+");
+
+    static boolean isWord(String str) {
+        return WORD_PATTERN.matcher(str).matches();
+    }
+
+    static boolean isNotBlank(String str) {
+        return !str.trim().isEmpty();
+    }
+    
+    static Stream<String> split(String str) {
+        return Arrays.stream(str.split("[^a-z0-9]+"));
+    }
 
     static long solveCharCount(Path path) {
         return path.toFile().length();
     }
 
+    private static Stream<String> lines(Path path) throws IOException {
+        return Files.lines(path, Charset.forName(StaticField.CHARSET));
+    }
+
     static String[] solveWords(Path path) throws IOException {
-        return Files.lines(path)// 分行
+        return lines(path)// 分行
                 .map(String::toLowerCase)// 转小写
-                .flatMap(CounterHelper::split)// 分词
-                .filter(CounterHelper::isWord)// 保留单词
+                .flatMap(FileCounterHelper::split)// 分词
+                .filter(FileCounterHelper::isWord)// 保留单词
                 .toArray(String[]::new);
     }
 
@@ -44,7 +63,7 @@ class FileCounterHelper {
     }
 
     static long solveLineCount(Path path) throws IOException {
-        return Files.lines(path).filter(CounterHelper::isNotBlank).count();
+        return lines(path).filter(FileCounterHelper::isNotBlank).count();
     }
 
 }
