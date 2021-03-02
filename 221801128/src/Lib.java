@@ -9,21 +9,9 @@ import java.util.regex.Pattern;
 public class Lib {
 
 	static HashMap<String, Integer> hash=new HashMap<String,Integer>();
-		
-	/**
-	 * 转化为小写字母
-	 */
-	public static char toLower(char ch){
-		if(ch >= 'A' && ch <= 'Z'){
-			return (char) ((ch-'A')+'a');
-		} 
-		return ch;
-	}
-	
 
-	
 	/**
-	 * 保存单词
+	 * 统计单词并存储
 	 */
 	public static int countWords(String str) {
 		int cnt = 0;
@@ -59,22 +47,6 @@ public class Lib {
 		br.close();
 		return charCount;
 	}
-	 
-	
-	/**
-	 * 统计总单词数
-	 */
-		public static int countWords() {
-			int countnum = 0;
-			Set<Map.Entry<String, Integer>> set=hash.entrySet();
-			Iterator<Map.Entry<String, Integer>> it=set.iterator();
-			while(it.hasNext()){
-				Map.Entry<String, Integer> e=it.next();
-				countnum+=e.getValue();
-			}
-			return countnum;
-		}
-		
 		/**
 		 * 统计有效行数
 		 * @throws IOException 
