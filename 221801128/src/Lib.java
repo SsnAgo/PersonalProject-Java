@@ -1,6 +1,4 @@
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -33,55 +31,43 @@ public class Lib {
 		}
 		return cnt;
 	}
-	/**
-	 * 统计总字符数
-	 */
-	public static int countChar(String inputfile) throws IOException {
-		int charCount = 0;
-		int ch = 0;
-		BufferedReader br = new BufferedReader(new FileReader(inputfile));
-		while((ch=br.read())!=-1){
-			if(ch<128 && ch>0)
-				charCount++;
+		/**
+		 * 统计总字符数
+		 */
+		public static int countChar(String str) throws IOException {
+			return str.length();
 		}
-		br.close();
-		return charCount;
-	}
 		/**
 		 * 统计有效行数
 		 * @throws IOException 
 		 */
-		   public static int countLines(String inputfile) throws IOException {
-			   BufferedReader br = new BufferedReader(new FileReader(inputfile));
-		        String str = null;
-		        String pattern = "[^ ].*";
-		        int countLine = 0;
+		  public static int countLines(String str) throws IOException {
+			  int lines = 0;
+			  String[] strLine = str.split("\r\n|\n");
+			  for (String ch : strLine) {
+				  if (!ch.replaceAll("\r|\n", "").trim().equals("")) {
+					  lines++;
+				  }
+			  }
+			  return lines;
+		  }
 
-		        while((str= br.readLine())!=null){
-		            if(str.matches(pattern)){
-		                countLine++;
-		            }
-		        }
-		        br.close();
-		        return countLine;
-		    }
+		/**
+		 * 按词频以及字典序排序
+		 */
+		public static List<HashMap.Entry<String, Integer>> getSortedList(HashMap<String, Integer> wordMap) {
+			List<HashMap.Entry<String, Integer>> list =
+					new ArrayList<HashMap.Entry<String, Integer>>(wordMap.entrySet());
+			Collections.sort(list, new Comparator<Map.Entry<String,Integer>>() {
+				public int compare(Map.Entry<String,Integer> o1, Map.Entry<String,Integer> o2){
+					if(o1.getValue().equals(o2.getValue()))
+						return o1.getKey().compareTo(o2.getKey());
+					return o2.getValue().compareTo(o1.getValue());
+				}
+			});
+			return list;
+		}
 
-	/**
-	 * 按词频以及字典序排序
-	 */
-	public static List<HashMap.Entry<String, Integer>> getSortedList(HashMap<String, Integer> wordMap) {
-		List<HashMap.Entry<String, Integer>> list =
-				new ArrayList<HashMap.Entry<String, Integer>>(wordMap.entrySet());
-		Collections.sort(list, new Comparator<Map.Entry<String,Integer>>() {
-			public int compare(Map.Entry<String,Integer> o1, Map.Entry<String,Integer> o2){
-				if(o1.getValue().equals(o2.getValue()))
-					return o1.getKey().compareTo(o2.getKey());
-				return o2.getValue().compareTo(o1.getValue());
-			}
-		});
-		return list;
-	}
-	
 
 
 

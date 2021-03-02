@@ -19,23 +19,25 @@ public class WordCount {
 	/**
 	 * 读取指定文件，返回字符串
 	 */
-	public String readFile(String fileName) throws IOException {
-		BufferedReader reader = null;
+	public String readFile(String file) throws IOException {
+		BufferedReader br = null;
 		StringBuilder str = new StringBuilder();
-		int ch = 0;
+		int ch;
 		try {
-			reader = new BufferedReader(new FileReader(fileName));
+			br = new BufferedReader(new FileReader(file));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		try {
-			while ((ch = reader.read()) != -1) {
+			while (true) {
+				assert br != null;
+				if (!((ch = br.read()) != -1)) break;
 				str.append((char)ch);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			reader.close();
+			br.close();
 		}
 		return str.toString();
 	}
@@ -43,12 +45,12 @@ public class WordCount {
 	/**
 	 * 写入指定文件
 	 */
-	public static void writeIn(String inputfile,String outputfile) throws IOException {
+	public static void writeIn(String outputfile) throws IOException {
 		Path path1 = Paths.get(outputfile);
 		BufferedWriter writer = null;
-		StringBuilder str = new StringBuilder("characters: " + Lib.countChar(inputfile) + "\n"
+		StringBuilder str = new StringBuilder("characters: " + Lib.countChar(textStr) + "\n"
 				+ "words: " + Lib.countWords(textStr) + "\n"
-				+ "lines: " + Lib.countLines(inputfile) + "\n");
+				+ "lines: " + Lib.countLines(textStr) + "\n");
 		int cnt = 0;
 		try {
 			writer = Files.newBufferedWriter(path1, StandardCharsets.UTF_8);
@@ -63,6 +65,7 @@ public class WordCount {
 			cnt++;
 			if (cnt >= 10) break;
 		}
+		assert writer != null;
 		writer.write(str.toString());
 		writer.close();
 	}
@@ -71,10 +74,10 @@ public class WordCount {
 	 * 打印
 	 * @throws IOException
 	 */
-//	public static void printall(String inputfile) throws IOException {
-//		StringBuilder str = new StringBuilder("characters: " + Lib.countChar(inputfile) + "\n"
+//	public static void printall() throws IOException {
+//		StringBuilder str = new StringBuilder("characters: " + Lib.countChar(textStr) + "\n"
 //				+ "words: " + Lib.countWords(textStr) + "\n"
-//				+ "lines: " + Lib.countLines(inputfile) + "\n");
+//				+ "lines: " + Lib.countLines(textStr) + "\n");
 //		int cnt = 0;
 //		List<HashMap.Entry<String, Integer>> sortedList = Lib.getSortedList(Lib.hash);
 //		for(HashMap.Entry<String,Integer> entry:sortedList) {
@@ -97,9 +100,9 @@ public class WordCount {
 		//System.out.println("读取文件的地址："+inputfile);
 
 
-		//printall(inputfile);
+		//printall();
 		//写入指定文件
-		writeIn(inputfile, outputfile);
+		writeIn(outputfile);
 	}
 }
 
