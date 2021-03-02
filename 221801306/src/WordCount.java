@@ -4,19 +4,28 @@ import java.util.*;
 public class WordCount {
     public static void main(String[] args) {
         String filename = "E:/JavaTest/input1.txt";
-        String output="E:/JavaTest/output.txt";
+        String output = "E:/JavaTest/output.txt";
         String content;//文本内容
         int num = 10;//输出词频最高的10个单词
 
         content = GetFile(filename);//输入文件，仅用于统计单词
 
+
+        PrintInfo(output, CountCharacters(filename), CountWords(content), CountLines(filename));
+
+        Map<String, Integer> map;
+        map = CountFrequency(content);//词频统计
+        SortFrequency(output, map, num);//词频排序和输出
+    }
+
+    private static void PrintInfo(String output, int chars, int words, int lines) {
         FileWriter fw;
         try {
             fw = new FileWriter(output);
             try {
-                fw.write("characters:" + CountCharacters(filename)+"\n");
-                fw.write("words:" + CountWords(content)+"\n");
-                fw.write("lines:" + CountLines(filename)+"\n");
+                fw.write("characters:" + chars + "\n");
+                fw.write("words:" + words + "\n");
+                fw.write("lines:" + lines + "\n");
                 fw.flush();
                 fw.close();
             } catch (IOException e) {
@@ -26,14 +35,9 @@ public class WordCount {
             e.printStackTrace();
         }
 
-
-        System.out.println("characters:" + CountCharacters(filename));//输出字符总数
-        System.out.println("words:" + CountWords(content));//输出单词总数
-        System.out.println("lines:" + CountLines(filename));//输出总行数
-
-        Map<String, Integer> map;
-        map = CountFrequency(content);//词频统计
-        SortFrequency(map, num);//词频排序和输出
+        System.out.println("characters:" + chars);//输出字符总数
+        System.out.println("words:" + words);//输出单词总数
+        System.out.println("lines:" + lines);//输出总行数
     }
 
     public static String GetFile(String filename) {
@@ -133,12 +137,29 @@ public class WordCount {
         return map;
     }
 
-    private static void SortFrequency(Map<String, Integer> map, int num) {
+    private static void SortFrequency(String output, Map<String, Integer> map, int num) {
         List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet()); //转换为list
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
         if (num > list.size()) {
             num = list.size();
         }
+        FileWriter fw;
+        try {
+            fw = new FileWriter(output,true);
+            try {
+                for (int i = 0; i < num-1; i++) {
+                    fw.write(list.get(i).getKey() + ": " + list.get(i).getValue() + "\n");
+                }
+                fw.write(list.get(num).getKey() + ": " + list.get(num).getValue());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            fw.flush();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         for (int i = 0; i < num; i++) {
             System.out.println(list.get(i).getKey() + ": " + list.get(i).getValue());
         }
