@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 class FileCounterHelper {
     
-    private static final Pattern WORD_PATTERN = Pattern.compile("[a-z]{4,}[a-z0-9]+");
+    private static final Pattern WORD_PATTERN = Pattern.compile("[a-z]{4,}[a-z0-9]*");
 
     static boolean isWord(String str) {
         return WORD_PATTERN.matcher(str).matches();
