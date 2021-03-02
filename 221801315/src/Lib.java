@@ -7,7 +7,7 @@ import java.util.*;
  * 学号：221801315
  * 邮箱：784536133@qq.com
  * 创建时间：2021/2/28 15:22
- * 最后修改时间：2021/3/1 2:27
+ * 最后修改时间：2021/3/3 0:8
  */
 public class Lib {
     public static Map<String, Integer> wordFrequencyRecords = new HashMap<>();  //单词频率记录表
@@ -27,11 +27,22 @@ public class Lib {
             throw new FileNotFoundException();
         }
 
+        //当输入输出文件不为.txt文件时，默认创建同名输出文件
+        String inFileExtend = inFilePath.substring(inFilePath.lastIndexOf("."));
+        String outFileExtend = outFilePath.substring(outFilePath.lastIndexOf("."));
+        if (!inFileExtend.equals(".txt"))
+            System.out.println("Input file is recommended to be .txt file, but the program still reads it.");
+        if (!outFileExtend.equals(".txt")) {
+            System.out.println("Output file should be .txt file, the program will create the same name .txt file.");
+            outFilePath = outFilePath.substring(0, outFilePath.lastIndexOf(".")) + ".txt";
+        }
+
         File outFile = new File(outFilePath);
         //当输出文件不存在时，创建文件
         if (!outFile.exists()) {
             try {
                 outFile.createNewFile();
+                System.out.println("Output file has been created!");
             } catch (IOException e) {
                 e.printStackTrace();
             }
