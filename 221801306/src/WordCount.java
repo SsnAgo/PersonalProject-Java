@@ -46,7 +46,7 @@ public class WordCount {
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
             word.toLowerCase();
-            if (Isword(word)) {
+            if (Isword(word)&&word.length()>=4) {
                 if (map.get(word) != null) {
                     int value = ((Integer) map.get(word)).intValue();
                     value++;
@@ -73,7 +73,7 @@ public class WordCount {
         }
     }
 
-    private static boolean Isword(String word) {
+    private static boolean Isword(String word) {//首字符为字母判定为单词
         char first = word.charAt(0);
         if ((first >= 'a' && first <= 'z'))
             return true;
