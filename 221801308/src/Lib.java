@@ -11,8 +11,8 @@ public class Lib {
     private int charNumber;
     private int lineNumber;
     private int wordNumber;
-    private final Pattern linePattern = Pattern.compile("\n");
-    private final Pattern wordPattern = Pattern.compile("(^|[^A-Za-z0-9])([a-zA-Z]{4}[A-Za-z0-9]*)");
+    private final Pattern linePattern = Pattern.compile("(^|\n)(\\s*\\S+)");
+    private final Pattern wordPattern = Pattern.compile("(^|[^a-z0-9])([a-z]{4}[a-z0-9]*)");
     public Lib(String inputFile, String outputFile) {
         this.inputFile = inputFile;
         this.outputFile = outputFile;
@@ -35,7 +35,7 @@ public class Lib {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return builder.toString();
+        return builder.toString().toLowerCase();
     }
 
     /**
