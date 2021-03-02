@@ -8,18 +8,21 @@ public class WordCount {
     public static void main(String[] args) {
         String filename = "E:/input1.txt";
         String content = "";//文本内容
-        Map<String, Integer> map = new HashMap<String, Integer>();
+        Map map = new HashMap<>();
 
         content = GetFile(filename);//输入文件
 
+       // System.out.println(CountCharacters(filename));//输出字符总数
+        System.out.println("lines:"+CountWords(content));//输出单词总数
+        System.out.println("words:"+CountLines(filename));//输出总行数
 
-        map=CountFrequency(content);//词频统计
-        SortFrequency(map,5);//词频排序和输出
+        map = CountFrequency(content);//词频统计
+        SortFrequency(map, 10);//词频排序和输出
     }
 
     public static String GetFile(String filename) {
-        String content = "";
-        FileReader fr = null;
+        StringBuilder content = new StringBuilder();
+        FileReader fr;
         try {
             fr = new FileReader(filename);
             BufferedReader br = new BufferedReader(fr);
@@ -27,26 +30,59 @@ public class WordCount {
             String temp = "";
             while (true) {
                 try {
-                    if (!((temp = br.readLine()) != null)) break;
+                    if ((temp = br.readLine()) == null) break;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                content += temp;
+                content.append(temp);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return content;
+        return content.toString();
     }
 
-    public static Map CountFrequency(String content){
+    public static int CountWords(String content) {
+        int num = 0;
+        StringTokenizer st = new StringTokenizer(content, " ,.!?\"'");
+        while (st.hasMoreTokens()) {
+            String word = st.nextToken();
+            if (Isword(word) && word.length() >= 4) {
+                num++;
+            } else
+                continue;
+        }
+        return num;
+    }
+
+    private static int CountLines(String filename) {
+        int lines=0;
+        FileReader fr = null;
+        try {
+            fr = new FileReader(filename);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        BufferedReader br = new BufferedReader(fr);
+        while(true){
+            try {
+                if (br.readLine() == null) break;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            lines++;
+        }
+        return lines;
+    }
+
+    public static Map CountFrequency(String content) {
         Map<String, Integer> map = new HashMap<String, Integer>();
 
         StringTokenizer st = new StringTokenizer(content, " ,.!?\"'");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
             word.toLowerCase();
-            if (Isword(word)&&word.length()>=4) {
+            if (Isword(word) && word.length() >= 4) {
                 if (map.get(word) != null) {
                     int value = ((Integer) map.get(word)).intValue();
                     value++;
@@ -60,7 +96,7 @@ public class WordCount {
         return map;
     }
 
-    private static void SortFrequency(Map map,int num){
+    private static void SortFrequency(Map map, int num) {
         List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(map.entrySet()); //转换为list
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
             @Override
