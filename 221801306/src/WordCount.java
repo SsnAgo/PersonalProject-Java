@@ -98,19 +98,18 @@ public class WordCount {
             BufferedReader br = new BufferedReader(fr);
             String temp = "";
             while (true) {
-                try {
+                try {//按行读取，记录行数
                     if ((temp = br.readLine()) == null) break;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if (!"".equals(temp)) {
+                if (!"".equals(temp)) {//检查是否为空行，不记录空行
                     lines++;
                 }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
         return lines;
     }
 
@@ -122,11 +121,11 @@ public class WordCount {
             String word = st.nextToken();
             if (IsWord(word) && word.length() >= 4) {//根据作业要求，判断截取字符串是否为单词
                 word = word.toLowerCase();//将单词全部转为小写
-                if (map.get(word) != null) {
+                if (map.get(word) != null) {//如果单词有记录，则将值+1
                     int value = map.get(word);
                     value++;
                     map.put(word, value);
-                } else {
+                } else {//如果单词无记录，则新增单词，值为1
                     map.put(word, 1);
                 }
             }
@@ -135,11 +134,15 @@ public class WordCount {
     }
 
     private static void SortFrequency(String output, Map<String, Integer> map, int num) {
+        //将HashMap中的包含映射关系的视图entrySet转换为List,然后重写比较器
         List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet()); //转换为list
+        //idea自动转化成lambda表达式
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
         if (num > list.size()) {
             num = list.size();
         }
+
+        //输出
         FileWriter fw;
         try {
             fw = new FileWriter(output, true);
@@ -147,6 +150,7 @@ public class WordCount {
                 for (int i = 0; i < num - 1; i++) {
                     fw.write(list.get(i).getKey() + ": " + list.get(i).getValue() + "\n");
                 }
+                //最后一行末尾不加回车
                 fw.write(list.get(num).getKey() + ": " + list.get(num).getValue());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -156,7 +160,6 @@ public class WordCount {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         for (int i = 0; i < num; i++) {
             System.out.println(list.get(i).getKey() + ": " + list.get(i).getValue());
         }
