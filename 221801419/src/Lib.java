@@ -1,30 +1,41 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Lib {
 
-    static Map<String,Integer> WordsMap=new TreeMap<>();
 
-    static int GetCharactersNum(File file){
+    public static String GetCharacters(String filePath){
 
         int num=0;
+        BufferedReader bufferedReader=null;
+        StringBuilder str=null;
 
         try {
-            InputStreamReader Reader=new InputStreamReader(new FileInputStream(file));
-
+            FileReader reader=new FileReader(filePath);
+            bufferedReader=new BufferedReader(reader);
+            str=new StringBuilder();
+            int flag;
+            str.append(bufferedReader.read());
+            while ((flag=bufferedReader.read())!=-1){
+                str.append(flag);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                bufferedReader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        return num;
-
+        return str.toString();
     }
 
-    static int GetWordsNum(File file){
+    static int GetCharactersNum(String temp){
 
         int num=0;
 
@@ -32,7 +43,15 @@ public class Lib {
 
     }
 
-    static int GetLinesNum(File file){
+    static int GetWordsNum(String temp){
+
+        int num=0;
+
+        return num;
+
+    }
+
+    static int GetLinesNum(String temp){
 
         int num=0;
 

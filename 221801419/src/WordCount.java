@@ -1,29 +1,32 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class WordCount {
 
     public static void main(String[] args) throws IOException {
 
         Lib lib=new Lib();
-        File InputFile= new File(args[0]);
-        File OutputFile=new File(args[1]);
-        FileWriter fileWriter=new FileWriter(OutputFile);
-        BufferedWriter bufferedWriter=new BufferedWriter(fileWriter);
+        String inputPath= args[0];
+        String outputPath=args[1];
 
-        int Char_Num=lib.GetCharactersNum(InputFile);
-        int Word_Num=lib.GetWordsNum(InputFile);
-        int Line_Num=lib.GetLinesNum(InputFile);
+        String Char_Num=lib.GetCharacters(inputPath);
+        int Word_Num=lib.GetWordsNum(inputPath);
+        int Line_Num=lib.GetLinesNum(inputPath);
 
-        bufferedWriter.write("characters:"+Char_Num);
+        System.out.print(args[0]);
+        /*bufferedWriter.write("characters:"+Char_Num);
         bufferedWriter.newLine();
         bufferedWriter.write("words:"+Word_Num);
         bufferedWriter.newLine();
         bufferedWriter.write("lines:"+Line_Num);
-        bufferedWriter.newLine();
+        bufferedWriter.newLine();*/
+        FileOutputStream fileOutputStream=new FileOutputStream(outputPath);
+        OutputStreamWriter outputStreamWriter=new OutputStreamWriter(fileOutputStream,"UTF-8");
+        BufferedWriter bufferedWriter=new BufferedWriter(outputStreamWriter);
+        bufferedWriter.write(inputPath);
+        bufferedWriter.flush();
 
+
+        System.out.print("BBBB");
 
 
     }
