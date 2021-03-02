@@ -94,8 +94,6 @@ public class FileTool {
             while ((AsciiChar = Reader.read()) != -1)
             {
                 Builder.append((char) AsciiChar);
-                System.out.println(AsciiChar);
-                i ++;
             }
 
         } catch (IOException e) {

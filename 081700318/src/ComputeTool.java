@@ -2,13 +2,17 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ComputeTool {
 
-    String TargetString;
-    ArrayList<String> Rows;
-    ArrayList<String> ValidRows;
+    private String TargetString;
+    private ArrayList<String> Rows;
+    private ArrayList<String> ValidRows;
+    private HashMap<String, Integer> ValidWords;
 
     /**
      * @description      构造函数
@@ -47,12 +51,29 @@ public class ComputeTool {
 
     /**
      * @description      统计文件的单词总数
-     */    /**
-     * @description      有效行数
      */
     public int countWordNums()
     {
-        return  Rows.size();
+        ValidWords = new HashMap<>();
+        Pattern WordPattern = Pattern.compile("[a-zA-Z]{4}[a-zA-Z0-9]*");//使用正则表达式匹配单词
+        String ValidWord;
+        for(String ValidRow:ValidRows)
+        {
+            Matcher WordMatcher=WordPattern.matcher(ValidRow);
+            while(WordMatcher.find())
+            {
+                ValidWord=WordMatcher.group();
+                if(!ValidWords.containsKey(ValidWord))
+                {
+                    ValidWords.put(ValidWord,1);
+                }
+                else
+                {
+                    ValidWords.put(ValidWord,ValidWords.get(ValidWord)+1);
+                }
+            }
+        }
+        return ValidWords.size();
     }
 
 }
