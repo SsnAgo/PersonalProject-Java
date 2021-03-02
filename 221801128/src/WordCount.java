@@ -1,22 +1,92 @@
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
 
 public class WordCount {
-
+	private static String textStr;
 	private static String inputfile;
     private static String outputfile;
-	public WordCount(String inputPath, String outputPath) {
+	public WordCount(String inputPath, String outputPath) throws IOException {
         this.inputfile = inputPath;
         this.outputfile = outputPath;
+		textStr = readFile(inputPath);
     }
-	
+
+	/**
+	 * è¯»å–æŒ‡å®šæ–‡ä»¶ï¼Œè¿”å›å­—ç¬¦ä¸²
+	 */
+	public String readFile(String fileName) throws IOException {
+		BufferedReader reader = null;
+		StringBuilder str = new StringBuilder();
+		int ch = 0;
+		try {
+			reader = new BufferedReader(new FileReader(fileName));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			while ((ch = reader.read()) != -1) {
+				str.append((char)ch);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			reader.close();
+		}
+		return str.toString();
+	}
+
+	/**
+	 * å†™å…¥æŒ‡å®šæ–‡ä»¶
+	 */
+	public static void writeIn(String inputfile,String outputfile) throws IOException {
+		Path path1 = Paths.get(outputfile);
+		BufferedWriter writer = null;
+		StringBuilder str = new StringBuilder("characters: " + Lib.countChar(inputfile) + "\n"
+				+ "words: " + Lib.countWords(textStr) + "\n"
+				+ "lines: " + Lib.countLines(inputfile) + "\n");
+		int cnt = 0;
+		try {
+			writer = Files.newBufferedWriter(path1, StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		List<HashMap.Entry<String, Integer>> sortedList = Lib.getSortedList(Lib.hash);
+		for(HashMap.Entry<String,Integer> entry:sortedList) {
+			str.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+			cnt++;
+			if (cnt >= 10) break;
+		}
+		writer.write(str.toString());
+		writer.close();
+	}
+
+	/**
+	 * æ‰“å°
+	 * @throws IOException
+	 */
+//	public static void printall(String inputfile) throws IOException {
+//		StringBuilder str = new StringBuilder("characters: " + Lib.countChar(inputfile) + "\n"
+//				+ "words: " + Lib.countWords(textStr) + "\n"
+//				+ "lines: " + Lib.countLines(inputfile) + "\n");
+//		int cnt = 0;
+//		List<HashMap.Entry<String, Integer>> sortedList = Lib.getSortedList(Lib.hash);
+//		for(HashMap.Entry<String,Integer> entry:sortedList) {
+//			str.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+//			cnt++;
+//			if (cnt >= 10) break;
+//		}
+//		System.out.print(str.toString());
+//	}
 	public static void main(String[] args) throws IOException {
 		if (args.length<2) {
-            System.out.println("ĞèÒªÁ½¸ö²ÎÊı£¬ÇëÖØĞÂÊäÈë£¡");
+            System.out.println("éœ€è¦ä¸¤ä¸ªå‚æ•°ï¼Œè¯·é‡æ–°è¾“å…¥ï¼");
             return;
         }
         WordCount wordcount = new WordCount(args[0],args[1]);
@@ -24,20 +94,12 @@ public class WordCount {
 		File dir = new File(".");
 		inputfile = dir.getCanonicalPath()+"\\"+inputfile;
 		outputfile = dir.getCanonicalPath()+"\\"+outputfile;
-		//System.out.println("¶ÁÈ¡ÎÄ¼şµÄµØÖ·£º"+inputfile);
-		
-		BufferedReader br = null;
-		try {
-			br = new BufferedReader(new FileReader(inputfile));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Lib.saveWord(inputfile);
-		br.close();
-		Lib.printall(inputfile);
-		//Ğ´ÈëÖ¸¶¨ÎÄ¼ş
-		Lib.writeIn(inputfile, outputfile);   
+		//System.out.println("è¯»å–æ–‡ä»¶çš„åœ°å€ï¼š"+inputfile);
+
+
+		//printall(inputfile);
+		//å†™å…¥æŒ‡å®šæ–‡ä»¶
+		writeIn(inputfile, outputfile);
 	}
 }
 
