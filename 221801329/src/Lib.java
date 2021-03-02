@@ -23,7 +23,7 @@ public class Lib {
             byteBuffer.flip();
             byteBuffer.get(bs);
             byteBuffer.clear();
-            for (int i = 0; i < bs.length; i++) {
+            for (int i = 0;i<bs.length; i++) {
                 count++;
             }
         }
@@ -70,7 +70,7 @@ public class Lib {
             int cnt = 0;
             StringBuilder str = new StringBuilder();
             for(HashMap.Entry<String,Integer> entry:wordList) {
-                if(cnt<=9){
+                if(cnt <= 9){
                     str.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
                 }
                 cnt++;

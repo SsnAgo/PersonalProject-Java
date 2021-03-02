@@ -130,10 +130,10 @@ public class WordCount{
             int j;
             pool.execute(Solver::countLine);
             int MAX_LEN = chars >> 3;
-            for (int i = 0;i<chars;i+=MAX_LEN) {
+            for (int i = 0;i<chars;i += MAX_LEN) {
                 if (i > begin) {
                     for (j = i;j<chars;j++) {
-                        if(str.charAt(j)=='\n') {
+                        if(str.charAt(j) == '\n') {
                             break;
                         }
                     }
@@ -183,7 +183,7 @@ public class WordCount{
                         new FileOutputStream(outputPath), StandardCharsets.UTF_8));
                 List<HashMap.Entry<String, Integer>> sortedList = Lib.getSortedList(wordMap,false);
                 for(HashMap.Entry<String,Integer> entry:sortedList) {
-                    if(cnt<=9){
+                    if(cnt<=9) {
                         str.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
                     }
                     cnt++;
