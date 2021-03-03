@@ -12,10 +12,14 @@ import java.util.regex.Pattern;
  * 最后修改时间：2021/3/3 0:8
  */
 public class Lib {
-    public static Map<String, Integer> wordFrequencyRecords = new HashMap<>();  //单词频率记录表
-    public static String recordSource = "";   //记录表的数据源
-    public static boolean isSorted = false;   //记录表是否被排序过
-    public static List<Map.Entry<String, Integer>> sortedRecord = null;   //排序后频率最高的10个单词
+    private static Map<String, Integer> wordFrequencyRecords = new HashMap<>();  //单词频率记录表
+    private static String recordSource = "";   //记录表的数据源
+    private static boolean isSorted = false;   //记录表是否被排序过
+    private static List<Map.Entry<String, Integer>> sortedRecord = null;   //排序后频率最高的10个单词
+    private static int chars = 0;  //字符总数
+    private static int lines = 0;  //有效行数
+    private static int words = 0;  //单词总数
+    private static final int BUFFER_SIZE = 8192;   //缓冲区大小
 
     /* 检测所给文件路径是否有效，输入文件不存在则抛出异常，输出文件不存在则创建
        输入参数：输入文件路径inFilePath，输出文件路径outFilePath
@@ -53,84 +57,103 @@ public class Lib {
 
     /* 统计输入文件中的字符总数
        输入参数：输入文件路径inFilePath
-       返回值：字符总数count */
+       返回值：字符总数chars */
     public static int countTotalChar(String inFilePath) {
-        int count = 0;    //记录字符总数
-        int temp;
+        //如果该文件的字符总数已被统计过，直接返回
+        if (recordSource.equals(inFilePath) && chars != 0)
+            return chars;
 
-        //测试文件不会出现ASCII码以外的字符，因此只需统计文件内容+换行+回车的长度即可
+        init(inFilePath);
+        //利用BufferedReader的读取特性，减少访问文件次数，获得速度提升
         try {
-            Reader in = new InputStreamReader(new FileInputStream(inFilePath), "UTF-8");
+            BufferedReader in = new BufferedReader(new FileReader(inFilePath), BUFFER_SIZE);
+            int temp;
+
             //读取文件，直到文件结束
-            while ((temp = in.read()) != -1) {
-                ++count;
-            }
-            /*BufferedReader in=new BufferedReader(new FileReader(inFilePath));
-            String str;
-            while((str=in.readLine())!=null)
-                count+=str.length()+1;*/
+            while ((temp = in.read()) != -1)
+                ++chars;
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return count;
+        return chars;
     }
 
     /* 统计输入文件中的单词总数
        输入参数：输入文件路径inFilePath
-       返回值：单词总数count */
+       返回值：单词总数words */
     public static int countTotalWord(String inFilePath) {
-        int count = 0;    //记录单词总数
+        //如果该文件的单词表已创建过，即已统计过单词总数
+        if (recordSource.equals(inFilePath) && words != 0)
+            return words;
 
-        //没有输入文件对应的单词频率表的时候先创建
-        if (!recordSource.equals(inFilePath))
-            createWordFrequencyRecords(inFilePath);
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(inFilePath), BUFFER_SIZE);
+            String str;
+            String regex = "(^|[^a-z0-9])([a-z]{4}[a-z\\d]*)";
+            init(inFilePath);
 
-        Object[] frequency = wordFrequencyRecords.values().toArray();
-        for (int i = 0; i < frequency.length; i++) {
-            count += (int) frequency[i];
+            //读取文件，直到文件结束
+            while ((str = in.readLine()) != null) {
+                //如果该行有效
+                if (str.matches(".*\\S+.*")) {
+                    str = str.toLowerCase(Locale.ROOT);
+                    Matcher matcher = Pattern.compile(regex).matcher(str);
+
+                    while (matcher.find())
+                        ++words;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        return count;
+        return words;
     }
 
     /* 统计输入文件中的有效行数
        输入参数：输入文件路径inFilePath
-       返回值：行数count */
+       返回值：行数lines */
     public static int countValidLine(String inFilePath) {
-        int count = 0;    //记录字符总数
-        String str = null;
-        String validLine = ".*\\S+.*";   //非空白字符行的正则表达式
+        //如果该文件的单词表已创建过，即已统计过行数
+        if (recordSource.equals(inFilePath) && lines != 0)
+            return lines;
 
-        //关注点在行数，则这里使用BufferedReader
+        //如果没创建过，则访问文件
+        boolean isValidLine = false;
+        init(inFilePath);
+
         try {
-            BufferedReader in = new BufferedReader(new FileReader(inFilePath));
-            //读取文件，直到文件结束
-            while ((str = in.readLine()) != null) {
-                //如果当前行为非空白字符
-                if (str.matches(validLine))
-                    ++count;
+            BufferedReader in = new BufferedReader(new FileReader(inFilePath), BUFFER_SIZE);
+            int temp;
+
+            //只有\n才被认为换行，\r不认为是一行
+            //readLine()函数读取到\r也当作一行返回，因此不能用readLine()
+            while ((temp = in.read()) != -1) {
+                if (!isBlankChar((char) temp))
+                    isValidLine = true;
+                if ((char) temp == '\n' && isValidLine) {
+                    isValidLine = false;
+                    ++lines;
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return count;
+        return lines;
     }
 
     /* 先按频率后按字典序给单词记录表排序
        输入参数：输入文件路径inFilePath
-       返回值：空 */
-    public static void sortWordFrequencyRecords(String inFilePath) {
-        int count = 0;    //记录单词总数
-
+       返回值：记录最高的10个频率的单词的列表list */
+    public static List<Map.Entry<String, Integer>> getSortWordFrequencyRecords(String inFilePath) {
         //没有输入文件对应的单词频率表的时候先创建
         if (!recordSource.equals(inFilePath))
             createWordFrequencyRecords(inFilePath);
 
         //记录表已被排序，不需要再排序
         if (isSorted)
-            return;
+            return sortedRecord;
 
         sortedRecord = new ArrayList<Map.Entry<String, Integer>>(wordFrequencyRecords.entrySet());
         sortedRecord.sort(new Comparator<Map.Entry<String, Integer>>() {
@@ -149,6 +172,7 @@ public class Lib {
         if (sortedRecord.size() > 10)
             sortedRecord = sortedRecord.subList(0, 10);
         isSorted = true;
+        return sortedRecord;
     }
 
     /* 将统计结果写入输出文件
@@ -156,11 +180,12 @@ public class Lib {
        返回值：空 */
     public static void writeToOutFile(String inFilePath, String outFilePath) {
         try {
-            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFilePath), "utf-8"));
-            writer.write(("characters: " + countTotalChar(inFilePath) + '\n').toString());
-            writer.write(("words: " + countTotalWord(inFilePath) + '\n').toString());
-            writer.write(("lines: " + countValidLine(inFilePath) + '\n').toString());
-            sortWordFrequencyRecords(inFilePath);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFilePath), "utf-8"));
+            createWordFrequencyRecords(inFilePath);
+            writer.write(("characters: " + chars + '\n').toString());
+            writer.write(("words: " + words + '\n').toString());
+            writer.write(("lines: " + lines + '\n').toString());
+            getSortWordFrequencyRecords(inFilePath);
             for (int i = 0; i < sortedRecord.size(); i++) {
                 writer.write((sortedRecord.get(i).getKey() + ": " + sortedRecord.get(i).getValue() + '\n').toString());
             }
@@ -172,32 +197,95 @@ public class Lib {
         }
     }
 
+    /* 判断字符是否是字母
+       输入参数：字符t
+       返回值：判断结果的bool值 */
+    public static boolean isLetter(char t) {
+        if ((t >= 'a' && t <= 'z') || (t >= 'A' && t <= 'Z'))
+            return true;
+        return false;
+    }
+
+    /* 判断字符是否是数字
+       输入参数：字符t
+       返回值：判断结果的bool值 */
+    public static boolean isDigit(char t) {
+        if (t >= '0' && t <= '9')
+            return true;
+        return false;
+    }
+
+    /* 判断字符是否是分隔符
+       输入参数：字符t
+       返回值：判断结果的bool值 */
+    public static boolean isSeparator(char t) {
+        if (isLetter(t))
+            return false;
+        else if (isDigit(t))
+            return false;
+        return true;
+    }
+
+    /* 判断字符是否是分隔符
+       输入参数：字符t
+       返回值：判断结果的bool值 */
+    public static boolean isBlankChar(char t) {
+        if (t == '\t' || t == '\r' || t == '\n' || t == ' ')
+            return true;
+        return false;
+    }
+
     /* 创建单词频率记录表
        输入参数：输入文件路径inFilePath
        返回值：无 */
     public static void createWordFrequencyRecords(String inFilePath) {
-        recordSource = inFilePath;
-        wordFrequencyRecords.clear();
-        isSorted = false;
-        sortedRecord = null;
+        int letterCount = 0;     //字母数
+        String word = "";
+        boolean isValidLine = false;
+        boolean beforeIsDigit = false;
+        init(inFilePath);
 
         try {
-            BufferedReader in = new BufferedReader(new FileReader(inFilePath));
-            String temp;
-            String regex = "(^|[^a-z0-9])([a-z]{4}[a-z\\d]*)";
+            BufferedReader in = new BufferedReader(new FileReader(inFilePath), BUFFER_SIZE);
+            int temp;
 
             //读取文件，直到文件结束
-            while ((temp = in.readLine()) != null) {
-                temp = temp.toLowerCase(Locale.ROOT);
-                Matcher matcher = Pattern.compile(regex).matcher(temp);
+            while ((temp = in.read()) != -1) {
+                ++chars;
 
-                while (matcher.find()) {
-                    addRecord(matcher.group(2));
+                if (!isBlankChar((char) temp))   //说明读入非空白字符
+                    isValidLine = true;
+                if ((char) temp == '\n' && isValidLine) {
+                    isValidLine = false;
+                    ++lines;
+                }
+
+                if (isDigit((char) temp)) {  //避免44aaaa这种形式的字符串被认作单词
+                    if (word.equals(""))
+                        beforeIsDigit = true;
+                    else
+                        word += (char) temp;
+                } else if (isLetter((char) temp)) {
+                    if (!beforeIsDigit) {
+                        ++letterCount;
+                        word += (char) temp;
+                    }
+                } else {
+                    if (letterCount >= 4)
+                        addRecord(word.toLowerCase(Locale.ROOT));
+                    word = "";
+                    letterCount = 0;
+                    beforeIsDigit = false;
                 }
             }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //如果最后一个单词没有碰到分隔符，文件就结束，应当加入该单词
+        if (!word.equals(""))
+            addRecord(word.toLowerCase(Locale.ROOT));
     }
 
     /* 往单词频率记录表加入记录
@@ -212,5 +300,19 @@ public class Lib {
         } else {
             wordFrequencyRecords.put(keyWord, 1);
         }
+        ++words;   //单词个数加一
+    }
+
+    /* 初始化单词表及相关参数
+       输入参数：单词记录表wordFrequencyRecords
+       返回值：无 */
+    private static void init(String inFilePath) {
+        recordSource = inFilePath;
+        wordFrequencyRecords.clear();
+        isSorted = false;
+        sortedRecord = null;
+        chars = 0;
+        lines = 0;
+        words = 0;
     }
 }
