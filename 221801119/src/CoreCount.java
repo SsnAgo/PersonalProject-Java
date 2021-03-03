@@ -21,7 +21,7 @@ public class CoreCount {
 	public CoreCount(String fileName) {
 		this.file = new File(fileName);
 		wordCount = lineCount = charCount = 0L;
-		wordsMap = new HashMap<String, Long>();
+		wordsMap = new HashMap<String, Long>(100);
 		wordsList = null;
 	}
 
@@ -43,8 +43,7 @@ public class CoreCount {
 	
 	public void count() {
 		countChars();
-		countWords();
-		sortWordsMap();
+		countWordsAndLines();
 	}
 	
 	public void countChars() {
@@ -64,7 +63,7 @@ public class CoreCount {
 		}
 	}
 	
-    public void countWords() {
+	public void countWordsAndLines() {
     	try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			wordCount = lineCount = 0L;
@@ -76,7 +75,7 @@ public class CoreCount {
 				while ((line = reader.readLine()) != null) {	
 					if (! line.trim().equals("")) {
 						lineCount += 1;
-						line += "\n";
+						line += '\n';
 						int len = line.length();
 						for (int i = 0; i < len; i++) {
 							ch = line.charAt(i);
@@ -102,12 +101,13 @@ public class CoreCount {
 					} // end if
 				} // end while
 				reader.close();
+				sortWordsMap();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}	
+		}
 	}
 
     public void sortWordsMap() {
