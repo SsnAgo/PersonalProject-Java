@@ -7,6 +7,7 @@ class WordCount{
         File outputFile=new File(args[1]);
         int characterCount= CountCore.characterCount(inputFile);
         System.out.println(characterCount);
+        CountCore.toLowerCase(inputFile);
     }
 
 }
