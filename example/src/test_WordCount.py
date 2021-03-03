@@ -7,11 +7,11 @@ class TestWordCount(unittest.TestCase):
 
     def test_count_char(self):
         '''
-        统计字符数测试
+        统计字符数测试 包含对特殊字符的测试
         :return:
         '''
         warnings.simplefilter('ignore', ResourceWarning)
-        str = "I have! a brother? \n He * is four years older than me. "
+        str = "I have! a \t \r brother? \n"
         filename = "test_count_char.txt"
         dir = os.getcwd() + "/" + filename
         with open(dir,"w",encoding="utf-8") as f:
@@ -20,11 +20,11 @@ class TestWordCount(unittest.TestCase):
 
     def test_count_word(self):
         '''
-        统计单词数测试
+        统计单词数测试  包含对特殊字符的测试
         :return:
         '''
         warnings.simplefilter('ignore', ResourceWarning)
-        str = "I have a brother. He is four years older than me. "
+        str = "I have! a \t \r brother? \n He is four years older than me. "
         filename = "test_count_word.txt"
         dir = os.getcwd() + "/" + filename
         with open(dir,"w",encoding='utf-8') as f:
@@ -52,7 +52,7 @@ class TestWordCount(unittest.TestCase):
         :return:
         '''
         warnings.simplefilter('ignore', ResourceWarning)
-        str = "hello\nworld\nwwww"
+        str = "hello\nworld\t\nwwwwI have! a \t \r brother? \naaaaa\n"
         filename = "test_count_line.txt"
         dir = os.getcwd()+"/"+filename
         with open(dir,"w",encoding="utf-8") as f:
