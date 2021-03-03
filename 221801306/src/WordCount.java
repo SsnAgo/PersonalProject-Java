@@ -3,8 +3,16 @@ import java.util.*;
 
 public class WordCount {
     public static void main(String[] args) {
-        String filename = "E:/JavaTest/01-01-爱情与金钱.txt";
-        String output = "E:/JavaTest/output.txt";
+        Scanner scan = new Scanner(System.in);
+
+//      "E:/JavaTest/input.txt E:/JavaTest/output.txt";
+
+        String inout=scan.nextLine();
+        StringTokenizer st = new StringTokenizer(inout);
+
+        String filename = st.nextToken();
+        String output = st.nextToken();
+
         String content;//文本内容
         Map<String, Integer> map;
         int num = 10;//输出词频最高的10个单词
