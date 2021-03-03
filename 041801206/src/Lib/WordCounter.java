@@ -19,7 +19,7 @@ public class WordCounter {
     public WordCounter(String filePath) {
         this.filePath = filePath;
         startTime=System.currentTimeMillis();
-        count(filePath,10);
+        count(filePath,10000);
         System.out.println("耗时："+ (System.currentTimeMillis()-startTime));
     }
 
@@ -32,17 +32,21 @@ public class WordCounter {
             int nowlineNum=0;
             List<MultiCounter> multiCounterList=new ArrayList<>();
             while (true) {
-               boolean flag= (temp = in.readLine())==null;
-               if(flag) in.close();
-                toStatisticsStr.append(temp);
+                boolean flag= (temp = in.readLine())==null;
+                if(!flag){
+                    toStatisticsStr.append(temp+"-");
+                }
                 nowlineNum++;
                 if(nowlineNum>=lineToThread || flag){
-                    multiCounterList.add(new MultiCounter(toStatisticsStr)); System.out.println("1:"+toStatisticsStr);
+                    multiCounterList.add(new MultiCounter(toStatisticsStr));
                     multiCounterList.get(multiCounterList.size()-1).start();
                     nowlineNum=0;
                     toStatisticsStr.delete(0,toStatisticsStr.length()-1);
                 }
-                if (flag) break;
+                if (flag) {
+                    in.close();
+                    break;
+                }
             }
             in.close();
 
@@ -77,12 +81,11 @@ public class WordCounter {
            String tempWord=null;
            for (int i=0;i<str.length();i++){
                int asciiNum=(int)str.charAt(i);
-               if((asciiNum>=30&&asciiNum<=39)||(asciiNum>=97&&asciiNum<=122)){
-                   wordLength++;System.out.println("wl:"+wordLength);
+               if((asciiNum>=48 && asciiNum<=57)||(asciiNum>=97 && asciiNum<=122)){
+                   wordLength++;
                }else{
-                   System.out.println("kkk:"+str);
                    tempWord=str.substring(i-wordLength,i);
-                   if(isWord(tempWord)){
+                   if(wordLength>3 && isWord(tempWord)){
                        if(partWordHashMap.containsKey(tempWord)){
                            partWordHashMap.put(tempWord,partWordHashMap.get(tempWord)+1);
                        }else{
@@ -99,7 +102,7 @@ public class WordCounter {
         }
 
         private boolean isWord(String str){
-           System.out.println("isword:"+str);
+//            System.out.println("isWord；"+str);
             String pattern="[a-z]{4}[a-z0-9]*";
             return Pattern.matches(pattern,str);
 //            if(str.length()<=3) return false;
