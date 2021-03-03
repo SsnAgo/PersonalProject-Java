@@ -50,17 +50,13 @@ public class Lib {
     /**
      * 单词统计
      *
-     * @param content 文章内容
+     * @param map 词频关系
      * @return int
      */
-    public static int countWords(String content) {
+    public static int countWords(Map<String, Integer> map) {
         int words = 0;
-        StringTokenizer st = new StringTokenizer(content, " ,.!?\"'\n\t\r");
-        while (st.hasMoreTokens()) {
-            String word = st.nextToken();
-            if (IsWord(word) && word.length() >= 4) {//根据作业要求，判断截取字符串是否为单词
-                words++;
-            }
+        for (Map.Entry<String,Integer> pair: map.entrySet()) {
+            words += pair.getValue();
         }
         return words;
     }
@@ -122,16 +118,18 @@ public class Lib {
      */
     public static Map<String, Integer> countFrequency(String content) {
         Map<String, Integer> map = new HashMap<>();
-        StringTokenizer st = new StringTokenizer(content, " ,.!?\"'\n\t\r");
+        StringTokenizer st = new StringTokenizer(content, "[^A-Za-z0-9 ]");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
-            word = word.toLowerCase();//将单词全部转为小写
-            if (IsWord(word) && word.length() >= 4) {//根据作业要求，判断截取字符串是否为单词
-                if (map.get(word) != null) {//如果单词有记录，则将值+1
+            //将单词全部转为小写
+            word = word.toLowerCase();
+            //根据作业要求，判断截取字符串是否为单词
+            if (IsWord(word) && word.length() >= 4) {
+                if (map.get(word) != null) {
                     int value = map.get(word);
                     value++;
                     map.put(word, value);
-                } else {//如果单词无记录，则新增单词，值为1
+                } else {
                     map.put(word, 1);
                 }
             }
@@ -152,8 +150,10 @@ public class Lib {
         //idea自动转化成lambda表达式
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
         //输出
-        List<String> sameFrequency = new ArrayList<>();//同词频单词表
-        int outputCount = 0;//输出统计
+        //同词频单词表
+        List<String> sameFrequency = new ArrayList<>();
+        //输出统计
+        int outputCount = 0;
         if(list.size()<num){
             num=list.size();
         }

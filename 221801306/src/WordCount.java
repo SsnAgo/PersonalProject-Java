@@ -46,13 +46,17 @@ public class WordCount {
     private static void run(String fileName, String output) {
         Map<String, Integer> map;
         int num = 10;
-        String content;//文本内容
-        content = Lib.getFile(fileName);//输入文件内容
-
-        map = Lib.countFrequency(content);//词频统计
+        //输入文件内容
+        String content= Lib.getFile(fileName);
+        // 词频统计
+        map = Lib.countFrequency(content);
+        //获得字符数
         int chars = Lib.countCharacters(content);
-        int words = Lib.countWords(content);
+        //获得单词数
+        int words = Lib.countWords(map);
+        //获得行数
         int lines = Lib.countLines(fileName);
+        //获得词频数前十
         String Frequency = Lib.sortFrequency(map, num);
 
         //输出字符、单词、行数、词频信息
