@@ -3,7 +3,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -15,27 +14,19 @@ import java.util.Set;
  * @author wangyu
  */
 public class Lib {
-    private String inputFile;
-    private String outputFile;
-    private String bufferString;
-    private int charNumber;
-    private int lineNumber;
-    private int wordNumber;
-    private Map<String, Integer> linkedMapWords;
-    private final String LINE_REGEX = "(^|\n)(\\s*\\S+)";
-    private final String WORD_REGEX = "(^|[^a-z0-9])([a-z]{4}[a-z0-9]*)";
-
-    public Lib(String inputFile, String outputFile) {
-        this.inputFile = inputFile;
-        this.outputFile = outputFile;
-    }
+    private static String bufferString;
+    private static int charNumber;
+    private static int lineNumber;
+    private static int wordNumber;
+    private static Map<String, Integer> linkedMapWords;
+    private static final String LINE_REGEX = "(^|\n)(\\s*\\S+)";
+    private static final String WORD_REGEX = "(^|[^a-z0-9])([a-z]{4}[a-z0-9]*)";
 
     /**
-     * read and count
+     * perform all the required calculation
      * @throws IOException
      */
-    public void beginCount() throws IOException {
-        readFileContent();
+    public static void beginCount() throws IOException {
         countChars();
         countWords();
         countLines();
@@ -45,7 +36,7 @@ public class Lib {
      * get the file content
      * @throws IOException
      */
-    public void readFileContent() throws IOException {
+    public static void readFileContent(String inputFile) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(inputFile));
         StringBuilder builder = new StringBuilder();
         try {
@@ -63,14 +54,14 @@ public class Lib {
     /**
      * get the number of characters
      */
-    public void countChars() {
+    public static void countChars() {
         charNumber = bufferString.length();
     }
 
     /**
      * get the number of lines
      */
-    public void countLines() {
+    public static void countLines() {
         lineNumber = 0;
         Pattern linePattern = Pattern.compile(LINE_REGEX);
         Matcher matcher = linePattern.matcher(bufferString);
@@ -82,7 +73,7 @@ public class Lib {
     /**
      * get the number of words
      */
-    public void countWords() {
+    public static void countWords() {
         wordNumber = 0;
         Map<String, Integer> mapWords = new HashMap<>();
         Pattern wordPattern = Pattern.compile(WORD_REGEX);
@@ -103,13 +94,17 @@ public class Lib {
      * sort the words
      * @param mapWords
      */
-    public void sortMapByValues(Map<String, Integer> mapWords) {
+    public static void sortMapByValues(Map<String, Integer> mapWords) {
         Set<Entry<String, Integer>> mapEntry = mapWords.entrySet();
         List<Entry<String, Integer>> entryList = new LinkedList<Entry<String, Integer>>(mapEntry);
-        Collections.sort(entryList, new Comparator<Entry<String, Integer>>() {
+        entryList.sort(new Comparator<Entry<String, Integer>>() {
             @Override
             public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-                return !o2.getValue().equals(o1.getValue()) ? (o2.getValue() - o1.getValue()) : (o1.getKey()).compareTo(o2.getKey());
+                if (o1.getValue().equals(o2.getValue())) {
+                    return o1.getKey().compareTo(o2.getKey());
+                } else {
+                    return o2.getValue().compareTo(o1.getValue());
+                }
             }
         });
         linkedMapWords = new LinkedHashMap<>();
@@ -122,7 +117,7 @@ public class Lib {
      * write data to the file
      * @throws IOException
      */
-    public void writeFileContent() throws IOException {
+    public static void writeFileContent(String outputFile) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
         int i = 0;
         try {
@@ -142,7 +137,7 @@ public class Lib {
         } catch (IOException e) {
             writer.close();
             e.printStackTrace();
+            System.out.println("File write failed!");
         }
-        System.out.println("succeed!!!");
     }
 }

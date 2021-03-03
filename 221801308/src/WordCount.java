@@ -9,13 +9,17 @@ public class WordCount {
             System.out.println("The parameter is less than two, please run again");
         } else {
             try {
-                Lib  wordCount = new Lib(args[0], args[1]);
-                //wordCount.readFileContent();
-                wordCount.beginCount();
-                wordCount.writeFileContent();
+                long startTime = System.currentTimeMillis();
+                Lib.readFileContent(args[0]);
+                Lib.beginCount();
+                Lib.writeFileContent(args[1]);
+                long endTime = System.currentTimeMillis();
+                System.out.println(endTime-startTime + "ms");
             } catch (IOException e) {
+                System.out.println("File read error!");
                 e.printStackTrace();
             }
         }
     }
+
 }
