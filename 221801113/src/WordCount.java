@@ -28,6 +28,7 @@ public class WordCount {
             System.out.println("命令行参数个数错误");
             return;
         }
+        
         WordCount wordCount = new WordCount(args[0]);
         Lib.writeFile(args[1], charsNum, wordsNum, linesNum, wordMap);
     }
