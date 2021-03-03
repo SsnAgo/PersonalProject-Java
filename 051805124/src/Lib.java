@@ -1,9 +1,4 @@
-package src;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,6 +42,22 @@ public class Lib {
         return content.toString();
     }
 
+    public void write(String filePath, String data){
+        try{
+            File file =new File(filePath);
+
+            if(!file.exists()){
+                file.createNewFile();
+            }
+
+            FileWriter fileWritter = new FileWriter(file.getName(),false);
+            fileWritter.write(data);
+            fileWritter.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
     public int getCharTotalCount(String content){
         char[] arr = content.toCharArray();
         return arr.length;
@@ -71,7 +82,7 @@ public class Lib {
     public int getLineCount(String content){
         String[] arr = content.split("\n");
         int num = arr.length;
-        Pattern pattern = Pattern.compile("^\s*");
+        Pattern pattern = Pattern.compile("\\s*");
         for(String str : arr){
             Matcher matcher = pattern.matcher(str);
             if (matcher.matches()){

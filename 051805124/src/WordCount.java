@@ -1,5 +1,3 @@
-package src;
-
 import java.util.*;
 
 /****
@@ -10,6 +8,7 @@ import java.util.*;
 public class WordCount {
 
     public static void main(String[] args){
+        String data = "";
         if (args.length != 2){
             System.out.println("请添加输入输出的文件名");
             return;
@@ -25,15 +24,14 @@ public class WordCount {
         //获取单词出现次数
         Map<String,Integer> map = Lib.getInstance().getWordNum(content);
 
-        System.out.println("characters:" + charNum);
-        System.out.println("words:" + wordNum);
-        System.out.println("lines:" + lineNum);
+        data += "characters:" + charNum + "\n";
+        data += "words:" + wordNum +"\n";
+        data += "lines:" + lineNum + "\n";
         for(Map.Entry<String, Integer> entry : map.entrySet()){
             String mapKey = entry.getKey();
             Integer mapValue = entry.getValue();
-            System.out.println(mapKey+":"+mapValue);
+            data += mapKey+":"+mapValue + "\n";
         }
+        Lib.getInstance().write(args[1],data);
     }
-
-
 }
