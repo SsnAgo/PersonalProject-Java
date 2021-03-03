@@ -1,3 +1,4 @@
+package wordcount;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,13 +11,13 @@ public class WordCount {
 	static HashMap<String, Integer > hashMap=new HashMap<String,Integer>();
     public static void main(String args[])
     {
-      	 String finname = new String("C:\\ccc\\s2.txt");
+      	 String finname = new String("C:\\ccc\\s4.txt");
       	 //String foutname = args[1];
       	 wordmanage(finname);
       	System.out.println("asda");
  		Set<Map.Entry<String, Integer>> ms =hashMap.entrySet();
  		for (Map.Entry entry : ms) {
- 			System.out.println(entry.getKey()+"="+entry.getValue());
+ 			System.out.println(entry.getKey()+": "+entry.getValue());
  		}
  		
     }
@@ -114,9 +115,9 @@ public class WordCount {
     			 wordcount++;
     		 }
 	         fr.close(); 
-	         System.out.println(chcount);
-	         System.out.println(rowcount);
-	         System.out.println(wordcount);
+	         System.out.println("characters: "+chcount);	       
+	         System.out.println("words: "+wordcount);
+	         System.out.println("lines: "+rowcount);
         } 
         catch(ArrayIndexOutOfBoundsException ex) 
         { 
