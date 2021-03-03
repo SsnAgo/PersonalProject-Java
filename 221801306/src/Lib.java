@@ -2,7 +2,11 @@ import java.io.*;
 import java.util.*;
 
 public class Lib {
-    //获得文件内容
+    /**
+     * 获得文件内容
+     * @param filename 输入文件的路径
+     * @return String
+     */
     public static String getFile(String filename) {
         StringBuilder content = new StringBuilder();
         FileReader fr;
@@ -26,15 +30,19 @@ public class Lib {
         //return content.toString().replaceAll("\\W"," ");
     }
 
-    //字符统计
+    /**
+     * 字符统计
+     * @param filename 输入文件的路径
+     * @return int
+     */
     public static int countCharacters(String filename) {
-        int num = 0;
+        int chars = 0;
         FileReader fr;
         try {
             fr = new FileReader(filename);
             try {
                 while (fr.read() != -1) {//按字符读取文件，计算字符数
-                    num++;
+                    chars++;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -42,23 +50,31 @@ public class Lib {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return num;
+        return chars;
     }
 
-    //单词统计
+    /**
+     * 单词统计
+     * @param content 文章内容
+     * @return int
+     */
     public static int countWords(String content) {
-        int num = 0;
+        int words = 0;
         StringTokenizer st = new StringTokenizer(content, " ,.!?\"'\n\t\r");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
             if (IsWord(word) && word.length() >= 4) {//根据作业要求，判断截取字符串是否为单词
-                num++;
+                words++;
             }
         }
-        return num;
+        return words;
     }
 
-    //行数统计
+    /**
+     * 行数统计
+     * @param filename 输入文件的路径
+     * @return int
+     */
     public static int countLines(String filename) {
         int lines = 0;
         FileReader fr;
@@ -82,7 +98,13 @@ public class Lib {
         return lines;
     }
 
-    //输出字符、单词、行数
+    /**
+     * 输出字符、单词、行数
+     * @param output 输出文件的路径
+     * @param chars 字符数
+     * @param words 单词数
+     * @param lines 行数
+     */
     public static void printInfo(String output, int chars, int words, int lines) {
         FileWriter fw;
         try {
@@ -104,10 +126,13 @@ public class Lib {
         System.out.println("lines:" + lines);//输出总行数
     }
 
-    //获取词频表
+    /**
+     * 获取词频表
+     * @param content 文章内容
+     * @return Map 词频hashmap集合
+     */
     public static Map<String, Integer> countFrequency(String content) {
         Map<String, Integer> map = new HashMap<>();
-
         StringTokenizer st = new StringTokenizer(content, " ,.!?\"'\n\t\r");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
@@ -125,13 +150,18 @@ public class Lib {
         return map;
     }
 
-    //对词频表排序并输出
+    /**
+     * 对词频表排序并输出
+     * @param output 输出文件的路径
+     * @param map hashmap的集合
+     * @param num 输出数量
+     */
     public static void sortFrequency(String output, Map<String, Integer> map, int num) {
         //将HashMap中的包含映射关系的视图entrySet转换为List,然后重写比较器
         List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet()); //转换为list
         //idea自动转化成lambda表达式
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
-
+        //输出
         List<String> sameFrequency = new ArrayList<>();//同词频单词表
         int outputCount = 0;//输出统计
         while (outputCount < 10) {
@@ -172,8 +202,12 @@ public class Lib {
         }
     }
 
-    //单词判定：前四个字符为字母判定为单词
-    private static boolean IsWord(String word) {
+    /**
+     * 单词判定：前四个字符为字母判定为单词
+     * @param word 单词
+     * @return boolean
+     */
+    public static boolean IsWord(String word) {
         if (word.length() < 4)
             return false;
         char letter;

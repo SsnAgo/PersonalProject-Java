@@ -15,10 +15,10 @@ public class WordCount {
         String content;//文本内容
         Map<String, Integer> map;
         int num = 10;//输出词频最高的10个单词
-
         content = Lib.getFile(fileName);//输入文件，仅用于统计单词
+
+        //输出字符、单词、行数
         Lib.printInfo(output, Lib.countCharacters(fileName), Lib.countWords(content), Lib.countLines(fileName));
-        
         map = Lib.countFrequency(content);//词频统计
         Lib.sortFrequency(output, map, num);//词频排序和输出
     }
