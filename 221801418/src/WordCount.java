@@ -45,13 +45,10 @@ public class WordCount {
     
     
     
-    public static int countWords(String str) {	//返回单词数量
+    public static int countWords(String str) {		//返回单词数量
     	str=str.toLowerCase();
     	String[] strArray=str.split("[^a-z0-9]+");	//先以除了数字字母的字符来分割
     	int words=0;
-    	for(int i=0;i<strArray.length;i++) {
-    		System.out.println(strArray[i]);
-    	}
     	/*List<String> list = new ArrayList<String>();
     	for(int i=0;i<strArray.length; i++) {
     	   if (!list.contains(strArray[i])) {
@@ -70,11 +67,25 @@ public class WordCount {
     	}
     	return words;
     }
+    
+    public static int countLines(String str) {		//返回行数
+    	String[] LINE=str.split("\\s");				//按空白符分割
+    	int lines=LINE.length;
+    	for(int i=0;i<LINE.length;i++) {			//扣除其中空白的行数
+    		if(LINE[i].isEmpty())lines--;
+    	}
+    	return lines;
+    }
+    
+    
+    
+    
+    
     public static void main(String argv[]){
         String str=readTextFile("input.txt");
         System.out.println("characters:"+countChars(str));
         System.out.println("words:"+countWords(str));
-        //System.out.print("lines:"+countLines(str));
+        System.out.print("lines:"+countLines(str));
         //countWords(lineText);
     }
      
