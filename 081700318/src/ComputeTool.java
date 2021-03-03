@@ -1,6 +1,10 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,7 +13,7 @@ public class ComputeTool {
     private String TargetString;
     private ArrayList<String> Rows;
     private ArrayList<String> ValidRows;
-    private HashMap<String, Integer> ValidWords;
+    private ConcurrentHashMap<String, Integer> ValidWords;
     public int RowNums;
     public int CharNums;
     public int WordNums;
@@ -54,25 +58,36 @@ public class ComputeTool {
      */
     private int countWordNums()
     {
-        ValidWords = new HashMap<>();
+        ValidWords = new ConcurrentHashMap<>();
         Pattern WordPattern = Pattern.compile("[a-zA-Z]{4}[a-zA-Z0-9]*");//使用正则表达式匹配单词
-        String ValidWord;
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS,
+                new ArrayBlockingQueue<Runnable>(6));
+
+
+        int i=0;
         for(String ValidRow:ValidRows)
         {
-            Matcher WordMatcher=WordPattern.matcher(ValidRow);
-            while(WordMatcher.find())
-            {
-                ValidWord=WordMatcher.group();
-                if(!ValidWords.containsKey(ValidWord))
-                {
-                    ValidWords.put(ValidWord,1);
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    Matcher WordMatcher=WordPattern.matcher(ValidRow);
+                    while(WordMatcher.find())
+                    {
+                        String ValidWord;
+                        ValidWord=WordMatcher.group();
+                        if(!ValidWords.containsKey(ValidWord))
+                        {
+                            ValidWords.put(ValidWord,1);
+                        }
+                        else
+                        {
+                            ValidWords.put(ValidWord,ValidWords.get(ValidWord)+1);
+                        }
+                    }
                 }
-                else
-                {
-                    ValidWords.put(ValidWord,ValidWords.get(ValidWord)+1);
-                }
-            }
+            });
         }
+        executor.shutdown();
         return ValidWords.size();
     }
     /**
