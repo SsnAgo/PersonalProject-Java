@@ -118,7 +118,17 @@ public class Lib {
                 return second.getValue().compareTo(first.getValue());
             }
         });
-
+        
+        try {
+            for (Map.Entry<String, Integer> map : list) {
+                if (num <= 10) {
+                    bufferedWriter.write(map.getKey() + ":" + map.getValue()+'\n');
+                    num++;
+                } else break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
