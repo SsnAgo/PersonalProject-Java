@@ -6,15 +6,26 @@ public class Lib {
 
     //读取输入文件
     public static Reader openInputFile(String fileName) {
+        File file = new File(fileName);
+        Reader reader = null;
+        try {
+            reader = new InputStreamReader(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("文件不存在");
+        }
+        return reader;
     }
 
     //获得输出流
     public static BufferedWriter openOutputFile(String fileName) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(fileName),true),"utf-8"));
+        return bw;
     }
 
     //判断有效字符（A-Z,a-z,0-9）
     public static boolean isValidChar(int temp) {
-        if ((temp >= 97 && temp <= 122) || (temp >= 65 && temp <= 90) || (temp >= 48 && temp <= 57)) {
+        if ((temp >= 'a' && temp <= 'z') || (temp >= 'A' && temp <= 'Z') || (temp >= '0' && temp <= '9')) {
             return true;
         } else {
             return false;
@@ -47,6 +58,6 @@ public class Lib {
     public static void printWords(Map<String, Integer> map, Writer writer) throws IOException {
     }
 
-    
+
 
 }
