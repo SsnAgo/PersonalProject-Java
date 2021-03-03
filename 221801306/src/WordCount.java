@@ -3,7 +3,7 @@ import java.util.*;
 
 public class WordCount {
     public static void main(String[] args) {
-        String filename = "E:/JavaTest/input1.txt";
+        String filename = "E:/JavaTest/input2.txt";
         String output = "E:/JavaTest/output.txt";
         String content;//文本内容
         Map<String, Integer> map;
@@ -119,8 +119,8 @@ public class WordCount {
         StringTokenizer st = new StringTokenizer(content, " ,.!?\"'");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
+            word = word.toLowerCase();//将单词全部转为小写
             if (IsWord(word) && word.length() >= 4) {//根据作业要求，判断截取字符串是否为单词
-                word = word.toLowerCase();//将单词全部转为小写
                 if (map.get(word) != null) {//如果单词有记录，则将值+1
                     int value = map.get(word);
                     value++;
@@ -138,11 +138,11 @@ public class WordCount {
         List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet()); //转换为list
         //idea自动转化成lambda表达式
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+
+        //输出
         if (num > list.size()) {
             num = list.size();
         }
-
-        //输出
         FileWriter fw;
         try {
             fw = new FileWriter(output, true);
@@ -151,7 +151,7 @@ public class WordCount {
                     fw.write(list.get(i).getKey() + ": " + list.get(i).getValue() + "\n");
                 }
                 //最后一行末尾不加回车
-                fw.write(list.get(num).getKey() + ": " + list.get(num).getValue());
+                if (num > 0) fw.write(list.get(num - 1).getKey() + ": " + list.get(num - 1).getValue());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -165,10 +165,15 @@ public class WordCount {
         }
     }
 
-    private static boolean IsWord(String word) {//首字符为字母判定为单词
-        char first = word.charAt(0);
-        if ((first >= 'a' && first <= 'z'))
-            return true;
-        return first >= 'A' && first <= 'Z';
+    private static boolean IsWord(String word) {//前四个字符为字母判定为单词
+        if (word.length() < 4)
+            return false;
+        char letter;
+        for (int i = 0; i < 4; i++) {
+            letter = word.charAt(i);
+            if (!(letter >= 'a' && letter <= 'z'))
+                return false;
+        }
+        return true;
     }
 }
