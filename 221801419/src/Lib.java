@@ -1,11 +1,10 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Lib {
 
     static Map<String,Integer> wordsMap=new HashMap<>();
+
 
     public static String GetCharacters(String filePath){
 
@@ -49,7 +48,6 @@ public class Lib {
         }
 
         return num;
-
     }
 
     static int GetWordsNum(String str){
@@ -71,21 +69,46 @@ public class Lib {
         }
 
         return num;
+    }
+
+    public List<Map.Entry<String,Integer>> SortMap(){
+
+        List<Map.Entry<String,Integer>> wordList=new ArrayList<Map.Entry<String, Integer>>(wordsMap.entrySet());
+
+        Collections.sort(wordList, new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                if (o1.getValue().equals(o2.getValue())){
+                    return o1.getKey().compareTo(o2.getKey());
+                }else {
+                    return o2.getValue()-o1.getValue();
+                }
+            }
+        });
+
+        return wordList;
 
     }
 
     static int GetLinesNum(String str){
 
-        int num=0;
-        String[] temp=str.split("\\s+");
+        int num=1;
+        /*String[] temp=str.split("\\s+");
         for (int i=0;i<temp.length;i++){
-            if(temp[i].equals("\r\n")){
+            if(temp[i].equals("\\n")){
                 num++;
             }
+        }*/
+        char[] temp=str.toCharArray();
+        for(int i=0;i<temp.length;i++){
+            if(temp[i]==10){
+                num++;
+            }
+
         }
 
-        return num;
 
+        return num;
     }
 
 }

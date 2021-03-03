@@ -1,6 +1,10 @@
 import java.io.*;
+import java.util.List;
+import java.util.Map;
 
 public class WordCount {
+
+
 
     public static void main(String[] args) throws IOException {
 
@@ -8,11 +12,12 @@ public class WordCount {
         String inputPath= args[0];
         String outputPath=args[1];
 
+
         String Char=lib.GetCharacters(inputPath);
         int Char_Num=lib.GetCharactersNum(Char);
         int Word_Num=lib.GetWordsNum(Char);
         int Line_Num=lib.GetLinesNum(Char);
-
+        List<Map.Entry<String,Integer>> wordsList=lib.SortMap();
 
         FileOutputStream fileOutputStream=new FileOutputStream(outputPath);
         OutputStreamWriter outputStreamWriter=new OutputStreamWriter(fileOutputStream,"UTF-8");
