@@ -153,4 +153,58 @@ public class Lib
         });
         return list;
     }
+
+    /**
+     * 数据输出到文件
+     * @param characters
+     * @param words
+     * @param lines
+     * @param filePath
+     */
+    public static void writeToFile(int characters, int words, int lines, String filePath)
+    {
+        String str = "characters: " + characters + "\nwords: " + words + "\nlines: " + lines + "\n";
+        List<Map.Entry<String, Integer>> list = sortHashmap();
+        int i = 0;
+        for(Map.Entry<String, Integer> map : list) 
+        {
+            if(i < 10)
+            {
+                str += map.getKey() + ": " + map.getValue() + "\n";
+                i++;
+            }
+            else break;
+        }
+
+        //输出流
+        FileOutputStream fos = null;
+        OutputStreamWriter writer = null;
+        BufferedWriter bw = null;
+
+        try
+        {
+            fos = new FileOutputStream(filePath);
+            //指定编码表UTF-8
+            writer = new OutputStreamWriter(fos, "UTF-8");
+            bw = new BufferedWriter(writer);
+            bw.write(str);
+            bw.flush();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try{
+                fos.close();
+                writer.close();
+                bw.close();
+            }
+            catch(IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 }
