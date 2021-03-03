@@ -17,10 +17,10 @@ import java.util.Set;
 public class Lib {
     private String inputFile;
     private String outputFile;
+    private String bufferString;
     private int charNumber;
     private int lineNumber;
     private int wordNumber;
-    private String bufferString;
     private Map<String, Integer> linkedMapWords;
     private final Pattern linePattern = Pattern.compile("(^|\n)(\\s*\\S+)");
     private final Pattern wordPattern = Pattern.compile("(^|[^a-z0-9])([a-z]{4}[a-z0-9]*)");
@@ -30,6 +30,10 @@ public class Lib {
         this.outputFile = outputFile;
     }
 
+    /**
+     * read and count
+     * @throws IOException
+     */
     public void beginCount() throws IOException {
         readFileContent();
         countChars();
@@ -38,8 +42,7 @@ public class Lib {
     }
 
     /**
-     *
-     * @return the file content
+     * get the file content
      * @throws IOException
      */
     public void readFileContent() throws IOException {
@@ -54,22 +57,20 @@ public class Lib {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        bufferString=new String(builder.toString().toLowerCase());
+        bufferString = builder.toString().toLowerCase();
     }
 
     /**
      * get the number of characters
-     * @throws IOException
      */
-    public void countChars() throws IOException {
+    public void countChars() {
         charNumber = bufferString.length();
     }
 
     /**
      * get the number of lines
-     * @throws IOException
      */
-    public void countLines() throws IOException {
+    public void countLines() {
         lineNumber = 0;
         Matcher matcher = linePattern.matcher(bufferString);
         while(matcher.find()) {
@@ -79,9 +80,8 @@ public class Lib {
 
     /**
      * get the number of words
-     * @throws IOException
      */
-    public void countWords() throws IOException {
+    public void countWords() {
         wordNumber = 0;
         Map<String, Integer> mapWords = new HashMap<>();
         Matcher matcher = wordPattern.matcher(bufferString);
@@ -107,7 +107,7 @@ public class Lib {
         Collections.sort(entryList, new Comparator<Entry<String, Integer>>() {
             @Override
             public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-                return o2.getValue() != o1.getValue() ? (o2.getValue() - o1.getValue()) : (o1.getKey()).toString().compareTo(o2.getKey());
+                return !o2.getValue().equals(o1.getValue()) ? (o2.getValue() - o1.getValue()) : (o1.getKey()).compareTo(o2.getKey());
             }
         });
         linkedMapWords = new LinkedHashMap<>();
