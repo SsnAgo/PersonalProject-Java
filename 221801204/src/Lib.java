@@ -61,7 +61,7 @@ public class Lib
     }
 
     /* 统计文件的字符数，只需要统计Ascii码，汉字不需考虑，空格，水平制表符，换行符，均算字符 */
-    public int getCharNum() throws IOException
+    public void getCharNum() throws IOException
     {
         try (Reader reader = getFileReader(); Writer writer = getFileWriter())
         {
@@ -71,7 +71,6 @@ public class Lib
                 charNum++;
             }
             writer.write("characters:" + charNum + '\n');
-            return charNum;
         }
     }
 
@@ -86,8 +85,20 @@ public class Lib
              {
                  sb.append(line);
              }
-             fileContent=sb.toString().toLowerCase();//将内容都转换成小写，方便后面统计各单词数量
+             fileContent = sb.toString().toLowerCase();//将内容都转换成小写，方便后面统计各单词数量
          }
+    }
+
+    /* 判断一个字符串是否为单词 */
+    public boolean isWord(String str)
+    {
+        Pattern pattern = Pattern.compile("[a-z]{4}([a-zA-Z0-9])*");
+        Matcher matcher = pattern.matcher(str);
+        if (matcher.matches())
+        {
+            return true;
+        }
+        return false;
     }
 
     /* 统计文件的单词总数，单词：至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割，不区分大小写。*/
@@ -97,18 +108,23 @@ public class Lib
         TurnFileToString();
         Writer writer = getFileWriter();
         String[] wordArray = fileContent.split("[^0-9a-zA-Z]+");
-        Pattern pattern = Pattern.compile("[a-z]{4}([a-zA-Z0-9])*");
-        Matcher matcher;
         for (int i = 0;i < wordArray.length;i++)
         {
-            matcher = pattern.matcher(wordArray[i]);
-            if (matcher.matches())
+            if (isWord(wordArray[i]))
             {
                 wordNum++;
             }
         }
         writer.write("words: " + wordNum + "\n");
         writer.close();
+    }
+
+    /* 统计文件的各单词的出现次数，输出频率最高的10个 */
+    public void getTopWords()
+    {
+        Map<String, Integer> wordMap = new HashMap<>();
+        Set<String> wordSet = wordMap.keySet();
+
     }
 
 
