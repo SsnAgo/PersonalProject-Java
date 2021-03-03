@@ -84,7 +84,6 @@ public class WordCount{
             chars = str.length();
             strArr = new StringTokenizer(str,"\n");
             allLines = strArr.countTokens();
-            System.out.println(allLines);
         }
         /**
          * @description 计算空白行数
@@ -142,6 +141,10 @@ public class WordCount{
                     pool.execute(() -> countMap(finalBegin,finalEnd));
                     begin = j + 1;
                 }
+            }
+            if (begin < chars) {
+                int finalBegin = begin;
+                pool.execute(() ->countMap(finalBegin,chars));
             }
             pool.shutdown();
             try {
@@ -210,12 +213,12 @@ public class WordCount{
      * @description 程序主入口
      */
     public static void main(String[] args) {
-        if (args.length<2) {
-            System.out.println("请输入\"输入文件\"和\"输出文件\"的路径");
-            return;
-        }
+//        if (args.length<2) {
+//            System.out.println("请输入\"输入文件\"和\"输出文件\"的路径");
+//            return;
+//        }
         long startTime = System.currentTimeMillis();
-        Solver solver = new Solver(args[0],args[1]);
+        Solver solver = new Solver("test3.txt","a3.txt");
         solver.setList();
         solver.poolSolve();
         System.out.println(System.currentTimeMillis()-startTime + "ms");
