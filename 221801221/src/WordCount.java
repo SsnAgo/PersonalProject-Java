@@ -5,20 +5,33 @@ import java.util.*;
  */
 public class WordCount {
 
+    private String inputFileContent;
+
     public static void main(String[] args){
-        String s = FileUtil.getFullFile(args[0]);
-        ArrayList list = new WordCount().sortWordsByFrequencyOfAppearance(s);
-        for (int i = 0 ; i < list.size() ; i++) {
-            System.out.println(list.get(i).toString());
+        String fileContent = FileUtil.getFullFile(args[0]);
+        WordCount wordCount = new WordCount(fileContent);
+        StringBuilder outputFileContentBuilder = new StringBuilder();
+        outputFileContentBuilder.append("characters: " + wordCount.countCharNum() + "\n");
+        outputFileContentBuilder.append("words: " + wordCount.countWords() + "\n");
+        outputFileContentBuilder.append("lines: " + wordCount.countLInes() + "\n");
+        for (WordEntry e:
+                wordCount.getTop10WordsByFrequencyOfAppearance()) {
+            outputFileContentBuilder.append(e.key + ": " + e.value + "\n");
         }
+        FileUtil.outputStringToFile(args[1],outputFileContentBuilder.toString());
+
     }
 
-    public static int countChars(String s){
-        return s.length();
+    public WordCount(String fileContent){
+        this.inputFileContent = fileContent;
     }
 
-    public static int countWords(String s){
-        String[] words = s.split("[^0-9|^A-z]");
+    public int countCharNum(){
+        return inputFileContent.length();
+    }
+
+    public int countWords(){
+        String[] words = inputFileContent.split("[^0-9|^A-z]");
         int wordsNum = words.length;
         for (String word:
                 words) {
@@ -27,8 +40,8 @@ public class WordCount {
         return wordsNum;
     }
 
-    public static int countLInes(String s){
-        String[] lines = s.split("\n");
+    public int countLInes(){
+        String[] lines = inputFileContent.split("\n");
         int linesNum = lines.length;
         for (String line:
                 lines) {
@@ -37,9 +50,10 @@ public class WordCount {
         return linesNum;
     }
 
-    public ArrayList sortWordsByFrequencyOfAppearance(String s){
+
+    public List<WordEntry<String,Integer>> getTop10WordsByFrequencyOfAppearance(){
         HashMap<String,WordEntry<String,Integer>> wordMap = new HashMap<>();
-        String[] words = s.split("[^0-9|^A-z]");
+        String[] words = inputFileContent.split("[^0-9|^A-z]");
         ArrayList<WordEntry<String,Integer>> wordEntries = new ArrayList<>();
         HashMap<String,WordEntry<String,Integer>> wordEntryHashMap = new HashMap<>();
         for (String word:
@@ -54,8 +68,8 @@ public class WordCount {
             }
         }
         Collections.sort(wordEntries,(WordEntry<String,Integer> e1, WordEntry<String,Integer> e2) ->
-                e1.value == e2.value ? e1.key.compareTo(e2.key) : e1.value - e2.value);
-        return wordEntries;
+                e1.value == e2.value ? e2.key.compareTo(e1.key) : e2.value - e1.value);
+        return wordEntries.size() >= 10 ? wordEntries.subList(0,10) : wordEntries.subList(0, wordEntries.size());
     }
 
     private class WordEntry<K,V>{
