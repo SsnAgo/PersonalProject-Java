@@ -34,7 +34,7 @@ public class Lib {
                 ex.printStackTrace();
             }
         }
-        return content.toString();
+        return content.toString().replaceAll("[^A-Za-z0-9]"," ");
     }
 
     /**
@@ -55,8 +55,8 @@ public class Lib {
      */
     public static int countWords(Map<String, Integer> map) {
         int words = 0;
-        for (Map.Entry<String,Integer> pair: map.entrySet()) {
-            words += pair.getValue();
+        for(Integer value : map.values()){
+            words+=value;
         }
         return words;
     }
@@ -118,7 +118,7 @@ public class Lib {
      */
     public static Map<String, Integer> countFrequency(String content) {
         Map<String, Integer> map = new HashMap<>();
-        StringTokenizer st = new StringTokenizer(content, "[^A-Za-z0-9 ]");
+        StringTokenizer st = new StringTokenizer(content, " ");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
             //将单词全部转为小写
@@ -161,7 +161,7 @@ public class Lib {
             return list.get(0).getKey()+ ": " + list.get(0).getValue();
         for (int i = 0; i < list.size() && outputCount < num; i++) {
             //如果当前字符词频与下一个不一样，则对当前所有同词频单词排序
-            if (!list.get(i).getValue().equals(list.get(i + 1).getValue())) {
+            if ((i==list.size()-1)||!list.get(i).getValue().equals(list.get(i + 1).getValue())) {
                 sameFrequency.add(list.get(i).getKey());//将当前单词加入同词频单词表
                 sameFrequency.sort(String::compareTo);//对同词频单词表排序
                 //按字典顺序记录同词频单词
