@@ -1,19 +1,21 @@
-import java.io.File;
+import Lib.MyCharParser;
+import Lib.MyWordParser;
+import Lib.TextParser;
+
 import java.io.IOException;
+import java.util.Date;
 
 public class WordCount
 {
   public static void main(String[] args) throws IOException
   {
-    TextParser textParser =new TextParser("D:\\DeskTop\\input.txt","D:\\DeskTop\\output.txt");
-    textParser.parseFile();
+    TextParser textParser =new TextParser(args[0],args[1],
+        new MyCharParser(),new MyWordParser());
     textParser.countValidChars();
     textParser.countValidLines();
     textParser.countWordNum();
-//    textParser.wordParser.wordsCount();
     textParser.getWordCountMapBySize(10);
     textParser.writeToFile();
-
 
   }
 
