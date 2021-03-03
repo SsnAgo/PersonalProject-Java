@@ -3,7 +3,7 @@ import java.util.*;
 
 class Lib{
     int charCount, wordCount, lineCount,letterCount;
-    boolean isBlankLine ;
+    boolean isBlankLine;
     String word;
     InputStreamReader in;
     OutputStreamWriter out;
@@ -18,7 +18,7 @@ class Lib{
         isBlankLine = true;
         word = "";
     }
-    void fileCount(String inputFile){
+    public void fileCount(String inputFile){
         try {
             in = new InputStreamReader(new FileInputStream(inputFile));
             br = new BufferedReader(in);
@@ -27,6 +27,10 @@ class Lib{
                 CountChar(x);
                 CountLine(x);
                 CountWord(x);
+            }
+            if(x!='\n'){
+                CountWord(' ');
+                CountLine('\n');
             }
             br.close();
             in.close();
@@ -38,14 +42,14 @@ class Lib{
         charCount++;
     }
     void CountLine(int x){
-        if (x != 13 && x != 10 ) isBlankLine = false;
-        else if (x == 10 && !isBlankLine) {
+        if (x!=' '&&x!='\t'&&x!='\n'&&x!='\r') isBlankLine = false;
+        else if (x == '\n' && !isBlankLine) {
             lineCount++;
             isBlankLine = true;
         }
     }
     void CountWord(int x){
-        if(((x<='Z'&&x>='A')||(x<='z'&&x>='a'))&&letterCount!=-1){
+        if(((x<='Z'&&x>='A')||(x<='z'&&x>='a'))&&letterCount>=0){
             word += (char)x;
             letterCount++;;
         }
@@ -93,14 +97,15 @@ class Lib{
 
     void writeFile(String outputFile){
         try {
-            out = new OutputStreamWriter(new FileOutputStream(outputFile));
-            String str = "characters: "+charCount+"\n"
+            out = new OutputStreamWriter(new FileOutputStream(outputFile),"UTF-8");
+            StringBuilder str = new StringBuilder();
+            str.append("characters: "+charCount+"\n"
                     + "words: "+wordCount+"\n"
-                    +"lines: "+lineCount+"\n";
+                    +"lines: "+lineCount+"\n");
             for(int i = 0;i<(list.size()<10 ? list.size():10);i++){
-                str+=(list.get(i).getKey()+": "+list.get(i).getValue()+"\n");
+                str.append(list.get(i).getKey()+": "+list.get(i).getValue()+"\n");
             }
-            out.write(str);
+            out.write(str.toString());
             out.flush();
             out.close();
         }catch(Exception e){
