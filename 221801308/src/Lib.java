@@ -14,7 +14,6 @@ import java.util.Set;
  * @author wangyu
  */
 public class Lib {
-    private static String bufferString;
     private static int charNumber;
     private static int lineNumber;
     private static int wordNumber;
@@ -23,20 +22,23 @@ public class Lib {
     private static final String WORD_REGEX = "(^|[^a-z0-9])([a-z]{4}[a-z0-9]*)";
 
     /**
-     * perform all the required calculation
+     * read file and perform all the required calculation
+     * @param inputFile
      * @throws IOException
      */
-    public static void beginCount() throws IOException {
-        countChars();
-        countWords();
-        countLines();
+    public static void beginCount(String inputFile) throws IOException {
+        String builderString = readFileContent(inputFile);
+        countChars(builderString);
+        countWords(builderString);
+        countLines(builderString);
     }
 
     /**
      * get the file content
      * @throws IOException
+     * @return
      */
-    public static void readFileContent(String inputFile) throws IOException {
+    public static String readFileContent(String inputFile) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(inputFile));
         StringBuilder builder = new StringBuilder();
         try {
@@ -48,23 +50,23 @@ public class Lib {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        bufferString = builder.toString().toLowerCase();
+        return builder.toString().toLowerCase();
     }
 
     /**
      * get the number of characters
      */
-    public static void countChars() {
-        charNumber = bufferString.length();
+    public static void countChars(String builderString) {
+        charNumber = builderString.length();
     }
 
     /**
      * get the number of lines
      */
-    public static void countLines() {
+    public static void countLines(String builderString) {
         lineNumber = 0;
         Pattern linePattern = Pattern.compile(LINE_REGEX);
-        Matcher matcher = linePattern.matcher(bufferString);
+        Matcher matcher = linePattern.matcher(builderString);
         while(matcher.find()) {
             lineNumber++;
         }
@@ -73,11 +75,11 @@ public class Lib {
     /**
      * get the number of words
      */
-    public static void countWords() {
+    public static void countWords(String builderString) {
         wordNumber = 0;
         Map<String, Integer> mapWords = new HashMap<>();
         Pattern wordPattern = Pattern.compile(WORD_REGEX);
-        Matcher matcher = wordPattern.matcher(bufferString);
+        Matcher matcher = wordPattern.matcher(builderString);
         while(matcher.find()) {
             wordNumber++;
             String word = matcher.group(2);
@@ -87,14 +89,14 @@ public class Lib {
                 mapWords.put(word, mapWords.get(word)+1);
             }
         }
-        sortMapByValues(mapWords);
+        sortMap(mapWords);
     }
 
     /**
      * sort the words
      * @param mapWords
      */
-    public static void sortMapByValues(Map<String, Integer> mapWords) {
+    public static void sortMap(Map<String, Integer> mapWords) {
         Set<Entry<String, Integer>> mapEntry = mapWords.entrySet();
         List<Entry<String, Integer>> entryList = new LinkedList<Entry<String, Integer>>(mapEntry);
         entryList.sort(new Comparator<Entry<String, Integer>>() {

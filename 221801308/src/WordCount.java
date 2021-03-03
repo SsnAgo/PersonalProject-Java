@@ -10,8 +10,7 @@ public class WordCount {
         } else {
             try {
                 long startTime = System.currentTimeMillis();
-                Lib.readFileContent(args[0]);
-                Lib.beginCount();
+                Lib.beginCount(args[0]);
                 Lib.writeFileContent(args[1]);
                 long endTime = System.currentTimeMillis();
                 System.out.println(endTime-startTime + "ms");
