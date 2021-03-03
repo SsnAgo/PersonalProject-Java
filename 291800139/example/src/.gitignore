@@ -36,3 +36,4 @@ bin/
 *.log
 tmp/
 *rebel.xml*
+*.xml
