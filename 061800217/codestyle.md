@@ -2,7 +2,7 @@
 
 
 ---
-###缩进
+###缩进 
 缩进采用4个空格，禁止使用tab字符。
 ```
 public static void main(String args[]) {
@@ -10,6 +10,7 @@ public static void main(String args[]) {
 	String say = "hello";
 }
 ```
+---
 ###变量命名
 使用下划线分割单词
 ```
