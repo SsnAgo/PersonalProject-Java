@@ -77,8 +77,14 @@ public class Lib {
             bufferedReader.close();
             tempStr = tempBuffer.toString().toLowerCase();
             resultStr = tempStr.split("[^a-zA-Z0-9]+");
-            
 
+            for (String s : resultStr) {
+                if (s.matches("[a-z]{4}[a-z0-9]*")) {
+                    totalCount++;
+                }
+            }
+
+            bufferedWriter.write("Words:"+totalCount+'\n');
         } catch (Exception e) {
             e.printStackTrace();
         }
