@@ -3,15 +3,10 @@ import java.util.*;
 
 public class WordCount {
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-
 //      "E:/JavaTest/input.txt E:/JavaTest/output.txt";
-
-        String inout=scan.nextLine();
-        StringTokenizer st = new StringTokenizer(inout);
-
-        String filename = st.nextToken();
-        String output = st.nextToken();
+        Scanner scan = new Scanner(System.in);
+        String filename = scan.next();
+        String output = scan.next();
 
         String content;//文本内容
         Map<String, Integer> map;
