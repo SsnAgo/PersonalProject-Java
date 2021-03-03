@@ -7,7 +7,10 @@ public class Lib {
     final public String TOP_WORD = "word";
 
     private int CHARACTERS_NUM = 0;
+    private int WORDS_NUM = 0;
+    private int LINES_NUM = 0;
 
+    final private String LINE_REGEX = "\\s*";
 
     public String returnCharacters(String filePath)
     {
@@ -41,6 +44,7 @@ public class Lib {
         byte[] stream = new byte[20*1024];
         int len = stream.length;
         FileInputStream fileInputStream = null;
+        String result = "";
         try {
             fileInputStream = new FileInputStream(filePath);
             while ( (bytes = fileInputStream.read(stream,0,len)) != -1){
@@ -57,18 +61,44 @@ public class Lib {
                 e.printStackTrace();
             }
         }
-
-        System.out.println(CHARACTERS_NUM);
-
-        return "test";
+        result = CHARACTER + CHARACTERS_NUM;
+        System.out.println(result);
+        return result;
     }
+
     public String returnWords(String filePath)
     {
-        return "test";
+        String result = "";
+        return result;
     }
     public String returnLines(String filePath)
     {
-        return "test";
+        String result = "";
+        int line = 0;
+        try {
+            FileInputStream fileInputStream = new FileInputStream(filePath);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fileInputStream));
+            String temp = "";
+
+            try {
+                //从BufferReader中读取下一行
+                while ((temp = br.readLine()) != null){
+                    //读取到的文件信息
+                    temp.replaceAll(LINE_REGEX,"");
+                    if (temp.length()!=0){
+                        LINES_NUM ++;
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        result = LINE + LINES_NUM;
+        System.out.println(result);
+        return result;
     }
     public void createOutput(String filePath){
 
