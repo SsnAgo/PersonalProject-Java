@@ -47,8 +47,15 @@ public class Lib
 			String str;
 			while((str=bfr.readLine())!=null)
 			{
-				if (!str.equals("")) 
-					count++;
+				char[] c=str.toCharArray();
+				for(int i=0;i<c.length;i++) 
+				{
+					if (c[i]!='\n' && c[i]!='\r' && c[i]!='\t') 
+					{
+						count++;
+						break;
+					}
+				}
 			}
 			bfr.close();
 			fr.close();		
