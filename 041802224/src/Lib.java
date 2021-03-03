@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import static java.util.stream.Collectors.toMap;
 
 public class Lib {
@@ -13,6 +12,9 @@ public class Lib {
     }
     public  String openFilePath = "D:\\IDEA\\PersonalProject-Java\\input.txt" ;
     public  String writeFilePath = "D:\\IDEA\\PersonalProject-Java\\output.txt" ;
+    public String file;
+    public String wordPattern = "^([A-Za-z]{4}[A-Za-z]*[0-9]*)(\\D*)";
+    public String linePattern = "\\s*";
     public Map<String,Integer> hashMap;
     public int countLines = 0;
     public int countChars = 0;
@@ -28,17 +30,17 @@ public class Lib {
 
     public void write() {
         try {
-            getChars(readFile());
+            getChars();
             getLines();
             getWords();
-            writeFile(writeFilePath,"test");
+            writeFile(writeFilePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     //以StringBuilder读取文件
-    public String readFile() throws IOException {
+    public void readFile() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
         StringBuilder builder = new StringBuilder();
         int c;
@@ -48,19 +50,17 @@ public class Lib {
             }
         }
         reader.close();
-        return builder.toString();
+        file = builder.toString();
     }
 
     //单词数统计
     public void getWords() throws IOException {
         Scanner scanner=new Scanner(new File(openFilePath));
-
         hashMap=new HashMap<>();
         while(scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] words = line.split("\\W+");//字母数字下划线
-            String pattern = "^([A-Za-z]{4}[A-Za-z]*[0-9]*)(\\D*)";
-            Pattern r = Pattern.compile(pattern);
+            Pattern r = Pattern.compile(wordPattern);
             Set<String> wordSet = hashMap.keySet();
             for (int i = 0; i < words.length; i++) {
                 Matcher m = r.matcher(words[i]);
@@ -70,8 +70,10 @@ public class Lib {
                         Integer num = hashMap.get(str);
                         num++;
                         hashMap.put(str, num);
+                        countWords++;
                     } else {
                         hashMap.put(str, 1);
+                        countWords++;
                     }
                 }
             }
@@ -90,32 +92,23 @@ public class Lib {
 
     //行数统计
     public void getLines() throws IOException {
-//        BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
-//        while(reader.readLine() != null)
-//        {
-//            countLines++;
-//        }
-//        reader.close();
-        String pattern = "(^|\\n)\\s*\\S+";
-        String line;
         BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
-        while((line = reader.readLine())!= null)
+        String line;
+        while( (line = reader.readLine()) != null )
         {
-            line = line.trim();
-            if(line.matches(pattern)){
+            if(!line.matches(linePattern))
                 countLines++;
-            }
         }
         reader.close();
     }
 
     //计数写入output.txt
-    public void writeFile(String path, String content){
+    public void writeFile(String path){
         File file = new File(path);
         try{
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(content);
             writer.write("characters: " + countChars + "\n");
+            writer.write("words: " + countWords + "\n");
             writer.write("lines: " + countLines + "\n");
             for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
                 Integer integer = entry.getValue();
@@ -140,7 +133,7 @@ public class Lib {
             System.out.println("文件打开失败");
         }
     }
-    public void getChars(String str){
-        countChars = str.length();
+    public void getChars(){
+        countChars = file.length();
     }
 }
