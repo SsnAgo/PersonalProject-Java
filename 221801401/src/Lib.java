@@ -30,19 +30,13 @@ public class Lib {
      * */
     public static String readFromFile(String filePath) {
         int temp;
+        //创建输入流
         BufferedReader br = null;
         StringBuilder builder = null;
         try {
             br = new BufferedReader(new FileReader(filePath));
             builder = new StringBuilder();
-            //按行读入
-            /*这种方法没有考虑到最后一行仅有'\n'的情况
-            while((str = br.readLine()) != null) {
-                builder.append(str + "\n");
-            }
-            //删除最后一个'\n'
-            builder.deleteCharAt(builder.length()-1);*/
-            //按字符读入
+            //按字符读入文件数据
             while((temp = br.read()) != -1) {
                 builder.append((char)temp);
             }
@@ -97,11 +91,13 @@ public class Lib {
      * @return count
      * */
     public static int getWordsCount(String str) {
-        //单词数的统计量
         int count = 0;
+        //用正则表达式匹配分隔符分割字符串
         String[] strs = str.split(BREAK_RE);
+        //遍历字符串数组，匹配符合正则表达式的单词
         for(int i = 0; i < strs.length; i++) {
             if(strs[i].matches(WORDS_RE)) {
+                //忽略大小写，添加单词到Map中
                 String temp = strs[i].toLowerCase();
                 if(wordsMap.containsKey(temp)) {
                     int num = wordsMap.get(temp);
@@ -128,6 +124,7 @@ public class Lib {
         //通过比较器实现排序
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>(){
             public int compare(Entry<String, Integer> m1, Entry<String, Integer> m2) {
+                //按照字典序以及value的值排序
                 if(m1.getValue().equals(m2.getValue())) {
                     return m1.getKey().compareTo(m2.getKey());
                 }else return m2.getValue()-m1.getValue();
