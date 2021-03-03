@@ -4,5 +4,6 @@ public class WordCount {
         System.out.println(Lib.getCharactersCount(Lib.readFormTxt("D:/123.txt")));
         System.out.println(Lib.getWordsCount(Lib.readFormTxt("D:/123.txt")));
         System.out.println(Lib.getLineCount(Lib.readFormTxt("D:/123.txt")));
+        System.out.println(Lib.getWordFrequency(Lib.readFormTxt("D:/123.txt")));
     }
 }
