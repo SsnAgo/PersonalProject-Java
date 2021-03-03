@@ -9,11 +9,13 @@ public class Lib
     private String inFileName;
     private String outFileName;
     private String fileContent;//存放输入文件内容的字符串
+    private ArrayList<String> wordList;//存放文件中筛选出的有效单词
 
     public Lib(String inFileName,String outFileName)
     {
         this.inFileName = inFileName;
         this.outFileName = outFileName;
+        wordList = new ArrayList<>();
     }
 
     public String getInFileName()
@@ -84,6 +86,7 @@ public class Lib
              while ((line = reader.readLine()) != null)
              {
                  sb.append(line);
+                 sb.append(" ");
              }
              fileContent = sb.toString().toLowerCase();//将内容都转换成小写，方便后面统计各单词数量
          }
@@ -92,7 +95,7 @@ public class Lib
     /* 判断一个字符串是否为单词 */
     public boolean isWord(String str)
     {
-        Pattern pattern = Pattern.compile("[a-z]{4}([a-zA-Z0-9])*");
+        Pattern pattern = Pattern.compile("[a-z]{4}([a-z0-9])*");
         Matcher matcher = pattern.matcher(str);
         if (matcher.matches())
         {
@@ -107,11 +110,12 @@ public class Lib
         int wordNum = 0;
         TurnFileToString();
         Writer writer = getFileWriter();
-        String[] wordArray = fileContent.split("[^0-9a-zA-Z]+");
-        for (int i = 0;i < wordArray.length;i++)
+        String[] toJudgeWords = fileContent.split("[^0-9a-zA-Z]+");//存放分隔开后的各个字符串，等待判断是否为单词
+        for (int i = 0;i < toJudgeWords.length;i++)
         {
-            if (isWord(wordArray[i]))
+            if (isWord(toJudgeWords[i]))
             {
+                wordList.add(toJudgeWords[i]);//将符合条件的单词放入单词列表中，便于接下来统计词频
                 wordNum++;
             }
         }
@@ -120,11 +124,46 @@ public class Lib
     }
 
     /* 统计文件的各单词的出现次数，输出频率最高的10个 */
-    public void getTopWords()
+    public void getTopWords() throws IOException
     {
         Map<String, Integer> wordMap = new HashMap<>();
         Set<String> wordSet = wordMap.keySet();
-
+        for (int i = 0;i < wordList.size();i++)
+        {
+            String str = wordList.get(i);
+            if (wordSet.contains(str))//假如该单词在map里已录入,直接更新它对应的value,否则录入map
+            {
+                int num = wordMap.get(str) + 1;
+                wordMap.put(str,num);
+            }
+            else wordMap.put(str,1);
+        }
+        /* 录入之后排序，频率相同的单词，优先输出字典序靠前的单词 */
+        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(wordMap.entrySet());
+        entryList.sort(new Comparator<Map.Entry<String, Integer>>()
+        {
+            @Override
+            public int compare(Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2)
+            {
+                if (e1.getValue().equals(e2.getValue()))
+                {
+                    return e1.getKey().compareTo(e2.getKey());
+                }
+                else return e2.getValue().compareTo(e1.getValue());
+            }
+        });
+        /* 输出 */
+        Writer writer = getFileWriter();
+        int cnt = 0;
+        for (Map.Entry<String, Integer> entry : wordMap.entrySet())
+        {
+            if (cnt == 10) break;
+            String word = entry.getKey();
+            Integer number = entry.getValue();
+            writer.write(word + ": " + number + "\n");
+            cnt++;
+        }
+        writer.close();
     }
 
 
