@@ -30,7 +30,7 @@ public class WordCount {
 		File file = new File(outputFile);
 		try {
 			file.createNewFile();
-			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file.getPath()), "utf-8"));
 			writer.append("characters: " + coreCount.getCharCount() + "\n");
 			writer.append("words: " + coreCount.getWordCount() + "\n");
 			writer.append("lines: " + coreCount.getLineCount() + "\n");
