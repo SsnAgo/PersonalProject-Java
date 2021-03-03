@@ -2,17 +2,17 @@
 
 
 ---
-1、缩进
+###缩进
 缩进采用4个空格，禁止使用tab字符。
-```java
+```
 public static void main(String args[]) {
 	//缩进4个空格
 	String say = "hello";
 }
 ```
- 2、变量命名
+###变量命名
 使用下划线分割单词
-```java
+```
 File new_file = new File（……）;
 ```
 ###每行最多字符数
