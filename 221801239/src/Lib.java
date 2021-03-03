@@ -26,5 +26,22 @@ public class Lib {
 
         return bufferedWriter;
     }
+
+    public static void characterCount(String inputFile,BufferedWriter bufferedWriter){
+        BufferedReader bufferedReader = Lib.openInputFile(inputFile);
+        int count = 0;
+        int temp;
+
+        try {
+            while((temp = bufferedReader.read()) != -1){
+                count ++;
+            }
+
+            bufferedWriter.write("characters:"+count+'\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
