@@ -116,19 +116,25 @@ public class Lib {
 
     //频率前十的单词输出到output里面
     public static void printWords(Map<String, Integer> map, Writer writer) throws IOException {
-
+        int i = 0;
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
+            if (i++ >= 9) {//打印频率前十的单词
+                break;
+            }
+        }
     }
 
     //统计单词的出现次数,输出频率最高的10个。
     public static Map wordNum(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
         Writer writer = openOutputFile(outputFile);
-        int temp=0;
+        int temp;
         String word = "";
-        Map<String, Integer> words = new HashMap<String, Integer>();//用于放置单词和其出现次数
+        Map<String, Integer> words = new HashMap<String, Integer>();
         while ((temp = reader.read()) != -1) {
-            while (isValidChar(temp)) {//转为小写
-                if (temp >= 'a' && temp <= 'z') {
+            while (isValidChar(temp)) {
+                if (temp >= 65 && temp <= 90) {
                     temp += 32;
                 }
                 word += (char) temp;
@@ -138,19 +144,19 @@ public class Lib {
                 temp = reader.read();
             }
             char[] chars = word.toCharArray();
-            if (isValidWord(chars)) {//如果单词合法，则单词计数+1
+            if (isValidWord(chars)) {//如果单词合法，则单词总数++
                 if (words.get(word) == null) {
                     words.put(word, Integer.valueOf(1));
                 } else {
                     words.put(word, Integer.valueOf(words.get(word).intValue() + 1));
                 }
             }
-            if (temp >= 'a' && temp <= 'z') {
+            if (temp >= 65 && temp <= 90) {
                 temp += 32;
             }
             word = "" + (char) temp;
         }
-        Map<String, Integer> sortedWords = words.entrySet().stream()//根据出现次数排序
+        Map<String, Integer> sortedWords = words.entrySet().stream()
                 .sorted(new Comparator<Map.Entry<String, Integer>>() {
 
                     @Override
