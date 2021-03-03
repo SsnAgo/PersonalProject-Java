@@ -64,9 +64,30 @@ public class Lib {
         return num;
     }
 
-    //统计单词总数,至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割，不区分大小写
+    //统计单词总数,至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割(空格，非字母数字符号)，不区分大小写
     public static int wordsCount(String inputFile, String outputFile) throws IOException {
-
+        Reader reader = openInputFile(inputFile);
+        Writer writer = openOutputFile(outputFile);
+        int num = 0,temp=0;
+        String word = "";
+        while ((temp = reader.read()) != -1) {
+            while (isValidChar(temp)) {
+                word += (char) temp;
+                temp = reader.read();
+            }
+            while (!isValidChar(temp) && temp != -1) {//去除所有空白字符和分隔符
+                temp = reader.read();
+            }
+            char[] chars = word.toCharArray();
+            if (isValidWord(chars)) {//如果单词合法，则单词总数++
+                num++;
+            }
+            word = "" + (char) temp;
+        }
+        writer.append("words: " + num + '\n');
+        writer.close();
+        reader.close();
+        return num;
     }
 
     //统计行数(任何包含非空白字符的行)
