@@ -85,6 +85,7 @@ public class Lib {
             }
 
             bufferedWriter.write("Words:"+totalCount+'\n');
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,7 +94,8 @@ public class Lib {
 
     public static void printWord(BufferedWriter bufferedWriter,String [] resultStr){
         Map<String , Integer> resultMap=new TreeMap<String, Integer>();
-        int count = 0 , num=1;
+        int count = 0;
+        int num = 1;
 
         for (String s : resultStr) {
             if (s.matches("[a-z]{4}[a-z0-9]*")) {
@@ -111,10 +113,11 @@ public class Lib {
         //按降序排序
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
             public int compare(Map.Entry<String, Integer> first, Map.Entry<String, Integer> second) {
-                //返回两个单词出现次数较多的那个单词的出现次数
                 if(second.getValue().compareTo(first.getValue()) == 0) {
+                    //如果单词频数相同，返回字典序较大的单词
                     return second.getKey().compareTo(first.getKey());
                 }
+                //返回两个单词出现次数较多的那个单词的出现次数
                 return second.getValue().compareTo(first.getValue());
             }
         });
@@ -130,5 +133,5 @@ public class Lib {
             e.printStackTrace();
         }
     }
-}
 
+}
