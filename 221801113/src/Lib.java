@@ -31,17 +31,15 @@ public class Lib {
     }
 
     /**
-     * @description      写入对应文件
-     * @param OutputPath 写入文件的路径
+     * @description      获取写入文件的字符串
      * @param charsNum   读入文件中的字符总数
      * @param wordsNum   读入文件中的单词总数
      * @param linesNum   读入文件中的有效行数
      * @param wordMap    存放单词个数的hashMap
-     * @throws IOException
+     * @return           写入文件所需的字符串
      */
-    public static void writeFile(String OutputPath, int charsNum, int wordsNum, int linesNum
-            , HashMap<String, Integer> wordMap) throws IOException {
-        BufferedWriter writer = null;
+    public static String getResStr(int charsNum, int wordsNum, int linesNum
+            , HashMap<String, Integer> wordMap) {
         int cnt = 0;
         StringBuilder str = new StringBuilder("characters: " + charsNum + '\n' + "words: " + wordsNum + '\n'
                 + "lines: " + linesNum + '\n');
@@ -53,16 +51,34 @@ public class Lib {
             if (cnt >= 10) break;
         }
 
+        return str.toString();
+    }
+
+    /**
+     * @description      写入文件
+     * @param filePath   写入文件的路径
+     * @param charsNum   读入文件中的字符总数
+     * @param wordsNum   读入文件中的单词总数
+     * @param linesNum   读入文件中的有效行数
+     * @param wordMap    存放单词个数的hashMap
+     */
+    public static void writeFile(String filePath, int charsNum, int wordsNum, int linesNum
+            , HashMap<String, Integer> wordMap) throws IOException {
+        String str = getResStr(charsNum, wordsNum, linesNum, wordMap);
+        BufferedWriter writer = null;
+
         try {
-            writer = new BufferedWriter(new FileWriter(OutputPath));
+            writer = new BufferedWriter(new FileWriter(filePath));
             writer.write(str.toString());
         } catch (FileNotFoundException e) {
-            System.out.println("未找到需写入文件：" + OutputPath);
+            System.out.println("未找到需写入文件：" + filePath);
             e.printStackTrace();
         } finally {
             writer.close();
         }
     }
+
+
 
     /**
      * @description 计算字符数
