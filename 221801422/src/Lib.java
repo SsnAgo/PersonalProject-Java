@@ -74,4 +74,23 @@ public class Lib
         }
         return count;
     }
+
+    /**
+     * 统计字符数 判断是否为ASCII码
+     * @param str
+     * @return 
+     */
+    public static int getCharCount(String str)
+    {
+        int count = 0;
+        char[] ch = str.toCharArray();
+        for(int i = 0; i < ch.length; i++)
+        {
+            if(ch[i] >= 0 && ch[i] <= 127)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
 }
