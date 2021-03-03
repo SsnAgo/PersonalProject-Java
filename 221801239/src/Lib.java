@@ -60,5 +60,31 @@ public class Lib {
             e.printStackTrace();
         }
     }
+
+    public static String [] wordCount(String inputFile,BufferedWriter bufferedWriter){
+        BufferedReader bufferedReader = Lib.openInputFile(inputFile);
+        String originStr = null;
+        String tempStr = null;
+        String [] resultStr = null;
+        StringBuffer tempBuffer = new StringBuffer();
+        int totalCount = 0;
+
+        try {
+            while((originStr = bufferedReader.readLine())!=null){
+                tempBuffer.append(originStr+" ");
+            }
+
+            bufferedReader.close();
+            tempStr = tempBuffer.toString().toLowerCase();
+            resultStr = tempStr.split("[^a-zA-Z0-9]+");
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultStr;
+    }
+
+
 }
 
