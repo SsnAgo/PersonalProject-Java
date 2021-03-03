@@ -33,6 +33,7 @@ public class WordCount {
                 break;
             }
         }
+        bufferedWriter.write("\n"+words);
 
         bufferedWriter.flush();
 
