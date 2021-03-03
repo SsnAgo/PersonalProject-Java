@@ -37,7 +37,7 @@ public class Lib {
 		BufferedReader input = new BufferedReader(new FileReader(file));
         String line = null;
         while ((line = input.readLine()) != null) {
-            if (line.trim().equals("")) 
+            if (line.trim().equals("")) //该行为空行的情况
             	continue;
             else
             	linenum++;
@@ -58,7 +58,7 @@ public class Lib {
 		String line = null;
 		try {
 			while((line = bufferedReader.readLine()) != null) {
-				stringBuffer = stringBuffer.append(line+' ');
+				stringBuffer = stringBuffer.append(line+' ');//加上空格以分隔单词
 			}
 		} 
 		catch(IOException e) {
@@ -70,20 +70,20 @@ public class Lib {
 		catch(IOException e1) {
 			e1.printStackTrace();
 		}
-		String sb=stringBuffer.toString().toLowerCase();
+		String sb=stringBuffer.toString().toLowerCase();//将单词全部统一转为小写
 		return sb;
 	}
 		
 	//分隔每个单词
 	public static String[] splitLine(String str){
-		String[] linewords=str.split("\\W+");
+		String[] linewords=str.split("\\W+");//匹配非单词字符后分隔
 		return linewords;
 	}
 		
 	//判断是否为合法单词，统计合法单词个数
 	public static int countWords(String[] linewords) {
 		int cnt=0;
-		Pattern pattern = Pattern.compile("[a-zA-Z]{4}([a-zA-Z0-9])*");
+		Pattern pattern = Pattern.compile("[a-zA-Z]{4}([a-zA-Z0-9])*");//判断是否为合法单词
 		for(int i=0;i<linewords.length;i++) {
 			Matcher matcher = pattern.matcher(linewords[i]);
 			if(matcher.find()) {
@@ -103,14 +103,13 @@ public class Lib {
 			Matcher matcher = pattern.matcher(linewords[i]);
 			if(matcher.find()) {
 				String word=matcher.group();
-				//如果已经有这个单词了，
-				if(wordSet.contains(word)) {
-					Integer number=hashMap.get(word);
+				if(wordSet.contains(word)) {//如果已经有这个单词了
+					Integer number=hashMap.get(word);//从map中找到该单词value++
 					number++;
 					hashMap.put(word, number);
 				}
 				else {
-					hashMap.put(word, 1);
+					hashMap.put(word, 1);//放到map中，value设为1
 				}
 			}
 		}
