@@ -10,9 +10,14 @@ public class WordCount {
     private static int wordsNum;
     private static String textStr;
 
-    public WordCount(String fileName) throws IOException {
+    /**
+     * @description    构造函数
+     * @param filePath 读入文件的文件路径
+     * @throws IOException
+     */
+    public WordCount(String filePath) throws IOException {
         wordMap = new HashMap<>();
-        textStr = Lib.readFile(fileName);
+        textStr = Lib.readFile(filePath);
         charsNum = Lib.countCharacters(textStr);
         linesNum = Lib.countLines(textStr);
         wordsNum = Lib.countWords(textStr, wordMap);

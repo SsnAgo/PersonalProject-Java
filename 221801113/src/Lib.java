@@ -4,6 +4,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lib {
+    /**
+     * @description     读取对应文件
+     * @param filePath  文件路径
+     * @return          文件中字符拼成的字符串
+     * @throws IOException
+     */
     public static String readFile(String filePath) throws IOException {
         BufferedReader reader = null;
         StringBuilder str = new StringBuilder();
@@ -22,6 +28,15 @@ public class Lib {
         return str.toString();
     }
 
+    /**
+     * @description      写入对应文件
+     * @param OutputPath 写入文件的路径
+     * @param charsNum   读入文件中的字符总数
+     * @param wordsNum   读入文件中的单词总数
+     * @param linesNum   读入文件中的有效行数
+     * @param wordMap    存放单词个数的hashMap
+     * @throws IOException
+     */
     public static void writeFile(String OutputPath, int charsNum, int wordsNum, int linesNum
             , HashMap<String, Integer> wordMap) throws IOException {
         int cnt = 0;
@@ -45,10 +60,20 @@ public class Lib {
         }
     }
 
+    /**
+     * @description 计算字符数
+     * @param str   文件字符串
+     * @return      字符数
+     */
     public static int countCharacters(String str) {
         return str.length();
     }
 
+    /**
+     * @description 统计有效行数
+     * @param str   文件字符串
+     * @return      有效行数
+     */
     public static int countLines(String str) {
         int cnt = 0;
         String[] strLine = str.split("\r\n|\n");
@@ -60,6 +85,12 @@ public class Lib {
         return cnt;
     }
 
+    /**
+     * @description   统计单词数，并将各个单词存入hashMap
+     * @param str     文件字符串
+     * @param wordMap 用来存放单词的hashMap
+     * @return        单词数
+     */
     public static int countWords(String str, HashMap<String, Integer> wordMap) {
         int cnt = 0;
         Pattern pattern = Pattern.compile("^[a-z]{4}[a-z0-9]*");
@@ -81,6 +112,11 @@ public class Lib {
         return cnt;
     }
 
+    /**
+     * @description   对wordMap里存放的单词按次数进行排序
+     * @param wordMap 存放单词的hashMap
+     * @return        排序完的list
+     */
     public static List<HashMap.Entry<String, Integer>> getSortedList(HashMap<String, Integer> wordMap) {
         List<HashMap.Entry<String, Integer>> list =
                 new ArrayList<HashMap.Entry<String, Integer>>(wordMap.entrySet());
