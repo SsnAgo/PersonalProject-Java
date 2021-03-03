@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Lib {
     private String inputFile;
@@ -6,6 +8,7 @@ public class Lib {
     private String content;
     private int charsNum;
     private int wordsNum;
+    private int linesNum;
 
     /**
      * 构造函数
@@ -39,8 +42,9 @@ public class Lib {
             e.printStackTrace();
         }
         finally {
-            if (reader != null)
+            if (reader != null) {
                 reader.close();
+            }
         }
         content = builder.toString();
     }
@@ -51,19 +55,22 @@ public class Lib {
     public void writeFile() throws IOException {
         countCharsNum();
         countWordsNum();
+        countLinesNum();
         BufferedWriter writer = null;
         try{
             writer = new BufferedWriter(new FileWriter(outputFile));
             writer.write("characters: " + charsNum + "\n");
             writer.write("words: " + wordsNum + "\n");
+            writer.write("lines: " + linesNum + "\n");
             writer.write(content);
         }
         catch (IOException e){
             e.printStackTrace();
         }
         finally {
-            if (writer != null)
+            if (writer != null) {
                 writer.close();
+            }
         }
     }
 
@@ -81,8 +88,21 @@ public class Lib {
         wordsNum = 0;
         String[] words = content.split("[^a-zA-Z0-9]+");
         for (int i = 0; i < words.length; i++){
-            if (words[i].matches("[a-zA-Z]{4,}[a-zA-Z0-9]*"))
+            if (words[i].matches("[a-zA-Z]{4,}[a-zA-Z0-9]*")) {
                 wordsNum++;
+            }
+        }
+    }
+
+    /**
+     * 统计非空行数
+     */
+    public void countLinesNum(){
+        linesNum = 0;
+        Pattern linePattern = Pattern.compile("(^|\n)\\s*\\S+");
+        Matcher matcher = linePattern.matcher(content);
+        while (matcher.find()){
+            linesNum++;
         }
     }
 }
