@@ -85,12 +85,11 @@ public class Lib {
                wordMap.put(word,count);
            }
         }
-        //对单词进行排序
+        //sortWord
        list = new ArrayList<Map.Entry<String,Integer>>(wordMap.entrySet());
        Collections.sort(list, new Comparator<Map.Entry<String,Integer>>() {
            @Override
            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-               //频率相同，则按字典序排序
                if (o2.getValue()==o1.getValue()){
                    return o1.getKey().compareTo(o2.getKey());
                }
