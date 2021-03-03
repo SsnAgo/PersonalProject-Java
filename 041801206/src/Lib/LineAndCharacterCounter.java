@@ -29,7 +29,6 @@ public class LineAndCharacterCounter extends Thread {
             char[] chars=new char[1000];
             int whileCount=0;
             int remain=0;
-
             while ((in.read(chars)) != -1) {
                 remain=0;
                 for (int i=0;i<chars.length;i++){
@@ -41,8 +40,11 @@ public class LineAndCharacterCounter extends Thread {
                 }
                 whileCount++;
             }
+            charNum=(whileCount-1)*1000+remain-lineNum;
+            if(lineNum!=0){
+                lineNum+=1;
+            }
 
-            charNum=(whileCount-1)*1000+remain;
             System.out.println(lineNum);
             System.out.println("sum:"+charNum);
             System.out.println((int)chars[6]);
