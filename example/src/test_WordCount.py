@@ -52,7 +52,7 @@ class TestWordCount(unittest.TestCase):
         :return:
         '''
         warnings.simplefilter('ignore', ResourceWarning)
-        str = "hello\nworld\t\nwwwwI have! a \t \r brother? \naaaaa\n"
+        str = "hello\nworld\t\nwwwwI \thave! a \t \r brother? \naaaaa\n"
         filename = "test_count_line.txt"
         dir = os.getcwd()+"/"+filename
         with open(dir,"w",encoding="utf-8") as f:
