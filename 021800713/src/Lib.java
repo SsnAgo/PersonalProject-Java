@@ -50,8 +50,18 @@ public class Lib {
         }
     }
 
-    //统计字符数
+    //统计字符数,输出到对应output文件
     public static int charactersCount(String inputFile, String outputFile) throws IOException {
+        Reader reader = openInputFile(inputFile);
+        Writer writer = new FileWriter(outputFile);
+        int num = 0,temp=0;
+        while ((temp = reader.read()) != -1) {
+            num++;
+        }
+        writer.write("characters: " + num + '\n');
+        writer.close();
+        reader.close();
+        return num;
     }
 
     //统计单词总数,至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割，不区分大小写
