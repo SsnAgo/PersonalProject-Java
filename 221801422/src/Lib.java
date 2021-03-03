@@ -67,6 +67,7 @@ public class Lib
     public static int getLineCount(String str)
     {
         int count = 0;
+        //匹配正则表达式
         Matcher matcher = Pattern.compile(LINE_RE).matcher(str);
         while(matcher.find())
         {
@@ -95,12 +96,13 @@ public class Lib
     }
 
     /**
-     * 统计单词数
+     * 统计单词数 在读取单词的过程中 就存储了单词和出现的次数
      * @param str
      * @return
      */
     public static int getWordCount(String str)
     {
+        //count为单词数
         int count = 0;
         //用split拆开字符串 strs字符串数组将保留拆开的单词
         String[] strs = str.split(SEPARATOR_RE);
@@ -109,9 +111,46 @@ public class Lib
             //匹配成功单词数加1
             if(strs[i].matches(WORD_RE))
             {
+                //单词不区分大小写 将单词存到Map中供排序使用
+                String temp = strs[i].toLowerCase();
+                if(wordsMap.containsKey(temp))
+                {
+                    //通过get函数获取当前单词的已出现次数
+                    int num = wordsMap.get(temp);
+                    wordsMap.put(temp, 1 + num);
+                }
+                //如果没有符合该单词的 将该单词的已出现次数定为1
+                else
+                {
+                    wordsMap.put(temp, 1);
+                }
                 count++;
             }
         }
         return count;
+    }
+
+    /**
+     * 比较器实现排序
+     * @return
+     */
+    public static List<Map.Entry<String, Integer>> sortHashmap()
+    {
+        List<Map.Entry<String, Integer>> list;
+        list = new ArrayList<Map.Entry<String, Integer>>(wordsMap.entrySet());
+        //通过比较器来实现排序
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>()
+        {
+            public int compare(Entry<String, Integer> m1, Entry<String, Integer> m2)
+            {
+                //按照字典序和value排序
+                if(m1.getValue().equals(m2.getValue()))
+                {
+                    return m1.getKey().compareTo(m2.getKey());
+                }
+                else return m2.getValue()-m1.getValue();
+            }
+        });
+        return list;
     }
 }
