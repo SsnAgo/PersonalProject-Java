@@ -6,7 +6,7 @@ public class Lib {
     static Map<String,Integer> wordsMap=new HashMap<>();
 
 
-    public static String GetCharacters(String filePath){
+    public static String getCharacters(String filePath){
 
         FileReader fileReader=null;
         BufferedReader bufferedReader=null;
@@ -38,7 +38,7 @@ public class Lib {
         return str.toString();
     }
 
-    public static int GetCharactersNum(String str){
+    public static int getCharactersNum(String str){
 
         int num=0;
 
@@ -52,12 +52,12 @@ public class Lib {
         return num;
     }
 
-    static int GetWordsNum(String str){
-
+    static int getWordsNum(String str){
 
         int num=0;
         String[] temp=str.split("\\s+");
         String regexs="^[a-zA-Z]{4,}.*";
+
         for(int i=0;i<temp.length;i++){
             if(temp[i].matches(regexs)){
                 num++;
@@ -74,7 +74,7 @@ public class Lib {
         return num;
     }
 
-    public List<Map.Entry<String,Integer>> SortMap(){
+    public List<Map.Entry<String,Integer>> sortMap(){
 
         List<Map.Entry<String,Integer>> wordList= new ArrayList<>(wordsMap.entrySet());
 
@@ -116,7 +116,7 @@ public class Lib {
         return num;
     }*/
 
-    public static int GetLinesNum(String filePath){
+    public static int getLinesNum(String filePath){
 
         int num=0;
         FileReader fileReader=null;
@@ -132,7 +132,7 @@ public class Lib {
                 }
             }
 
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e){
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
