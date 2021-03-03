@@ -118,7 +118,7 @@ public class Lib {
                 return second.getValue().compareTo(first.getValue());
             }
         });
-        
+
         try {
             for (Map.Entry<String, Integer> map : list) {
                 if (num <= 10) {
