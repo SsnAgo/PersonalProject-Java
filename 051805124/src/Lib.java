@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class Lib {
 
     private static Lib instance;
+    Map map = new TreeMap<String ,Integer>();
 
     public static Lib getInstance() {
         if (instance == null)
@@ -19,21 +20,14 @@ public class Lib {
     }
 
     public String readTxt(String filePath){
-        StringBuilder content = new StringBuilder();
+        StringBuffer content = new StringBuffer();
         try {
-            String encoding="utf8";
-            File file=new File(filePath);
-            if(file.isFile() && file.exists()){ //判断文件是否存在
-                InputStreamReader read = new InputStreamReader(
-                        new FileInputStream(file),encoding);//考虑到编码格式
-                BufferedReader bufferedReader = new BufferedReader(read);
-                String lineTxt;
-                while((lineTxt = bufferedReader.readLine()) != null){
-                    content.append(lineTxt).append("\n");
-                }
-                read.close();
-            }else{
-                System.out.println("找不到指定的文件");
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
+
+            char[] buff = new char[1024];
+            int len = -1;
+            while( (len = br.read(buff)) != -1 ){
+                content.append(new String(buff, 0, len));
             }
         } catch (Exception e) {
             System.out.println("读取文件内容出错");
@@ -59,10 +53,10 @@ public class Lib {
     }
 
     public int getCharTotalCount(String content){
-        char[] arr = content.toCharArray();
-        return arr.length;
+        return content.length();
     }
 
+    @SuppressWarnings("unchecked")
     public int getWordTotalCount(String content){
         int wordNum = 0;
         Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
@@ -74,6 +68,12 @@ public class Lib {
             Matcher m = wordPattern.matcher(str);
             if (m.matches()){
                 wordNum++;
+                String t = m.group(0).toLowerCase();
+                if (map.containsKey(t)){
+                    map.put(t,(Integer)map.get(t)+1);
+                }else{
+                    map.put(t,1);
+                }
             }
         }
         return wordNum;
@@ -94,21 +94,6 @@ public class Lib {
 
     @SuppressWarnings("unchecked")
     public Map<String,Integer> getWordNum(String content){
-        Map map = new TreeMap<String ,Integer>();
-        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
-        Pattern wordPattern = Pattern.compile("^([a-z]|[A-Z]){4}([a-z]|[A-Z]|[0-9])*");
-        String[] arr = pattern.split(content);
-        for(String str : arr){
-            Matcher m = wordPattern.matcher(str);
-            if (m.matches()){
-                String t = m.group(0).toLowerCase();
-                if (map.containsKey(t)){
-                    map.put(t,(Integer)map.get(t)+1);
-                }else{
-                    map.put(t,1);
-                }
-            }
-        }
         return sortMapByValue(map);
     }
 
