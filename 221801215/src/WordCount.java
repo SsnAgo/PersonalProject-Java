@@ -13,7 +13,11 @@ class  WordCount{
      * @param args the input arguments
      */
     public static void main(String[] args) {
-
+        if (args.length == 2) {
+            processFile(new File(args[0]),new File(args[1]));
+        }else {
+            System.out.println(Config.COMMANDLINE_HELP);
+        }
     }
 
     /**

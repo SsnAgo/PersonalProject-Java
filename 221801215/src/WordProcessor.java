@@ -157,19 +157,6 @@ public class WordProcessor {
     }
 
     /**
-     * 获取传入单词已统计总数
-     * <p>
-     * 统计的单词不区分大小写
-     *
-     * @param word the word 要获取频数的单词<em>字母小写</em>
-     * @return the word count 单词频数
-     */
-    public int getWordCount(String word) {
-        return wordSumMap.getOrDefault(word, 0);
-    }
-
-
-    /**
      * 获取已统计单词总数
      *
      * @return the word sum 当前已统计单词总数

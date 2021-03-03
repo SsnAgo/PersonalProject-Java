@@ -1,3 +1,5 @@
+import com.sun.xml.internal.ws.util.StringUtils;
+
 /**
  * 计算有效行类
  */
@@ -35,8 +37,7 @@ public class EffectiveLineCounter {
         }
     }
 
-    private boolean isEffectiveLine(){
-
-        return !(lineContent.toString().isBlank());
+    public boolean isEffectiveLine(){
+        return (lineContent.toString().trim().length() != 0);
     }
 }

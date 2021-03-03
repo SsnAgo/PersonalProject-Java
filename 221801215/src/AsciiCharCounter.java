@@ -25,8 +25,12 @@ public class AsciiCharCounter {
         }catch (FileNotFoundException fileNotFoundException) {
             System.out.println("未找到文件");
             fileNotFoundException.printStackTrace();
-        }catch (Exception exception){
-            exception.printStackTrace();
+        }catch (UnsupportedEncodingException unsupportedEncodingException) {
+            System.out.println(Config.UNSUPPORTED_ENCODING_EXCEPTION_TIP);
+            unsupportedEncodingException.printStackTrace();
+        } catch (IOException ioException) {
+            System.out.println(Config.IO_EXCEPTION_TIP);
+            ioException.printStackTrace();
         }
         return asciiCharNumber;
     }
