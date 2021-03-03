@@ -10,7 +10,7 @@ public class WordCount{
     public int validLine;       //有效行
     public long validWord;       //有效单词
     private long characterNum;    //字符数
-    public Map<String,Long> mapWord=new HashMap<String, Long>();//用于存单词
+    public Map<String,Long> mapWord=new Hashtable<>();//用于存单词
     private static Lib.FileUtil fileUtil;
 
 
@@ -18,11 +18,12 @@ public class WordCount{
     public WordCount(String inputPath,String outputPath) throws IOException {
         this.inputPath=inputPath;
         this.outputPath=outputPath;
-        //bigDateTest();
+
     }
 
     //入口
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        //bigDateTest();
         if(args.length!=2){
             System.out.println("参数错误！");
             return ;
@@ -34,10 +35,54 @@ public class WordCount{
         fileUtil=new Lib.FileUtil(args[0]);
         BufferedReader reader=fileUtil.getReader();
 
-        wordCount.characterNum=Lib.countChars(fileUtil.getReader());
-        wordCount.validWord=Lib.countWords(fileUtil.getReader());
-        wordCount.validLine=Lib.lineNum;
-        wordCount.mapWord=Lib.countWordFrequency(fileUtil.getReader());
+        Thread threadChars=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    wordCount.characterNum=Lib.countChars(fileUtil.getReader());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        threadChars.start();
+
+        Thread threadWords=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    wordCount.validWord=Lib.countWords(fileUtil.getReader());
+                    wordCount.validLine=Lib.lineNum;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        threadWords.start();
+
+        Thread threadFrequency=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    wordCount.mapWord=Lib.countWordFrequency(fileUtil.getReader());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        threadFrequency.start();
+//        wordCount.characterNum=Lib.countChars(fileUtil.getReader());
+//        wordCount.validWord=Lib.countWords(fileUtil.getReader());
+//        wordCount.validLine=Lib.lineNum;
+//        wordCount.mapWord=Lib.countWordFrequency(fileUtil.getReader());
+//        while (true){
+//            if(Thread.activeCount()==1)
+//                break;
+//        }
+
+        threadChars.join();
+        threadFrequency.join();
+        threadWords.join();
 
         long endTime=System.currentTimeMillis();;   //获取程序结束时间
         System.out.println("程序运行时间："+ (endTime-startTime)+"ms");
@@ -55,10 +100,11 @@ public class WordCount{
             l++;
         }
         reader.close();
+
     }
 
 
-    public void bigDateTest() throws IOException {
+    public static void bigDateTest() throws IOException {
             StringBuilder stringBuilder = new StringBuilder();
             //for(int k=0;k<100;k++){
                 for (int i = 0; i < 100000; i++) {
@@ -78,7 +124,7 @@ public class WordCount{
             //}
             String testContent = stringBuilder.toString();
             System.out.println(testContent.length());
-            BufferedWriter out=new BufferedWriter(new FileWriter(outputPath));
+            BufferedWriter out=new BufferedWriter(new FileWriter("input2.txt"));
             out.write(testContent);
             out.close();
     }

@@ -1,12 +1,11 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Lib {
 
     public static int lineNum;
+
     //文件工具类，用于读取文件和写入文件
     public static class FileUtil{
         private File inputFile;
@@ -42,31 +41,18 @@ public class Lib {
         return charsNum;
     }
 
-    //统计有效行数，返回int
-    public static int countLines(BufferedReader tempReader) throws IOException {
-        BufferedReader reader=tempReader;
-        int lineNum=0;
-        String tempString;     //记录每行的字符串
-        while((tempString= reader.readLine())!=null){
-            if(!tempString.trim().isEmpty())
-                lineNum++;
-        }
-        return lineNum;
-    }
-
-    //统计单词
+    //统计单词数
     public static long countWords(BufferedReader tempReader) throws IOException {
-        BufferedReader reader=tempReader;
-        int lineNumTemp=0;
-        long wordsNum = 0;
-        String line;
-        while((line= reader.readLine())!=null){
-            wordsNum+=countLineWordsNum(line);
-            if(!line.trim().isEmpty())
-                lineNumTemp++;
+        Hashtable mapWord=countWordsTable(tempReader,true);
+        Set<Map.Entry<String, Long>> entrySet= new HashSet<>();
+        entrySet=mapWord.entrySet();
+        Iterator<Map.Entry<String, Long>> iter=entrySet.iterator();
+        long wordNum = 0;
+        while (iter.hasNext() ){
+            Map.Entry<String, Long> entry=iter.next();
+            wordNum+=entry.getValue();
         }
-        lineNum=lineNumTemp;
-        return wordsNum;
+        return wordNum;
     }
 
     //统计每行的单词数，返回long
@@ -99,19 +85,12 @@ public class Lib {
         return wordsNum;
     }
 
-    public static Map<String,Long> countWordFrequency(BufferedReader tempReader) throws IOException {
-        BufferedReader reader=tempReader;
-        Map<String,Long> mapWord=new HashMap<>();
-        String line;
-        while((line= reader.readLine())!=null){
-            mapWord=countLineWordsFrenquency(line,mapWord);
-        }
-        mapWord=sortWord(mapWord);
-        return mapWord;
+    public static Map<String, Long> countWordFrequency(BufferedReader tempReader) throws IOException {
+        return sortWord(countWordsTable(tempReader,false));
     }
 
-    //统计每行的单词数，返回long
-    private static Map<String,Long> countLineWordsFrenquency(String line,Map<String,Long> mapWord){
+    //统计单词，返回map
+    private static Hashtable<String,Long> countLineWords(String line,Hashtable<String,Long> mapWord){
         long wordsNum=0;
         int wordFlag=0;
         StringBuilder tempWord=new StringBuilder();     //存单词
@@ -156,5 +135,20 @@ public class Lib {
                         LinkedHashMap::new)
                 );
         return sorted;
+    }
+
+    private static Hashtable<String,Long> countWordsTable(BufferedReader tempReader,boolean countLine) throws IOException {
+        Hashtable<String,Long> mapWord=new Hashtable<>();
+        BufferedReader reader=tempReader;
+        int lineNumTemp=0;
+        String line;
+        while((line= reader.readLine())!=null){
+            mapWord=countLineWords(line,mapWord);
+            if(!line.trim().isEmpty() && countLine)
+                lineNumTemp++;
+        }
+        if(countLine)
+            lineNum=lineNumTemp;
+        return mapWord;
     }
 }
