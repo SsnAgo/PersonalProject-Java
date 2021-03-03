@@ -91,6 +91,34 @@ public class Lib {
         return resultStr;
     }
 
+    public static void printWord(BufferedWriter bufferedWriter,String [] resultStr){
+        Map<String , Integer> resultMap=new TreeMap<String, Integer>();
+        int count = 0 , num=1;
 
+        for (String s : resultStr) {
+            if (s.matches("[a-z]{4}[a-z0-9]*")) {
+                if (resultMap.containsKey(s)) {
+                    //containsKey()方法用于检查特定键是否在TreeMap中映射
+                    count = resultMap.get(s);
+                    resultMap.put(s, count + 1);
+                } else {
+                    resultMap.put(s, 1);
+                }
+            }
+        }
+        //通过比较器实现排序
+        List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(resultMap.entrySet());
+        //按降序排序
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> first, Map.Entry<String, Integer> second) {
+                //返回两个单词出现次数较多的那个单词的出现次数
+                if(second.getValue().compareTo(first.getValue()) == 0) {
+                    return second.getKey().compareTo(first.getKey());
+                }
+                return second.getValue().compareTo(first.getValue());
+            }
+        });
+
+    }
 }
 
