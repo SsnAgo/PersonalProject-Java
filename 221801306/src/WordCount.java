@@ -5,22 +5,22 @@ public class WordCount {
     public static void main(String[] args) {
 //      "E:/JavaTest/input.txt E:/JavaTest/output.txt";
         Scanner scan = new Scanner(System.in);
-        String filename = scan.next();
+        String fileName = scan.next();
         String output = scan.next();
 
         String content;//文本内容
         Map<String, Integer> map;
         int num = 10;//输出词频最高的10个单词
 
-        content = GetFile(filename);//输入文件，仅用于统计单词
+        content = getFile(fileName);//输入文件，仅用于统计单词
         //输出字符、单词、行数统计
-        PrintInfo(output, CountCharacters(filename), CountWords(content), CountLines(filename));
+        printInfo(output, countCharacters(fileName), countWords(content), countLines(fileName));
 
-        map = CountFrequency(content);//词频统计
-        SortFrequency(output, map, num);//词频排序和输出
+        map = countFrequency(content);//词频统计
+        sortFrequency(output, map, num);//词频排序和输出
     }
 
-    private static void PrintInfo(String output, int chars, int words, int lines) {
+    private static void printInfo(String output, int chars, int words, int lines) {
         FileWriter fw;
         try {
             fw = new FileWriter(output);
@@ -41,7 +41,7 @@ public class WordCount {
         System.out.println("lines:" + lines);//输出总行数
     }
 
-    public static String GetFile(String filename) {
+    private static String getFile(String filename) {
         StringBuilder content = new StringBuilder();
         FileReader fr;
         try {
@@ -61,10 +61,10 @@ public class WordCount {
             e.printStackTrace();
         }
         return content.toString();
-//        return content.toString().replaceAll("\\W"," ");
+        //return content.toString().replaceAll("\\W"," ");
     }
 
-    private static int CountCharacters(String filename) {
+    private static int countCharacters(String filename) {
         int ch = 0;
         FileReader fr;
         try {
@@ -82,9 +82,9 @@ public class WordCount {
         return ch;
     }
 
-    public static int CountWords(String content) {
+    private static int countWords(String content) {
         int num = 0;
-        StringTokenizer st = new StringTokenizer(content, " \t\n\r");
+        StringTokenizer st = new StringTokenizer(content, " ,.!?\"'\n\t\r");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
             if (IsWord(word) && word.length() >= 4) {//根据作业要求，判断截取字符串是否为单词
@@ -94,7 +94,7 @@ public class WordCount {
         return num;
     }
 
-    private static int CountLines(String filename) {
+    private static int countLines(String filename) {
         int lines = 0;
         FileReader fr;
         try {
@@ -117,10 +117,10 @@ public class WordCount {
         return lines;
     }
 
-    public static Map<String, Integer> CountFrequency(String content) {
+    private static Map<String, Integer> countFrequency(String content) {
         Map<String, Integer> map = new HashMap<>();
 
-        StringTokenizer st = new StringTokenizer(content, " \t\n\r");
+        StringTokenizer st = new StringTokenizer(content, " ,.!?\"'\n\t\r");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
             word = word.toLowerCase();//将单词全部转为小写
@@ -137,7 +137,7 @@ public class WordCount {
         return map;
     }
 
-    private static void SortFrequency(String output, Map<String, Integer> map, int num) {
+    private static void sortFrequency(String output, Map<String, Integer> map, int num) {
         //将HashMap中的包含映射关系的视图entrySet转换为List,然后重写比较器
         List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet()); //转换为list
         //idea自动转化成lambda表达式
@@ -164,8 +164,27 @@ public class WordCount {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < num; i++) {
-            System.out.println(list.get(i).getKey() + ": " + list.get(i).getValue());
+
+        List<String> sameFrequency = new ArrayList<>();//同词频单词表
+        int outputCount = 0;//输出统计
+        while (outputCount < 10) {
+            for (int i = 0; i < list.size(); i++) {
+                //如果当前字符词频与下一个不一样，则对当前所有同词频单词排序
+                if (!list.get(i).getValue().equals(list.get(i + 1).getValue())) {
+                    int currentValue = list.get(i).getValue();//保存当前词频
+                    sameFrequency.add(list.get(i).getKey());//将当前单词加入同词频单词表
+                    sameFrequency.sort(String::compareTo);//对同词频单词表排序
+                    //按字典顺序输出同词频单词
+                    for (int j = 0; j < sameFrequency.size(); j++, outputCount++) {
+                        if (outputCount >= 10)
+                            break;
+                        System.out.println(sameFrequency.get(j) + ": " + currentValue);
+                    }
+                    sameFrequency.clear();
+                } else sameFrequency.add(list.get(i).getKey());
+                if (outputCount >= 10)
+                    break;
+            }
         }
     }
 
