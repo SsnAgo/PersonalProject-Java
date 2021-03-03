@@ -5,6 +5,7 @@ public class Lib {
     private String outputFile;
     private String content;
     private int charsNum;
+    private int wordsNum;
 
     /**
      * 构造函数
@@ -49,10 +50,12 @@ public class Lib {
      */
     public void writeFile() throws IOException {
         countCharsNum();
+        countWordsNum();
         BufferedWriter writer = null;
         try{
             writer = new BufferedWriter(new FileWriter(outputFile));
             writer.write("characters: " + charsNum + "\n");
+            writer.write("words: " + wordsNum + "\n");
             writer.write(content);
         }
         catch (IOException e){
@@ -69,5 +72,17 @@ public class Lib {
      */
     public void countCharsNum(){
         charsNum = content.length();
+    }
+
+    /**
+     * 统计单词数
+     */
+    public void countWordsNum(){
+        wordsNum = 0;
+        String[] words = content.split("[^a-zA-Z0-9]+");
+        for (int i = 0; i < words.length; i++){
+            if (words[i].matches("[a-zA-Z]{4,}[a-zA-Z0-9]*"))
+                wordsNum++;
+        }
     }
 }
