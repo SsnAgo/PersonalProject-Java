@@ -1,9 +1,11 @@
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class Lib {
     /**
      * 获得文件内容
+     *
      * @param filename 输入文件的路径
      * @return String
      */
@@ -20,8 +22,7 @@ public class Lib {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                content.append(temp);//使用StringBuilder加快字符串拼接速度
-                content.append(" ");//针对换行，在每行之间增加一个空格，仅用于统计单词
+                content.append(temp);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -32,29 +33,17 @@ public class Lib {
 
     /**
      * 字符统计
-     * @param filename 输入文件的路径
+     *
+     * @param content 文件内容
      * @return int
      */
-    public static int countCharacters(String filename) {
-        int chars = 0;
-        FileReader fr;
-        try {
-            fr = new FileReader(filename);
-            try {
-                while (fr.read() != -1) {//按字符读取文件，计算字符数
-                    chars++;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return chars;
+    public static int countCharacters(String content) {
+        return content.length();
     }
 
     /**
      * 单词统计
+     *
      * @param content 文章内容
      * @return int
      */
@@ -72,6 +61,7 @@ public class Lib {
 
     /**
      * 行数统计
+     *
      * @param filename 输入文件的路径
      * @return int
      */
@@ -99,35 +89,28 @@ public class Lib {
     }
 
     /**
-     * 输出字符、单词、行数
-     * @param output 输出文件的路径
-     * @param chars 字符数
-     * @param words 单词数
-     * @param lines 行数
+     * 获取输入文件的信息
+     *
+     * @param chars     字符数
+     * @param words     单词数
+     * @param lines     总行数
+     * @param frequency 词频
+     * @return String
      */
-    public static void printInfo(String output, int chars, int words, int lines) {
-        FileWriter fw;
-        try {
-            fw = new FileWriter(output);
-            try {
-                fw.write("characters:" + chars + "\n");//输出字符总数
-                fw.write("words:" + words + "\n");//输出单词总数
-                fw.write("lines:" + lines + "\n");//输出总行数
-                fw.flush();
-                fw.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static String answerBuilder(int chars, int words, int lines, String frequency) {
         System.out.println("characters:" + chars);//输出字符总数
         System.out.println("words:" + words);//输出单词总数
         System.out.println("lines:" + lines);//输出总行数
+        System.out.println(frequency);
+        return "characters:" + chars +
+                "\nwords:" + words +
+                "\nlines:" + lines + "\n" +
+                frequency;
     }
 
     /**
      * 获取词频表
+     *
      * @param content 文章内容
      * @return Map 词频hashmap集合
      */
@@ -151,12 +134,13 @@ public class Lib {
     }
 
     /**
-     * 对词频表排序并输出
-     * @param output 输出文件的路径
+     * 对词频表排序
+     *
      * @param map hashmap的集合
      * @param num 输出数量
      */
-    public static void sortFrequency(String output, Map<String, Integer> map, int num) {
+    public static String sortFrequency(Map<String, Integer> map, int num) {
+        StringBuilder result = new StringBuilder();
         //将HashMap中的包含映射关系的视图entrySet转换为List,然后重写比较器
         List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet()); //转换为list
         //idea自动转化成lambda表达式
@@ -164,46 +148,31 @@ public class Lib {
         //输出
         List<String> sameFrequency = new ArrayList<>();//同词频单词表
         int outputCount = 0;//输出统计
-        while (outputCount < 10) {
-            for (int i = 0; i < list.size(); i++) {
-                //如果当前字符词频与下一个不一样，则对当前所有同词频单词排序
-                if (!list.get(i).getValue().equals(list.get(i + 1).getValue())) {
-                    int currentValue = list.get(i).getValue();//保存当前词频
-                    sameFrequency.add(list.get(i).getKey());//将当前单词加入同词频单词表
-                    sameFrequency.sort(String::compareTo);//对同词频单词表排序
-                    //按字典顺序输出同词频单词
-                    for (String s : sameFrequency) {
-                        System.out.println(s + ": " + currentValue);
-                    }
-                    FileWriter fw;
-                    try {
-                        fw = new FileWriter(output, true);
-                        try {
-                            for (int j = 0; j < sameFrequency.size(); j++, outputCount++) {
-                                if (outputCount >= num)
-                                    break;
-                                fw.write(sameFrequency.get(j) + ": " + currentValue);
-                                if (outputCount != num - 1)//最后一行不输出回车
-                                    fw.write("\n");
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        fw.flush();
-                        fw.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    sameFrequency.clear();
-                } else sameFrequency.add(list.get(i).getKey());
-                if (outputCount >= num)
-                    break;
-            }
+        for (int i = 0; i < list.size() && outputCount < num; i++) {
+            //如果当前字符词频与下一个不一样，则对当前所有同词频单词排序
+            if (!list.get(i).getValue().equals(list.get(i + 1).getValue())) {
+                sameFrequency.add(list.get(i).getKey());//将当前单词加入同词频单词表
+                sameFrequency.sort(String::compareTo);//对同词频单词表排序
+                //按字典顺序记录同词频单词
+                for (String s : sameFrequency) {
+                    String temp = s + ": " + list.get(i).getValue();
+                    result.append(temp);
+                    outputCount++;
+                    if (outputCount != num) {
+                        result.append("\n");
+                    } else
+                        break;
+                }
+                sameFrequency.clear();
+            } else sameFrequency.add(list.get(i).getKey());
         }
+
+        return result.toString();
     }
 
     /**
      * 单词判定：前四个字符为字母判定为单词
+     *
      * @param word 单词
      * @return boolean
      */
@@ -217,5 +186,31 @@ public class Lib {
                 return false;
         }
         return true;
+    }
+
+    /**
+     * 向文件输出内容
+     * @param output 输出文件的路径
+     * @param answerBuilder 输出内容
+     */
+    public static void outputInfo(String output, String answerBuilder) {
+        File outputFile = new File(output);
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(outputFile), StandardCharsets.UTF_8));
+            writer.write(answerBuilder);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("文件写入错误");
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println("输出流关闭异常");
+                }
+            }
+        }
     }
 }
