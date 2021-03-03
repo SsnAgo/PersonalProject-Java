@@ -59,6 +59,30 @@ public class MyWordParser implements WordParser
     }
   }
 
+  /**
+   * 记录单词;统计数量
+   * @param num
+   * @return
+   */
+  private int recordWord(int num)
+  {
+    isWordReading=false;    //单词读取结束，读取位改为false
+    num++;   //单词数量+1
+    Integer count;
+    String word=wordReader.toString().toLowerCase();
+    wordCountMap.put(word,(count=wordCountMap.get(word))==null?1:count+1);  //更新map
+    return num; //返回数量
+  }
+
+  /**
+   * 结束本单词读取；开始读取下一单词
+   */
+  private void endThisWordReading()
+  {
+    isThisWordValid=true;   //单词读取结束,重置合法位
+    letterNum=0;  //清空连续字母数量
+    wordReader.delete(0,wordReader.length());   //清空单词读取器
+  }
 
   /**
    * 统计单词
@@ -80,24 +104,15 @@ public class MyWordParser implements WordParser
         }
         else  //否则
         {
-          isWordReading=false;    //单词读取结束，读取位改为false
-          isThisWordValid=true;   //单词读取结束,重置合法位
-          num++;   //单词数量+1
-          Integer count;
-          String word=wordReader.toString().toLowerCase();
-
-          letterNum=0;  //清空连续字母数量
-          wordReader.delete(0,wordReader.length());   //清空单词读取器
-          wordCountMap.put(word,(count=wordCountMap.get(word))==null?1:count+1);  //更新map
+          num=recordWord(num);    //将单词记入map；并统计数量
+          endThisWordReading();   //结束本单词的读取;开始读取下一单词
         }
       }
       else   //若否
       {
         if(!isValidChar(c))   //若为分隔符
         {
-          isThisWordValid=true;   //重置合法位；开始读取下一个单词
-          letterNum=0;  //清空连续字母数量
-          wordReader.delete(0,wordReader.length());   //清空单词读取器
+          endThisWordReading();  //结束本单词的读取;开始读取下一单词
           continue;
         }
         if(!isThisWordValid)    //若此单词已不合法
@@ -122,13 +137,8 @@ public class MyWordParser implements WordParser
     }
     if(isWordReading)
     {
-      isWordReading=false;
-      num++;   //单词数量+1
-      Integer count;
-      String word=wordReader.toString().toLowerCase();
-      letterNum=0;  //清空连续字母数量
-      wordReader.delete(0,wordReader.length());   //清空单词读取器
-      wordCountMap.put(word,(count=wordCountMap.get(word))==null?1:count+1);  //更新map
+      num=recordWord(num);    //将单词记入map；并统计数量
+      endThisWordReading();   //结束本单词的读取
     }
     return num;
   }
