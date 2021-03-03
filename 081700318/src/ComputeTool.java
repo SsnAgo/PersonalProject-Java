@@ -10,6 +10,9 @@ public class ComputeTool {
     private ArrayList<String> Rows;
     private ArrayList<String> ValidRows;
     private HashMap<String, Integer> ValidWords;
+    public int RowNums;
+    public int CharNums;
+    public int WordNums;
 
     /**
      * @description      构造函数
@@ -17,6 +20,24 @@ public class ComputeTool {
     public ComputeTool(String TargetString)
     {
         this.TargetString=TargetString;
+    }
+
+
+    /**
+     * @description      统计文件的字符数
+     */
+    private int countCharNums()
+    {
+
+        return  TargetString.length();
+    }
+
+
+    /**
+     * @description      统计文件的行数
+     */
+    private int countRowNums()
+    {
         Rows =new ArrayList<String>(Arrays.asList(TargetString.split("\n")));
         ValidRows =new ArrayList<String>();
 
@@ -25,31 +46,13 @@ public class ComputeTool {
             if(!(Row.trim().isEmpty()))
                 ValidRows.add(Row);//将有效行加入集合
         }
-
-    }
-
-
-    /**
-     * @description      统计文件的字符数
-     */
-    public int countCharNums()
-    {
-        return  TargetString.length();
-    }
-
-
-    /**
-     * @description      统计文件的行数
-     */
-    public int countRowNums()
-    {
         return  ValidRows.size();
     }
 
     /**
      * @description      统计文件的单词总数
      */
-    public int countWordNums()
+    private int countWordNums()
     {
         ValidWords = new HashMap<>();
         Pattern WordPattern = Pattern.compile("[a-zA-Z]{4}[a-zA-Z0-9]*");//使用正则表达式匹配单词
@@ -75,7 +78,7 @@ public class ComputeTool {
     /**
      * @description      获取所有单词的集合并且根据出现频率对其排序
      */
-    public ArrayList<String> getTOPWords(int k)
+    public ArrayList<Map.Entry<String, Integer>> getTOPWords(int k)
     {
         PriorityQueue<Map.Entry<String, Integer>> Queue=new PriorityQueue<>((O1, O2) -> {
             if(O2.getValue() - O1.getValue()!=0)
@@ -93,13 +96,25 @@ public class ComputeTool {
         {
             Queue.add(Entry);
         }
-        ArrayList<String> TopList=new ArrayList<>();
+        ArrayList<Map.Entry<String, Integer>> TopList=new ArrayList<>();
+        if(k>Queue.size())//当单词总数小于K时 K更新为目前单词的总数
+        {
+            k=Queue.size();
+        }
         for(int i=0;i<k;i++)
         {
-            TopList.add(Queue.poll().getKey());
+            TopList.add(Queue.poll());
         }
         return  TopList;
     }
-
+    /**
+     * @description      进行计算并且将结果赋给对应属性
+     */
+    public void compute()
+    {
+        CharNums=countCharNums();
+        RowNums=countRowNums();
+        WordNums=countWordNums();
+    }
 
 }

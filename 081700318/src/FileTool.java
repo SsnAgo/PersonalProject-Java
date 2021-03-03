@@ -1,11 +1,13 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * @description    用于和文件交互的模块
  */
 public class FileTool {
-    public  BufferedReader Reader;
-    public  BufferedWriter Writer;
+    public  BufferedReader InputReader;
+    public  BufferedWriter OutputWriter;
 
     /**
      * @description      获取reader的函数
@@ -14,17 +16,22 @@ public class FileTool {
     BufferedReader getReader(String filePath)
     {
         File file = new File(filePath);
-         Reader = null;
+         InputReader = null;
         try
         {
-            Reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"));//获取字符流
+            InputReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"));//获取字符流
             String line;
+        }
+        catch (FileNotFoundException e)
+        {
+            System.out.println("File Error！");
+            e.printStackTrace();
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-        return Reader;
+        return InputReader;
     }
 
     /**
@@ -33,18 +40,23 @@ public class FileTool {
      */
     BufferedWriter getWriter(String filePath)
     {
-        File file = new File(filePath);
-        Writer = null;
+        OutputWriter = null;
         try
         {
-            Writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));//获取字符流
+            File file = new File(filePath);
+            OutputWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));//获取字符流
             String line;
+        }
+        catch (FileNotFoundException e)
+        {
+            System.out.println("File Error！");
+            e.printStackTrace();
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-        return Writer;
+        return OutputWriter;
     }
 
     /**
@@ -54,9 +66,9 @@ public class FileTool {
     {
         try
         {
-            if (Reader != null)
+            if (InputReader != null)
             {
-                Reader.close();
+                InputReader.close();
             }
         }
         catch (Exception e)
@@ -72,9 +84,9 @@ public class FileTool {
     {
         try
         {
-            if (Writer != null)
+            if (OutputWriter != null)
             {
-                Writer.close();
+                OutputWriter.close();
             }
         }
         catch (Exception e)
@@ -91,7 +103,7 @@ public class FileTool {
         int AsciiChar;
         try {
             //按字符读取
-            while ((AsciiChar = Reader.read()) != -1)
+            while ((AsciiChar = InputReader.read()) != -1)
             {
                 Builder.append((char) AsciiChar);
             }
@@ -100,5 +112,20 @@ public class FileTool {
             e.printStackTrace();
         }
         return Builder.toString();
+    }
+    public void writeResult(int CharNums, int RowNums, int WordNums, ArrayList<Map.Entry<String, Integer>> TopList)
+    {
+        try {
+            OutputWriter.write("characters:"+CharNums+"\n");
+            OutputWriter.write("words:"+WordNums+"\n");
+            OutputWriter.write("lines:"+RowNums+"\n");
+            for (Map.Entry<String, Integer>TopWord: TopList)
+            {
+                OutputWriter.write(TopWord.getKey()+": "+TopWord.getValue()+"\n");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
