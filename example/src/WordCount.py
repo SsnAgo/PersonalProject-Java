@@ -20,7 +20,7 @@ def count_line_chars(content):
 
 def analy_word(file_name):
     words = {}
-    r = re.compile(r"[,!\*\.]")
+    r = re.compile(r"[,?\t!\*\.]")
     with open(file_name, "r",encoding='utf-8') as f:
         for line in f:
             for word in r.sub("", line.strip()).lower().split(" "):
