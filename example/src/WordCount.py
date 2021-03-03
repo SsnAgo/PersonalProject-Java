@@ -106,8 +106,6 @@ def clear_file(filename):
         print('FileError'+str(reason))
         sys.exit()
 
-
-
 def count_file(file1,file2):
     # print(io.open_file(file1))
     clear_file(file2)
@@ -118,6 +116,5 @@ def count_file(file1,file2):
 
 if __name__ == '__main__':
     file1 = input("please input input_file name:")
-
     file2 = input("please input output_file name:")
     count_file(file1,file2)
