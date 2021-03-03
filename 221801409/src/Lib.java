@@ -2,7 +2,6 @@ import com.sun.deploy.util.StringUtils;
 
 import java.io.*;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class Lib {
     public static String readFormTxt(String txtPath) {
@@ -10,9 +9,9 @@ public class Lib {
         StringBuilder result = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
-            String str = null;
-            while ((str = br.readLine()) != null) {
-                result.append(str + "\n");
+            int temp;
+            while ((temp = br.read()) !=-1) {
+                result.append((char) temp);
             }
             br.close();
         } catch (FileNotFoundException e) {
@@ -92,7 +91,7 @@ public class Lib {
         File file=new File(txtPath);
         List<Map.Entry<String, Integer>> list=Lib.getWordFrequency(str);
         try {
-            BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+            BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"utf-8"));
             bw.write("Characters: "+Lib.getCharactersCount(str)+"\n");
             bw.write("words: "+Lib.getWordsCount(str)+"\n");
             bw.write("lines: "+Lib.getLineCount(str)+"\n");
