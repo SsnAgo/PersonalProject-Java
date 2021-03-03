@@ -71,7 +71,26 @@ public class Lib {
 
     //统计行数(任何包含非空白字符的行)
     public static int linesCount(String inputFile, String outputFile) throws IOException {
-
+        Reader reader = openInputFile(inputFile);
+        Writer writer = openOutputFile(outputFile);
+        int num = 0,temp=0;
+        String line = "";
+        while ((temp = reader.read()) != -1) {
+            while (temp != -1 && (char) temp != '\n') {
+                if ((char) temp != ' ' && (char) temp != '\t' && (char) temp != '\r') {
+                    line += (char) temp;
+                }
+                temp = reader.read();
+            }
+            if (line != "") {
+                num++;
+            }
+            line = "";
+        }
+        writer.append("lines: " + num + "\n");
+        reader.close();
+        writer.close();
+        return num;
     }
 
     //统计单词的出现次数,最终只输出频率最高的10个。
