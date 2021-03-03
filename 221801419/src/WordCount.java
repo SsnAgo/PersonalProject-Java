@@ -16,7 +16,7 @@ public class WordCount {
         String Char=lib.GetCharacters(inputPath);
         int Char_Num=lib.GetCharactersNum(Char);
         int Word_Num=lib.GetWordsNum(Char);
-        int Line_Num=lib.GetLinesNum(Char);
+        int Line_Num=lib.GetLinesNum(inputPath);
         List<Map.Entry<String,Integer>> wordsList=lib.SortMap();
 
         FileOutputStream fileOutputStream=new FileOutputStream(outputPath);

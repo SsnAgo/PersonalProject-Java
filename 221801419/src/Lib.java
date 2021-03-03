@@ -98,7 +98,7 @@ public class Lib {
         }
     }*/
 
-    static int GetLinesNum(String str){
+    /*static int GetLinesNum(String str){
 
         int num=0;
 
@@ -114,9 +114,9 @@ public class Lib {
         }
 
         return num;
-    }
+    }*/
 
-    /*static  int GetLinesNum(String filePath){
+    public static int GetLinesNum(String filePath){
 
         int num=0;
         FileReader fileReader=null;
@@ -125,12 +125,11 @@ public class Lib {
         try {
             fileReader=new FileReader(filePath);
             bufferedReader=new BufferedReader(fileReader);
-            String temp=bufferedReader.readLine();
-            while (temp!=null){
-                if(!temp.equals("")){
+            String flag;
+            while ((flag=bufferedReader.readLine())!=null){
+                if(flag.length()>0&&!flag.matches("\\s+")){
                     num++;
                 }
-                temp=bufferedReader.readLine();
             }
 
         } catch (FileNotFoundException e) {
@@ -147,7 +146,7 @@ public class Lib {
         }
 
         return num;
-    }*/
+    }
 
 
 }
