@@ -4,7 +4,8 @@ import java.io.*;
 import java.util.*;
 
 public class CharacterCounter {
-    private long characterNum;
+    private int characterNum;
+    private int lineNum;
     private long useTime;
     private long startTime;
     private int theadNum;
@@ -21,58 +22,18 @@ public class CharacterCounter {
         this.onceReadCount = onceReadCount;
         this.threadReadNum = threadReadNum;
         this.filePath=filePath;
+        this.lineNum=0;
         hashMap=new HashMap<>();
+
         this.count(new File(filePath),0);
         useTime=System.currentTimeMillis()-startTime;
-        System.out.println("获取字符总长度:" + this.getSbf().length()+"  耗时"+useTime);
-        System.out.println(hashMap.toString());
-        System.out.println("回车："+hashMap.get('\r'));
-        System.out.println("换行："+hashMap.get('\n'));
+        this.characterNum=this.getSbf().length()-lineNum;
+        System.out.println("获取字符总长度:" + this.characterNum +"  行数："+lineNum+"  耗时"+useTime);
     }
 
     public StringBuffer getSbf() {
         return sbf;
     }
-    public int getTheadNum() {
-        return theadNum;
-    }
-    public void setTheadNum(int theadNum) {
-        this.theadNum = theadNum;
-    }
-    public int getOnceReadCount() {
-        return onceReadCount;
-    }
-    public void setOnceReadCount(int onceReadCount) {
-        this.onceReadCount = onceReadCount;
-    }
-    public int getThreadReadNum() {
-        return threadReadNum;
-    }
-    public void setThreadReadNum(int threadReadNum) {
-        this.threadReadNum = threadReadNum;
-    }
-    public long getCharacterNum() {
-        return characterNum;
-    }
-    public void setCharacterNum(long characterNum) {
-        this.characterNum = characterNum;
-    }
-    public long getUseTime() {
-        return useTime;
-    }
-    public void setUseTime(long useTime) {
-        this.useTime = useTime;
-    }
-    public long getStartTime() {
-        return startTime;
-    }
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
-    }
-
-//    private void mapMerge(HashMap<Character,Integer> newHashMap){
-//        this.hashMap.
-//    }
 
     public void count(File file,int startPosition){
         List<MultiCounter> list = new ArrayList<MultiCounter>();
@@ -81,12 +42,12 @@ public class CharacterCounter {
             list.get(list.size()-1).start();
         }
 
+        System.out.println("线程数："+list.size());
         for(int i=0; i<list.size();i++){
             try {
-                list.get(i).join();
+                list.get(i).join(); System.out.println(i+"长度："+list.get(i).getSbf().length());
                 sbf.append(list.get(i).getSbf());
-//                list.get(i).getMHashMap().forEach((key,value) -> hashMap.merge(key,value,Integer::sum));
-
+                this.lineNum+=list.get(i).get_nNum();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -100,47 +61,55 @@ public class CharacterCounter {
         private BufferedReader reader;
         private int start,lastNum;
         private StringBuffer sbf;
-        private HashMap<Character,Integer> MHashMap;
+        private int _nNum;
 
-        public HashMap<Character, Integer> getMHashMap() {
-            return MHashMap;
+        @Override
+        public String toString() {
+            return "线程情况  MultiCounter{" +
+                    "start=" + start +
+                    ", sbf=" + sbf +
+                    ", _nNum=" + _nNum +
+                    '}';
+        }
+
+        public int get_nNum() {
+            return _nNum;
         }
 
         public MultiCounter(File file, int start){
             try{
                 InputStream is=new FileInputStream(file);
                 this.reader=new BufferedReader(new InputStreamReader(is));
-
             }catch (Exception e){
                 e.printStackTrace();
             }
             this.start=start;
             this.sbf=new StringBuffer();
-            MHashMap=new HashMap<Character, Integer>();
+            this._nNum=0;
         }
-
-        private void saveAsMap(char[] chars,int lastNum){
-            for (int i=0; i < lastNum; i++){
-                if(MHashMap.containsKey(chars[i])){
-                   MHashMap.put(chars[i],MHashMap.get(chars[i])+1);
-                }else{
-                   MHashMap.put(chars[i],1);
-                }
-
-            }
-        }
-
         @Override
         public void run(){
             char[] tempChars=new char[onceReadCount];
             try{
                 reader.skip(this.start);
                 for(int i=0;i<threadReadNum && (lastNum=reader.read(tempChars))!= -1;i++){
+                    lineCounter(tempChars);
                   sbf.append(new String(tempChars,0,lastNum));
-//                  saveAsMap(tempChars,lastNum);
+
                 }
+                System.out.println("\nsbf内容："+sbf);
+
+
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+//            System.out.println("位置:"+start); System.out.println("添加:"+sbf);
+//            this.toString();
+        }
+
+        private void lineCounter(char[] chars){
+            for (int i=0; i<chars.length;i++){
+                if (chars[i]=='\n') this._nNum++;
             }
         }
 

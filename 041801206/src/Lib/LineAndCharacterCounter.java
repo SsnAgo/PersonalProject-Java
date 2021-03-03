@@ -8,8 +8,6 @@ import java.io.InputStreamReader;
 public class LineAndCharacterCounter extends Thread {
     private int lineNum;
     private int charNum;
-
-
     private long startTime;
     private long useTime;
     private String filePath;
@@ -27,18 +25,34 @@ public class LineAndCharacterCounter extends Thread {
             InputStreamReader read = new InputStreamReader(new FileInputStream(filePath), "utf-8");
             BufferedReader in = new BufferedReader(read);
             String temp = null;
-            long start = System.currentTimeMillis();
-            while ((temp = in.readLine()) != null) {
-                lineNum++;
-                charNum += temp.length();
+            startTime = System.currentTimeMillis();
+            char[] chars=new char[1000];
+            int whileCount=0;
+            int remain=0;
+
+            while ((in.read(chars)) != -1) {
+                remain=0;
+                for (int i=0;i<chars.length;i++){
+                    if((int)chars[i]==0) {
+                        remain=i;
+                        break;
+                    }
+                    if (chars[i]=='\n') lineNum++;
+                }
+                whileCount++;
             }
+
+            charNum=(whileCount-1)*1000+remain;
+            System.out.println(lineNum);
+            System.out.println("sum:"+charNum);
+            System.out.println((int)chars[6]);
+            System.out.println((int)chars[7]);
+            System.out.println((int)chars[8]);
+            System.out.println((int)chars[9]);
             in.close();
         }catch (Exception e){
             e.printStackTrace();
         }
-        this.useTime=System.currentTimeMillis()-startTime;
-        System.out.println("行数字符统计完成，耗时："+useTime+"毫秒，字符数："
-                +charNum+",行数："+lineNum);
     }
 
 
