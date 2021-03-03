@@ -24,6 +24,6 @@ public class WordCount {
             return;
         }
         WordCount wordCount = new WordCount(args[0]);
-        Lib.writeFile(args[1], charsNum, linesNum, wordsNum, wordMap);
+        Lib.writeFile(args[1], charsNum, wordsNum, linesNum, wordMap);
     }
 }

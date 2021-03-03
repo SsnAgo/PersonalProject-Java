@@ -4,20 +4,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lib {
-    public static String readFile(String fileName) throws IOException {
+    public static String readFile(String filePath) throws IOException {
         BufferedReader reader = null;
         StringBuilder str = new StringBuilder();
         int ch = 0;
         try {
-            reader = new BufferedReader(new FileReader(fileName));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
+            reader = new BufferedReader(new FileReader(filePath));
             while ((ch = reader.read()) != -1) {
                 str.append((char)ch);
             }
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
+            System.out.println("未找到需读入文件：" + filePath);
             e.printStackTrace();
         } finally {
             reader.close();
@@ -27,7 +24,6 @@ public class Lib {
 
     public static void writeFile(String OutputPath, int charsNum, int wordsNum, int linesNum
             , HashMap<String, Integer> wordMap) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(OutputPath));
         int cnt = 0;
         StringBuilder str = new StringBuilder("characters: " + charsNum + '\n' + "words: " + wordsNum + '\n'
                 + "lines: " + linesNum + '\n');
@@ -37,8 +33,16 @@ public class Lib {
             cnt++;
             if (cnt >= 10) break;
         }
-        writer.write(str.toString());
-        writer.close();
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(OutputPath));
+            writer.write(str.toString());
+        } catch (FileNotFoundException e) {
+            System.out.println("未找到需写入文件：" + OutputPath);
+            e.printStackTrace();
+        } finally {
+            writer.close();
+        }
     }
 
     public static int countCharacters(String str) {
