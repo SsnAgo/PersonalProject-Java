@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,49 @@ class  WordCount{
             }
             outputWriter.flush();
             outputWriter.close();
+        } catch (IOException ioException) {
+            System.out.println(Config.IO_EXCEPTION_TIP);
+            ioException.printStackTrace();
+        }
+    }
+    public static void processFile(File inputFile,File outputFile) {
+        int asciiCharCount = 0;
+        AsciiCharCounter asciiCharCounter = new AsciiCharCounter();
+        WordProcessor wordProcessor = new WordProcessor();
+        EffectiveLineCounter effectiveLineCounter = new EffectiveLineCounter();
+        List<Map.Entry<String, Integer>> sortedWordCountList = new ArrayList<>();
+        try {
+            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(inputFile),Config.CHARSET);
+            int currentChar;
+            while ((currentChar = inputStreamReader.read()) != -1) {
+                if (asciiCharCounter.isAsciiChar(currentChar)) {
+                    asciiCharCount++;
+                }
+                effectiveLineCounter.countEffectiveLine((char)currentChar,false);
+                if (wordProcessor.buildPossibleWord((char)currentChar,false)) {
+                    if (wordProcessor.allWordSumUp()) {
+                        wordProcessor.individualWordSumUp(wordProcessor.possibleWord.toString());
+                    }
+                }
+            }
+            if (wordProcessor.buildPossibleWord((char)currentChar,true)) {
+                effectiveLineCounter.countEffectiveLine((char)currentChar,true);
+                if (wordProcessor.allWordSumUp()) {
+                    wordProcessor.individualWordSumUp(wordProcessor.possibleWord.toString());
+                }
+            }
+            sortedWordCountList= wordProcessor.getSortedWordCountList();
+            sortedWordCountList = sortedWordCountList.size()>10?sortedWordCountList.subList(0,9)
+                    : sortedWordCountList;
+            generateOutputFile(asciiCharCount,wordProcessor.getWordSum(),effectiveLineCounter.effectiveLineNumber
+                    ,sortedWordCountList,outputFile);
+            inputStreamReader.close();
+        }catch (FileNotFoundException fileNotFoundException) {
+            System.out.println(Config.FILE_NOT_FOUND_EXCEPTION_TIP);
+            fileNotFoundException.printStackTrace();
+        }catch (UnsupportedEncodingException unsupportedEncodingException) {
+            System.out.println(Config.UNSUPPORTED_ENCODING_EXCEPTION_TIP);
+            unsupportedEncodingException.printStackTrace();
         } catch (IOException ioException) {
             System.out.println(Config.IO_EXCEPTION_TIP);
             ioException.printStackTrace();

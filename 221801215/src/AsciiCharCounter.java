@@ -30,7 +30,14 @@ public class AsciiCharCounter {
         }
         return asciiCharNumber;
     }
-    private boolean isAsciiChar(int inputChar) {
+
+    /**
+     * 判断ASCII字符
+     *
+     * @param inputChar the input char 需要判断的字符
+     * @return the boolean 是否为ASCII字符
+     */
+    public boolean isAsciiChar(int inputChar) {
         boolean result = false;
         if (inputChar < 128) {
             result = true;
