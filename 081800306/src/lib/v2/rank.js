@@ -4,38 +4,41 @@
  * @param  num type: number 返回前几个
  */
 
-function rank(wordMap, num) {
-  let arr = [];
-  wordMap.forEach((value, key) => {
-    let o = {
-      [key]: value,
-    };
-    arr.push(o);
+function rank(arr, num) {
+  const obj = {
+  };
+  arr.sort();
+  const proxy = new Proxy(obj, {
+    get(obj, key) {
+      if (key in obj) {
+        return obj[key];
+      }
+      return 0;
+    },
   });
-  function compare2(a, b) {
+  arr.forEach((item) => {
+    proxy[item.toLowerCase()]++;
+  });
+  const data = [];
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      const o = {};
+      o[key] = obj[key];
+      data.push(o);
+    }
+  }
+  function compare(a, b) {
     const key1 = Object.keys(a)[0];
     const key2 = Object.keys(b)[0];
     return b[key2] - a[key1];
   }
-  function compare1(a, b) {
-    const key1 = Object.keys(a)[0];
-    const key2 = Object.keys(b)[0];
-    if (a[key1] === b[key2]) {
-      return key1 < key2 ? -1 : 1;
-    }
-    return 0;
-  }
-  // arr.sort(compare1);
-  arr.sort(compare2);
-  arr = arr.slice(0, 10);
-  arr.sort(compare1);
+  data.sort(compare);
   let dataMsg = {};
   for (let i = 0; i < num; i += 1) {
-    dataMsg = { ...dataMsg, ...arr[i] };
+    dataMsg = { ...dataMsg, ...data[i] };
   }
   return dataMsg;
 }
-
 function classArr(arr, wordMap) {
   arr.forEach((item) => {
     if (wordMap.has(item)) {

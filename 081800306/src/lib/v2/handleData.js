@@ -2,7 +2,7 @@ const fs = require('fs');
 const countWords = require('./countWords');
 const { countChar } = require('./countChar');
 const countRows = require('./countRows');
-const { rank, classArr } = require('./rank');
+const { rank } = require('./rank');
 
 function writeToFile(data, writeFile) {
   for (const key in data) {
@@ -14,29 +14,31 @@ function writeToFile(data, writeFile) {
 function handleData(readFile, writeFile) {
   // console.time('test');
   const readable = fs.createReadStream(readFile);
-  let lines = 0;
+  // let lines = 0;
   let words = 0;
-  let arr = [];
+  // let arr = [];
   let characters = 0;
-  let wordMap = new Map();
   let rankObj;
-  readable.setEncoding('ascii');
+  let longWord = '';
+  readable.setEncoding('utf8');
 
   readable.on('data', (chunk) => {
     characters += countChar(chunk);
-    lines += countRows(chunk);
-    let table = countWords(chunk);
-    arr = [...arr, ...table];
-    words += table.length;
-    wordMap = classArr(table, wordMap);
+    // lines += countRows(chunk);
+    // let table = countWords(chunk);
+    // arr = [...arr, ...table];
+    // words += table.length;
+    longWord += chunk;
   });
 
   readable.once('close', () => {
-    rankObj = rank(wordMap, 10);
+    let table = countWords(longWord);
+    words = table.length;
+    rankObj = rank(table, 10);
     let data = {
       characters,
       words,
-      lines,
+      lines: countRows(longWord),
       ...rankObj,
     };
     writeToFile(data, writeFile);
