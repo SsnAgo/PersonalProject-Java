@@ -3,7 +3,7 @@ import java.util.*;
 
 public class WordCount {
     public static void main(String[] args) {
-        String filename = "E:/JavaTest/input2.txt";
+        String filename = "E:/JavaTest/01-01-爱情与金钱.txt";
         String output = "E:/JavaTest/output.txt";
         String content;//文本内容
         Map<String, Integer> map;
@@ -57,7 +57,7 @@ public class WordCount {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return content.toString();
+        return content.toString().replaceAll("\\W"," ");
     }
 
     private static int CountCharacters(String filename) {
@@ -80,7 +80,7 @@ public class WordCount {
 
     public static int CountWords(String content) {
         int num = 0;
-        StringTokenizer st = new StringTokenizer(content, " ,.!?\"'");
+        StringTokenizer st = new StringTokenizer(content, " ");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
             if (IsWord(word) && word.length() >= 4) {//根据作业要求，判断截取字符串是否为单词
@@ -116,7 +116,7 @@ public class WordCount {
     public static Map<String, Integer> CountFrequency(String content) {
         Map<String, Integer> map = new HashMap<>();
 
-        StringTokenizer st = new StringTokenizer(content, " ,.!?\"'");
+        StringTokenizer st = new StringTokenizer(content, " ");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
             word = word.toLowerCase();//将单词全部转为小写
