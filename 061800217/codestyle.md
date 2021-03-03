@@ -10,6 +10,7 @@ public static void main(String args[]) {
 	String say = "hello";
 }
 ```
+
 ###变量命名
 使用下划线分割单词
 ```java
