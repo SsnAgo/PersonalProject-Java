@@ -43,5 +43,22 @@ public class Lib {
         }
     }
 
+    public static void lineCount(String inputFile,BufferedWriter bufferedWriter){
+        BufferedReader bufferedReader = Lib.openInputFile(inputFile);
+        String temp;
+        int count = 0;
+
+        try {
+            while ((temp = bufferedReader.readLine()) != null) {
+                //如果读出来的行不是空行（包含只含有空格的行），行数加1
+                if(!temp.matches("[\\s]*")) count++;
+            }
+
+            bufferedReader.close();
+            bufferedWriter.write("lines:"+count+'\n');
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
