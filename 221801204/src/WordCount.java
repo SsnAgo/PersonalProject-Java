@@ -9,7 +9,7 @@ public class WordCount
         Lib lib=new Lib(inputFileName,outputFileName);
         lib.getCharNum();
         lib.getWordNum();
+        lib.getLineNum();
         lib.getTopWords();
-
     }
 }

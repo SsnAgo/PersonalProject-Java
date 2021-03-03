@@ -101,7 +101,7 @@ public class Lib
         {
             return true;
         }
-        return false;
+            return false;
     }
 
     /* 统计文件的单词总数，单词：至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割，不区分大小写。*/
@@ -109,18 +109,17 @@ public class Lib
     {
         int wordNum = 0;
         TurnFileToString();
-        Writer writer = getFileWriter();
-        String[] toJudgeWords = fileContent.split("[^0-9a-zA-Z]+");//存放分隔开后的各个字符串，等待判断是否为单词
-        for (int i = 0;i < toJudgeWords.length;i++)
+        try(Writer writer = getFileWriter())
         {
-            if (isWord(toJudgeWords[i]))
-            {
-                wordList.add(toJudgeWords[i]);//将符合条件的单词放入单词列表中，便于接下来统计词频
-                wordNum++;
+            String[] toJudgeWords = fileContent.split("[^0-9a-zA-Z]+");//存放分隔开后的各个字符串，等待判断是否为单词
+            for (int i = 0; i < toJudgeWords.length; i++) {
+                if (isWord(toJudgeWords[i])) {
+                    wordList.add(toJudgeWords[i]);//将符合条件的单词放入单词列表中，便于接下来统计词频
+                    wordNum++;
+                }
             }
+            writer.write("words: " + wordNum + "\n");
         }
-        writer.write("words: " + wordNum + "\n");
-        writer.close();
     }
 
     /* 统计文件的各单词的出现次数，输出频率最高的10个 */
@@ -153,17 +152,36 @@ public class Lib
             }
         });
         /* 输出 */
-        Writer writer = getFileWriter();
-        int cnt = 0;
-        for (Map.Entry<String, Integer> entry : wordMap.entrySet())
+        try (Writer writer = getFileWriter())
         {
-            if (cnt == 10) break;
-            String word = entry.getKey();
-            Integer number = entry.getValue();
-            writer.write(word + ": " + number + "\n");
-            cnt++;
+            int cnt = 0;
+            for (Map.Entry<String, Integer> entry : wordMap.entrySet())
+            {
+                if (cnt == 10) break;
+                String word = entry.getKey();
+                Integer number = entry.getValue();
+                writer.write(word + ": " + number + "\n");
+                cnt++;
+            }
         }
-        writer.close();
+    }
+
+    /* 统计文件的有效行数，任何包含非空白字符的行，都需要统计，空白字符包括空格，\r,\t,\n */
+    public void getLineNum() throws IOException
+    {
+        try(BufferedReader reader = getFileReader();Writer writer = getFileWriter())
+        {
+            int lineNum = 0;
+            String temp;
+            while ((temp = reader.readLine()) != null)
+            {
+                if (!temp.trim().equals(""))
+                {
+                    lineNum++;
+                }
+            }
+            writer.write("lines: " + lineNum + "\n");
+        }
     }
 
 
