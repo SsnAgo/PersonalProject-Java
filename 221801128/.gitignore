@@ -13,3 +13,5 @@ output.txt
 *.classpath
 
 *.class
+
+LibTest.java
