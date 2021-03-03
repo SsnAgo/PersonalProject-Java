@@ -31,8 +31,23 @@ public class Lib {
             return false;
         }
     }
+
+    //判断是否为数字
+    public static boolean isNum(int temp) {
+        if (temp >= '0' && temp <= '9') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     //判断是否为有效的单词
-    public static boolean isValidChars(char[] chars) {
+    public static boolean isValidWord(char[] chars) {
+        if (chars.length >= 4 && !isNum(chars[0]) && !isNum(chars[1]) && !isNum(chars[2]) && !isNum(chars[3])) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     //统计字符数
