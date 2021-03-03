@@ -1,4 +1,3 @@
-package src；
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,13 +43,11 @@ public class Lib {
 		if(list.size()>10){
 			for (int i = 0; i < 10; i++) {
 				String str=list.get(i).getKey() + ": " + list.get(i).getValue();
-				System.out.println(str);
 				outfile(foutname,str);
 	        }    
 		}else {
 			for (int i = 0; i < list.size(); i++) {
 				String str=list.get(i).getKey() + ": " + list.get(i).getValue();
-				System.out.println(str);
 				outfile(foutname,str);
 	        }    
 		}		

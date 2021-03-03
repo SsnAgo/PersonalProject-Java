@@ -1,5 +1,3 @@
-package src;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,8 +15,8 @@ public class WordCount {
 	static HashMap<String, Integer > hashMap=new HashMap<String,Integer>();
     public static void main(String args[])
     {
-      	 String finname = new String("C:\\ccc\\s5.txt");
-      	String foutname = new String("C:\\ccc\\s6.txt");
+      	 String finname = new String(args[0]);
+      	String foutname = new String(args[1]);
       	 //String foutname = args[1];
       	Lib lib=new Lib(finname,foutname);
       	lib.charactercount();
