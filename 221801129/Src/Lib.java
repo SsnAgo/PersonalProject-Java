@@ -15,6 +15,11 @@ public class Lib {
     private final String WordPattern = "^[A-Za-z]{4}[A-Za-z0-9]*";
     private final String LinePattern = "[\\s\\S]*\\S+[\\s\\S]*";
 
+    /**
+     * Lib构造函数
+     * @param inputFile 输入文件地址
+     * @param outputFile 输出文件地址
+     */
     public Lib(String inputFile, String outputFile) {
         this.inputFile = inputFile;
         this.outputFile = outputFile;
@@ -35,15 +40,24 @@ public class Lib {
         return lineNum;
     }
 
+    /**
+     *调用各功能的函数
+     * @throws IOException
+     */
     public void handleFile() throws IOException {
-        String file = readFile();
-        countCharacter(file);
-        countLine(file);
-        countWord(file);
-        sortWords();
-        setOutputFile();
-    }
+    String file = readFile();
+    countCharacter(file);
+    countLine(file);
+    countWord(file);
+    sortWords();
+    setOutputFile();
+}
 
+    /**
+     * 将文件读取进字符串
+     * @return 文件内容字符串
+     * @throws IOException
+     */
     public String readFile() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(inputFile));
         StringBuilder builder = new StringBuilder();
@@ -55,12 +69,20 @@ public class Lib {
         return builder.toString();
     }
 
+    /**
+     * 计算字符数
+     * @param str 文件字符串
+     */
     public void countCharacter(String str) {
         characterNum = str.length();
     }
 
+    /**
+    * 计算有效行数
+    * @param str 文件字符串
+    */
     public void countLine(String str) {
-        String[] list = str.split("\n");
+    String[] list = str.split("\n");
         for (String s: list) {
             if (isLine(s)) {
                 lineNum++;
@@ -68,10 +90,18 @@ public class Lib {
         }
     }
 
+    /**
+     * 判断是否是有效行
+     * @param str 分割后各字符串
+     */
     public boolean isLine(String str) {
         return Pattern.matches(LinePattern, str);
     }
 
+    /**
+     * 计算单词数
+     * @param str 文件字符串
+     */
     public void countWord(String str) {
         map = new TreeMap<>();
         String[] list = str.split("[^A-Za-z0-9]");
@@ -91,16 +121,26 @@ public class Lib {
         }
     }
 
+    /**
+     * 判断是否是单词
+     * @param str 分割后各字符串
+     */
     public boolean isWord(String str) {
         return Pattern.matches(WordPattern, str);
     }
 
+    /**
+     * 对amp进行排序
+     */
     public void sortWords() {
         wordsRank = new ArrayList<>(map.entrySet());
         Comparator<Map.Entry<String, Integer>> comparator = (o1, o2) -> o2.getValue()- o1.getValue();
         wordsRank.sort(comparator);
     }
 
+    /**
+     * 写入输出文件
+     */
     public void setOutputFile() throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
         writer.write("characters: " + characterNum + "\n");

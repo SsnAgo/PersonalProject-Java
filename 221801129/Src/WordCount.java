@@ -7,7 +7,6 @@ public class WordCount {
 //            return;
 //        }
 //        Lib lib = new Lib(args[0], args[1]);
-
         Lib lib = new Lib("C:\\Users\\xpy91\\Desktop\\Test\\input.txt", "C:\\Users\\xpy91\\Desktop\\Test\\output.txt");
         lib.handleFile();
     }
