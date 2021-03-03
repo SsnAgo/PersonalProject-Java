@@ -22,8 +22,8 @@ public class Lib {
     private int lineNumber;
     private int wordNumber;
     private Map<String, Integer> linkedMapWords;
-    private final Pattern linePattern = Pattern.compile("(^|\n)(\\s*\\S+)");
-    private final Pattern wordPattern = Pattern.compile("(^|[^a-z0-9])([a-z]{4}[a-z0-9]*)");
+    private final String LINE_REGEX = "(^|\n)(\\s*\\S+)";
+    private final String WORD_REGEX = "(^|[^a-z0-9])([a-z]{4}[a-z0-9]*)";
 
     public Lib(String inputFile, String outputFile) {
         this.inputFile = inputFile;
@@ -72,6 +72,7 @@ public class Lib {
      */
     public void countLines() {
         lineNumber = 0;
+        Pattern linePattern = Pattern.compile(LINE_REGEX);
         Matcher matcher = linePattern.matcher(bufferString);
         while(matcher.find()) {
             lineNumber++;
@@ -84,6 +85,7 @@ public class Lib {
     public void countWords() {
         wordNumber = 0;
         Map<String, Integer> mapWords = new HashMap<>();
+        Pattern wordPattern = Pattern.compile(WORD_REGEX);
         Matcher matcher = wordPattern.matcher(bufferString);
         while(matcher.find()) {
             wordNumber++;
@@ -128,9 +130,9 @@ public class Lib {
             writer.write("words: " + wordNumber + "\n");
             writer.write("lines: " + lineNumber + "\n");
             for(Entry<String, Integer> entry: linkedMapWords.entrySet()) {
-                i++;
                 if(i<10) {
                     writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
+                    i++;
                 } else {
                     break;
                 }
