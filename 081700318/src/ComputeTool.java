@@ -61,7 +61,7 @@ public class ComputeTool {
         ValidWords = new ConcurrentHashMap<>();
         Pattern WordPattern = Pattern.compile("[a-zA-Z]{4}[a-zA-Z0-9]*");//使用正则表达式匹配单词
         ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS,
-                new ArrayBlockingQueue<Runnable>(6));
+                new ArrayBlockingQueue<Runnable>(ValidRows.size()));
 
 
         int i=0;
@@ -87,7 +87,13 @@ public class ComputeTool {
                 }
             });
         }
-        executor.shutdown();
+        try {
+            executor.shutdown();
+            executor.awaitTermination(100,TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            System.out.println("out of time!");
+            e.printStackTrace();
+        }
         return ValidWords.size();
     }
     /**
