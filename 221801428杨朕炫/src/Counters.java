@@ -63,7 +63,7 @@ public class Counters {
         // 正则表达式匹配四个英文开头的有效单词
         Pattern pattern = Pattern.compile("[A-Za-z]{4}.*?");
         list.forEach(line -> {
-            String[] strings = line.split("\\s+|\\t");
+            String[] strings = line.split("\\s+|\\t|,|;|\\.|!|\\?|:");
             for (String word : strings) {
                 Matcher matcher = pattern.matcher(word);
                 // 计数有效单词并将其加入映射集合

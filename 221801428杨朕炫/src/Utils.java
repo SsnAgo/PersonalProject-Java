@@ -86,6 +86,7 @@ public class Utils {
         int i = 0;
         for (Map.Entry<String,Integer> entry :sortedWordsToNumMap.entrySet()){
             if (i++ < 10){
+                CountResultHolder.wordToNumMap.put(entry.getKey(),entry.getValue());
                 outputStringBuilder.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
             }else break;
         }
