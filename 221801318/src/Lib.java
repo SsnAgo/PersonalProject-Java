@@ -8,8 +8,6 @@ public class Lib {
 
     private int CHARACTERS_NUM = 0;
 
-    final private String CHARACTER_REGEX = "[^a-zA-Z0-9\\t\\n\\s]";
-
 
     public String returnCharacters(String filePath)
     {
@@ -39,19 +37,15 @@ public class Lib {
 //        stream = stream.replaceAll(CHARACTER_REGEX,"");
 //        CHARACTERS_NUM = stream.length() + line;
 
+        int bytes = 0;
         byte[] stream = new byte[20*1024];
         int len = stream.length;
-        String temp = "";
-        String result = "";
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(filePath);
-            while (fileInputStream.read(stream,0,len) != -1){
-                temp = new String(stream);
-                result += temp;
+            while ( (bytes = fileInputStream.read(stream,0,len)) != -1){
+                CHARACTERS_NUM += bytes;
             }
-            result = result.replaceAll(CHARACTER_REGEX,"");
-            CHARACTERS_NUM += result.length();
         } catch (FileNotFoundException e){
             e.printStackTrace();
         } catch (IOException e) {
