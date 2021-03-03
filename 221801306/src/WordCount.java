@@ -143,28 +143,6 @@ public class WordCount {
         //idea自动转化成lambda表达式
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
 
-        //输出
-        if (num > list.size()) {
-            num = list.size();
-        }
-        FileWriter fw;
-        try {
-            fw = new FileWriter(output, true);
-            try {
-                for (int i = 0; i < num - 1; i++) {
-                    fw.write(list.get(i).getKey() + ": " + list.get(i).getValue() + "\n");
-                }
-                //最后一行末尾不加回车
-                if (num > 0) fw.write(list.get(num - 1).getKey() + ": " + list.get(num - 1).getValue());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            fw.flush();
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         List<String> sameFrequency = new ArrayList<>();//同词频单词表
         int outputCount = 0;//输出统计
         while (outputCount < 10) {
@@ -175,17 +153,37 @@ public class WordCount {
                     sameFrequency.add(list.get(i).getKey());//将当前单词加入同词频单词表
                     sameFrequency.sort(String::compareTo);//对同词频单词表排序
                     //按字典顺序输出同词频单词
-                    for (int j = 0; j < sameFrequency.size(); j++, outputCount++) {
-                        if (outputCount >= 10)
-                            break;
-                        System.out.println(sameFrequency.get(j) + ": " + currentValue);
+                    for (String s : sameFrequency) {
+
+                        System.out.println(s + ": " + currentValue);
+                    }
+
+                    FileWriter fw;
+                    try {
+                        fw = new FileWriter(output, true);
+                        try {
+                            for (int j = 0; j < sameFrequency.size(); j++, outputCount++) {
+                                if (outputCount >= num)
+                                    break;
+                                fw.write(sameFrequency.get(j) + ": " + currentValue);
+                                if(outputCount!=num-1)//最后一行不输出回车
+                                    fw.write("\n");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        fw.flush();
+                        fw.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                     sameFrequency.clear();
                 } else sameFrequency.add(list.get(i).getKey());
-                if (outputCount >= 10)
+                if (outputCount >= num)
                     break;
             }
         }
+
     }
 
     private static boolean IsWord(String word) {//前四个字符为字母判定为单词
