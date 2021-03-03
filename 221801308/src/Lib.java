@@ -48,7 +48,9 @@ public class Lib {
             }
             reader.close();
         } catch (IOException e) {
+            reader.close();
             e.printStackTrace();
+            System.out.println("File read error!");
         }
         return builder.toString().toLowerCase();
     }
@@ -110,8 +112,15 @@ public class Lib {
             }
         });
         linkedMapWords = new LinkedHashMap<>();
+        int i = 0;
         for(Entry<String, Integer> entry: entryList) {
-            linkedMapWords.put(entry.getKey(), entry.getValue());
+            if(i < 10) {
+                linkedMapWords.put(entry.getKey(), entry.getValue());
+                i++;
+            } else {
+                break;
+            }
+//            System.out.println(i);
         }
     }
 
@@ -127,12 +136,7 @@ public class Lib {
             writer.write("words: " + wordNumber + "\n");
             writer.write("lines: " + lineNumber + "\n");
             for(Entry<String, Integer> entry: linkedMapWords.entrySet()) {
-                if(i<10) {
-                    writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
-                    i++;
-                } else {
-                    break;
-                }
+                writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
             }
             writer.flush();
             writer.close();

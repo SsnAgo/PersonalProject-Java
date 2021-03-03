@@ -4,21 +4,18 @@ import java.io.*;
  * @author wangyu
  */
 public class WordCount {
-    public static void main(String [] args) {
+    public static void main(String [] args) throws IOException {
         if(args.length<2) {
             System.out.println("The parameter is less than two, please run again");
-        } else {
-            try {
-                long startTime = System.currentTimeMillis();
-                Lib.beginCount(args[0]);
-                Lib.writeFileContent(args[1]);
-                long endTime = System.currentTimeMillis();
-                System.out.println(endTime-startTime + "ms");
-            } catch (IOException e) {
-                System.out.println("File read error!");
-                e.printStackTrace();
-            }
+            return;
         }
+        long startTime = System.currentTimeMillis();
+//        Lib.beginCount("C:\\Users\\wangyu\\Desktop\\PersonalProject-Java\\221801308\\src\\input6.txt");
+//        Lib.writeFileContent("C:\\Users\\wangyu\\Desktop\\PersonalProject-Java\\221801308\\src\\output6.txt");
+        Lib.beginCount(args[0]);
+        Lib.writeFileContent(args[1]);
+        long endTime = System.currentTimeMillis();
+        System.out.println(endTime-startTime + "ms");
     }
 
 }
