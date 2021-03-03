@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,10 +10,10 @@ import java.util.regex.Pattern;
  * 学号：221801315
  * 邮箱：784536133@qq.com
  * 创建时间：2021/2/28 15:22
- * 最后修改时间：2021/3/3 0:8
+ * 最后修改时间：2021/3/4 2:22
  */
 public class Lib {
-    private static Map<String, Integer> wordFrequencyRecords = new HashMap<>();  //单词频率记录表
+    private static final Map<String, Integer> wordFrequencyRecords = new HashMap<>();   //单词频率记录表
     private static String recordSource = "";   //记录表的数据源
     private static boolean isSorted = false;   //记录表是否被排序过
     private static List<Map.Entry<String, Integer>> sortedRecord = null;   //排序后频率最高的10个单词
@@ -136,6 +137,9 @@ public class Lib {
                     ++lines;
                 }
             }
+
+            if (isValidLine)  //文件结束，但是最后没有\n，也当算作一行
+                ++lines;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -159,13 +163,10 @@ public class Lib {
         sortedRecord.sort(new Comparator<Map.Entry<String, Integer>>() {
             @Override
             public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                return o1.getKey().compareTo(o2.getKey());
-            }
-        });
-        sortedRecord.sort(new Comparator<Map.Entry<String, Integer>>() {
-            @Override
-            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                return o2.getValue() - o1.getValue();
+                if (o1.getValue() == o2.getValue())
+                    return o1.getKey().compareTo(o2.getKey());
+                else
+                    return o2.getValue() - o1.getValue();
             }
         });
 
@@ -180,14 +181,14 @@ public class Lib {
        返回值：空 */
     public static void writeToOutFile(String inFilePath, String outFilePath) {
         try {
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFilePath), "utf-8"));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFilePath), StandardCharsets.UTF_8));
             createWordFrequencyRecords(inFilePath);
-            writer.write(("characters: " + chars + '\n').toString());
-            writer.write(("words: " + words + '\n').toString());
-            writer.write(("lines: " + lines + '\n').toString());
+            writer.write(("characters: " + chars + '\n'));
+            writer.write(("words: " + words + '\n'));
+            writer.write(("lines: " + lines + '\n'));
             getSortWordFrequencyRecords(inFilePath);
             for (int i = 0; i < sortedRecord.size(); i++) {
-                writer.write((sortedRecord.get(i).getKey() + ": " + sortedRecord.get(i).getValue() + '\n').toString());
+                writer.write((sortedRecord.get(i).getKey() + ": " + sortedRecord.get(i).getValue() + '\n'));
             }
             writer.close();
         } catch (FileNotFoundException e) {
@@ -201,38 +202,21 @@ public class Lib {
        输入参数：字符t
        返回值：判断结果的bool值 */
     public static boolean isLetter(char t) {
-        if ((t >= 'a' && t <= 'z') || (t >= 'A' && t <= 'Z'))
-            return true;
-        return false;
+        return (t >= 'a' && t <= 'z') || (t >= 'A' && t <= 'Z');
     }
 
     /* 判断字符是否是数字
        输入参数：字符t
        返回值：判断结果的bool值 */
     public static boolean isDigit(char t) {
-        if (t >= '0' && t <= '9')
-            return true;
-        return false;
-    }
-
-    /* 判断字符是否是分隔符
-       输入参数：字符t
-       返回值：判断结果的bool值 */
-    public static boolean isSeparator(char t) {
-        if (isLetter(t))
-            return false;
-        else if (isDigit(t))
-            return false;
-        return true;
+        return t >= '0' && t <= '9';
     }
 
     /* 判断字符是否是分隔符
        输入参数：字符t
        返回值：判断结果的bool值 */
     public static boolean isBlankChar(char t) {
-        if (t == '\t' || t == '\r' || t == '\n' || t == ' ')
-            return true;
-        return false;
+        return t == '\t' || t == '\r' || t == '\n' || t == ' ';
     }
 
     /* 创建单词频率记录表
@@ -286,6 +270,9 @@ public class Lib {
         //如果最后一个单词没有碰到分隔符，文件就结束，应当加入该单词
         if (!word.equals(""))
             addRecord(word.toLowerCase(Locale.ROOT));
+
+        if (isValidLine)
+            ++lines;
     }
 
     /* 往单词频率记录表加入记录
