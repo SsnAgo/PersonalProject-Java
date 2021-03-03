@@ -1,5 +1,7 @@
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 功能：WordCount中main方法要调用的函数
@@ -63,6 +65,10 @@ public class Lib {
             while ((temp = in.read()) != -1) {
                 ++count;
             }
+            /*BufferedReader in=new BufferedReader(new FileReader(inFilePath));
+            String str;
+            while((str=in.readLine())!=null)
+                count+=str.length()+1;*/
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -166,80 +172,29 @@ public class Lib {
         }
     }
 
-    /* 判断字符是否是字母
-       输入参数：字符t
-       返回值：判断结果的bool值 */
-    public static boolean isLetter(char t) {
-        if ((t >= 'a' && t <= 'z') || (t >= 'A' && t <= 'Z'))
-            return true;
-        return false;
-    }
-
-    /* 判断字符是否是数字
-       输入参数：字符t
-       返回值：判断结果的bool值 */
-    public static boolean isDigit(char t) {
-        if (t >= '0' && t <= '9')
-            return true;
-        return false;
-    }
-
-    /* 判断字符是否是分隔符
-       输入参数：字符t
-       返回值：判断结果的bool值 */
-    public static boolean isSeparator(char t) {
-        if (isLetter(t))
-            return false;
-        else if (isDigit(t))
-            return false;
-        return true;
-    }
-
     /* 创建单词频率记录表
        输入参数：输入文件路径inFilePath
        返回值：无 */
     public static void createWordFrequencyRecords(String inFilePath) {
-        int letterCount = 0;     //字母数
-        String word = "";
         recordSource = inFilePath;
         wordFrequencyRecords.clear();
         isSorted = false;
         sortedRecord = null;
 
         try {
-            Reader in = new InputStreamReader(new FileInputStream(inFilePath), "UTF-8");
-            int temp;
+            BufferedReader in = new BufferedReader(new FileReader(inFilePath));
+            String temp;
+            String regex = "(^|[^a-z0-9])([a-z]{4}[a-z\\d]*)";
+
             //读取文件，直到文件结束
-            while ((temp = in.read()) != -1) {
-                if (isLetter((char) temp)) {
-                    ++letterCount;
-                    word += (char) temp;
-                } else {
-                    //是单词，则继续读取直到分隔符
-                    if (letterCount >= 4) {
-                        while (!isSeparator((char) temp)) {
-                            word += (char) temp;
-                            temp = in.read();
-                        }
+            while ((temp = in.readLine()) != null) {
+                temp = temp.toLowerCase(Locale.ROOT);
+                Matcher matcher = Pattern.compile(regex).matcher(temp);
 
-                        addRecord(word.toLowerCase(Locale.ROOT));
-
-                        word = "";
-                        letterCount = 0;
-                    } else {
-                        //发现不是单词后，直接跳到分隔符，开始判断下一个单词
-                        while (!isSeparator((char) temp))
-                            temp = in.read();
-
-                        word = "";
-                        letterCount = 0;
-                    }
+                while (matcher.find()) {
+                    addRecord(matcher.group(2));
                 }
             }
-
-            //如果最后一个单词没有碰到分隔符，文件就结束，应当加入该单词
-            if (!word.equals(""))
-                addRecord(word.toLowerCase(Locale.ROOT));
         } catch (IOException e) {
             e.printStackTrace();
         }
