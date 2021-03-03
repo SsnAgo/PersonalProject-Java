@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class WordCount {
-	private static String inputfile;
-    private static String outputfile;
+	private static String inputfile;//输入文件的路径
+    private static String outputfile;//输出文件的路径
 
 	/**
 	 * 读取指定文件，返回字符串
@@ -31,6 +31,7 @@ public class WordCount {
 	 */
 	public static void writeIn(String inputfile,String outputfile) throws IOException {
 		BufferedWriter writer = null;
+		//利用StringBuilder拼接所有信息
 		StringBuilder str = new StringBuilder("characters: " + Lib.countChar(readFile(inputfile)) + "\n"
 				+ "words: " + Lib.countWords(readFile(inputfile)) + "\n"
 				+ "lines: " + Lib.countLines(readFile(inputfile)) + "\n");
@@ -41,12 +42,12 @@ public class WordCount {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		//List结构存储排序后的HashMap数据
 		List<HashMap.Entry<String, Integer>> sortedList = Lib.getSortedList(Lib.hash);
 		for(HashMap.Entry<String,Integer> entry:sortedList) {
 			str.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
 			cnt++;
-			if (cnt >= 10)
+			if (cnt >= 10)//仅需要输出前十位
 				break;
 		}
 		writer.write(str.toString());
@@ -54,7 +55,7 @@ public class WordCount {
 	}
 
 	/**
-	 * 打印
+	 * 打印函数，可解开
 	 * @throws IOException
 	 */
 //	public static void printall() throws IOException {
@@ -79,7 +80,7 @@ public class WordCount {
 		inputfile = dir.getCanonicalPath()+"\\"+args[0];
 		outputfile = dir.getCanonicalPath()+"\\"+args[1];
 		//System.out.println("读取文件的地址："+inputfile);
-		//printall();
+		//printall();//打印函数，有需要可以解开。
 		//写入指定文件
 		writeIn(inputfile,outputfile);
 	}
