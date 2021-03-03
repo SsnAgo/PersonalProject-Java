@@ -93,4 +93,25 @@ public class Lib
         }
         return count;
     }
+
+    /**
+     * 统计单词数
+     * @param str
+     * @return
+     */
+    public static int getWordCount(String str)
+    {
+        int count = 0;
+        //用split拆开字符串 strs字符串数组将保留拆开的单词
+        String[] strs = str.split(SEPARATOR_RE);
+        for(int i = 0; i < strs.length; i++)
+        {
+            //匹配成功单词数加1
+            if(strs[i].matches(WORD_RE))
+            {
+                count++;
+            }
+        }
+        return count;
+    }
 }
