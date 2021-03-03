@@ -8,5 +8,6 @@ public class WordCount
         String outputFileName = args[1];
         Lib lib=new Lib(inputFileName,outputFileName);
         lib.getCharNum();
+        lib.getWordNum();
     }
 }

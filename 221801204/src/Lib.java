@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.Buffer;
 import java.util.*;
 import java.util.regex.*;
 
@@ -6,7 +7,8 @@ import java.util.regex.*;
 public class Lib
 {
     private String inFileName;
-    public  String outFileName;
+    private String outFileName;
+    private String fileContent;//存放输入文件内容的字符串
 
     public Lib(String inFileName,String outFileName)
     {
@@ -34,14 +36,14 @@ public class Lib
         this.outFileName = out;
     }
 
-    /* 获取输入文件的Reader */
-    public Reader getFileReader()
+    /* 获取输入文件的BufferedReader */
+    public BufferedReader getFileReader()
     {
         File file = new File(inFileName);
-        Reader reader = null;
+        BufferedReader reader = null;
         try
         {
-            reader = new InputStreamReader(new FileInputStream(file));
+            reader = new BufferedReader(new FileReader(file));
         }
         catch (FileNotFoundException e)
         {
@@ -73,9 +75,41 @@ public class Lib
         }
     }
 
-    /* 统计文件的单词总数，单词：至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割，不区分大小写。*/
-    public int getWordNum() throws IOException
+    /* 读取文件内容转换为字符串 */
+    public void TurnFileToString() throws IOException
     {
-
+         StringBuilder sb = new StringBuilder();
+         try (BufferedReader reader = getFileReader())
+         {
+             String line;
+             while ((line = reader.readLine()) != null)
+             {
+                 sb.append(line);
+             }
+             fileContent=sb.toString().toLowerCase();//将内容都转换成小写，方便后面统计各单词数量
+         }
     }
+
+    /* 统计文件的单词总数，单词：至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割，不区分大小写。*/
+    public void getWordNum() throws IOException
+    {
+        int wordNum = 0;
+        TurnFileToString();
+        Writer writer = getFileWriter();
+        String[] wordArray = fileContent.split("[^0-9a-zA-Z]+");
+        Pattern pattern = Pattern.compile("[a-z]{4}([a-zA-Z0-9])*");
+        Matcher matcher;
+        for (int i = 0;i < wordArray.length;i++)
+        {
+            matcher = pattern.matcher(wordArray[i]);
+            if (matcher.matches())
+            {
+                wordNum++;
+            }
+        }
+        writer.write("words: " + wordNum + "\n");
+        writer.close();
+    }
+
+
 }
