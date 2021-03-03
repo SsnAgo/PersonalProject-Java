@@ -1,3 +1,6 @@
+import com.sun.deploy.util.ArrayUtil;
+import com.sun.deploy.util.StringUtils;
+
 import java.io.*;
 import java.util.*;
 
@@ -51,7 +54,7 @@ public class Lib {
 
     public static int getLineCount(String str) {
         str = str.replaceAll("[^\\S\\r\\n]", "");//将str中除了换行符以外的空白字符删掉
-        String count[] = str.split("\r|\n|\r\n");//将新字符串以split方法进行换行符分割后，利用length方法统计行数
+        String count[] = StringUtils.splitString(str,"\r|\n|\r\n");//将新字符串以split方法进行换行符分割后，利用length方法统计行数
         return count.length;
     }
 
@@ -71,15 +74,18 @@ public class Lib {
                 }
             }
         }
-        //实现按值排序
+        //实现排序
         List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(map.entrySet());//将entrySet转换为List
-        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {//修改比较器达到按值降序排序目的
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {//修改比较器达到排序目的
             @Override
             public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                return o2.getValue().compareTo(o1.getValue());
+                if(o2.getValue().compareTo(o1.getValue())==0){//同值情况按字典排序
+                    return o1.getKey().compareTo(o2.getKey());
+                }
+                else
+                    return o2.getValue().compareTo(o1.getValue());//不同值情况按值排序
             }
         });
-        //同值情况按字典排序
 
         for(int i=0;i<10;i++){
             System.out.println(list.get(i).getKey()+": "+list.get(i).getValue());
