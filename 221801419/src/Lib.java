@@ -87,8 +87,16 @@ public class Lib {
         });
 
         return wordList;
-
     }
+
+    /*public String GetSortWord(){
+        List<Map.Entry<String,Integer>> wordsList=SortMap();
+        String words="";
+        int i=0;
+        for(Map.Entry<String,Integer>map:wordsList){
+            words+=map.getKey()
+        }
+    }*/
 
     static int GetLinesNum(String str){
 

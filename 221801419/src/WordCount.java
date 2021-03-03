@@ -24,6 +24,16 @@ public class WordCount {
         BufferedWriter bufferedWriter=new BufferedWriter(outputStreamWriter);
         bufferedWriter.write("characters:"+Char_Num+"\nwords:"+Word_Num+"\nlines:"+Line_Num);
 
+        String words="";
+        int i=0;
+        for(Map.Entry<String,Integer>map:wordsList){
+            words+=map.getKey()+":"+map.getValue()+"\n";
+            i++;
+            if(i==10){
+                break;
+            }
+        }
+
         bufferedWriter.flush();
 
 
