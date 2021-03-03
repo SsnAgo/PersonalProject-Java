@@ -13,19 +13,12 @@ public class WordCount {
         int Word_Num=lib.GetWordsNum(Char);
         int Line_Num=lib.GetLinesNum(Char);
 
-        System.out.print(args[0]);
-        /*bufferedWriter.write("characters:"+Char_Num);
-        bufferedWriter.newLine();
-        bufferedWriter.write("words:"+Word_Num);
-        bufferedWriter.newLine();
-        bufferedWriter.write("lines:"+Line_Num);
-        bufferedWriter.newLine();*/
+
         FileOutputStream fileOutputStream=new FileOutputStream(outputPath);
         OutputStreamWriter outputStreamWriter=new OutputStreamWriter(fileOutputStream,"UTF-8");
         BufferedWriter bufferedWriter=new BufferedWriter(outputStreamWriter);
-        bufferedWriter.write(Char);
-        bufferedWriter.newLine();
-        bufferedWriter.write(Char_Num);
+        bufferedWriter.write("characters:"+Char_Num+"\nwords:"+Word_Num+"\nlines:"+Line_Num);
+
         bufferedWriter.flush();
 
 

@@ -1,9 +1,11 @@
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Lib {
 
+    static Map<String,Integer> wordsMap=new HashMap<>();
 
     public static String GetCharacters(String filePath){
 
@@ -35,7 +37,7 @@ public class Lib {
         return str.toString();
     }
 
-    static int GetCharactersNum(String str){
+    public static int GetCharactersNum(String str){
 
         int num=0;
 
@@ -53,14 +55,34 @@ public class Lib {
     static int GetWordsNum(String str){
 
         int num=0;
+        String[] temp=str.split("\\s+");
+        String regexs="^[a-zA-Z]{4,}.*";
+        for(int i=0;i<temp.length;i++){
+            if(temp[i].matches(regexs)){
+                num++;
+                String insertKey=temp[i].toLowerCase();
+                if (wordsMap.containsKey(insertKey)){
+                    int j=wordsMap.get(insertKey);
+                    wordsMap.put(insertKey,j+1);
+                }else {
+                    wordsMap.put(insertKey,1);
+                }
+            }
+        }
 
         return num;
 
     }
 
-    static int GetLinesNum(String temp){
+    static int GetLinesNum(String str){
 
         int num=0;
+        String[] temp=str.split("\\s+");
+        for (int i=0;i<temp.length;i++){
+            if(temp[i].equals("\r\n")){
+                num++;
+            }
+        }
 
         return num;
 
