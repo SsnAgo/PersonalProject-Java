@@ -1,14 +1,12 @@
-import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
-import java.util.Scanner;
 
 public class WordCount {
     public static void main(String[] args) {
 //      E:/JavaTest/input1.txt E:/JavaTest/output.txt
-        Scanner scan = new Scanner(System.in);
-        String fileName = scan.next();
-        String output = scan.next();
+
+        String fileName = "E:/JavaTest/input1.txt";
+        String output = "E:/JavaTest/output.txt";
 
         try {
             Date begin = new Date();
@@ -23,8 +21,8 @@ public class WordCount {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-
-    /*    if (args.length < 2) {
+/*
+        if (args.length < 2) {
             System.out.println("请输入“输入文件“和“输出文件”名称");
             return;
         } else {
@@ -42,15 +40,14 @@ public class WordCount {
                 exception.printStackTrace();
             }
         }
-        */
+*/
     }
 
     private static void run(String fileName, String output) {
-
         Map<String, Integer> map;
         int num = 10;
         String content;//文本内容
-        content = Lib.getFile(fileName);//输入文件，仅用于统计单词
+        content = Lib.getFile(fileName);//输入文件内容
 
         map = Lib.countFrequency(content);//词频统计
         int chars = Lib.countCharacters(content);

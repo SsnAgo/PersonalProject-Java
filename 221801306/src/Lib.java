@@ -3,32 +3,38 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class Lib {
+
     /**
-     * 获得文件内容
-     *
+     * 获得文件的内容
      * @param filename 输入文件的路径
-     * @return String
+     * @return content 输入文件的内容
      */
-    public static String getFile(String filename) {
-        StringBuilder content = new StringBuilder();
-        FileReader fr;
+    public static String getFile(String filename){
+        StringBuilder content= new StringBuilder();
+        BufferedInputStream bufferedInput = null;
+        byte[] buffer = new byte[1024];
         try {
-            fr = new FileReader(filename);
-            BufferedReader br = new BufferedReader(fr);
-            String temp = "";
-            while (true) {
-                try {
-                    if ((temp = br.readLine()) == null) break;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            //创建BufferedInputStream 对象
+            bufferedInput = new BufferedInputStream(new FileInputStream(filename));
+            int bytesRead;
+            //从文件中按字节读取内容，到文件尾部时read方法将返回-1
+            while ((bytesRead = bufferedInput.read(buffer)) != -1) {
+                //将读取的字节转为字符串对象
+                String temp = new String(buffer, 0, bytesRead);
                 content.append(temp);
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            //关闭 BufferedInputStream
+            try {
+                if (bufferedInput != null)
+                    bufferedInput.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
         return content.toString();
-        //return content.toString().replaceAll("\\W"," ");
     }
 
     /**
@@ -148,6 +154,11 @@ public class Lib {
         //输出
         List<String> sameFrequency = new ArrayList<>();//同词频单词表
         int outputCount = 0;//输出统计
+        if(list.size()<num){
+            num=list.size();
+        }
+        if(list.size()==1)
+            return list.get(0).getKey()+ ": " + list.get(0).getValue();
         for (int i = 0; i < list.size() && outputCount < num; i++) {
             //如果当前字符词频与下一个不一样，则对当前所有同词频单词排序
             if (!list.get(i).getValue().equals(list.get(i + 1).getValue())) {
@@ -202,13 +213,12 @@ public class Lib {
             writer.write(answerBuilder);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("文件写入错误");
         } finally {
             if (writer != null) {
                 try {
                     writer.close();
                 } catch (IOException e) {
-                    System.out.println("输出流关闭异常");
+                    e.printStackTrace();
                 }
             }
         }
