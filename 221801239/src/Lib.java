@@ -14,5 +14,17 @@ public class Lib {
 
         return bufferedReader;
     }
+
+    public static BufferedWriter openOutputFile(String fileName) {
+        BufferedWriter bufferedWriter = null;
+
+        try {
+            bufferedWriter = new BufferedWriter(new FileWriter(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bufferedWriter;
+    }
 }
 
