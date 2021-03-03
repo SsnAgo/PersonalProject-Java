@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +10,7 @@ public class Lib {
     private int charsNum;
     private int wordsNum;
     private int linesNum;
+    private Map<String, Integer> wordsMap;
 
     /**
      * 构造函数
@@ -62,7 +64,17 @@ public class Lib {
             writer.write("characters: " + charsNum + "\n");
             writer.write("words: " + wordsNum + "\n");
             writer.write("lines: " + linesNum + "\n");
-            writer.write(content);
+            List<Map.Entry<String, Integer>> topWords = sortWordsMap();
+            int top = 0;
+            for(Map.Entry<String, Integer> map : topWords){
+                if (top < 10){
+                    writer.write(map.getKey() + ": " + map.getValue() + "\n");
+                    top++;
+                }
+                else {
+                    break;
+                }
+            }
         }
         catch (IOException e){
             e.printStackTrace();
@@ -82,14 +94,26 @@ public class Lib {
     }
 
     /**
-     * 统计单词数
+     * 统计单词数，以及每个单词出现的次数
      */
     public void countWordsNum(){
         wordsNum = 0;
+        wordsMap = new TreeMap<String,Integer>();
+        String word;
+        Integer num;
         String[] words = content.split("[^a-zA-Z0-9]+");
         for (int i = 0; i < words.length; i++){
             if (words[i].matches("[a-zA-Z]{4,}[a-zA-Z0-9]*")) {
                 wordsNum++;
+                word = words[i].toLowerCase();
+                if (wordsMap.containsKey(word)){
+                    num = wordsMap.get(word);
+                    num++;
+                    wordsMap.put(word, num);
+                }
+                else {
+                    wordsMap.put(word, 1);
+                }
             }
         }
     }
@@ -104,5 +128,19 @@ public class Lib {
         while (matcher.find()){
             linesNum++;
         }
+    }
+
+    /**
+     * 根据单词频率进行排序
+     */
+    public List<Map.Entry<String, Integer>> sortWordsMap(){
+        List<Map.Entry<String, Integer>> wordsList = new ArrayList<Map.Entry<String, Integer>>(wordsMap.entrySet());
+        Collections.sort(wordsList, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> word1,
+                               Map.Entry<String, Integer> word2) {
+                return word2.getValue() - word1.getValue();
+            }
+        });
+        return wordsList;
     }
 }
