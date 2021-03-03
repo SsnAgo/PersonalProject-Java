@@ -1,8 +1,8 @@
-import com.sun.deploy.util.ArrayUtil;
 import com.sun.deploy.util.StringUtils;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class Lib {
     public static String readFormTxt(String txtPath) {
@@ -86,10 +86,26 @@ public class Lib {
                     return o2.getValue().compareTo(o1.getValue());//不同值情况按值排序
             }
         });
-
-        for(int i=0;i<10;i++){
-            System.out.println(list.get(i).getKey()+": "+list.get(i).getValue());
-        }
         return list;
+    }
+    public static int writeToTxt(String txtPath,String str){
+        File file=new File(txtPath);
+        List<Map.Entry<String, Integer>> list=Lib.getWordFrequency(str);
+        try {
+            BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+            bw.write("Characters: "+Lib.getCharactersCount(str)+"\n");
+            bw.write("words: "+Lib.getWordsCount(str)+"\n");
+            bw.write("lines: "+Lib.getLineCount(str)+"\n");
+            for(int i=0;i<(list.size()<10?list.size():10);i++){
+                bw.write(list.get(i).getKey()+": "+list.get(i).getValue()+"\n");
+            }
+            bw.flush();
+            bw.close();
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
