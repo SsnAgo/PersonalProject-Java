@@ -1,6 +1,6 @@
 public class WordCount {
     public static void main(String[] args) {
-        String str=Lib.readFormTxt("D:/123.txt");
-        Lib.writeToTxt("D:/1.txt",str);
+        String str=Lib.readFormTxt(args[0]);
+        Lib.writeToTxt(args[1],str);
     }
 }

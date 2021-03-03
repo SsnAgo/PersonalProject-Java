@@ -1,4 +1,4 @@
-import com.sun.deploy.util.StringUtils;
+
 
 import java.io.*;
 import java.util.*;
@@ -53,12 +53,12 @@ public class Lib {
 
     public static int getLineCount(String str) {
         str = str.replaceAll("[^\\S\\r\\n]", "");//将str中除了换行符以外的空白字符删掉
-        String count[] = StringUtils.splitString(str,"\r|\n|\r\n");//将新字符串以split方法进行换行符分割后，利用length方法统计行数
+        String count[] =str.split("\r|\n|\r\n");//将新字符串以split方法进行换行符分割后，利用length方法统计行数
         return count.length;
     }
 
     public static List getWordFrequency(String str) {
-        HashMap map = new HashMap<>();
+        HashMap <String,Integer>map = new HashMap<String, Integer>();
         String temp = null;
         String regex = "^[a-z]+$";
         str = str.toLowerCase();//将字符串变成小写
