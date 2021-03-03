@@ -12,7 +12,7 @@ public class Lib {
             reader = new InputStreamReader(new FileInputStream(file));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            System.out.println("文件不存在");
+            System.out.println("您输入的文件不存在");
         }
         return reader;
     }
@@ -79,7 +79,7 @@ public class Lib {
                 temp = reader.read();
             }
             char[] chars = word.toCharArray();
-            if (isValidWord(chars)) {//如果单词合法，则单词总数++
+            if (isValidWord(chars)) {//如果单词合法，则单词总数+1
                 num++;
             }
             word = "" + (char) temp;
@@ -114,14 +114,63 @@ public class Lib {
         return num;
     }
 
-    //统计单词的出现次数,最终只输出频率最高的10个。
-    public static Map wordNum(String inputFile, String outputFile) throws IOException {
-
-    }
-
-    //打印出频率前十的单词
+    //频率前十的单词输出到output里面
     public static void printWords(Map<String, Integer> map, Writer writer) throws IOException {
+
     }
+
+    //统计单词的出现次数,输出频率最高的10个。
+    public static Map wordNum(String inputFile, String outputFile) throws IOException {
+        Reader reader = openInputFile(inputFile);
+        Writer writer = openOutputFile(outputFile);
+        int temp=0;
+        String word = "";
+        Map<String, Integer> words = new HashMap<String, Integer>();//用于放置单词和其出现次数
+        while ((temp = reader.read()) != -1) {
+            while (isValidChar(temp)) {//转为小写
+                if (temp >= 'a' && temp <= 'z') {
+                    temp += 32;
+                }
+                word += (char) temp;
+                temp = reader.read();
+            }
+            while (!isValidChar(temp) && temp != -1) {//去除所有空白字符和分隔符
+                temp = reader.read();
+            }
+            char[] chars = word.toCharArray();
+            if (isValidWord(chars)) {//如果单词合法，则单词计数+1
+                if (words.get(word) == null) {
+                    words.put(word, Integer.valueOf(1));
+                } else {
+                    words.put(word, Integer.valueOf(words.get(word).intValue() + 1));
+                }
+            }
+            if (temp >= 'a' && temp <= 'z') {
+                temp += 32;
+            }
+            word = "" + (char) temp;
+        }
+        Map<String, Integer> sortedWords = words.entrySet().stream()//根据出现次数排序
+                .sorted(new Comparator<Map.Entry<String, Integer>>() {
+
+                    @Override
+                    public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                        if (o1.getValue().equals(o2.getValue())) {
+                            return o1.getKey().compareTo(o2.getKey());
+                        } else {
+                            return o2.getValue().compareTo(o1.getValue());
+                        }
+                    }
+                })
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        printWords(sortedWords, writer);
+        reader.close();
+        writer.close();
+        return sortedWords;
+    }
+
+
 
 
 
