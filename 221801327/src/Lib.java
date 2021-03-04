@@ -53,12 +53,11 @@ public class Lib {
             String line = "";
 
             while((line = bufferedReader.readLine()) != null){
-                String[] words = line.split("[^a-zA-Z0-9]");
+                Pattern pattern = Pattern.compile("[a-zA-Z]{4}([a-zA-Z0-9])*");
+                Matcher matcher = pattern.matcher(line);
 
-                for(int i = 0; i < words.length; i++)
-                {
-                    if(isValidWord(words[i].toCharArray()))
-                        total++;
+                while(matcher.find()){
+                    total++;
                 }
             }
 
@@ -100,8 +99,8 @@ public class Lib {
         return lines;
     }
     /*
-         函数名：   List<Map.Entry<String, Integer>> countWords
-         函数描述:  统计文件中各单词的出现次数（对应输出接下来10行），最终只输出频率最高的10个
+         函数名：   List<Map.Entry<String, Integer>> countWords(File inputFile)
+         函数描述:  统计文件中各单词的出现次数，并按照说明排序
          输入:      输入文件路径
          返回值:    排序好的list
          其他说明:  频率相同的单词，优先输出字典序靠前的单词。
@@ -139,6 +138,18 @@ public class Lib {
         }
 
         List<Map.Entry<String, Integer>> list = new ArrayList<>();
+        list = sortMap(map);
+        return list;
+    }
+    /*
+         函数名：   List<Map.Entry<String, Integer>> sortMap(Map<String, Integer> map)
+         函数描述:  对map按照说明排序，并返回一个有序List
+         输入:      map数组
+         返回值:    排序好的list
+         其他说明:  频率相同的单词，优先输出字典序靠前的单词。
+    */
+    public static List<Map.Entry<String, Integer>> sortMap(Map<String, Integer> map){
+        List<Map.Entry<String, Integer>> list = new ArrayList<>();
         list.addAll(map.entrySet());
 
         Collections.sort(list, new Comparator<>() {
@@ -153,19 +164,5 @@ public class Lib {
         });
 
         return list;
-    }
-    /*
-         函数名：   isValidWord(char[] words)
-         函数描述:  判断单词合法性
-         输入:      字符数组
-         返回值:    布尔值
-         其他说明:  至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割，不区分大小写。
-    */
-    public static boolean isValidWord(char[] words) {
-        if(words.length >= 4)
-            if(isLetter(words[0]) && isLetter(words[1]) && isLetter(words[2]) && isLetter(words[3])) {
-                return true;
-            }
-        return false;
     }
 }
