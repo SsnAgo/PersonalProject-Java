@@ -6,5 +6,6 @@ class WordCount{
         lib.getCountChar();
         lib.getLine();
         lib.getWordNum();
+        lib.getWordTopRate();
         }
 }
