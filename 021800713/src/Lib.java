@@ -3,8 +3,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Lib {
-    static int characters,words,lines;//字符数、单词数、行数
+    static int characters=0,words=0,lines=0;//字符数、单词数、行数
     static String freq;//词频
+    static Map<String, Integer> sortedWords=null;
 
     //读取文件函数、获得字符串
     public static String readFile(String inputFile) throws IOException {
@@ -25,10 +26,18 @@ public class Lib {
         StringBuilder str = new StringBuilder();
         str.append("characters: ").append(characters).append("\n")//字符数
                 .append("words: ").append(words).append("\n")//单词数
-                .append("lines: ").append(lines).append("\n")//有效行数
-                .append(freq);//词频最高前十个的单词及其词频
+                .append("lines: ").append(lines).append("\n");//有效行数
+
 
         writer.write(String.valueOf(str));
+
+        int i = 0;
+        for (Map.Entry<String, Integer> entry : sortedWords.entrySet()) {
+            writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
+            if (i++ >= 9) {//打印频率前十的单词
+                break;
+            }
+        }
         writer.close();
         return String.valueOf(str);
     }
@@ -79,9 +88,9 @@ public class Lib {
         }
     }
 
-    //统计字符数,输出到对应output文件
-    public static int charactersCount(String inputFile, String outputFile) throws IOException {
-        Reader reader = openInputFile(inputFile);
+    //统计字符数
+    public static int charactersCount(String inputFile) throws IOException {
+        /*Reader reader = openInputFile(inputFile);
         Writer writer = new FileWriter(outputFile);
         int num = 0, temp = 0;
         while ((temp = reader.read()) != -1) {
@@ -90,14 +99,17 @@ public class Lib {
         writer.write("characters: " + num + '\n');
         writer.close();
         reader.close();
-        return num;
+        return num;*/
+        String str = readFile(inputFile);
+        characters=str.length();
+        return  characters;
     }
 
     //统计单词总数,至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割(空格，非字母数字符号)，不区分大小写
     public static int wordsCount(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
-        Writer writer = openOutputFile(outputFile);
-        int num = 0, temp = 0;
+
+        int temp = 0;
         String word = "";
         while ((temp = reader.read()) != -1) {
             while (isValidChar(temp)) {
@@ -109,21 +121,20 @@ public class Lib {
             }
             char[] chars = word.toCharArray();
             if (isValidWord(chars)) {//如果单词合法，则单词总数+1
-                num++;
+                words++;
             }
             word = "" + (char) temp;
         }
-        writer.append("words: " + num + '\n');
-        writer.close();
+
         reader.close();
-        return num;
+        return words;
     }
 
     //统计行数(任何包含非空白字符的行)
     public static int linesCount(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
         Writer writer = openOutputFile(outputFile);
-        int num = 0, temp = 0;
+        int temp = 0;
         String line = "";
         while ((temp = reader.read()) != -1) {
             while (temp != -1 && (char) temp != '\n') {
@@ -133,25 +144,13 @@ public class Lib {
                 temp = reader.read();
             }
             if (line != "") {
-                num++;
+                lines++;
             }
             line = "";
         }
-        writer.append("lines: " + num + "\n");
-        reader.close();
-        writer.close();
-        return num;
-    }
 
-    //频率前十的单词输出到output里面
-    public static void printWords(Map<String, Integer> map, Writer writer) throws IOException {
-        int i = 0;
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
-            if (i++ >= 9) {//打印频率前十的单词
-                break;
-            }
-        }
+        reader.close();
+        return lines;
     }
 
     //统计单词的出现次数,输出频率最高的10个。
@@ -185,7 +184,7 @@ public class Lib {
             }
             word = "" + (char) temp;
         }
-        Map<String, Integer> sortedWords = words.entrySet().stream()
+        sortedWords = words.entrySet().stream()
                 .sorted(new Comparator<Map.Entry<String, Integer>>() {
 
                     @Override
@@ -199,7 +198,7 @@ public class Lib {
                 })
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-        printWords(sortedWords, writer);
+
         reader.close();
         writer.close();
         return sortedWords;
