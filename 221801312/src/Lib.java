@@ -44,15 +44,7 @@ public class Lib {
     //统计单词数
     public static long countWords(BufferedReader tempReader) throws IOException {
         Hashtable mapWord=countWordsTable(tempReader,true);
-        Set<Map.Entry<String, Long>> entrySet= new HashSet<>();
-        entrySet=mapWord.entrySet();
-        Iterator<Map.Entry<String, Long>> iter=entrySet.iterator();
-        long wordNum = 0;
-        while (iter.hasNext() ){
-            Map.Entry<String, Long> entry=iter.next();
-            wordNum+=entry.getValue();
-        }
-        return wordNum;
+        return (long) mapWord.get("wordsNum");
     }
 
 
@@ -60,12 +52,11 @@ public class Lib {
         return sortWord(countWordsTable(tempReader,false));
     }
 
-    static StringBuilder tempWord=new StringBuilder();
     //统计单词，返回map
-    private static Hashtable<String,Long> countLineWords(String line,Hashtable<String,Long> mapWord){
+    private static Hashtable<String,Long> countLineWords(String line,Hashtable<String,Long> mapWord,boolean countWords){
         long wordsNum=0;
         int wordFlag=0;
-        //StringBuilder tempWord=new StringBuilder();     //存单词
+        StringBuilder tempWord=new StringBuilder();     //存单词
         for(int i=0;i<line.length();i++){
             if(Character.isLetter(line.charAt(i))){
                 wordFlag++;                             //如果是字母，将wordFlag++;
@@ -83,13 +74,18 @@ public class Lib {
                 if(wordFlag>=4){                            //当遇到分隔符或检索到行尾时
                     wordsNum++;                            //若有wordFlag>=4，判定为单词有效，将有效单词++
                     String tempWordString=tempWord.toString().toLowerCase();
-                    //加入map前判断单词在map中是否存在，存在则取出其value,将其+1后放入map
-                    long count=mapWord.containsKey (tempWordString)?mapWord.get(tempWordString):0;
-                    mapWord.put(tempWordString,count+1);
+                    if(!countWords){
+                        //加入map前判断单词在map中是否存在，存在则取出其value,将其+1后放入map
+                        long count=mapWord.containsKey (tempWordString)?mapWord.get(tempWordString):0;
+                        mapWord.put(tempWordString,count+1);
+                    }
                 }
                 wordFlag=0;                                 //不论是否为有效单词，都将wordFlag置零
                 tempWord.delete(0,tempWord.length());
             }
+        }
+        if(countWords){
+            mapWord.put("wordsNum",mapWord.get("wordsNum")+wordsNum);
         }
         return mapWord;
     }
@@ -111,11 +107,13 @@ public class Lib {
 
     private static Hashtable<String,Long> countWordsTable(BufferedReader tempReader,boolean countLine) throws IOException {
         Hashtable<String,Long> mapWord=new Hashtable<>();
+        if(countLine)
+            mapWord.put("wordsNum",0L);
         BufferedReader reader=tempReader;
         int lineNumTemp=0;
         String line;
         while((line= reader.readLine())!=null){
-            mapWord=countLineWords(line,mapWord);
+            mapWord=countLineWords(line,mapWord,countLine);
             if(!line.trim().isEmpty() && countLine)
                 lineNumTemp++;
         }
