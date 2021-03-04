@@ -33,3 +33,6 @@ out
 # ignore log files
 *.log
 
+*.txt
+LibTest.java
+
