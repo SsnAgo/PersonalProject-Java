@@ -38,8 +38,6 @@ public class WordCount {
         bufferedWriter.flush();
 
 
-        System.out.print(strNum);
-
 
     }
 }
