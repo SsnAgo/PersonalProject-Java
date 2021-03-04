@@ -73,25 +73,25 @@ public class WordCount {
         File input =null, output = null;
         String data = null;
 
-//        //命令行读文件
-//        if (args.length < 2) {
-//            System.out.println("Input error! Please restart the program.");
-//        }
-//        else {
-//            //定位input.txt以及output.txt
-//            input = new File(args[0]);
-//            output = new File(args[1]);
-//            data = readFile(input);//读入的文本内容
-//        }
+       //命令行读文件
+        if (args.length < 2) {
+            System.out.println("Input error! Please restart the program.");
+        }
+        else {
+            //定位input.txt以及output.txt
+            input = new File(args[0]);
+            output = new File(args[1]);
+            data = readFile(input);//读入的文本内容
+        }
 
         //测试是否成功读到文本内容
         //System.out.println(data);
 
         //@Test
         //绝对路径测试写入是否成功
-        input = new File("E:\\GitHub\\PersonalProject-Java\\291800139\\example\\src\\1.txt");
-        output = new File("E:\\GitHub\\PersonalProject-Java\\291800139\\example\\src\\output.txt");
-        data = readFile(input);
+//        input = new File("E:\\GitHub\\PersonalProject-Java\\291800139\\example\\src\\input.txt");
+//        output = new File("E:\\GitHub\\PersonalProject-Java\\291800139\\example\\src\\output.txt");
+//        data = readFile(input);
 
         //处理文本
         Lib lib = new Lib();
