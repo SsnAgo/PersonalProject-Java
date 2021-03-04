@@ -118,10 +118,10 @@ public class WordCount {
             String line = "";
             while((line = br.readLine())!=null){
                 //ÅÐ¶ÏÊÇ·ñÎª¿Õ°×ÐÐ
-                if (!line.isBlank())
-                {
+                //if (!line.isBlank())
+                //    count++;
+                if(!(line.trim().isEmpty()))
                     count++;
-                }
             }
             System.out.println(count);
         } catch (FileNotFoundException e) {
