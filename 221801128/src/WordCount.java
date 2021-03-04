@@ -31,10 +31,11 @@ public class WordCount {
 	 */
 	public static void writeIn(String inputfile,String outputfile) throws IOException {
 		BufferedWriter writer = null;
+		String text = readFile(inputfile);
 		//利用StringBuilder拼接所有信息
-		StringBuilder str = new StringBuilder("characters: " + Lib.countChar(readFile(inputfile)) + "\n"
-				+ "words: " + Lib.countWords(readFile(inputfile)) + "\n"
-				+ "lines: " + Lib.countLines(readFile(inputfile)) + "\n");
+		StringBuilder str = new StringBuilder("characters: " + Lib.countChar(text) + "\n"
+				+ "words: " + Lib.countWords(text) + "\n"
+				+ "lines: " + Lib.countLines(text) + "\n");
 		int cnt = 0;
 		try {
 			writer = Files.newBufferedWriter(Paths.get(outputfile), StandardCharsets.UTF_8);
