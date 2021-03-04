@@ -9,27 +9,38 @@ public class WordUtilImpl implements WordUtil{
     public static final String PARENTDIRECTORY = "..\\";
 
     //统计字符数
-    public  Integer countChar(String fileName) throws IOException{
+    public Integer countChar(String fileName) throws IOException{
         return countChar(fileName, PARENTDIRECTORY);
     }
     public Integer countChar(String fileName, String fileDirectory) throws IOException {
+        if(!rightDocument(fileName)){
+            System.out.println("文件格式错误！非txt后缀文件");
+        }
+
         //初始化字符数
         int charNum=0;
         File file=new File(fileDirectory + fileName);
         int x=-1;
-        FileReader fReader=new FileReader(file);
-        //逐个字符读取文件
-        while((x=fReader.read())!=-1) {
-            char a=(char)x;
+        try{
+            FileReader fReader=new FileReader(file);
+            //逐个字符读取文件
+            while((x=fReader.read())!=-1) {
+                char a=(char)x;
             /*if(a!='\n'&&a!='\r')
             {
                 charNum++;
             }*/
-            charNum++;
+                charNum++;
+            }
+            String result=""+charNum;
+            //关闭流
+            fReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("文件未找到."+e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
-        String result=""+charNum;
-        //关闭流
-        fReader.close();
+
         return charNum;
     }
 
@@ -38,29 +49,40 @@ public class WordUtilImpl implements WordUtil{
         return countWord(fileName, PARENTDIRECTORY);
     }
     public Integer countWord(String fileName, String fileDirectory) throws IOException{
+        if(!rightDocument(fileName)){
+            System.out.println("文件格式错误！非txt后缀文件");
+        }
+
         //初始化单词数
         int wordNum=0;
         File file = new File(fileDirectory + fileName);
         //缓冲区
         BufferedReader bReader;
-        bReader = new BufferedReader(new FileReader(file));
-        String temp = "";
+        try{
+            bReader = new BufferedReader(new FileReader(file));
+            String temp = "";
 
-        //按行读文件，用正则表达式分割
-        while ((temp = bReader.readLine()) != null) {
-            String[] words = temp.split("[^a-zA-Z0-9]+");
-            for (String word : words) {
-                word.toLowerCase();
-                //碰到符合条件的单词，单词数+1
-                if (word.matches("[a-zA-Z]{4}[a-zA-Z0-9]*") ) {
-                    wordNum++;
+            //按行读文件，用正则表达式分割
+            while ((temp = bReader.readLine()) != null) {
+                String[] words = temp.split("[^a-zA-Z0-9]+");
+                for (String word : words) {
+                    word.toLowerCase();
+                    //碰到符合条件的单词，单词数+1
+                    if (word.matches("[a-zA-Z]{4}[a-zA-Z0-9]*") ) {
+                        wordNum++;
+                    }
                 }
             }
+
+            //String result=""+wordnum;
+            //关闭流
+            bReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("文件未找到."+e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
 
-        //String result=""+wordnum;
-        //关闭流
-        bReader.close();
         return wordNum;
     }
 
@@ -70,6 +92,10 @@ public class WordUtilImpl implements WordUtil{
         return countLine(fileName, PARENTDIRECTORY);
     }
     public Integer countLine(String fileName, String fileDirectory) throws IOException{
+        if(!rightDocument(fileName)){
+            System.out.println("文件格式错误！非txt后缀文件");
+        }
+
         String temp = "";
         String regEx="[\n\\t\\r ]";
         //或：String regEx="[\\s]"; //匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]
@@ -79,9 +105,10 @@ public class WordUtilImpl implements WordUtil{
         File file = new File(fileDirectory + fileName);
         //缓冲区
         BufferedReader bReader;
-        bReader = new BufferedReader(new FileReader(file));
-        //按行读取文件，进行正则处理判断有效行数
-        while((temp = bReader.readLine())!=null) {
+        try{
+            bReader = new BufferedReader(new FileReader(file));
+            //按行读取文件，进行正则处理判断有效行数
+            while((temp = bReader.readLine())!=null) {
             /*
             另解：
             String aa = " ";
@@ -89,21 +116,27 @@ public class WordUtilImpl implements WordUtil{
             String newString = str.replaceAll(regEX,aa);
             //不想保留原来的字符串可以直接写成 “str = str.replaceAll(regEX,aa);”
              */
-            //这里是将特殊字符换为aa字符串," "代表直接去掉
-            String aa = " ";
-            Pattern p = Pattern.compile(regEx);
-            //这里把想要替换的字符串传进来
-            Matcher m = p.matcher(temp);
-            String newString = m.replaceAll(aa).trim();
+                //这里是将特殊字符换为aa字符串," "代表直接去掉
+                String aa = " ";
+                Pattern p = Pattern.compile(regEx);
+                //这里把想要替换的字符串传进来
+                Matcher m = p.matcher(temp);
+                String newString = m.replaceAll(aa).trim();
 
-            if(!newString.equals("")){
-                //System.out.println("有效行："+newString);
-                line++;
+                if(!newString.equals("")){
+                    //System.out.println("有效行："+newString);
+                    line++;
+                }
             }
+            //关闭流
+            bReader.close();
+            //String result=""+line;
+        } catch (FileNotFoundException e) {
+            System.out.println("文件未找到."+e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
-        //关闭流
-        bReader.close();
-        //String result=""+line;
+
         return line;
     }
 
@@ -113,6 +146,10 @@ public class WordUtilImpl implements WordUtil{
         return countWordFrequency(fileName, PARENTDIRECTORY);
     }
     public List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName, String fileDirectory) throws IOException {
+        if(!rightDocument(fileName)){
+            System.out.println("文件格式错误！非txt后缀文件");
+        }
+
         String temp = "";
         String result = "";
         List<HashMap.Entry<String, Integer>> wordList = null;
@@ -140,23 +177,6 @@ public class WordUtilImpl implements WordUtil{
                 }
             }
 
-            //法一：返回值void
-            /*
-            Set<WordEntity> set=new TreeSet<WordEntity>();
-            for(String s:map.keySet()){
-                WordEntity wordEntry=new WordEntity(s,map.get(s));
-                set.add(wordEntry);
-            }
-            Iterator<WordEntity> ite=set.iterator();
-            int count=0;
-            while(ite.hasNext()){
-                if(count>=10)
-                    break;
-                System.out.println(ite.next());
-                count++;
-            }*/
-
-            //法二：返回值 String
             if(!wordMap.isEmpty()){
                 //按单词个数排序
                 wordList = Sort(wordMap);
@@ -183,7 +203,7 @@ public class WordUtilImpl implements WordUtil{
 
             @Override
             public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                if(o1.getValue() == o2.getValue())
+                if(o1.getValue()==o2.getValue())
                     //字典序
                     return o1.getKey().compareTo(o2.getKey());
                 //从大到小
@@ -192,6 +212,20 @@ public class WordUtilImpl implements WordUtil{
         };
         wordList.sort(com);
         return wordList;
+    }
+
+    public static void main(String[] args) throws IOException{
+        //System.out.println(countWordFrequency("input.txt"));
+        //System.out.println(countLine("input.txt"));
+    }
+
+    //判断文件名是否为文本文件
+    public boolean rightDocument(String fileName){
+        boolean result = false;
+        if (fileName.matches("[\\s\\S]*.txt") ){
+            result = true;
+        }
+        return result;
     }
 
 }
