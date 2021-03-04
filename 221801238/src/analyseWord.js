@@ -28,18 +28,23 @@ function analyseWord(text) {
     let words = []
     let wordLetters = 0
     let newWord = ""
+    let beforeSeparatorDefeat = false
     for (let i = 0; i < text.length; i++) {
         const c = text[i]
         switch (true) {
             case isLetter(c):
-                wordLetters++
-                newWord += c
-                if (i === text.length - 1 && wordLetters >= 4) {
-                    words.push(newWord)
+                if(!beforeSeparatorDefeat){
+                    wordLetters++
+                    newWord += c
+                    if (i === text.length - 1 && wordLetters >= 4) {
+                        words.push(newWord)
+                    }
                 }
                 break;
             case isNumber(c):
                 if (wordLetters < 4) {
+                    wordLetters = 0
+                    beforeSeparatorDefeat = true
                     continue
                 } else {
                     newWord += c;
@@ -54,6 +59,7 @@ function analyseWord(text) {
                 }
                 wordLetters = 0
                 newWord = ""
+                beforeSeparatorDefeat = false
         }
     }
     return words.length

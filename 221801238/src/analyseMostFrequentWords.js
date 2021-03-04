@@ -49,6 +49,7 @@ function analyseMostFrequentWords(text) {
                 break;
             case isNumber(c):
                 if (wordLetters < 4) {
+                    wordLetters = 0
                     continue
                 } else {
                     newWord += c

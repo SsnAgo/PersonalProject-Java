@@ -2,7 +2,6 @@ const analyseChar = require('./analyseChar')
 const analyseWord = require('./analyseWord')
 const analyseMostFrequentWords = require('./analyseMostFrequentWords')
 const analyseLine = require('./analyseLine')
-const assert = require('assert')
 
 const fs = require("fs")
 const path = require("path")
