@@ -73,10 +73,12 @@ public class WordCount {
 //		System.out.print(str.toString());
 //	}
 	public static void main(String[] args) throws IOException {
+		//long st = System.currentTimeMillis();
 		if (args.length<2) {
             System.out.println("需要两个参数，请重新输入！");
             return;
         }
+
 		File dir = new File(".");
 		inputfile = dir.getCanonicalPath()+"\\"+args[0];
 		outputfile = dir.getCanonicalPath()+"\\"+args[1];
@@ -84,6 +86,8 @@ public class WordCount {
 		//printall();//打印函数，有需要可以解开。
 		//写入指定文件
 		writeIn(inputfile,outputfile);
+		//long et = System.currentTimeMillis();
+		//System.out.println(et-st);
 	}
 }
 
