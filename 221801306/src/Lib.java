@@ -90,10 +90,7 @@ public class Lib {
      * @return String
      */
     public static String answerBuilder(int chars, int words, int lines, String frequency) {
-        System.out.println("characters:" + chars);//输出字符总数
-        System.out.println("words:" + words);//输出单词总数
-        System.out.println("lines:" + lines);//输出总行数
-        System.out.println(frequency);
+        //拼接输出信息
         return "characters:" + chars +
                 "\nwords:" + words +
                 "\nlines:" + lines + "\n" +
@@ -137,7 +134,7 @@ public class Lib {
     public static String sortFrequency(Map<String, Integer> map, int num) {
         StringBuilder result = new StringBuilder();
         //将HashMap中的包含映射关系的视图entrySet转换为List,然后重写比较器
-        List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet()); //转换为list
+        List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
         //idea自动转化成lambda表达式
         list.sort((o1, o2) -> o2.getValue().compareTo(o1.getValue()));
         //输出
@@ -153,8 +150,10 @@ public class Lib {
         for (int i = 0; i < list.size() && outputCount < num; i++) {
             //如果当前字符词频与下一个不一样，则对当前所有同词频单词排序
             if ((i == list.size() - 1) || !list.get(i).getValue().equals(list.get(i + 1).getValue())) {
-                sameFrequency.add(list.get(i).getKey());//将当前单词加入同词频单词表
-                sameFrequency.sort(String::compareTo);//对同词频单词表排序
+                //将当前单词加入同词频单词表
+                sameFrequency.add(list.get(i).getKey());
+                //对同词频单词表排序
+                sameFrequency.sort(String::compareTo);
                 //按字典顺序记录同词频单词
                 for (String s : sameFrequency) {
                     String temp = s + ": " + list.get(i).getValue();
@@ -168,7 +167,6 @@ public class Lib {
                 sameFrequency.clear();
             } else sameFrequency.add(list.get(i).getKey());
         }
-
         return result.toString();
     }
 
@@ -191,12 +189,15 @@ public class Lib {
     }
 
     /**
-     * 向文件输出内容
+     * 输出内容
      *
      * @param output        输出文件的路径
      * @param answerBuilder 输出内容
      */
     public static void outputInfo(String output, String answerBuilder) {
+        //控制台输出
+        System.out.println(answerBuilder);
+        //文件输出
         File outputFile = new File(output);
         BufferedWriter writer = null;
         try {
