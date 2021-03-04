@@ -77,4 +77,22 @@ public class CountCore {
         return result;
     }
     
+    public static int lineCount(File inputFile){
+        BufferedReader bufferedReader=null;
+        //正则表达式,匹配至少一个非空白字符
+        String regex="\\S+";
+        int lines=0;
+        try {
+            bufferedReader=new BufferedReader(new FileReader(inputFile));
+            String str;
+            while((str=bufferedReader.readLine())!=null){
+                if(Pattern.matches(regex,str))lines++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lines;
+    }
 }
