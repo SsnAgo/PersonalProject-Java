@@ -6,11 +6,15 @@ public class WordCount {
     private static Map<String, Object> word = new TreeMap<String, Object>();
     public static void main(String[] args) throws IOException{
         // write your code here
-        System.out.println("hello");
-        System.out.println(countChar(args[0]));
-        System.out.println(countLine(args[0]));
-        System.out.println(countWord(args[0]));
-        countkeyword(args[0]);
+
+        FileWriter file=new FileWriter(args[1]);
+        BufferedWriter out = new BufferedWriter(file);
+        out.write("characters: "+countChar(args[0])+"\n");
+        out.write("words: "+countWord(args[0])+"\n");
+        out.write("lines: "+countLine(args[0])+"\n");
+        out.close();
+        countkeyword(args[0],args[1]);
+        System.out.println("文件创建成功！");
     }
     public static int countChar(String filepath)throws IOException {
         BufferedReader reader=new BufferedReader(new FileReader(filepath));
@@ -71,9 +75,11 @@ public class WordCount {
         }
         return num;
     }
-    public static  void countkeyword(String filepath)throws IOException {
+    public static  void countkeyword(String filepath,String filepath2)throws IOException {
         int n=countWord(filepath);
         int N=10;
+        FileWriter file=new FileWriter(filepath2,true);
+        BufferedWriter out = new BufferedWriter(file);
         BufferedReader reader=new BufferedReader(new FileReader(filepath));
         if(!reader.ready())
         {
@@ -118,11 +124,13 @@ public class WordCount {
                     }
                 }
             }
-            System.out.println(maxs+":"+max);
+            out.write(maxs+":"+max+"\n");
             word.remove(maxs);
             n--;
             if(n<=0) break;
         }
+
+        out.close();
 
     }
 
