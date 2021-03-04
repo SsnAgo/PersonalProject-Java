@@ -71,9 +71,9 @@ public class Lib {
     public static int countLines(String content) {
         int lines = 0;
         StringTokenizer st = new StringTokenizer(content, "\n\r");
-        while (st.hasMoreTokens()){
+        while (st.hasMoreTokens()) {
             String line = st.nextToken();
-            if(!line.trim().equals("")){
+            if (!line.trim().equals("")) {
                 lines++;
             }
         }
@@ -105,7 +105,7 @@ public class Lib {
      */
     public static Map<String, Integer> countFrequency(String content) {
         Map<String, Integer> map = new HashMap<>();
-        content=content.replaceAll("[^A-Za-z0-9]", " ");
+        content = content.replaceAll("[^A-Za-z0-9]", " ");
         StringTokenizer st = new StringTokenizer(content, " ");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
