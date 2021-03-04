@@ -12,6 +12,22 @@ public class Lib {
     private int linesNum;
     private Map<String, Integer> wordsMap;
 
+    public int getCharsNum() {
+        return charsNum;
+    }
+
+    public int getLinesNum() {
+        return linesNum;
+    }
+
+    public int getWordsNum() {
+        return wordsNum;
+    }
+
+    public Map<String, Integer> getWordsMap() {
+        return wordsMap;
+    }
+
     /**
      * 构造函数
      * @param inputFile 读取文件地址
@@ -44,9 +60,7 @@ public class Lib {
             e.printStackTrace();
         }
         finally {
-            if (reader != null) {
-                reader.close();
-            }
+            reader.close();
         }
         content = builder.toString();
     }
@@ -55,9 +69,7 @@ public class Lib {
      * 写入文件
      */
     public void writeFile() throws IOException {
-        countCharsNum();
-        countWordsNum();
-        countLinesNum();
+        countProcess();
         BufferedWriter writer = null;
         try{
             writer = new BufferedWriter(new FileWriter(outputFile));
@@ -75,15 +87,23 @@ public class Lib {
                     break;
                 }
             }
+            writer.flush();
         }
         catch (IOException e){
             e.printStackTrace();
         }
         finally {
-            if (writer != null) {
-                writer.close();
-            }
+            writer.close();
         }
+    }
+
+    /**
+     * 统计过程
+     */
+    public void countProcess(){
+        countCharsNum();
+        countWordsNum();
+        countLinesNum();
     }
 
     /**
