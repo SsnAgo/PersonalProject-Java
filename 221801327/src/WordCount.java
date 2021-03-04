@@ -29,11 +29,14 @@ public class WordCount{
         System.out.println(characters);
         int words = countTotalWords(inputFile);
         System.out.println(words);
+        int lines = countValidLines(inputFile);
+        System.out.println(lines);
 
         try {
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
             String content = "characters: " + characters + '\n';
             content += "words: " + words + "\n";
+            content += "lines: " + lines + "\n";
             bufferedOutputStream.write(content.getBytes());
 
             bufferedOutputStream.flush();
@@ -115,5 +118,33 @@ public class WordCount{
             return true;
         }
         return false;
+    }
+    /*
+         函数名：   countValidLines(File inputFile)
+         函数描述:  非空白行统计
+         输入:      输入文件路径
+         返回值:    非空白行数
+         其他说明:  任何包含非空白字符的行，都需要统计。
+    */
+    public static int countValidLines(File inputFile){
+        int lines = 0;
+        String line;
+
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
+
+            while((line = bufferedReader.readLine()) != null){
+                if(!line.equals(""))
+                    lines++;
+            }
+
+            bufferedReader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return lines;
     }
 }
