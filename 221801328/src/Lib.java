@@ -11,9 +11,7 @@ public class Lib {
     private String inputFileName;
     private String outputFileName;
 
-
     public Lib(String input,String output){
-
         inputFileName = input;
         outputFileName = output;
     }
@@ -24,7 +22,6 @@ public class Lib {
         lines = countLines(inputFileName);
         wordList = countWordFrequency(inputFileName);
     }
-
 
     public void outputResult() {
         try {
@@ -42,7 +39,6 @@ public class Lib {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /*统计单词数*/
@@ -54,15 +50,12 @@ public class Lib {
 
     /*获取单词列表*/
     public List<String> getWordList(String inputFile) {
-        int count = 0;
         List<String> wordList = new ArrayList();//单词列表
         try {
             BufferedReader br = new BufferedReader(new FileReader(inputFile));
-
             String line = null;
             //一行一行读取文件
             while((line = br.readLine()) != null){
-
                 //分割符：空格，非字母数字符号,以分割符来分割出单词
                 String[] words = line.split("[^a-zA-Z0-9]");
                 //单词：至少以4个英文字母开头
@@ -78,21 +71,12 @@ public class Lib {
                 }
             }
             br.close();
-            //统计单词数
-            count = wordList.size();
- //           System.out.println(count);
-
-//            for (String word : wordList){
-//                System.out.println(word);
-//            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        finally {
-            return wordList;
-        }
+        return wordList;
     }
 
 
@@ -101,26 +85,23 @@ public class Lib {
         int count = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader(inputFile));
-            int ch = -1;
-            while ((ch = br.read()) != -1) {
-                //属于ascii码，就计下
-                if (ch <=127 )
-                    count++;
-//                System.out.println(ch);
-            }
- //           System.out.println(count);
+            while ((br.read()) != -1)
+                count++;
+//            int ch = -1;
+//            while ((ch = br.read()) != -1) {
+//                //属于ascii码，就计下
+//                if (ch <=127 )
+//                    count++;
+//            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        finally {
-            return count;
-        }
-
+        return count;
     }
 
-    /*统计文件的有效行数,任何包含**非空白**字符的行，都需要统计。*/
+    /*统计文件的有效行数,任何包含 非空白 字符的行，都需要统计。*/
     public int countLines(String inputFile){
         int count = 0;
         try {
@@ -132,7 +113,6 @@ public class Lib {
                 //   count++;
                 if (!(line.trim().isEmpty()))
                     count++;
-
             }
 //            System.out.println(count);
         } catch (FileNotFoundException e) {
@@ -140,13 +120,11 @@ public class Lib {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        finally {
-            return count;
-        }
+        return count;
     }
 
     /*统计词频，只输出出现最多的10个*/
-    public  ArrayList countWordFrequency(String inputFile)
+    public ArrayList countWordFrequency(String inputFile)
     {
         List<String> wordList = getWordList(inputFile);
         //key 单词  value 出现次数
@@ -176,12 +154,13 @@ public class Lib {
                 return o2.getValue() - o1.getValue();
             }
         });
-
-
-//        for(int i = 0;i < list.size() && i < 10;i++){
-//            System.out.println(list.get(i).getKey()+ ": " +list.get(i).getValue());
-//        }
-
         return list;
+    }
+
+    public void printWords(ArrayList<Map.Entry<String,Integer>> list) {
+
+        for(int i = 0;i < list.size() && i < 10;i++){
+            System.out.println(list.get(i).getKey()+ ": " +list.get(i).getValue());
+        }
     }
 }
