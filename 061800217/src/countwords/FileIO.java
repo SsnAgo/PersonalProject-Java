@@ -31,6 +31,7 @@ public class FileIO {
 		File file_out = new File(file_path);
 		FileWriter writer = new FileWriter(file_out,true); 
 		Set<Map.Entry<String, Integer>> mSet = word_freq.entrySet();
+		int count = 0;
 		for(Map.Entry<String, Integer> entry :mSet) {
 			writer.write("\n");
 			writer.write(entry.getKey()+":"+entry.getValue());
