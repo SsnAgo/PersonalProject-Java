@@ -5,7 +5,7 @@
  * @return {Number} 字符数
  */
 function analyseChar(text) {
-    return text.length;
+    return text.length
 }
 
-module.exports = analyseChar;
+module.exports = analyseChar

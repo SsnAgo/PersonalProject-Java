@@ -5,15 +5,15 @@
  * @return {Number} 行数
  */
 function analyseLine(text) {
-    let lineCount = 0;
-    let lines = text.split("\n");
+    let lineCount = 0
+    let lines = text.split("\n")
     lines.forEach(line => {
-        let l = line.replace("\r", "");
+        let l = line.replace("\r", "")
         if (l.length > 0) {
-            lineCount ++;
+            lineCount ++
         }
     });
-    return lineCount;
+    return lineCount
 }
 
-module.exports = analyseLine;
+module.exports = analyseLine

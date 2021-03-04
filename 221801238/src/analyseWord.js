@@ -5,7 +5,7 @@
  * @return {Boolean} 是否为字母
  */
 function isLetter(c) {
-    return /[a-zA-Z]/.test(c);
+    return /[a-zA-Z]/.test(c)
 }
 
 /**
@@ -15,7 +15,7 @@ function isLetter(c) {
  * @return {Boolean} 是否为数字
  */
 function isNumber(c) {
-    return /[0-9]/.test(c);
+    return /[0-9]/.test(c)
 }
 
 /**
@@ -25,38 +25,38 @@ function isNumber(c) {
  * @return {Number} 单词总数
  */
 function analyseWord(text) {
-    let words = [];
-    let wordLetters = 0;
-    let newWord = "";
+    let words = []
+    let wordLetters = 0
+    let newWord = ""
     for (let i = 0; i < text.length; i++) {
-        const c = text[i];
+        const c = text[i]
         switch (true) {
             case isLetter(c):
-                wordLetters++;
-                newWord += c;
+                wordLetters++
+                newWord += c
                 if (i === text.length - 1 && wordLetters >= 4) {
-                    words.push(newWord);
+                    words.push(newWord)
                 }
                 break;
             case isNumber(c):
                 if (wordLetters < 4) {
-                    continue;
+                    continue
                 } else {
                     newWord += c;
                     if (i === text.length - 1 && wordLetters >= 4) {
-                        words.push(newWord);
+                        words.push(newWord)
                     }
                 }
-                break;
+                break
             default:
                 if (wordLetters >= 4) {
-                    words.push(newWord);
+                    words.push(newWord)
                 }
-                wordLetters = 0;
-                newWord = "";
+                wordLetters = 0
+                newWord = ""
         }
     }
-    return words.length;
+    return words.length
 }
 
-module.exports = analyseWord;
+module.exports = analyseWord
