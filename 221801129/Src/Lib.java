@@ -146,14 +146,20 @@ public class Lib {
         writer.write("characters: " + characterNum + "\n");
         writer.write("words: " + wordNum + "\n");
         writer.write("lines: " + lineNum + "\n");
-        wordsRank.forEach(item -> {
-            try {
-                writer.write(item.getKey() + ": " + item.getValue() + "\n");
+        if (wordsRank.size() > 10) {
+            for (int i = 0; i < 10; i++) {
+                writer.write(wordsRank.get(i).getKey() + ": " + wordsRank.get(i).getValue());
             }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        }
+        else {
+            wordsRank.forEach(entry -> {
+                try {
+                    writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
         writer.flush();
         writer.close();
     }
