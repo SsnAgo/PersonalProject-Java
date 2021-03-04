@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * 学号：221801315
  * 邮箱：****@***.com
  * 创建时间：2021/2/28 15:22
- * 最后修改时间：2021/3/4 16:45
+ * 最后修改时间：2021/3/5 3:04
  */
 public class Lib {
     private static final Map<String, Integer> wordFrequencyRecords = new HashMap<>();   //单词频率记录表
@@ -24,14 +24,16 @@ public class Lib {
 
     /* 检测所给文件路径是否有效，输入文件不存在则抛出异常，输出文件不存在则创建
        输入参数：输入文件路径inFilePath，输出文件路径outFilePath
-       返回值：空
-       异常：输入文件不存在异常FileNotFoundException*/
-    public static void checkFileValid(String inFilePath, String outFilePath) throws FileNotFoundException {
+       返回值：正确的输入文件路径inFilePath*/
+    public static String checkFileValid(String inFilePath, String outFilePath) {
         File inFile = new File(inFilePath);
-        //当输入文件不存在时，打印提示信息，抛出异常
-        if (!inFile.exists()) {
-            System.out.println("File " + inFilePath + " doesn't exist, program will exit.");
-            throw new FileNotFoundException();
+        //当输入文件不存在时，打印提示信息，要求重新输入输入文件
+        while (!inFile.exists()) {
+            System.out.println("File " + inFilePath + " doesn't exist, please input right file path.");
+            System.out.print("InputFile:");
+            Scanner in = new Scanner(System.in);
+            inFilePath = in.nextLine();
+            inFile = new File(inFilePath);
         }
 
         //当输入输出文件不为.txt文件时，默认创建同名输出文件
@@ -54,6 +56,7 @@ public class Lib {
                 e.printStackTrace();
             }
         }
+        return inFilePath;
     }
 
     /* 统计输入文件中的字符总数
