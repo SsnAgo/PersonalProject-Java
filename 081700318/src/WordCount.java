@@ -11,7 +11,7 @@ public class WordCount{
         FileIo.getWriter(args[1]);
         ComputeTool ComputeCore=new ComputeTool(FileIo.getFileString());
         ComputeCore.compute();
-        FileIo.writeResult(ComputeCore.CharNums,ComputeCore.RowNums,ComputeCore.WordNums,ComputeCore.getTOPWords(10));
+        FileIo.writeResult(ComputeCore.CharNums,ComputeCore.RowNums,ComputeCore.WordNums,ComputeCore.TopList);
         FileIo.closeReader();
         FileIo.closeWriter();
     }
