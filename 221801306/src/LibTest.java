@@ -38,4 +38,33 @@ class LibTest {
             assertFalse(Lib.IsWord(word));
         }
     }
+
+    @Test
+    void sortFrequency() {
+        //构造一个包含字母、数字的字符串
+        String str = "abc abcd abcd abcd123 abcd123 123ab 123456 Lakers Champion GOGO gogo where amazing happens nice\n";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 1000; i++) {
+            sb.append(str);
+        }
+        String test = "abcd: 2000\nabcd123: 2000\ngogo: 2000\namazing: 1000\n";
+        test += "champion: 1000\nhappens: 1000\nlakers: 1000\nnice: 1000\nwhere: 1000";
+        assertEquals(test, Lib.sortFrequency(Lib.countFrequency(sb.toString()), 10));
+    }
+
+    @Test
+    void getFileAndOutput() {
+        String s = "abcd,abcd\nabcd abcd\r abcd(abcd) abcd+abcd-abcd abcd";
+        String path = "test.txt";
+        Lib.outputInfo(path, s);
+        assertEquals(s, Lib.getFile(path));
+    }
+
+    @Test
+    void answerBuilder() {
+        String s="characters: 80000\nwords: 10000\nlines: 1000\n";
+        String test = "abcd: 2000\nabcd123: 2000\ngogo: 2000\namazing: 1000\n";
+        test += "champion: 1000\nhappens: 1000\nlakers: 1000\nnice: 1000\nwhere: 1000";
+        assertEquals(s+test,Lib.answerBuilder(80000,10000,1000,test));
+    }
 }
