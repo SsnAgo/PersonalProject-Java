@@ -42,7 +42,7 @@ public class WordCount {
             //词频前10的换行操作
             for (Map.Entry<String, Integer> entry:wList) {
                 count++;
-                text += "<" + entry.getKey() + ">: " + entry.getValue();
+                text +=  entry.getKey() + ": " + entry.getValue();
                 if (count <= 9) {
                     text += "\r\n";
                 } else {
@@ -75,6 +75,10 @@ public class WordCount {
             data = readFile(input);//读入的文本内容
         }
 
+        //测试是否成功读到文本内容
+        //System.out.println(data);
+
+
         //处理文本
         Lib lib = new Lib();
         String dataLen = data.replaceAll("\r\n", "\n");
@@ -82,6 +86,8 @@ public class WordCount {
         int words = lib.wordCount(data);
         int lines = lib.lineCount(data);
         List<Map.Entry<String,Integer>> wordList = lib.wordSort();
+
+
 
         //输出文本
         writeFile(characters,words,lines,output,wordList);
