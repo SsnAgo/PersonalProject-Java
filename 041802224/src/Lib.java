@@ -5,24 +5,30 @@ import java.util.regex.Pattern;
 import static java.util.stream.Collectors.toMap;
 
 public class Lib {
-
     Lib(String openFilePath, String writeFilePath){
         this.openFilePath = openFilePath;
         this.writeFilePath = writeFilePath;
     }
-    public  String openFilePath = "D:\\IDEA\\PersonalProject-Java\\input.txt" ;
-    public  String writeFilePath = "D:\\IDEA\\PersonalProject-Java\\output.txt" ;
-    public String file;
-    public String wordPattern = "^([A-Za-z]{4}[A-Za-z]*[0-9]*)(\\D*)";
-    public String linePattern = "\\s*";
-    public Map<String,Integer> hashMap;
-    public int countLines = 0;
-    public int countChars = 0;
-    public int countWords = 0;
+    private  String openFilePath = "D:\\IDEA\\PersonalProject-Java\\input.txt" ;
+    private  String writeFilePath = "D:\\IDEA\\PersonalProject-Java\\output.txt" ;
+    private String file;
+    private String wordPattern = "^([A-Za-z]{4}[A-Za-z]*[0-9]*)";//单词匹配
+    private String linePattern = "\\s*";//空行匹配
+    private Map<String,Integer> hashMap;//存放单词
+    private int countLines = 0;
+    private int countChars = 0;
+    private int countWords = 0;
 
     public void open() {
         try {
-            openFile(openFilePath);
+            File file=new File(openFilePath);
+            if (file.exists()) {
+                readFile();
+                System.out.println("文件打开成功");
+            }
+            else{
+                System.out.println("文件打开失败");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,14 +39,25 @@ public class Lib {
             getChars();
             getLines();
             getWords();
+            sortWords();
             writeFile(writeFilePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    //以StringBuilder读取文件
-    public void readFile() throws IOException {
+    //单词按出现频率排序
+    private void sortWords() {
+        hashMap = hashMap.entrySet()
+                .stream()
+                .sorted(Map.Entry.<String, Integer> comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
+                .limit(10)
+                .collect(toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
+                        LinkedHashMap::new));
+    }
+
+    //读取文件
+    private void readFile() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
         StringBuilder builder = new StringBuilder();
         int c;
@@ -54,11 +71,12 @@ public class Lib {
     }
 
     //单词数统计
-    public void getWords() throws IOException {
-        Scanner scanner=new Scanner(new File(openFilePath));
+    private void getWords() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
         hashMap=new HashMap<>();
-        while(scanner.hasNextLine()) {
-            String line = scanner.nextLine();
+        String line;
+        Integer num;
+        while((line = reader.readLine()) != null) {
             String[] words = line.split("\\W+");//字母数字下划线
             Pattern r = Pattern.compile(wordPattern);
             Set<String> wordSet = hashMap.keySet();
@@ -67,7 +85,7 @@ public class Lib {
                 if (m.find()) {
                     String str = m.group(0).toLowerCase();
                     if (wordSet.contains(str)) {
-                        Integer num = hashMap.get(str);
+                        num = hashMap.get(str);
                         num++;
                         hashMap.put(str, num);
                         countWords++;
@@ -78,20 +96,10 @@ public class Lib {
                 }
             }
         }
-
-        Map<String, Integer> sorted = hashMap.entrySet()
-                .stream()
-                .sorted(Map.Entry.<String, Integer> comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
-                .limit(10)
-                .collect(toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
-                        LinkedHashMap::new));
-        //System.out.println("sort map by values: " + sorted);
-        hashMap = sorted;
-
     }
 
     //行数统计
-    public void getLines() throws IOException {
+    private void getLines() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
         String line;
         while( (line = reader.readLine()) != null )
@@ -103,7 +111,7 @@ public class Lib {
     }
 
     //计数写入output.txt
-    public void writeFile(String path){
+    private void writeFile(String path){
         File file = new File(path);
         try{
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -123,17 +131,8 @@ public class Lib {
         }
     }
 
-    public void openFile(String path) throws IOException {
-        File file=new File(path);
-        if (file.exists()) {
-            readFile();
-            System.out.println("文件打开成功");
-        }
-        else{
-            System.out.println("文件打开失败");
-        }
-    }
-    public void getChars(){
+    //字符数统计
+    private void getChars(){
         countChars = file.length();
     }
 }
