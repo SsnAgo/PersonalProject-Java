@@ -88,7 +88,7 @@ public class Lib {
 
         return wordList;
     }
-    
+
 
     public static int getLinesNum(String filePath){
 
