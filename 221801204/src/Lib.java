@@ -38,6 +38,15 @@ public class Lib
         this.outFileName = out;
     }
 
+    /* 总函数，可一键完成所有功能 */
+    public void getAll() throws IOException
+    {
+        getCharNum();
+        getWordNum();
+        getLineNum();
+        getTopWords();
+    }
+
     /* 获取输入文件的BufferedReader */
     public BufferedReader getFileReader()
     {
@@ -72,7 +81,7 @@ public class Lib
             {
                 charNum++;
             }
-            writer.write("characters:" + charNum + '\n');
+            writer.write("characters: " + charNum + '\n');
         }
     }
 
@@ -155,7 +164,7 @@ public class Lib
         try (Writer writer = getFileWriter())
         {
             int cnt = 0;
-            for (Map.Entry<String, Integer> entry : wordMap.entrySet())
+            for (Map.Entry<String, Integer> entry : entryList)
             {
                 if (cnt == 10) break;
                 String word = entry.getKey();
