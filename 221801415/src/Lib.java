@@ -8,10 +8,11 @@ public class Lib
     static Map<String,Integer> wordsMap=new HashMap<>();
 
 
-    public static String getCharacters(String filePath)
+    
+    //获取文件的所有内容
+    public static String charactersCount(String filePath)
     {
 
-        int num=0;
         BufferedReader bufferedReader=null;
         StringBuilder str=null;
 
@@ -48,7 +49,9 @@ public class Lib
         return str.toString();
     }
 
-    public static int getCharactersNumber(String str)
+    
+    //字数总数统计
+    public static int charactersNumberCount(String str)
     {
 
         int num=0;
@@ -61,22 +64,32 @@ public class Lib
                 num++;
             }
         }
+        num++;
+        //num=str.length();
 
         return num;
     }
-
-    static int getWordsNumber(String str)
+    
+    
+    //单词字数统计
+    static int wordsNumberCount(String str)
     {
 
         int num=0;
-        String[] temp=str.split("\\s+");
-        String regexs="^[a-zA-Z]{4,}.*";
-        for(int i=0;i<temp.length;i++)
+        
+        //将所有字符用分隔符分开
+        String[] word=str.split("\\s+");
+        
+        //判断是否为单词的条件
+        String strings="^[a-zA-Z]{4,}.*";
+        for(int i=0;i<word.length;i++)
         {
-            if(temp[i].matches(regexs))
+            if(word[i].matches(strings))
             {
                 num++;
-                String insertKey=temp[i].toLowerCase();
+                
+                //转化为小写
+                String insertKey=word[i].toLowerCase();
                 if (wordsMap.containsKey(insertKey))
                 {
                     int j=wordsMap.get(insertKey);
@@ -92,6 +105,7 @@ public class Lib
         return num;
     }
 
+    //按单词频率进行排序
     public List<Map.Entry<String,Integer>> SortMap()
     {
 
@@ -100,15 +114,15 @@ public class Lib
         Collections.sort(wordList, new Comparator<Map.Entry<String, Integer>>() 
         {
             @Override
-            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) 
+            public int compare(Map.Entry<String, Integer> map1, Map.Entry<String, Integer> map2) 
             {
-                if (o1.getValue().equals(o2.getValue()))
+                if (map1.getValue().equals(map2.getValue()))
                 {
-                    return o1.getKey().compareTo(o2.getKey());
+                    return map1.getKey().compareTo(map2.getKey());
                 }
                 else 
                 {
-                    return o2.getValue()-o1.getValue();
+                    return map2.getValue()-map1.getValue();
                 }
             }
         });
@@ -116,16 +130,8 @@ public class Lib
         return wordList;
     }
 
-    /*public String GetSortWord(){
-        List<Map.Entry<String,Integer>> wordsList=SortMap();
-        String words="";
-        int i=0;
-        for(Map.Entry<String,Integer>map:wordsList){
-            words+=map.getKey()
-        }
-    }*/
 
-    static int getLinesNumber(String filePath)
+    static int linesNumberCount(String filePath)
     {
     	File file=new File(filePath);
     	int count=0;
