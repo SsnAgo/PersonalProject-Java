@@ -13,6 +13,44 @@ import static java.lang.Character.isLetter;
 */
 public class Lib {
     /*
+     函数名：   outputFile(File inputFile, File outputFile)
+     函数描述:  执行函数获取返回值并输出文件
+     输入:      输入文件路径，输出文件路径
+     返回值:
+     其他说明:  函数包括：计算文件字符数，单词总数，有效行数，单词的出现次数函数
+    */
+    public static void outputFile(File inputFile, File outputFile){
+        int PRINT_WORDS_NUMBER = 10;
+
+        int characters = countCharacters(inputFile);
+        System.out.println(characters);
+        int words = countTotalWords(inputFile);
+        System.out.println(words);
+        int lines = countValidLines(inputFile);
+        System.out.println(lines);
+        List<Map.Entry<String, Integer>> list = countWords(inputFile);
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).getKey()+":"+list.get(i).getValue());
+        }
+
+        try {
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
+            String content = "characters: " + characters + '\n';
+            content += "words: " + words + "\n";
+            content += "lines: " + lines + "\n";
+            for(int i = 0; i < PRINT_WORDS_NUMBER && i < list.size(); i++)
+                content += list.get(i).getKey() + ": " + list.get(i).getValue() + "\n";
+
+            bufferedOutputStream.write(content.getBytes());
+
+            bufferedOutputStream.flush();
+            bufferedOutputStream.close();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    /*
      函数名：   countCharacters(File inputFile)
      函数描述:  统计文件的字符数
      输入:      输入文件路径
