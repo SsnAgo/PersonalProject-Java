@@ -1,14 +1,13 @@
 import lib.service.*;
 import lib.tool.*;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class WordCount
 {
@@ -19,12 +18,6 @@ public class WordCount
     private static String inputFileName;
     private static String outputFileName;
 
-    private int charCnt = 0;
-    private int wordCnt = 0;
-    private int lineCnt = 0;
-
-    ArrayList<HashMap.Entry<String, Long>> freqList;
-
     public WordCount(String inputFileName, String outputFileName)
     {
         WordCount.inputFileName = inputFileName;
@@ -33,21 +26,54 @@ public class WordCount
 
     public void Count()
     {
-        String content = new String();
-        Map<String, Long> words;
-
-        content = FileReader.readFile(inputFileName);
-        charCnt = CharCounter.countChar(content);
-        lineCnt = LineCounter.countLine(content);
-
+        final String content = FileReader.readFile(inputFileName);
+        HashMap<String, Integer> words;
         words = StringAnalyser.analyseString(content);
-        wordCnt = WordCounter.countWord(words);
-        freqList = FrequencySorter.sortFrequency(words);
-    }
 
-    public void Print()
-    {
-        FilePrinter.writeFile(charCnt, wordCnt, lineCnt, freqList, outputFileName);
+        ExecutorService executor = Executors.newCachedThreadPool();
+
+        Future<Integer> charCnt = executor.submit(new Callable<Integer>()
+        {
+            public Integer call()
+            {
+                return CharCounter.countChar(content);
+            }
+        });
+
+        Future<Integer> lineCnt = executor.submit(new Callable<Integer>()
+        {
+            public Integer call()
+            {
+                return LineCounter.countLine(content);
+            }
+        });
+
+        Future<Integer> wordCnt = executor.submit(new Callable<Integer>()
+        {
+            public Integer call()
+            {
+                return WordCounter.countWord(words);
+            }
+        });
+
+        Future<ArrayList<HashMap.Entry<String, Integer>>> freqList = executor
+                .submit(new Callable<ArrayList<HashMap.Entry<String, Integer>>>()
+                {
+                    public ArrayList<HashMap.Entry<String, Integer>> call()
+                    {
+                        return FrequencySorter.sortFrequency(words);
+                    }
+                });
+
+        try
+        {
+            FilePrinter.writeFile(charCnt.get(), wordCnt.get(), lineCnt.get(), freqList.get(), outputFileName);
+            executor.shutdown();
+        }
+        catch (InterruptedException | ExecutionException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args)
@@ -60,6 +86,5 @@ public class WordCount
         }
         cmd = new WordCount(args[0], args[1]);
         cmd.Count();
-        cmd.Print();
     }
 }

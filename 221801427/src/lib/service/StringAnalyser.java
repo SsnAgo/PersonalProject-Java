@@ -1,40 +1,41 @@
 package lib.service;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.regex.Pattern;
 
 public class StringAnalyser
 {
-    private static String INVALID_WORD_REGEX = "[^0-9A-Za-z]";
+    private static final String INVALID_WORD_REGEX = "[^0-9A-Za-z]";
+    private static final String VALID_WORD_REGEX = "[a-z]{4}[0-9a-z]*";
 
     /**
      * @param content
      * @return words
      */
-    public static Map<String, Long> analyseString(String content)
-    {
-        List<String> list = Arrays.asList(content);
-        Map<String, Long> words = list.stream().flatMap(w -> Stream.of(w.split(INVALID_WORD_REGEX))).filter(w ->
+    public static HashMap<String, Integer> analyseString(String content)
+    {        
+        int cnt;
+        String word;
+        
+        HashMap<String, Integer> words = new HashMap<String, Integer>();
+        StringTokenizer tokenizer = new StringTokenizer(content.replaceAll(INVALID_WORD_REGEX, " "));
+        
+        while (tokenizer.hasMoreTokens())
         {
-            int i = 0;
-            char[] chars = w.toCharArray();
-            if (w.length() >= 4)
+            word = tokenizer.nextToken(" ");
+            if (Pattern.matches(VALID_WORD_REGEX, word))
             {
-                for (; i < 4; i++)
+                if (words.containsKey(word))
                 {
-                    if (!Character.isLetter(chars[i]))
-                    {
-                        return false;
-                    }
+                    cnt = words.get(word);
+                    words.put(word, cnt + 1);
+                }
+                else
+                {
+                    words.put(word, 1);
                 }
             }
-            else
-            {
-                return false;
-            }
-            return true;
-        }).collect(Collectors.groupingBy(w -> w, Collectors.counting()));
+        }
         return words;
     }
 }

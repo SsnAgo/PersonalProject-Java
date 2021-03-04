@@ -23,8 +23,7 @@ public class FileReader
 
         try
         {
-            mappedByteBuffer = new RandomAccessFile(file, "r").getChannel()
-                    .map(FileChannel.MapMode.READ_ONLY, 0, len);
+            mappedByteBuffer = new RandomAccessFile(file, "r").getChannel().map(FileChannel.MapMode.READ_ONLY, 0, len);
             if (mappedByteBuffer != null)
             {
                 return StandardCharsets.UTF_8.decode(mappedByteBuffer).toString().toLowerCase();

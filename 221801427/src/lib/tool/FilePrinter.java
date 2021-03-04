@@ -13,7 +13,7 @@ public class FilePrinter
      * @param freqList
      * @param outputFileName
      */
-    public static void writeFile(int charCnt, int wordCnt, int lineCnt, ArrayList<HashMap.Entry<String, Long>> freqList,
+    public static void writeFile(int charCnt, int wordCnt, int lineCnt, ArrayList<HashMap.Entry<String, Integer>> freqList,
             String outputFileName)
     {
         File file = new File(outputFileName);
@@ -27,7 +27,7 @@ public class FilePrinter
             bufferedWriter.write("characters: " + charCnt + "\n");
             bufferedWriter.write("words: " + wordCnt + "\n");
             bufferedWriter.write("lines: " + lineCnt + "\n");
-            for (HashMap.Entry<String, Long> map : freqList)
+            for (HashMap.Entry<String, Integer> map : freqList)
             {
                 bufferedWriter.write(map.getKey() + ": " + map.getValue() + "\n");
             }
