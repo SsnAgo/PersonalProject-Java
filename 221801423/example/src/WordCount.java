@@ -12,14 +12,17 @@ import java.util.Map;
 import java.util.Set;;
 
 public class WordCount {
-	static HashMap<String, Integer > hashMap = new HashMap<String,Integer>();
     public static void main(String[] args){
-      	 String finname = new String("C:\\ccc\\s5.txt");
-      	String foutname = new String("C:\\ccc\\s6.txt");
+    	long start=System.currentTimeMillis(); //获取开始时间
+      	 String finname = new String("C:\\ccc\\s13.txt");
+      	String foutname = new String("C:\\ccc\\s14.txt");
       	 //String foutname = args[1];
       	Lib lib = new Lib(finname,foutname);
       	lib.characterCount();
       	lib.wordCount();
       	lib.wordOccMax();
+      //要测试的bai程序或方法du
+      long end=System.currentTimeMillis(); //获取结束时间
+      System.out.println("程序运行时间： "+(end-start)+"ms"); 
     }
 }
