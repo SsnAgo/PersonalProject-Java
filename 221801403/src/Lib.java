@@ -1,27 +1,28 @@
 import java.io.*;
 
-class Lib{
-
+class Lib {
+    int countChar;
     InputStreamReader in;
-
     String inputFile;
 
-    Lib(String inputFile){
-
+    Lib(String inputFile) {
+        countChar = 0;
         this.inputFile = inputFile;
 
     }
-    void readFile(){
+
+    int getCountChar() throws FileNotFoundException {
+        in=new InputStreamReader(new FileInputStream(inputFile));
+        int num=0;
         try {
-
-            in = new InputStreamReader(new FileInputStream(inputFile));
-            System.out.println("Input file has found!");
-
-        }catch(Exception e){
-
-            System.out.println("Input file not found!");
-
+            while(in.read()!=-1)
+            {
+                num++;
+            }
+            System.out.println(num);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return num;
     }
-
 }

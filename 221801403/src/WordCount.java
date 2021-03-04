@@ -1,7 +1,8 @@
+import java.io.*;
+
 class WordCount{
-    public static void main(String[] args){
-            String inputFile = "D://input.txt";
-            Lib lib = new Lib(inputFile);
-            lib.readFile();
+    public static void main(String[] args) throws IOException {
+        Lib lib = new Lib("D://input.txt");
+        lib.getCountChar();
         }
-    }
+}
