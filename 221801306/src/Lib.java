@@ -81,7 +81,7 @@ public class Lib {
     }
 
     /**
-     * 获取输入文件的信息
+     * 构造输出文件的信息
      *
      * @param chars     字符数
      * @param words     单词数
@@ -91,9 +91,9 @@ public class Lib {
      */
     public static String answerBuilder(int chars, int words, int lines, String frequency) {
         //拼接输出信息
-        return "characters:" + chars +
-                "\nwords:" + words +
-                "\nlines:" + lines + "\n" +
+        return "characters: " + chars +
+                "\nwords: " + words +
+                "\nlines: " + lines + "\n" +
                 frequency;
     }
 
@@ -112,7 +112,7 @@ public class Lib {
             //将单词全部转为小写
             word = word.toLowerCase();
             //根据作业要求，判断截取字符串是否为单词
-            if (IsWord(word) && word.length() >= 4) {
+            if (IsWord(word)) {
                 if (map.get(word) != null) {
                     int value = map.get(word);
                     value++;
