@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class CountCore {
@@ -76,7 +74,7 @@ public class CountCore {
         }
         return result;
     }
-    
+
     public static int lineCount(File inputFile){
         BufferedReader bufferedReader=null;
         //正则表达式,匹配至少一个非空白字符
@@ -94,5 +92,16 @@ public class CountCore {
             e.printStackTrace();
         }
         return lines;
+    }
+    public static List<Map.Entry<String,Integer>> sortByFrequency(Map<String,Integer> map){
+        List<Map.Entry<String,Integer>> list=new ArrayList<>(map.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                return  o1.getValue().equals(o2.getValue())?
+                        o1.getKey().compareTo(o2.getKey()):o2.getValue()-o1.getValue();
+            }
+        });
+        return list;
     }
 }
