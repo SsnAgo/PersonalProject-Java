@@ -32,14 +32,14 @@ public class Lib {
     }
 
     /**
-     * 判断字符是否为数字
+     * 判断字符是否为字母
      * @param charSequence
      * @return boolean值
      */
-    public static boolean isNumeric(CharSequence charSequence) {
-        Pattern pattern = Pattern.compile("[0-9]*");
-        Matcher isNum = pattern.matcher(charSequence);
-        if (!isNum.matches()) {
+    public static boolean isLetter(CharSequence charSequence) {
+        Pattern pattern = Pattern.compile("[a-z]*");
+        Matcher isLet = pattern.matcher(charSequence);
+        if (!isLet.matches()) {
             return false;
         }
         return true;
@@ -54,7 +54,7 @@ public class Lib {
         int count = 0;//各单词数量
         int sum = 0;//单词总数
         String lowerData = data.toLowerCase(); //字母转小写
-        String anti = "[^0-9-zA-Z]";//使用正则表达式过滤非字母(数字)字符
+        String anti = "[^0-9a-zA-Z]";//使用正则表达式过滤非字母(数字)字符
         lowerData = lowerData.replaceAll(anti, " ");//筛掉非字母(数字)字符
         //分割文本筛选单词
         StringTokenizer words = new StringTokenizer(lowerData);
@@ -62,11 +62,12 @@ public class Lib {
             while (words.hasMoreTokens()) {
                 String word = words.nextToken();
                 //判断是否为单词
-                if (!isNumeric(word.subSequence(0, 1)) && word.length() >= 4) {
+                if (word.length() >= 4 && isLetter(word.subSequence(0, 4))) {
+                    sum++;
                     //统计词频
                     if (wordsMap.containsKey(word)) {
                         count = wordsMap.get(word);
-                        wordsMap.put(word, count++);//单词已存在则个数+1
+                        wordsMap.put(word, ++count);//单词已存在则个数+1
                     } else {
                         wordsMap.put(word, 1);//单词只出现1次
                     }
@@ -94,7 +95,7 @@ public class Lib {
                 if (o1.getValue().equals(o2.getValue())) {
                     return o1.getKey().compareTo(o2.getKey()); //值相同时按键返回字典序
                 }
-                return o1.getValue() - o2.getValue(); //字典序靠前排在前面
+                return o2.getValue() - o1.getValue(); //字典序靠前排在前面
             }
         };
         wordList.sort(cmp);
