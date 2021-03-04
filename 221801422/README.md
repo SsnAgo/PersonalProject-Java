@@ -1,5 +1,13 @@
 # 提交记录
 
+如何运行：代码通过命令行输入文件路径 将文件内容按字符读入 根据正则表达式去匹配字符 分隔符 单词 用键值对来记录单词的出现次数 最后将统计到的数据输出到文件
+
+功能简介：统计字符 单词 分隔符 单词排序 读取文件 输出到文件 获取代码执行时间 
+
+[作业链接](https://edu.cnblogs.com/campus/fzu/2021SpringSoftwareEngineeringPractice/homework/11740)
+
+[博客链接](https://www.cnblogs.com/Kosmos1/)
+
 ## 第一次提交
 
 * 完成codestyle代码规范
@@ -39,3 +47,7 @@
 ## 第十次提交
 
 * 提交Commit记录
+
+## 第十一次提交
+
+* 补充README
