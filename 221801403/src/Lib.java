@@ -1,13 +1,13 @@
 import java.io.*;
 
 class Lib {
-    int countChar;
+
     InputStreamReader in;
     BufferedReader br;
     String inputFile;
 
     Lib(String inputFile) {
-        countChar = 0;
+
         this.inputFile = inputFile;
 
     }
@@ -40,5 +40,25 @@ class Lib {
         }
         System.out.println(linenum);
         return linenum;
+    }
+    //读取文件中单词个数
+    int getWordNum() throws IOException {
+        int wordnum=0;
+        in = new InputStreamReader(new FileInputStream(inputFile));
+        br = new BufferedReader(in);
+        String words;
+        while ((words = br.readLine()) != null) {
+            String[] strs=words.split("[^a-zA-Z0-9]");
+            String regexs = "^[a-zA-Z]{4,}.*";
+            for(int i=0;i<strs.length;i++)
+            {
+                if(strs[i].matches(regexs))
+                {
+                    wordnum++; 
+                }
+            }
+        }
+        System.out.println(wordnum);
+        return wordnum;
     }
 }

@@ -5,5 +5,6 @@ class WordCount{
         Lib lib = new Lib("D://input.txt");
         lib.getCountChar();
         lib.getLine();
+        lib.getWordNum();
         }
 }
