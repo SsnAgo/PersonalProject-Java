@@ -1,11 +1,12 @@
+import java.io.IOException;
+
 public class WordCount {
-    public static void main(String argv[]){
+    public static void main(String argv[]) throws IOException{
     	Lib lib=new Lib();
         String str=lib.readTextFile("input.txt");
-        System.out.println("characters:"+lib.countChars(str));
-        System.out.println("words:"+lib.countWords(str));
-        System.out.println("lines:"+lib.countLines(str));
-        System.out.print(lib.countTimes(str));
+        if(!str.isEmpty()) {
+        	lib.writeTextFile(Lib.countChars(str),Lib.countWords(str),Lib.countLines(str),lib.countTimes(str));
+        }
     }
      
 }

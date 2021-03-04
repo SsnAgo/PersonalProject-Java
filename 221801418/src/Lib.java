@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,19 +25,31 @@ public class Lib {
                     read.close();
 
                 }else{
-                	System.out.println("找不到该文档！");
+                	System.out.println("�Ҳ������ĵ���");
                 }
         } catch (Exception e) {
-            System.out.println("打开文档出错！");
+            System.out.println("���ĵ�����");
             e.printStackTrace();
         }
 		return Text.toString();
      
     }
 	
+	public void writeTextFile(int chars,int words,int lines,String times){
+		String str="charcters:"+chars+"\nwords:"+words+"\nlines"+lines+"\n"+times;
+		String filePath="output.txt";
+		FileOutputStream p = null;
+		try {
+			p = new FileOutputStream(filePath);
+			p.write(str.getBytes());
+			p.close();
+		} catch (IOException e) {
+			System.out.print("输出文件时出错！");
+			e.printStackTrace();
+		}
+	}
 	
-	
-    public int countChars(String str) {			//返回字符数量
+    public static int countChars(String str) {			//�����ַ�����
     	int sum=0;
     	char[] cs=str.toCharArray();
     	for(int i=0;i<cs.length;i++) {
@@ -47,22 +61,15 @@ public class Lib {
     
     
     
-    public int countWords(String str) {			//返回单词数量
+    public static int countWords(String str) {			//���ص�������
     	str=str.toLowerCase();
-    	String[] strArray=str.split("[^a-z0-9]+");		//先以除了数字字母的字符来分割
+    	String[] strArray=str.split("[^a-z0-9]+");		//���Գ���������ĸ���ַ����ָ�
     	int words=0;
-    	/*List<String> list = new ArrayList<String>();
-    	for(int i=0;i<strArray.length; i++) {
-    	   if (!list.contains(strArray[i])) {
-    	       list.add(strArray[i]);
-    	   }
-    	}
-    	strArray = list.toArray(new String[list.size()]);//把字符串数组过滤为没有重复元素的*/
     	for(int i=0;i<strArray.length;i++) {
     		if(strArray[i].length()<4)continue;
     		else {
     			String temp=strArray[i].substring(0,4);
-    			if(temp.matches("[a-z]*")) {			//判断是否符合单词规则
+    			if(temp.matches("[a-z]*")) {			//�ж��Ƿ���ϵ��ʹ���
     				words++;
     			}
     		}
@@ -71,10 +78,10 @@ public class Lib {
     }
     
     
-    public int countLines(String str) {			//返回行数
-    	String[] LINE=str.split("\\s");					//按空白符分割
+    public static int countLines(String str) {			//��������
+    	String[] LINE=str.split("\\s");					//���հ׷��ָ�
     	int lines=LINE.length;
-    	for(int i=0;i<LINE.length;i++) {				//扣除其中空白的行数
+    	for(int i=0;i<LINE.length;i++) {				//�۳����пհ׵�����
     		if(LINE[i].isEmpty())lines--;
     	}
     	return lines;
@@ -83,40 +90,40 @@ public class Lib {
     
     
     
-    public String countTimes(String str) {		//统计单词出现频率并排序
+    public String countTimes(String str) {		//ͳ�Ƶ��ʳ���Ƶ�ʲ�����
     	str=str.toLowerCase();
     	String[] strArray=str.split("[^a-z0-9]+");
-	    List<String> temp = new ArrayList<String>();	//temp用于存放符合单词规则的字符串
+	    List<String> temp = new ArrayList<String>();	//temp���ڴ�ŷ��ϵ��ʹ�����ַ���
     	for(int i=0;i<strArray.length;i++) {
     		if(strArray[i].length()<4)continue;
     		else {
     			String strtemp=strArray[i].substring(0,4);
-    			if(strtemp.matches("[a-z]*")) {			//判断是否符合单词规则，符合规则的加入到temp中
+    			if(strtemp.matches("[a-z]*")) {			//�ж��Ƿ���ϵ��ʹ��򣬷��Ϲ���ļ��뵽temp��
     				temp.add(strArray[i]);
     			}
     		}
     	}
     	strArray=temp.toArray(new String[temp.size()]);
     	Map<String,Integer> map = new HashMap<String,Integer>();
-    	for (int i = 0; i < strArray.length; i++) {			//把符合规则的字符串加入到map里面
+    	for (int i = 0; i < strArray.length; i++) {			//�ѷ��Ϲ�����ַ������뵽map����
     		if(map.get(strArray[i])==null){
     			map.put(strArray[i], 1);
     		}else{
     			map.put(strArray[i], map.get(strArray[i])+1);
     		}
     	}
-    	Set<String> key= map.keySet();					//获取到map集合中的所有key值
-    	StringBuilder finalstr=new StringBuilder();		//finalstr用于存放一会儿最后的结果
+    	Set<String> key= map.keySet();					//��ȡ��map�����е�����keyֵ
+    	StringBuilder finalstr=new StringBuilder();		//finalstr���ڴ��һ������Ľ��
 		while(!map.isEmpty()) {
-			int i=0,maxvalue=0;							//i用于统计加入到finalstr里面的单词的数量,intmax用于记录出现最多的单词的出现次数
-			String maxstr=" ";							//maxstr表示出现次数最多的单词
+			int i=0,maxvalue=0;							//i����ͳ�Ƽ��뵽finalstr����ĵ��ʵ�����,intmax���ڼ�¼�������ĵ��ʵĳ��ִ���
+			String maxstr=" ";							//maxstr��ʾ���ִ������ĵ���
 			for(String s:key) {
-				int k=map.get(s);						//k表示当前检索到的单词的出现频率
+				int k=map.get(s);						//k��ʾ��ǰ�������ĵ��ʵĳ���Ƶ��
 				if(k>maxvalue) {
 					maxvalue=k;
 					maxstr=s;
 				}
-				else if(k==maxvalue) {					//如果出现两个单词出现频率一样大，则比较ASCII码的大小
+				else if(k==maxvalue) {					//��������������ʳ���Ƶ��һ������Ƚ�ASCII��Ĵ�С
 					if(maxstr.compareTo(s)>0) {
 						maxvalue=k;
 						maxstr=s;
@@ -125,8 +132,11 @@ public class Lib {
 			}
 			finalstr.append(maxstr+":"+maxvalue+"\n");
 			map.remove(maxstr);
-			if(i==9)break;							//如果i统计了10个单词的量还没结束则强制退出
+			if(i==9)break;							//���iͳ����10�����ʵ�����û������ǿ���˳�
 		}
     	return finalstr.toString();
     }
+
+
+
 }
