@@ -87,7 +87,33 @@ public static Map<String, Integer> sortWords(HashMap<String, Integer>word_freq) 
 	Map<String,Integer>sort_mapMap=word_freq.entrySet()
             .stream()
             .sorted(Collections
-                    .reverseOrder(Map.Entry.comparingByValue()))
+                    .reverseOrder(//Map.Entry.comparingByValue()
+                    		Collections
+                            .reverseOrder(new Comparator<Entry<String, Integer>>(){
+                            	@Override
+                            	public int compare(Map.Entry<String,Integer> o1
+                            			, Map.Entry<String,Integer> o2) {
+                            		if (o1.getValue()<o2.getValue()) {
+        								return -1;
+        							}else if(o1.getValue()>o2.getValue()) {
+        								return 1;
+        							}else {
+        								String a = o1.getKey();
+        								String b = o2.getKey();
+        								if(strcmp(a,b)>0)
+        								{
+        									return -1;
+        								}else if(strcmp(b, a)<0) {
+        									return 1;
+        								}else {
+        									return 0;
+        								}
+        							}
+                            	}
+                            }
+                    		
+                    		
+                    		))
             .collect(Collectors
                     .toMap(Map.Entry::getKey,
                     		Map.Entry::getValue,(e1,e2)->e1,LinkedHashMap::new));
