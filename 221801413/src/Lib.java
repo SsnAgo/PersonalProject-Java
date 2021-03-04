@@ -84,7 +84,7 @@ public class Lib
      * */
     public static int getLines(String chStr){
         int lines = 0;
-        String regex = "\\s+";
+        String regex = "(\n|^)\\s*\\S+";
 
         //使用正则表达式匹配有效的字符行
         Pattern charPattern = Pattern.compile(regex);
@@ -105,7 +105,7 @@ public class Lib
      * */
     public static int getWordNum(String chStr){
         int wordNum = 0;
-        String regexWords = "[a-zA-Z]{4,}[a-zA-Z0-9]*";
+        String regexWords = "([^A-Za-z0-9]+|^)([a-zA-Z]{4,}[a-zA-Z0-9]*)";
 
         Pattern wordPattern = Pattern.compile(regexWords);
         Matcher wordMatcher = wordPattern.matcher(chStr);
@@ -126,20 +126,26 @@ public class Lib
     public static void creatWordMap(String chStr, Map<String, Integer> wordMap){
         //匹配分隔符分离单词，并用String[]保存
         String[] words = chStr.split("\\s");
-        String regexWord = "[a-zA-Z]{4,}[a-zA-Z0-9]*";
+        /**
+         * 位于第一位的单词会多出一个空白字符，假设合法单词为apple，则其为[,a,p,p,l,e]
+         * */
+        words[0] = words[0].substring(1);
+        String regexWord = "([^A-Za-z0-9]+|^)([a-zA-Z]{4,}[a-zA-Z0-9]*)";
 
         //验证单词有效性，有效的单词存入集合Map<String, Integer>中
-        for(int i = 0; i < words.length; i++){
+        for(int i = 0; i < words.length; i++) {
             if(words[i].matches(regexWord)) {
-                //忽略单词大小写，判断其是否已经存在，若存在，则其value值加一
-                if(wordMap.containsKey(words[i].toLowerCase())){
-                    int value = 1 + wordMap.get(words[i].toLowerCase());
+                String temp = words[i].toLowerCase();
 
-                    wordMap.put(words[i], value);
+                //忽略单词大小写，判断其是否已经存在，若存在，则其value值加一
+                if(!wordMap.containsKey(temp)) {
+                    wordMap.put(temp, 1);
                 }
                 //若不存在，则存入wordMap
                 else {
-                    wordMap.put(words[i], 1);
+                    int value = 1 + wordMap.get(temp);
+
+                    wordMap.put(temp, value);
                 }
             }
         }
