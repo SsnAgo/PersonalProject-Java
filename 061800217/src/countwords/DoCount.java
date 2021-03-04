@@ -51,19 +51,13 @@ public class DoCount {
 		return result;	
 	}
 	//统计单词
-	public static int wordNum(String path,HashMap<String, Integer> word_freq)throws IOException{
+	public static int wordNum(String path,String word_str,HashMap<String, Integer> word_freq)throws IOException{
 		int total = 0;
 		String string;
-		ArrayList array = new ArrayList();
-		FileReader fReader = new FileReader(path);
-		BufferedReader bReader = new BufferedReader(fReader);
-		while((string = bReader.readLine())!=null)
-		{
-			String[] str1 = string.toLowerCase().split("\\s+"); // 按空格分割
-			array.add(str1);
-		}
-		fReader.close();
-		bReader.close();		
+		ArrayList array = new ArrayList();		
+		word_str.toLowerCase().split("\\s+");
+		array.add(word_str);
+			
 		String rule = ".*[a-z]{4}+.*" ;
 		java.util.regex.Pattern p = java.util.regex.Pattern.compile(rule);
 		Iterator iterator = array.iterator();
