@@ -1,1 +1,3 @@
-const analyseChar = require("./analyseChar");
+const analyseChar = require('./analyseChar')
+const analyseWord = require('./analyseWord')
+
