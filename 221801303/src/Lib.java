@@ -18,7 +18,8 @@ public class Lib {
             }
             bufr.close();
             fr.close();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
        return i;
