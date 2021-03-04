@@ -10,15 +10,16 @@ import java.io.InputStreamReader;
 public class WordCount {
    public static void main(String args[]) throws IOException {
       try {
-         System.out.println("=====> Input examples: java WordCount C:\\Users\\cmy\\Desktop\\input.txt C:\\Users\\cmy\\Desktop\\output.txt");
+         System.out.println("=====> Input examples: java WordCount C:\\Users\\cmy\\Desktop\\input.txt " +
+                 "C:\\Users\\cmy\\Desktop\\output.txt");
          BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
          String cmd;
          cmd = scanner.readLine();
-         if(cmd.substring(0,14).equals("java WordCount") || cmd.length()<=14)
+         if(cmd.substring(0,14).equals("java WordCount") || cmd.length() <= 14)
          {
             String twoFile=cmd.substring(15,cmd.length());
             String inPutPath=twoFile.substring(0,twoFile.indexOf(" "));
-            String outPutPath=twoFile.substring(twoFile.indexOf(" ")+1,twoFile.length());
+            String outPutPath=twoFile.substring(twoFile.indexOf(" ") + 1,twoFile.length());
             File in=new File(inPutPath);
             File out=new File(outPutPath);
             if(in.exists() && out.exists()){
@@ -47,19 +48,11 @@ public class WordCount {
                System.out.println("file does not exist");
             }
          }
-         else
-         {
+         else {
             System.out.println("Input error");
          }
       }catch (Exception e){
           e.printStackTrace();
       }
-
-
-
-
-
-
-
    }
 }

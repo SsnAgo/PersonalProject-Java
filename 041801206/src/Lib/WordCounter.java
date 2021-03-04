@@ -35,7 +35,7 @@ public class WordCounter {
         allWordHashMap=new HashMap<String, Integer>();
         startTime=System.currentTimeMillis();
         count(filePath,10000);
-        useTime=System.currentTimeMillis()-startTime;
+        useTime=System.currentTimeMillis() - startTime;
     }
 
 
@@ -48,17 +48,17 @@ public class WordCounter {
             int nowlineNum=0;
             List<MultiCounter> multiCounterList=new ArrayList<>();
             while (true) {
-                boolean flag= (temp = in.readLine())==null;
+                boolean flag= (temp = in.readLine()) == null;
                 if(!flag){
-                    toStatisticsStr.append(temp+"-");
-                    if((temp+"-").length()==1){
+                    toStatisticsStr.append(temp + "-");
+                    if((temp + "-").length() == 1){
                         emptyLineNum++;
                     }
                 }
                 nowlineNum++;
-                if(nowlineNum>=lineToThread || flag){
+                if(nowlineNum >= lineToThread || flag){
                     multiCounterList.add(new MultiCounter(toStatisticsStr));
-                    multiCounterList.get(multiCounterList.size()-1).start();
+                    multiCounterList.get(multiCounterList.size() - 1).start();
                     nowlineNum=0;
                     if(toStatisticsStr.length()!=0) toStatisticsStr.delete(0,toStatisticsStr.length()-1);
                 }
@@ -68,11 +68,11 @@ public class WordCounter {
                 }
             }
             in.close();
-            for(int i=0;i<multiCounterList.size();i++){
+            for(int i = 0;i < multiCounterList.size();i++){
                 multiCounterList.get(i).join();
                 mergeMap(multiCounterList.get(i).getPartWordHashMap());
             }
-           sortByValue();
+            sortByValue();
     }catch (Exception e){
             e.printStackTrace();
         }
@@ -92,7 +92,7 @@ public class WordCounter {
     }
 
     private void mergeMap(HashMap<String,Integer> tempMap){
-        tempMap.forEach((key, value) -> allWordHashMap.merge(key, value, (v1, v2) -> v1+v2));
+        tempMap.forEach((key, value) -> allWordHashMap.merge(key, value, (v1, v2) -> v1 + v2));
     }
 
     public class MultiCounter extends Thread{
@@ -112,12 +112,12 @@ public class WordCounter {
            str.toLowerCase();
            int wordLength=0;
            String tempWord=null;
-           for (int i=0;i<str.length();i++){
+           for (int i = 0;i < str.length();i++){
                int asciiNum=(int)str.charAt(i);
-               if((asciiNum>=48 && asciiNum<=57)||(asciiNum>=97 && asciiNum<=122)){
+               if((asciiNum >=48 && asciiNum <= 57)||(asciiNum >= 97 && asciiNum <= 122)){
                    wordLength++;
                }else{
-                   tempWord=str.substring(i-wordLength,i);
+                   tempWord=str.substring(i - wordLength,i);
                    if(wordLength>3 && isWord(tempWord)){
                        if(partWordHashMap.containsKey(tempWord)){
                            partWordHashMap.put(tempWord,partWordHashMap.get(tempWord)+1);
@@ -136,8 +136,5 @@ public class WordCounter {
             String pattern="[a-z]{4}[a-z0-9]*";
             return Pattern.matches(pattern,str);
         }
-
-
     }
-
 }

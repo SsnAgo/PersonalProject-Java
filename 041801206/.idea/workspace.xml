@@ -3,16 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="222867e0-6fce-4642-bdf7-9a08a8444a6a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/codestyle.md" beforeDir="false" afterPath="$PROJECT_DIR$/codestyle.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Lib/LineAndCharacterCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lib/LineAndCharacterCounter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Lib/Output.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lib/Output.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Lib/WordCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lib/WordCounter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/WordCount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/WordCount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Lib/LineAndCharacterCounter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Lib/LineAndCharacterCounter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Lib/Output.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Lib/Output.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Lib/WordCounter$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Lib/WordCounter$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Lib/WordCounter$MultiCounter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Lib/WordCounter$MultiCounter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Lib/WordCounter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Lib/WordCounter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/WordCount.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/WordCount.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +98,7 @@
       <workItem from="1614678332496" duration="7558000" />
       <workItem from="1614740613409" duration="4981000" />
       <workItem from="1614751807934" duration="13524000" />
-      <workItem from="1614837979268" duration="13263000" />
+      <workItem from="1614837979268" duration="15129000" />
     </task>
     <servers />
   </component>
