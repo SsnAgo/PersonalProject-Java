@@ -107,10 +107,11 @@ public class Lib {
    }
 
    private void calculateLineNum() throws IOException {
-        bufferedReader = new BufferedReader(new FileReader(readFileName));
-        String line = null;
-        while ((line=bufferedReader.readLine())!=null){
-            if (isLine(line)){
+        String[] lines = fileContent.split("\n");
+        for (String line:lines)
+        {
+            if (isLine(line))
+            {
                 lineNum++;
             }
         }
