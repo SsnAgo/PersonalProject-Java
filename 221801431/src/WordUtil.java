@@ -13,12 +13,30 @@ public interface WordUtil {
     public Integer countChar(String fileName) throws IOException;
 
     /**
+     *
+     * @param fileName
+     * @param fileDirectory
+     * @return Integer
+     * @throws IOException
+     */
+    public Integer countChar(String fileName, String fileDirectory) throws IOException;
+
+
+    /**
      * 统计单词总数
      * @param fileName
      * @return Integer
      * @throws IOException
      */
     public Integer countWord(String fileName) throws IOException;
+
+    /**
+     *
+     * @param fileName
+     * @return Integer
+     * @throws IOException
+     */
+    public Integer countWord(String fileName, String fileDirectory) throws IOException;
 
     /**
      * 统计行数
@@ -29,10 +47,26 @@ public interface WordUtil {
     public Integer countLine(String fileName) throws IOException;
 
     /**
+     *
+     * @param fileName
+     * @return Integer
+     * @throws IOException
+     */
+    public Integer countLine(String fileName, String fileDirectory) throws IOException;
+
+    /**
      * 统计各单词出现次数,并排序
      * @param fileName
-     * @return String
+     * @return List<HashMap.Entry<String, Integer>>
      * @throws IOException
      */
     public List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName) throws IOException;
+
+    /**
+     *
+     * @param fileName
+     * @return List<HashMap.Entry<String, Integer>>
+     * @throws IOException
+     */
+    public List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName, String fileDirectory) throws IOException;
 }

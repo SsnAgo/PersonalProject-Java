@@ -5,11 +5,17 @@ import java.util.regex.Pattern;
 
 public class WordUtilImpl implements WordUtil{
 
+    //父目录
+    public static final String PARENTDIRECTORY = "../";
+
     //统计字符数
-    public Integer countChar(String fileName) throws IOException {
+    public Integer countChar(String fileName) throws IOException{
+        return countChar(fileName, PARENTDIRECTORY);
+    }
+    public Integer countChar(String fileName, String fileDirectory) throws IOException {
         //初始化字符数
         int charNum=0;
-        File file=new File("../"+fileName);
+        File file=new File(fileDirectory + fileName);
         int x=-1;
         FileReader fReader=new FileReader(file);
         //逐个字符读取文件
@@ -29,12 +35,15 @@ public class WordUtilImpl implements WordUtil{
 
     //统计单词总数
     public Integer countWord(String fileName) throws IOException{
+        return countWord(fileName, PARENTDIRECTORY);
+    }
+    public Integer countWord(String fileName, String fileDirectory) throws IOException{
         //初始化单词数
         int wordNum=0;
-        File file =new File("../"+fileName);
+        File file = new File(fileDirectory + fileName);
         //缓冲区
         BufferedReader bReader;
-        bReader=new BufferedReader(new FileReader(file));
+        bReader = new BufferedReader(new FileReader(file));
         String temp = "";
 
         //按行读文件，用正则表达式分割
@@ -58,16 +67,19 @@ public class WordUtilImpl implements WordUtil{
 
     //统计行数
     public Integer countLine(String fileName) throws IOException{
+        return countLine(fileName, PARENTDIRECTORY);
+    }
+    public Integer countLine(String fileName, String fileDirectory) throws IOException{
         String temp = "";
         String regEx="[\n\\t\\r ]";
         //或：String regEx="[\\s]"; //匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]
 
         //初始化行数
-        int line=0;
-        File file=new File("../"+fileName);
+        int line = 0;
+        File file = new File(fileDirectory + fileName);
         //缓冲区
         BufferedReader bReader;
-        bReader=new BufferedReader(new FileReader(file));
+        bReader = new BufferedReader(new FileReader(file));
         //按行读取文件，进行正则处理判断有效行数
         while((temp = bReader.readLine())!=null) {
             /*
@@ -97,17 +109,20 @@ public class WordUtilImpl implements WordUtil{
 
 
     //统计各单词出现次数,并排序
-    public List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName) throws IOException {
-        String temp="";
+    public List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName) throws IOException{
+        return countWordFrequency(fileName, PARENTDIRECTORY);
+    }
+    public List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName, String fileDirectory) throws IOException {
+        String temp = "";
         String result = "";
         List<HashMap.Entry<String, Integer>> wordList = null;
 
         Map<String,Integer> wordMap=new HashMap<String,Integer>();
         try {
-            File file =new File("../"+fileName);
+            File file = new File(fileDirectory + fileName);
             //缓冲区
             BufferedReader bReader;
-            bReader=new BufferedReader(new FileReader(file));
+            bReader = new BufferedReader(new FileReader(file));
             //按行读文件，用正则表达式分割
             while ((temp = bReader.readLine()) != null){
                 String[] words = temp.split("[^a-zA-Z0-9]+");
@@ -151,7 +166,7 @@ public class WordUtilImpl implements WordUtil{
 
             @Override
             public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                if(o1.getValue()==o2.getValue())
+                if(o1.getValue() == o2.getValue())
                     //字典序
                     return o1.getKey().compareTo(o2.getKey());
                 //从大到小

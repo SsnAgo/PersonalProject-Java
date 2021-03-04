@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 public class WordCount {
@@ -25,18 +26,25 @@ public class WordCount {
             String result = "";
 
             //统计文件的字符数（对应输出第一行）：
-            result+="characters: "+wu.countChar(input)+"\n";
+            result += "characters: "+wu.countChar(input)+"\n";
             //统计文件的单词总数（对应输出第二行）
-            result+="words: "+wu.countWord(input)+"\n";
+            result += "words: "+wu.countWord(input)+"\n";
             //统计文件的有效行数（对应输出第三行）
-            result+="lines: "+wu.countLine(input)+"\n";
+            result += "lines: "+wu.countLine(input)+"\n";
             //统计文件中各单词的出现次数（对应输出接下来10行）
             List<HashMap.Entry<String, Integer>> wordList = wu.countWordFrequency(input);
             if(wordList != null){
-
-                for (HashMap.Entry h : wordList) {
-                    result += h.getKey() + ": " + h.getValue() + "\n";
+                if(wordList.size() <= 10){
+                    for (HashMap.Entry h : wordList) {
+                        result += h.getKey() + ": " + h.getValue() + "\n";
+                    }
+                } else {
+                    for (int i=0; i<10; i++){
+                        HashMap.Entry<String,Integer> h = wordList.get(i);
+                        result += h.getKey() + ": " + h.getValue() + "\n";
+                    }
                 }
+
             } else{
                 result += "无单词";
             }
@@ -52,7 +60,7 @@ public class WordCount {
     //输出结果到文件
     public static void outputToTxt(String outout, String result) throws IOException
     {
-        File file=new File("../"+outout);//定义文件位置
+        File file = new File("../"+outout);//定义文件位置
         if(!file.exists())//判断文件是否存在，不存在则直接创建新文件
         {
             file.createNewFile();
