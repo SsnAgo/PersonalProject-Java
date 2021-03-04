@@ -2,22 +2,28 @@ import java.io.*;
 import java.util.*;
 
 class Lib {
-
+    int num;
+    int wordnum;
+    int linenum;
     InputStreamReader in;
+    OutputStreamWriter out;
     BufferedReader br;
     String inputFile;
+    String outputFile;
     HashMap <String, Integer> map = new HashMap<>();
     List<Map.Entry<String,Integer>>list;
 
-    Lib(String inputFile) {
-
+    Lib(String inputFile,String outputFile) {
+        this.outputFile = outputFile;
         this.inputFile = inputFile;
-
+        num = 0;
+        wordnum = 0;
+        linenum = 0;
     }
     //读取文件字符数
     int getCountChar() throws FileNotFoundException {
         in=new InputStreamReader(new FileInputStream(inputFile));
-        int num=0;
+
         try {
             while(in.read()!=-1)
             {
@@ -31,7 +37,7 @@ class Lib {
     }
     //读取文件有效行数
      int getLine() throws IOException{
-        int linenum=0;
+
         in = new InputStreamReader(new FileInputStream(inputFile));
         br = new BufferedReader(in);
         String line = null;
@@ -46,7 +52,7 @@ class Lib {
     }
     //读取文件中单词个数
     int getWordNum() throws IOException {
-        int wordnum=0;
+
         in = new InputStreamReader(new FileInputStream(inputFile));
         br = new BufferedReader(in);
         String words;
@@ -97,5 +103,18 @@ class Lib {
 
     }
 
+    void writeFile() throws IOException{
+            out = new OutputStreamWriter(new FileOutputStream(outputFile),"UTF-8");
+            StringBuilder str = new StringBuilder();
+            str.append("characters: "+num+"\n" + "words: "+wordnum+"\n" +"lines: "+linenum+"\n");
+            for(int i = 0;i<(list.size()<10 ? list.size():10);i++){
+                str.append(list.get(i).getKey()+": "+list.get(i).getValue()+"\n");
+            }
+            out.write(str.toString());
+            out.flush();
+            out.close();
+    }
+
+}
     
 }
