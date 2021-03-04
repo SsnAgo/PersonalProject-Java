@@ -32,18 +32,23 @@ public class LineAndCharacterCounter extends Thread {
             while ((in.read(chars)) != -1) {
                 remain=0;
                 for (int i=0;i<chars.length;i++){
+                    if (chars[i]=='\n') lineNum++;
                     if((int)chars[i]==0) {
                         remain=i;
                         break;
                     }
-                    if (chars[i]=='\n') lineNum++;
                 }
                 whileCount++;
             }
-            charNum=(whileCount-1)*1000+remain-lineNum;
-            if(lineNum==0){
+
+            int flag=0;
+            if(lineNum==0 & whileCount!=0){
                 lineNum+=1;
+                flag=1;
             }
+            if(whileCount==0) whileCount++;
+            if(flag==1) charNum=(whileCount-1)*1000+remain;
+            else  charNum=(whileCount-1)*1000+remain-lineNum;
             in.close();
             useTime=System.currentTimeMillis()-startTime;
         }catch (Exception e){
@@ -51,29 +56,15 @@ public class LineAndCharacterCounter extends Thread {
         }
     }
 
-
     public int getLineNum() {
         return lineNum;
-    }
-
-    public void setLineNum(int lineNum) {
-        this.lineNum = lineNum;
     }
 
     public int getCharNum() {
         return charNum;
     }
-
-    public void setCharNum(int charNum) {
-        this.charNum = charNum;
-    }
-
-
     public long getUseTime() {
         return useTime;
     }
 
-    public void setUseTime(long useTime) {
-        this.useTime = useTime;
-    }
 }

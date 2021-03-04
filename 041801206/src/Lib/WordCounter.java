@@ -11,15 +11,23 @@ public class WordCounter {
     private HashMap<String,Integer> allWordHashMap;
     private String filePath;
     private int emptyLineNum;
-    public List<Map.Entry<String, Integer>> getMaplist() {
-        return maplist;
-    }
     private List<Map.Entry<String,Integer>> maplist;
     private long startTime;
     private long useTime;
+
+    public int getEmptyLineNum() {
+        return emptyLineNum;
+    }
+    public List<Map.Entry<String, Integer>> getMaplist() {
+        return maplist;
+    }
     public long getUseTime() {
         return useTime;
     }
+    public int getWordNum() {
+        return wordNum;
+    }
+
     public WordCounter(String filePath) {
         this.filePath = filePath;
         wordNum=0;
@@ -30,9 +38,6 @@ public class WordCounter {
         useTime=System.currentTimeMillis()-startTime;
     }
 
-    public int getWordNum() {
-        return wordNum;
-    }
 
     private void count(String filePath,int lineToThread){
         try {
@@ -46,13 +51,16 @@ public class WordCounter {
                 boolean flag= (temp = in.readLine())==null;
                 if(!flag){
                     toStatisticsStr.append(temp+"-");
+                    if((temp+"-").length()==1){
+                        emptyLineNum++;
+                    }
                 }
                 nowlineNum++;
                 if(nowlineNum>=lineToThread || flag){
                     multiCounterList.add(new MultiCounter(toStatisticsStr));
                     multiCounterList.get(multiCounterList.size()-1).start();
                     nowlineNum=0;
-                    toStatisticsStr.delete(0,toStatisticsStr.length()-1);
+                    if(toStatisticsStr.length()!=0) toStatisticsStr.delete(0,toStatisticsStr.length()-1);
                 }
                 if (flag) {
                     in.close();
@@ -85,14 +93,14 @@ public class WordCounter {
 
     private void mergeMap(HashMap<String,Integer> tempMap){
         tempMap.forEach((key, value) -> allWordHashMap.merge(key, value, (v1, v2) -> v1+v2));
-
     }
 
     public class MultiCounter extends Thread{
-
         private HashMap<String,Integer> partWordHashMap;
         private String str;
-        private int emptyLineNum=0;
+        public HashMap<String, Integer> getPartWordHashMap() {
+            return partWordHashMap;
+        }
 
         public MultiCounter(StringBuffer toStatisticsStr){
             partWordHashMap=new HashMap<>();
@@ -127,9 +135,6 @@ public class WordCounter {
         private boolean isWord(String str){
             String pattern="[a-z]{4}[a-z0-9]*";
             return Pattern.matches(pattern,str);
-        }
-        public HashMap<String, Integer> getPartWordHashMap() {
-            return partWordHashMap;
         }
 
 
