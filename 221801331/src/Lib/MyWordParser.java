@@ -98,7 +98,7 @@ public class MyWordParser implements WordParser
       c=text.charAt(i);
       if(isWordReading)   //正在读取单词
       {
-        if(isValidChar(c)) //若是有效单词
+        if(isValidChar(c)) //若是有效字符
         {
           wordReader.append(c);   //加入单词读取器
         }
@@ -153,20 +153,37 @@ public class MyWordParser implements WordParser
     return wordCountMap
         .entrySet()
         .stream()
-        .sorted(Map.Entry.<String, Integer> comparingByValue() //字母频率升序排序
+        .sorted(Map.Entry.<String, Integer> comparingByValue() //按value排序（默认为升序）
             .reversed()//倒序
-            .thenComparing(Map.Entry.comparingByKey()))//按照key排序
-        .limit(size) //选择最前面的十个
+            .thenComparing(Map.Entry.comparingByKey()))//按照key排序(字典序)
+        .limit(size) //选择前面n个
         .collect(  //以map形式返回
-            Collectors.toMap(
-                Map.Entry::getKey,
-                Map.Entry::getValue,
-                (oldVal, newVal) -> oldVal,
-                LinkedHashMap::new
+            Collectors.toMap(Map.Entry::getKey,Map.Entry::getValue,
+                (oldValue, newValue) -> oldValue,
+                LinkedHashMap::new    //返回LinkedHashMap
             )
         );
   }
 
+  public Map<String, Integer> getWordCountMap()
+  {
+    return wordCountMap;
+  }
 
+  /**
+   * toString方法
+   * @return
+   */
+  @Override
+  public String toString()
+  {
+    return "MyWordParser{" +
+        "wordCountMap=" + wordCountMap +
+        ", letterNum=" + letterNum +
+        ", isWordReading=" + isWordReading +
+        ", isThisWordValid=" + isThisWordValid +
+        ", wordReader=" + wordReader +
+        '}';
+  }
 }
 

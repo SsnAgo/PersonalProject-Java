@@ -55,35 +55,6 @@ public class TextParser
     this.wordParser=wordParser;  //生成单词解析器
   }
 
-
-  /**
-   * 全参数构造方法
-   * @param inputFile
-   * @param outputFile
-   * @param textContent
-   * @param validCharsNum
-   * @param validLinesNum
-   * @param wordNum
-   * @param wordCountMap
-   * @param charParser
-   * @param wordParser
-   */
-  public TextParser(String inputFile, String outputFile, String textContent,
-                    int validCharsNum, int validLinesNum, int wordNum,
-                    Map<String, Integer> wordCountMap,
-                    CharParser charParser, WordParser wordParser)
-  {
-    this.inputFile = inputFile;
-    this.outputFile = outputFile;
-    this.textContent = textContent;
-    this.validCharsNum = validCharsNum;
-    this.validLinesNum = validLinesNum;
-    this.wordNum = wordNum;
-    this.wordCountMap = wordCountMap;
-    this.charParser = charParser;
-    this.wordParser = wordParser;
-  }
-
   /**
    * 将文件内容读取为文本
    * @return
@@ -120,6 +91,11 @@ public class TextParser
     return wordNum=wordParser.countWord(textContent);
   }
 
+  /**
+   * 根据size获取单词频率统计map
+   * @param size
+   * @return
+   */
   public Map<String,Integer> getWordCountMapBySize(int size)
   {
     return wordCountMap=wordParser.getWordCountMapBySize(size);
@@ -145,4 +121,95 @@ public class TextParser
     //
   }
 
+  public String getInputFile() {
+    return inputFile;
+  }
+
+  public void setInputFile(String inputFile) {
+    this.inputFile = inputFile;
+  }
+
+  public String getOutputFile() {
+    return outputFile;
+  }
+
+  public void setOutputFile(String outputFile) {
+    this.outputFile = outputFile;
+  }
+
+  public String getTextContent() {
+    return textContent;
+  }
+
+  public void setTextContent(String textContent) {
+    this.textContent = textContent;
+  }
+
+  public int getValidCharsNum() {
+    return validCharsNum;
+  }
+
+  public void setValidCharsNum(int validCharsNum) {
+    this.validCharsNum = validCharsNum;
+  }
+
+  public int getValidLinesNum() {
+    return validLinesNum;
+  }
+
+  public void setValidLinesNum(int validLinesNum) {
+    this.validLinesNum = validLinesNum;
+  }
+
+  public int getWordNum() {
+    return wordNum;
+  }
+
+  public void setWordNum(int wordNum) {
+    this.wordNum = wordNum;
+  }
+
+  public Map<String, Integer> getWordCountMap() {
+    return wordCountMap;
+  }
+
+  public void setWordCountMap(Map<String, Integer> wordCountMap) {
+    this.wordCountMap = wordCountMap;
+  }
+
+  public CharParser getCharParser() {
+    return charParser;
+  }
+
+  public void setCharParser(CharParser charParser) {
+    this.charParser = charParser;
+  }
+
+  public WordParser getWordParser() {
+    return wordParser;
+  }
+
+  public void setWordParser(WordParser wordParser) {
+    this.wordParser = wordParser;
+  }
+
+  /**
+   * toString
+   * @return
+   */
+  @Override
+  public String toString()
+  {
+    return "TextParser{" +
+        "inputFile='" + inputFile + '\'' +
+        ", outputFile='" + outputFile + '\'' +
+        ", textContent='" + textContent + '\'' +
+        ", validCharsNum=" + validCharsNum +
+        ", validLinesNum=" + validLinesNum +
+        ", wordNum=" + wordNum +
+        ", wordCountMap=" + wordCountMap +
+        ", charParser=" + charParser +
+        ", wordParser=" + wordParser +
+        '}';
+  }
 }

@@ -16,7 +16,6 @@ public class MyCharParser implements CharParser
     {
     }
 
-
   /**
    * 判断是否为有效字符
    * @param c
