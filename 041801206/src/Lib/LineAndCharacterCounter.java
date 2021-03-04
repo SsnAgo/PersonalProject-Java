@@ -18,7 +18,6 @@ public class LineAndCharacterCounter extends Thread {
         this.charNum=0;
         this.filePath=filePath;
     }
-
     @Override
     public void run() {
         try {
@@ -44,13 +43,6 @@ public class LineAndCharacterCounter extends Thread {
             if(lineNum!=0){
                 lineNum+=1;
             }
-
-            System.out.println(lineNum);
-            System.out.println("sum:"+charNum);
-            System.out.println((int)chars[6]);
-            System.out.println((int)chars[7]);
-            System.out.println((int)chars[8]);
-            System.out.println((int)chars[9]);
             in.close();
         }catch (Exception e){
             e.printStackTrace();
