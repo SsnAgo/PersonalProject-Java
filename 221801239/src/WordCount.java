@@ -17,8 +17,5 @@ public class WordCount {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
 }
-

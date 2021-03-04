@@ -63,7 +63,6 @@ public class Lib {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return count;
     }
 
@@ -106,6 +105,7 @@ public class Lib {
         for (String s : resultStr) {
             if (s.matches("[a-z]{4}[a-z0-9]*")) {
                 if (resultMap.containsKey(s)) {
+                    //containKey()方法用于检查特定键是否在TreeMap中映射
                     count = resultMap.get(s);
                     resultMap.put(s, count + 1);
                 } else {
@@ -113,16 +113,16 @@ public class Lib {
                 }
             }
         }
-
+        //通过比较器实现排序
         List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(resultMap.entrySet());
-
+        //按降序排序
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
             public int compare(Map.Entry<String, Integer> first, Map.Entry<String, Integer> second) {
                 if(second.getValue().compareTo(first.getValue()) == 0) {
-                    //相同频数的单词按照字典序排序
+                    //如果单词频数相同，返回字典序较大的单词
                     return second.getKey().compareTo(first.getKey());
                 }
-                //按照单词频数排序
+                //返回两个单词出现次数较多的那个单词的出现次数
                 return second.getValue().compareTo(first.getValue());
             }
         });
@@ -138,5 +138,4 @@ public class Lib {
             e.printStackTrace();
         }
     }
-
 }
