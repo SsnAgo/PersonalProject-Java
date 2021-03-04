@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,18 +26,27 @@ public class WordCount{
      其他说明:  函数包括：计算文件字符数，单词总数，有效行数，单词的出现次数函数
     */
     public static void outputFile(File inputFile, File outputFile){
+        int PRINT_WORDS_NUMBER = 10;
+
         int characters = countCharacters(inputFile);
         System.out.println(characters);
         int words = countTotalWords(inputFile);
         System.out.println(words);
         int lines = countValidLines(inputFile);
         System.out.println(lines);
+        List<Map.Entry<String, Integer>> list = countWords(inputFile);
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).getKey()+":"+list.get(i).getValue());
+        }
 
         try {
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
             String content = "characters: " + characters + '\n';
             content += "words: " + words + "\n";
             content += "lines: " + lines + "\n";
+            for(int i = 0; i < PRINT_WORDS_NUMBER && i < list.size(); i++)
+                content += list.get(i).getKey() + ": " + list.get(i).getValue() + "\n";
+
             bufferedOutputStream.write(content.getBytes());
 
             bufferedOutputStream.flush();
@@ -146,5 +156,60 @@ public class WordCount{
         }
 
         return lines;
+    }
+    /*
+         函数名：   List<Map.Entry<String, Integer>> countWords
+         函数描述:  统计文件中各单词的出现次数（对应输出接下来10行），最终只输出频率最高的10个
+         输入:      输入文件路径
+         返回值:    排序好的list
+         其他说明:  频率相同的单词，优先输出字典序靠前的单词。
+                   输出的单词统一为小写格式
+    */
+    public static List<Map.Entry<String, Integer>> countWords(File inputFile){
+        Map<String, Integer> map = new TreeMap<String, Integer>();
+
+        try{
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
+            String line = null;
+
+            while((line = bufferedReader.readLine())!=null){
+                String string = line.toLowerCase();
+                Pattern pattern = Pattern.compile("[a-zA-Z]{4}([a-zA-Z0-9])*");
+                Matcher matcher = pattern.matcher(string);
+                String word = "";
+                Integer num = null;
+
+                while(matcher.find()) {
+                    word = matcher.group();
+                    if(map.containsKey(word)) {
+                        num = map.get(word);
+                        num += 1;
+                    }else {
+                        num = 1;
+                    }
+                    map.put(word, num);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        List<Map.Entry<String, Integer>> list = new ArrayList<>();
+        list.addAll(map.entrySet());
+
+        Collections.sort(list, new Comparator<>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                int flag = o2.getValue() - o1.getValue();
+                if(flag == 0){
+                    flag = (o1.getKey()).compareTo(o2.getKey());
+                }
+                return flag;
+            }
+        });
+
+        return list;
     }
 }
