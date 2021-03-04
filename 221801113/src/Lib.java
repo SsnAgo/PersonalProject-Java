@@ -1,7 +1,9 @@
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Lib {
     /**
@@ -17,6 +19,7 @@ public class Lib {
 
         try {
             reader = new BufferedReader(new FileReader(filePath));
+
             while ((ch = reader.read()) != -1) {
                 str.append((char)ch);
             }
@@ -45,7 +48,7 @@ public class Lib {
                 + "lines: " + linesNum + '\n');
         List<HashMap.Entry<String, Integer>> sortedList = Lib.getSortedList(wordMap);
 
-        for(HashMap.Entry<String,Integer> entry:sortedList) {
+        for(HashMap.Entry<String, Integer> entry : sortedList) {
             str.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
             cnt++;
             if (cnt >= 10) break;
@@ -77,8 +80,6 @@ public class Lib {
             writer.close();
         }
     }
-
-
 
     /**
      * @description 计算字符数
@@ -143,11 +144,11 @@ public class Lib {
      * @return        排序完的list
      */
     public static List<HashMap.Entry<String, Integer>> getSortedList(HashMap<String, Integer> wordMap) {
-        List<HashMap.Entry<String, Integer>> list =
-                new ArrayList<HashMap.Entry<String, Integer>>(wordMap.entrySet());
+        List<HashMap.Entry<String, Integer>> list
+                = new ArrayList<HashMap.Entry<String, Integer>>(wordMap.entrySet());
 
         Collections.sort(list, new Comparator<Map.Entry<String,Integer>>() {
-            public int compare(Map.Entry<String,Integer> o1, Map.Entry<String,Integer> o2){
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2){
                 if(o1.getValue().equals(o2.getValue())) {
                     return o1.getKey().compareTo(o2.getKey());
                 }
@@ -157,5 +158,4 @@ public class Lib {
 
         return list;
     }
-
 }
