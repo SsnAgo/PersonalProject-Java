@@ -6,11 +6,12 @@ public class Lib {
 
     /**
      * 获得文件的内容
+     *
      * @param filename 输入文件的路径
      * @return content 输入文件的内容
      */
-    public static String getFile(String filename){
-        StringBuilder content= new StringBuilder();
+    public static String getFile(String filename) {
+        StringBuilder content = new StringBuilder();
         BufferedInputStream bufferedInput = null;
         byte[] buffer = new byte[1024];
         try {
@@ -25,16 +26,16 @@ public class Lib {
             }
         } catch (IOException ex) {
             ex.printStackTrace();
-        } finally {
-            //关闭 BufferedInputStream
+        }
+        //关闭 BufferedInputStream
+        if (bufferedInput != null) {
             try {
-                if (bufferedInput != null)
-                    bufferedInput.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
+                bufferedInput.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        return content.toString().replaceAll("[^A-Za-z0-9]"," ");
+        return content.toString();
     }
 
     /**
@@ -55,8 +56,8 @@ public class Lib {
      */
     public static int countWords(Map<String, Integer> map) {
         int words = 0;
-        for(Integer value : map.values()){
-            words+=value;
+        for (Integer value : map.values()) {
+            words += value;
         }
         return words;
     }
@@ -64,28 +65,17 @@ public class Lib {
     /**
      * 行数统计
      *
-     * @param filename 输入文件的路径
+     * @param content 输入文件的内容
      * @return int
      */
-    public static int countLines(String filename) {
+    public static int countLines(String content) {
         int lines = 0;
-        FileReader fr;
-        try {
-            fr = new FileReader(filename);
-            BufferedReader br = new BufferedReader(fr);
-            String temp = "";
-            while (true) {
-                try {//按行读取，记录行数
-                    if ((temp = br.readLine()) == null) break;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (!"".equals(temp)) {//检查是否为空行，不记录空行
-                    lines++;
-                }
+        StringTokenizer st = new StringTokenizer(content, "\n\r");
+        while (st.hasMoreTokens()){
+            String line = st.nextToken();
+            if(!line.trim().equals("")){
+                lines++;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
         return lines;
     }
@@ -118,6 +108,7 @@ public class Lib {
      */
     public static Map<String, Integer> countFrequency(String content) {
         Map<String, Integer> map = new HashMap<>();
+        content=content.replaceAll("[^A-Za-z0-9]", " ");
         StringTokenizer st = new StringTokenizer(content, " ");
         while (st.hasMoreTokens()) {
             String word = st.nextToken();
@@ -154,14 +145,14 @@ public class Lib {
         List<String> sameFrequency = new ArrayList<>();
         //输出统计
         int outputCount = 0;
-        if(list.size()<num){
-            num=list.size();
+        if (list.size() < num) {
+            num = list.size();
         }
-        if(list.size()==1)
-            return list.get(0).getKey()+ ": " + list.get(0).getValue();
+        if (list.size() == 1)
+            return list.get(0).getKey() + ": " + list.get(0).getValue();
         for (int i = 0; i < list.size() && outputCount < num; i++) {
             //如果当前字符词频与下一个不一样，则对当前所有同词频单词排序
-            if ((i==list.size()-1)||!list.get(i).getValue().equals(list.get(i + 1).getValue())) {
+            if ((i == list.size() - 1) || !list.get(i).getValue().equals(list.get(i + 1).getValue())) {
                 sameFrequency.add(list.get(i).getKey());//将当前单词加入同词频单词表
                 sameFrequency.sort(String::compareTo);//对同词频单词表排序
                 //按字典顺序记录同词频单词
@@ -201,7 +192,8 @@ public class Lib {
 
     /**
      * 向文件输出内容
-     * @param output 输出文件的路径
+     *
+     * @param output        输出文件的路径
      * @param answerBuilder 输出内容
      */
     public static void outputInfo(String output, String answerBuilder) {

@@ -5,7 +5,7 @@ public class WordCount {
     public static void main(String[] args) {
 //      E:/JavaTest/input1.txt E:/JavaTest/output.txt
 
-        String fileName = "E:/JavaTest/input1.txt";
+        String fileName = "E:/JavaTest/input2.txt";
         String output = "E:/JavaTest/output.txt";
 
         try {
@@ -55,7 +55,7 @@ public class WordCount {
         //获得单词数
         int words = Lib.countWords(map);
         //获得行数
-        int lines = Lib.countLines(fileName);
+        int lines = Lib.countLines(content);
         //获得词频数前十
         String Frequency = Lib.sortFrequency(map, num);
 
