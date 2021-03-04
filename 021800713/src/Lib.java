@@ -6,7 +6,7 @@ public class Lib {
     static int characters,words,lines;//字符数、单词数、行数
     static String freq;//词频
 
-    //读取文件内容，获得字符串
+    //读取文件函数、获得字符串
     public static String readFile(String inputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
         StringBuilder stringBuffer = new StringBuilder();
@@ -18,7 +18,20 @@ public class Lib {
         return String.valueOf(stringBuffer);
     }
 
+    //写入output文件
+    public static String writeToFile(String outputFile)
+            throws IOException {
+        Writer writer = new FileWriter(outputFile);
+        StringBuilder str = new StringBuilder();
+        str.append("characters: ").append(characters).append("\n")//字符数
+                .append("words: ").append(words).append("\n")//单词数
+                .append("lines: ").append(lines).append("\n")//有效行数
+                .append(freq);//词频最高前十个的单词及其词频
 
+        writer.write(String.valueOf(str));
+        writer.close();
+        return String.valueOf(str);
+    }
 
     //读取输入文件
     public static Reader openInputFile(String fileName) {
