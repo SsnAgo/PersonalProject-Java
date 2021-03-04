@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
@@ -44,7 +45,6 @@ public class DoCount {
 				num = len;
 		}
 		String str = String.valueOf(a);
-		System.out.print(str);
 		fReader.close();
 		bReader.close();
 		result.put(str, num);
@@ -53,38 +53,29 @@ public class DoCount {
 	//Í³¼Æµ¥´Ê
 	public static int wordNum(String path,String word_str,HashMap<String, Integer> word_freq)throws IOException{
 		int total = 0;
-		String string;
-		ArrayList array = new ArrayList();		
-		word_str.toLowerCase().split("\\s+");
-		array.add(word_str);
-			
+		String[] word_split;
+		word_split = word_str.toLowerCase().split("\\s+");
+		
 		String rule = ".*[a-z]{4}+.*" ;
-		java.util.regex.Pattern p = java.util.regex.Pattern.compile(rule);
-		Iterator iterator = array.iterator();
-		while (iterator.hasNext()) {
-			String[] s = (String[])iterator.next();
-			for(int y = 0;y<=s.length-1;y++) {
-				java.util.regex.Matcher m = p.matcher(s[y]);
-				if(m.matches()) {
-					total++;
-					if(word_freq.get(s[y]) == null) {
-						word_freq.put(s[y], 1);
-					}
-					else {
-						int old_value = word_freq.get(s[y]);
-						old_value++;
-						word_freq.replace(s[y], old_value);
-					}
+		for(String str:word_split) {
+			boolean is_match = Pattern.matches(rule, str);
+			if(is_match) {
+				total++;
+				if(word_freq.get(str) == null) {
+					word_freq.put(str, 1);
+				}
+				else {
+					int old_value = word_freq.get(str);
+					old_value++;
+					word_freq.replace(str, old_value);
 				}
 			}
-		}
+		}		
 		total = word_freq.size();
 		return total;
 	}
 	//ÅÅÐò
 public static Map<String, Integer> sortWords(HashMap<String, Integer>word_freq) {
-	HashMap<String, Integer> word_result = new HashMap<>();
-	
 	Map<String,Integer>sort_mapMap=word_freq.entrySet()
             .stream()
             .sorted(Collections
