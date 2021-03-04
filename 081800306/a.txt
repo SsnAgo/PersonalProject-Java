@@ -1,7 +1,0 @@
-word,	n
-q
-
-
-	
-   
-123,werqq,word123,asdf
