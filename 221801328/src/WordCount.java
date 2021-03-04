@@ -9,12 +9,22 @@ public class WordCount {
 
     public static void main(String[] args) {
 
+        countWords();
+        countChars();
+    }
+
+    /*统计单词数*/
+    public static void countWords()
+    {
+        int count = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader("input.txt"));
+
             List<String> wordList = new ArrayList();//单词列表
             String line = null;
             //一行一行读取文件
             while((line = br.readLine()) != null){
+
                 //分割符：空格，非字母数字符号,以分割符来分割出单词
                 String[] words = line.split("[^a-zA-Z0-9]");
                 //单词：至少以4个英文字母开头
@@ -30,10 +40,13 @@ public class WordCount {
                 }
             }
             br.close();
+            //统计单词数
+            count = wordList.size();
+            System.out.println(count);
 
-            for (String word : wordList){
-                System.out.println(word);
-            }
+//            for (String word : wordList){
+//                System.out.println(word);
+//            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -43,4 +56,24 @@ public class WordCount {
     }
 
 
+    /*统计ascii字符数*/
+    public static void countChars() {
+        int count = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("input.txt"));
+            int ch = -1;
+            while ((ch = br.read()) != -1) {
+                //属于ascii码，就计下
+                if (ch <=127 )
+                    count++;
+//                System.out.println(ch);
+            }
+            System.out.println(count);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
