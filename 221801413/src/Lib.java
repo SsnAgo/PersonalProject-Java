@@ -68,5 +68,24 @@ public class Lib
         return charCount;
     }
 
+        /**
+     * 利用正则表达式，判断有效行数
+     *
+     * @ param chStr
+     * @ return valid lines
+     * */
+    public static int getLines(String chStr){
+        int lines = 0;
+        String regex = "\\s+";
 
+        //使用正则表达式匹配有效的字符行
+        Pattern charPattern = Pattern.compile(regex);
+        Matcher matcher = charPattern.matcher(chStr);
+
+        while(matcher.find()){
+            lines++;
+        }
+
+        return lines;
+    }
 }
