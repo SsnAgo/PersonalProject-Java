@@ -44,26 +44,24 @@ public class CountCore {
         String wordRegex="[a-z]{4}[a-z0-9]*";
         return Pattern.matches(wordRegex,string);
     }
-    public static Map<String,Integer> wordCount(File inputFile){
+    public static Map<String,Integer> wordStore(File inputFile){
         Map<String,Integer> result=new HashMap<>();
         BufferedReader bufferedReader=null;
-        StringBuilder stringBuilder=new StringBuilder();
         String splitRegex="[^a-zA-Z0-9]";
         try {
             String str;
             bufferedReader=new BufferedReader(new FileReader(inputFile));
             while((str=bufferedReader.readLine())!=null){
-                str=str.toLowerCase();
+                str=str.toLowerCase().replaceAll(splitRegex," ");
                 //将分隔符全部替换成" "
-                str=str.replaceAll(splitRegex," ");
                 StringTokenizer stringTokenizer=new StringTokenizer(str);
-                while(stringTokenizer.hasMoreTokens()){
-                    String substring=stringTokenizer.nextToken();
-                    if(isWord(substring)&&result.containsKey(substring)){
-                        int frequency=result.get(substring);
-                        result.put(substring,frequency+1);
-                    }else if(isWord(substring)&&(!result.containsKey(substring))){
-                        result.put(substring,1);
+                while(stringTokenizer.hasMoreTokens()) {
+                    String substring = stringTokenizer.nextToken();
+                    if (isWord(substring) && result.containsKey(substring)) {
+                        int frequency = result.get(substring);
+                        result.put(substring, frequency + 1);
+                    } else if (isWord(substring) && (!result.containsKey(substring))) {
+                        result.put(substring, 1);
                     }
                 }
             }
@@ -73,6 +71,14 @@ public class CountCore {
             e.printStackTrace();
         }
         return result;
+    }
+    public static int wordCount(File inputFile){
+       int words=0;
+        Map<String,Integer> map=wordStore(inputFile);
+       for(Map.Entry<String,Integer> entry:map.entrySet()){
+            words+=entry.getValue();
+        }
+       return words;
     }
 
     public static int lineCount(File inputFile){
