@@ -52,7 +52,7 @@ public class Lib {
     /*获取单词列表*/
     public List<String> getWordList(String inputFile) {
         //单词列表
-        List<String> wordList = new ArrayList();
+        List<String> wordList = new ArrayList<String>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(inputFile));
             String line = null;
@@ -72,8 +72,6 @@ public class Lib {
                 }
             }
             br.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,8 +92,6 @@ public class Lib {
 //                if (ch <=127 )
 //                    count++;
 //            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,8 +112,6 @@ public class Lib {
                     count++;
             }
 //            System.out.println(count);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,7 +119,7 @@ public class Lib {
     }
 
     /*统计词频，只输出出现最多的10个*/
-    public ArrayList countWordFrequency(String inputFile)
+    public ArrayList<Map.Entry<String,Integer>> countWordFrequency(String inputFile)
     {
         List<String> wordList = getWordList(inputFile);
         //key 单词  value 出现次数
@@ -147,7 +141,7 @@ public class Lib {
     }
 
     /*对map按value排序*/
-    public ArrayList sortMap(Map<String,Integer> oldmap) {
+    public ArrayList<Map.Entry<String,Integer>> sortMap(Map<String,Integer> oldmap) {
 
         ArrayList<Map.Entry<String,Integer>> list = new ArrayList<Map.Entry<String,Integer>>(oldmap.entrySet());
 
