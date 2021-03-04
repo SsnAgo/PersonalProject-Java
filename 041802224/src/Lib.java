@@ -9,15 +9,15 @@ public class Lib {
         this.openFilePath = openFilePath;
         this.writeFilePath = writeFilePath;
     }
-    private  String openFilePath = "D:\\IDEA\\PersonalProject-Java\\input.txt" ;
-    private  String writeFilePath = "D:\\IDEA\\PersonalProject-Java\\output.txt" ;
-    private String file;
+    private  String openFilePath = "" ;
+    private  String writeFilePath = "" ;
+    private String file = "";
     private String wordPattern = "^([A-Za-z]{4}[A-Za-z]*[0-9]*)";//单词匹配
     private String linePattern = "\\s*";//空行匹配
-    private Map<String,Integer> hashMap;//存放单词
-    private int countLines = 0;
-    private int countChars = 0;
-    private int countWords = 0;
+    private Map<String,Integer> hashMap = new HashMap<>();//存放单词
+    public int countLines = 0;
+    public int countChars = 0;
+    public int countWords = 0;
 
     public void open() {
         File file=new File(openFilePath);
@@ -38,16 +38,6 @@ public class Lib {
         writeFile(writeFilePath);
     }
 
-    //单词按出现频率排序
-    public void sortWords() {
-        hashMap = hashMap.entrySet()
-                .stream()
-                .sorted(Map.Entry.<String, Integer> comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
-                .limit(10)
-                .collect(toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
-                        LinkedHashMap::new));
-    }
-
     //读取文件
     public void readFile() {
         BufferedReader reader = null;
@@ -65,7 +55,11 @@ public class Lib {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    //字符数统计
+    public void getChars(){
+        countChars = file.length();
     }
 
     //单词数统计
@@ -108,8 +102,7 @@ public class Lib {
         try {
             reader = new BufferedReader(new FileReader(openFilePath));
             String line;
-            while( (line = reader.readLine()) != null )
-            {
+            while( (line = reader.readLine()) != null ) {
                 if(!line.matches(linePattern))
                     countLines++;
             }
@@ -118,6 +111,16 @@ public class Lib {
             e.printStackTrace();
         }
 
+    }
+
+    //单词按出现频率排序
+    public void sortWords() {
+        hashMap = hashMap.entrySet()
+                .stream()
+                .sorted(Map.Entry.<String, Integer> comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
+                .limit(10)
+                .collect(toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
+                        LinkedHashMap::new));
     }
 
     //计数写入output.txt
@@ -141,8 +144,4 @@ public class Lib {
         }
     }
 
-    //字符数统计
-    private void getChars(){
-        countChars = file.length();
-    }
 }
