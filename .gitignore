@@ -4,4 +4,4 @@
 *.iml
 *.md
 *.class
-.idea/
+/.idea
