@@ -2,6 +2,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Lib
 {
@@ -48,5 +50,18 @@ public class Lib
         }
         return charactersNum;
     }
+    //正则表达式统计行数
+    public static int getLinesNum(String str)
+    {
+        int linesNum = 0;
+        Matcher matcher = Pattern.compile("(^|\n)\\s*\\S+").matcher(str);
+        while(matcher.find())
+        {
+            linesNum++;
+        }
+        return linesNum;
+    }
+
+
 
 }
