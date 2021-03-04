@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -13,6 +14,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+
+import java.util.TreeMap;
 public class DoCount {
 	//统计行数
 	public static int countLine(String path) throws IOException{
@@ -22,7 +25,7 @@ public class DoCount {
 		BufferedReader bReader = new BufferedReader(fReader);
 		while((string = bReader.readLine())!=null)
 		{	
-			line++; 
+			++line; 
 		}
 		fReader.close();
 		bReader.close();
@@ -32,8 +35,7 @@ public class DoCount {
 	public static int countCharacters (String path) throws IOException {
 		int num = 0;
 		int len = 0;
-		char[] a = new char[500];
-		String str;
+		char[] a = new char[50000];
 		FileReader fReader = new FileReader(path);
 		BufferedReader bReader = new BufferedReader(fReader);	
 		while((len = bReader.read(a))!=-1)
@@ -58,7 +60,7 @@ public class DoCount {
 		}
 		fReader.close();
 		bReader.close();		
-		String rule = ".*[a-z]+.*" ;
+		String rule = ".*[a-z]{4}+.*" ;
 		java.util.regex.Pattern p = java.util.regex.Pattern.compile(rule);
 		Iterator iterator = array.iterator();
 		while (iterator.hasNext()) {
@@ -84,39 +86,59 @@ public class DoCount {
 	//排序
 public static Map<String, Integer> sortWords(HashMap<String, Integer>word_freq) {
 	HashMap<String, Integer> word_result = new HashMap<>();
+	
 	Map<String,Integer>sort_mapMap=word_freq.entrySet()
             .stream()
             .sorted(Collections
-                    .reverseOrder(//Map.Entry.comparingByValue()
-                    		Collections
-                            .reverseOrder(new Comparator<Entry<String, Integer>>(){
-                            	@Override
-                            	public int compare(Map.Entry<String,Integer> o1
-                            			, Map.Entry<String,Integer> o2) {
-                            		if (o1.getValue()<o2.getValue()) {
-        								return -1;
-        							}else if(o1.getValue()>o2.getValue()) {
-        								return 1;
-        							}else {
-        								String a = o1.getKey();
-        								String b = o2.getKey();
-        								if(strcmp(a,b)>0)
-        								{
-        									return -1;
-        								}else if(strcmp(b, a)<0) {
-        									return 1;
-        								}else {
-        									return 0;
-        								}
-        							}
-                            	}
-                            }
-                    		
-                    		
-                    		))
+                    .reverseOrder(new Comparator<Entry<String, Integer>>(){
+                    	@Override
+                    	public int compare(Map.Entry<String,Integer> o1
+                    			, Map.Entry<String,Integer> o2) {
+                    		if (o1.getValue()<o2.getValue()) {
+								return -1;
+							}else if(o1.getValue() > o2.getValue()) {
+								return 1;
+							}else {
+								String a = o1.getKey();
+								String b = o2.getKey();
+								if(strcmp(a,b) > 0)
+								{
+									return -1;
+								}else if(strcmp(b, a) < 0) {
+									return 1;
+								}else {
+									return 0;
+								}
+							}
+                    	}
+
+						private int strcmp(String a, String b) {
+							char a_char[] = a.toCharArray();
+							char b_char[] = b.toCharArray();
+							int flag = 0;
+							int n = a_char.length;
+							if (a_char.length > b_char.length) {
+								n = b_char.length;
+							}
+							for (int i = 0; i < n; i++) {
+								if(a_char[i] == b_char[i]) {
+									continue;
+								}else if (a_char[i] < b_char[i]) {
+									flag =  -1;
+									break;
+								}else {
+									flag = 1;
+									break;
+								}
+							}
+							return flag;
+						}
+                    }))
             .collect(Collectors
                     .toMap(Map.Entry::getKey,
                     		Map.Entry::getValue,(e1,e2)->e1,LinkedHashMap::new));
 	return sort_mapMap;
 	}
+
 }
+
