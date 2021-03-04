@@ -3,24 +3,24 @@ package Lib;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class WordCounter {
     private int wordNum;
     private HashMap<String,Integer> allWordHashMap;
     private String filePath;
-    private HashMap<String,Integer> topTenWordHashMap;
+    private List<Map.Entry<String,Integer>> maplist;
     private long startTime;
     private long useTime;
 
     public WordCounter(String filePath) {
         this.filePath = filePath;
+        wordNum=0;
+        allWordHashMap=new HashMap<String, Integer>();
         startTime=System.currentTimeMillis();
         count(filePath,10000);
-        System.out.println("耗时："+ (System.currentTimeMillis()-startTime));
+        useTime=System.currentTimeMillis()-startTime;
     }
 
     private void count(String filePath,int lineToThread){
@@ -49,19 +49,32 @@ public class WordCounter {
                 }
             }
             in.close();
-
             for(int i=0;i<multiCounterList.size();i++){
                 multiCounterList.get(i).join();
-                System.out.println(multiCounterList.get(i).getPartWordHashMap().toString());
+                mergeMap(multiCounterList.get(i).getPartWordHashMap());
             }
-
-
+           sortByValue();
     }catch (Exception e){
             e.printStackTrace();
         }
+    }
 
+    private void sortByValue(){
+        maplist = new ArrayList<Map.Entry<String, Integer>>(allWordHashMap.entrySet());
+        Collections.sort(maplist, new Comparator<Map.Entry<String,Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> stringIntegerEntry, Map.Entry<String, Integer> t1) {
+                return t1.getValue()-stringIntegerEntry.getValue();
+            }
+        });
+        for (Map.Entry<String,Integer> me:maplist) {
+            wordNum+=me.getValue();
+        }
+    }
 
-        //TODO 合并List的Map
+    private void mergeMap(HashMap<String,Integer> tempMap){
+        tempMap.forEach((key, value) -> allWordHashMap.merge(key, value, (v1, v2) -> v1+v2));
+
     }
 
     public class MultiCounter extends Thread{
@@ -97,26 +110,12 @@ public class WordCounter {
                    wordLength=0;
                }
            }
-
-
         }
 
         private boolean isWord(String str){
-//            System.out.println("isWord；"+str);
             String pattern="[a-z]{4}[a-z0-9]*";
             return Pattern.matches(pattern,str);
-//            if(str.length()<=3) return false;
-//            else {
-//                int _0=str.charAt(0);
-//                int _1=str.charAt(1);
-//                int _2=str.charAt(2);
-//                int _3=str.charAt(3);
-//                if ((_0 >= 97 && _0 <= 122) && (_1 >= 97 && _1 <= 122) && (_2 >= 97 && _2 <= 122) && (_3 >= 97 && _3 <= 122))
-//                    return true;
-//                else return false;
-//            }
         }
-
         public HashMap<String, Integer> getPartWordHashMap() {
             return partWordHashMap;
         }
