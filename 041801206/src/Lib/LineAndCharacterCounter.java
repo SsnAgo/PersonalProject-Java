@@ -18,6 +18,7 @@ public class LineAndCharacterCounter extends Thread {
         this.charNum=0;
         this.filePath=filePath;
     }
+
     @Override
     public void run() {
         try {
@@ -40,10 +41,11 @@ public class LineAndCharacterCounter extends Thread {
                 whileCount++;
             }
             charNum=(whileCount-1)*1000+remain-lineNum;
-            if(lineNum!=0){
+            if(lineNum==0){
                 lineNum+=1;
             }
             in.close();
+            useTime=System.currentTimeMillis()-startTime;
         }catch (Exception e){
             e.printStackTrace();
         }

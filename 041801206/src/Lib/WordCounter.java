@@ -10,17 +10,28 @@ public class WordCounter {
     private int wordNum;
     private HashMap<String,Integer> allWordHashMap;
     private String filePath;
+    private int emptyLineNum;
+    public List<Map.Entry<String, Integer>> getMaplist() {
+        return maplist;
+    }
     private List<Map.Entry<String,Integer>> maplist;
     private long startTime;
     private long useTime;
-
+    public long getUseTime() {
+        return useTime;
+    }
     public WordCounter(String filePath) {
         this.filePath = filePath;
         wordNum=0;
+        emptyLineNum=0;
         allWordHashMap=new HashMap<String, Integer>();
         startTime=System.currentTimeMillis();
         count(filePath,10000);
         useTime=System.currentTimeMillis()-startTime;
+    }
+
+    public int getWordNum() {
+        return wordNum;
     }
 
     private void count(String filePath,int lineToThread){
@@ -81,6 +92,7 @@ public class WordCounter {
 
         private HashMap<String,Integer> partWordHashMap;
         private String str;
+        private int emptyLineNum=0;
 
         public MultiCounter(StringBuffer toStatisticsStr){
             partWordHashMap=new HashMap<>();
