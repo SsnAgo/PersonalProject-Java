@@ -7,7 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 public class WordCount {
-    //读文件
+
+    /**
+     * 读取文件
+     * @param filePath
+     * @return
+     */
     public static String readFile(File filePath) {
         StringBuilder result = new StringBuilder();
         try {
@@ -27,7 +32,14 @@ public class WordCount {
         return "";
     }
 
-    //写文件
+    /**
+     * 写文件
+     * @param characters
+     * @param words
+     * @param lines
+     * @param filePath
+     * @param wList
+     */
     public static void writeFile(int characters, int words, int lines,File filePath,
                                  List<HashMap.Entry<String, Integer>> wList) {
         try {
@@ -49,7 +61,7 @@ public class WordCount {
                     break;
                 }
             }
-            bw.write(text.getBytes().toString(), 0, text.getBytes().length);
+            bw.write(text);
             bw.flush();
             bw.close();
         } catch (Exception e) {
@@ -57,27 +69,29 @@ public class WordCount {
         }
     }
 
-    //处理文件
-
-
     public static void main(String[] args) {
         File input =null, output = null;
         String data = null;
 
-        //命令行读文件
-        if (args.length < 2) {
-            System.out.println("Input error! Please restart the program.");
-        }
-        else {
-            //定位input.txt以及output.txt
-            input = new File(args[0]);
-            output = new File(args[1]);
-            data = readFile(input);//读入的文本内容
-        }
+//        //命令行读文件
+//        if (args.length < 2) {
+//            System.out.println("Input error! Please restart the program.");
+//        }
+//        else {
+//            //定位input.txt以及output.txt
+//            input = new File(args[0]);
+//            output = new File(args[1]);
+//            data = readFile(input);//读入的文本内容
+//        }
 
         //测试是否成功读到文本内容
         //System.out.println(data);
 
+        //@Test
+        //绝对路径测试写入是否成功
+        input = new File("E:\\GitHub\\PersonalProject-Java\\291800139\\example\\src\\1.txt");
+        output = new File("E:\\GitHub\\PersonalProject-Java\\291800139\\example\\src\\output.txt");
+        data = readFile(input);
 
         //处理文本
         Lib lib = new Lib();
@@ -87,12 +101,7 @@ public class WordCount {
         int lines = lib.lineCount(data);
         List<Map.Entry<String,Integer>> wordList = lib.wordSort();
 
-
-
         //输出文本
         writeFile(characters,words,lines,output,wordList);
-
-
     }
-
 }

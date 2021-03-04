@@ -84,8 +84,20 @@ public class Lib {
      */
     public List<HashMap.Entry<String, Integer>> wordSort() {
         List<HashMap.Entry<String, Integer>> wordList = new ArrayList<>();
-
-        
+        for (Map.Entry<String, Integer> entry : wordsMap.entrySet()) {
+            wordList.add(entry); //将map中的元素放入list中
+        }
+        //使用比较器排序
+        Comparator<Map.Entry<String, Integer>> cmp = new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                if (o1.getValue().equals(o2.getValue())) {
+                    return o1.getKey().compareTo(o2.getKey()); //值相同时按键返回字典序
+                }
+                return o1.getValue() - o2.getValue(); //字典序靠前排在前面
+            }
+        };
+        wordList.sort(cmp);
         return wordList;
     }
 }
