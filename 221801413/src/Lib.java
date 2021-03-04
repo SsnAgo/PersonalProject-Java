@@ -2,6 +2,14 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 public class Lib
 {
@@ -136,5 +144,39 @@ public class Lib
             }
         }
 
+    }
+
+    /**
+     * 使用比较器对单词频率进行排序
+     *
+     * @ param wordMap
+     * @ return list
+     * */
+    public static List  sortWordMap(Map<String, Integer> wordMap) {
+
+        //将wordMap转换为List，方便排序
+        List<Map.Entry<String, Integer>> list =new ArrayList<Map.Entry<String, Integer>>(wordMap.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                //若value相同，则对key值进行字典排序
+                if(o1.getValue().equals(o2.getValue())) {
+                    return o1.getKey().compareTo(o2.getKey());
+                }
+                else {
+                    return o2.getValue()-o1.getValue();
+                }
+            }
+        });
+
+        //当单词数大于10时，返回前十个单词
+        if(list.size() > 10) {
+            return list.subList(0,10);
+        }
+        //否则返回整个list
+        else {
+            return list;
+        }
     }
 }
