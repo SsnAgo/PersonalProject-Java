@@ -12,16 +12,17 @@ public class WordCount {
         countWords();
         countChars();
         countLines();
+        countWordFrequency();
     }
 
     /*统计单词数*/
-    public static void countWords()
+    public static List<String> countWords()
     {
         int count = 0;
+        List<String> wordList = new ArrayList();//单词列表
         try {
             BufferedReader br = new BufferedReader(new FileReader("input.txt"));
 
-            List<String> wordList = new ArrayList();//单词列表
             String line = null;
             //一行一行读取文件
             while((line = br.readLine()) != null){
@@ -48,11 +49,13 @@ public class WordCount {
 //            for (String word : wordList){
 //                System.out.println(word);
 //            }
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        finally {
+            return wordList;
         }
     }
 
@@ -97,6 +100,40 @@ public class WordCount {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    /*统计词频，只输出出现最多的10个*/
+    public static void countWordFrequency()
+    {
+        List<String> wordList = countWords();
+        //key 单词  value 出现次数
+        Map<String, Integer> words = new TreeMap<String,Integer>();
+
+        //如果有这个单词 count ++
+        for (String word : wordList){
+            if (words.containsKey(word))
+                words.put(word,words.get(word)+1);
+            else//如果map里没有这个单词，添加进去，count=1
+                words.put(word,1);
+        }
+        sortMap(words);    //按值进行排序
+    }
+
+    /*对map按value排序*/
+    public static void sortMap(Map<String,Integer> oldmap){
+
+        ArrayList<Map.Entry<String,Integer>> list = new ArrayList<Map.Entry<String,Integer>>(oldmap.entrySet());
+
+        Collections.sort(list,new Comparator<Map.Entry<String,Integer>>(){
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                //降序排序
+                return o2.getValue() - o1.getValue();
+            }
+        });
+
+        for(int i = 0;i < list.size() && i < 10;i++){
+            System.out.println(list.get(i).getKey()+ ": " +list.get(i).getValue());
+        }
     }
 }
