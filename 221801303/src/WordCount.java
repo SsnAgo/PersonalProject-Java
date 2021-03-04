@@ -8,5 +8,6 @@ public class WordCount {
         System.out.println("line:"+line);
         int c=lc.charcount(file);
         System.out.println("Chars:"+c);
+        lc.wordcount(file);
     }
 }
