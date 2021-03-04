@@ -1,6 +1,6 @@
-const { WORD_SPLIT_REGEX, WORD_REGEX } = require("./constants");
-const Heap = require("./datastructure/heap");
-const filterChinese = require("./utils/filterChinese");
+const { WORD_SPLIT_REGEX, WORD_REGEX } = require("./regex");
+const Heap = require("./heap");
+const filterChinese = require("./filterChinese");
 
 const getWord = (content) => filterChinese(content)
   .toLowerCase()

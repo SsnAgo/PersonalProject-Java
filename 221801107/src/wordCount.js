@@ -1,13 +1,14 @@
 const path = require("path");
 const fs = require("fs");
-const { ROOT_PATH } = require("./config/paths");
+const { calCharacterCount } = require("./character");
+const { calNoEmptyRowsCount } = require("./row");
 const {
-  calCharacterCount,
   calWordCount,
-  calNoEmptyRowsCount,
   calSortedWordsFrequency,
-  calSortedWordsFrequencyByHeap,
-} = require("./lib/wordCount");
+  // calSortedWordsFrequencyByHeap,
+} = require("./word");
+
+const SRC_PATH = path.join(__dirname);
 
 const main = () => {
   try {
@@ -19,8 +20,13 @@ const main = () => {
       return;
     }
 
-    const input = path.join(ROOT_PATH, argvs[2]);
-    const output = path.join(ROOT_PATH, argvs[3]);
+    const input = path.isAbsolute(argvs[2])
+      ? argvs[2]
+      : path.join(SRC_PATH, argvs[2]);
+    const output = path.isAbsolute(argvs[3])
+      ? argvs[3]
+      : path.join(SRC_PATH, argvs[3]);
+
 
     if (!fs.existsSync(input)) {
       console.error("Error: readFile not exist");
@@ -29,9 +35,11 @@ const main = () => {
 
     const content = fs.readFileSync(input).toString();
 
-    const writeContent = `${calCharacterCount(content)}\n${calWordCount(content)}\n${calNoEmptyRowsCount(content)}\n${calSortedWordsFrequency(content, 10).map(
-      (item) => `${item.word}: ${item.count}\n`,
-    ).join("")}`;
+    const writeContent = `${calCharacterCount(content)}\n${calWordCount(
+      content
+    )}\n${calNoEmptyRowsCount(content)}\n${calSortedWordsFrequency(content, 10)
+      .map((item) => `${item.word}: ${item.count}\n`)
+      .join("")}`;
 
     fs.writeFileSync(output, writeContent);
     console.log("Finish Program...");

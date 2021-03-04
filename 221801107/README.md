@@ -4,49 +4,8 @@
 
 ## 开始
 
-1. 下载相关依赖
+1. 运行, 设置输入输出文件
 
 ```
-npm install
+node src/index.js input.txt output.txt
 ```
-
-或者
-
-```
-yarn
-```
-
-2. 修改 `package.json` 文件中的
-
-```json
-"start": "node src/index.js input.txt output.txt"
-```
-
-指定输出文件和输入文件，输入输出文件位置应与 `221801107/README.md` 文件同级
-
-3. 开始运行
-
-```
-npm run start
-```
-
-或者
-
-```
-yarn start
-```
-
-4. 自动化单元测试
-
-```
-npm run test
-```
-
-或者
-
-```
-yarn test
-```
-
-
-

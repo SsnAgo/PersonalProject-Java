@@ -1,4 +1,4 @@
-const filterChinese = require("./utils/filterChinese");
+const filterChinese = require("./filterChinese");
 
 const getCharacter = (content) => filterChinese(content);
 
