@@ -20,34 +20,26 @@ public class Lib {
     private int countWords = 0;
 
     public void open() {
-        try {
-            File file=new File(openFilePath);
-            if (file.exists()) {
-                readFile();
-                System.out.println("文件打开成功");
-            }
-            else{
-                System.out.println("文件打开失败");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        File file=new File(openFilePath);
+        if (file.exists()) {
+            readFile();
+            System.out.println("文件打开成功");
+        }
+        else{
+            System.out.println("文件打开失败");
         }
     }
 
     public void write() {
-        try {
-            getChars();
-            getLines();
-            getWords();
-            sortWords();
-            writeFile(writeFilePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        getChars();
+        getLines();
+        getWords();
+        sortWords();
+        writeFile(writeFilePath);
     }
 
     //单词按出现频率排序
-    private void sortWords() {
+    public void sortWords() {
         hashMap = hashMap.entrySet()
                 .stream()
                 .sorted(Map.Entry.<String, Integer> comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
@@ -57,61 +49,79 @@ public class Lib {
     }
 
     //读取文件
-    private void readFile() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
-        StringBuilder builder = new StringBuilder();
-        int c;
-        while ((c = reader.read()) != -1) {
-            if (c>0&&c<128) {
-                builder.append((char) c);
+    public void readFile() {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(openFilePath));
+            StringBuilder builder = new StringBuilder();
+            int c;
+            while ((c = reader.read()) != -1) {
+                if (c>0&&c<128) {
+                    builder.append((char) c);
+                }
             }
+            reader.close();
+            file = builder.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        reader.close();
-        file = builder.toString();
+
     }
 
     //单词数统计
-    private void getWords() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
-        hashMap=new HashMap<>();
-        String line;
-        Integer num;
-        while((line = reader.readLine()) != null) {
-            String[] words = line.split("\\W+");//字母数字下划线
-            Pattern r = Pattern.compile(wordPattern);
-            Set<String> wordSet = hashMap.keySet();
-            for (int i = 0; i < words.length; i++) {
-                Matcher m = r.matcher(words[i]);
-                if (m.find()) {
-                    String str = m.group(0).toLowerCase();
-                    if (wordSet.contains(str)) {
-                        num = hashMap.get(str);
-                        num++;
-                        hashMap.put(str, num);
-                        countWords++;
-                    } else {
-                        hashMap.put(str, 1);
-                        countWords++;
+    public void getWords() {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(openFilePath));
+            hashMap=new HashMap<>();
+            String line;
+            Integer num;
+            while((line = reader.readLine()) != null) {
+                String[] words = line.split("\\W+");//字母数字下划线
+                Pattern r = Pattern.compile(wordPattern);
+                Set<String> wordSet = hashMap.keySet();
+                for (int i = 0; i < words.length; i++) {
+                    Matcher m = r.matcher(words[i]);
+                    if (m.find()) {
+                        String str = m.group(0).toLowerCase();
+                        if (wordSet.contains(str)) {
+                            num = hashMap.get(str);
+                            num++;
+                            hashMap.put(str, num);
+                            countWords++;
+                        } else {
+                            hashMap.put(str, 1);
+                            countWords++;
+                        }
                     }
                 }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
     //行数统计
-    private void getLines() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(openFilePath));
-        String line;
-        while( (line = reader.readLine()) != null )
-        {
-            if(!line.matches(linePattern))
-                countLines++;
+    public void getLines() {
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(openFilePath));
+            String line;
+            while( (line = reader.readLine()) != null )
+            {
+                if(!line.matches(linePattern))
+                    countLines++;
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        reader.close();
+
     }
 
     //计数写入output.txt
-    private void writeFile(String path){
+    public void writeFile(String path){
         File file = new File(path);
         try{
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
