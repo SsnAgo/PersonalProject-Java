@@ -12,15 +12,14 @@ import java.util.Map;
 import java.util.Set;;
 
 public class WordCount {
-	static HashMap<String, Integer > hashMap=new HashMap<String,Integer>();
-    public static void main(String args[])
-    {
-      	 String finname = new String(args[0]);
-      	String foutname = new String(args[1]);
+	static HashMap<String, Integer > hashMap = new HashMap<String,Integer>();
+    public static void main(String[] args){
+      	 String finname = new String("C:\\ccc\\s5.txt");
+      	String foutname = new String("C:\\ccc\\s6.txt");
       	 //String foutname = args[1];
-      	Lib lib=new Lib(finname,foutname);
-      	lib.charactercount();
-      	lib.wordcount();
-      	lib.wordoccmax();
+      	Lib lib = new Lib(finname,foutname);
+      	lib.characterCount();
+      	lib.wordCount();
+      	lib.wordOccMax();
     }
 }
