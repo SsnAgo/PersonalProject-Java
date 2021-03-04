@@ -30,14 +30,12 @@ public class FileIO {
 	public static boolean writeFile(String file_path, Map<String, Integer>word_freq)throws IOException {
 		File file_out = new File(file_path);
 		FileWriter writer = new FileWriter(file_out,true); 
-		Set keys = word_freq.keySet();
-		int count = 0;
-		for(Object key:keys) {
+		Set<Map.Entry<String, Integer>> mSet = word_freq.entrySet();
+		for(Map.Entry<String, Integer> entry :mSet) {
 			writer.write("\n");
-			writer.write(key+":"+word_freq.get(key));
+			writer.write(entry.getKey()+":"+entry.getValue());
 			if(++count == 10)break;
 		}
-
 		writer.flush(); 
 		writer.close();
 		return true;
