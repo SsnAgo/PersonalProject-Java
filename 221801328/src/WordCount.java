@@ -7,7 +7,7 @@ public class WordCount {
 
     public static void main(String[] args) {
 
-        if (args.length>=2)
+        if (args.length >= 2)
         {
 //            String inputFileName = "input.txt";
 //            String outputFileName = "output.txt";

@@ -10,12 +10,14 @@ public class Lib {
     private ArrayList<Map.Entry<String,Integer>> wordList;
     private String inputFileName;
     private String outputFileName;
+    private static final Pattern pattern = Pattern.compile("[a-zA-Z]{4}[a-zA-Z0-9]*");
 
-    public Lib(String input,String output){
+    public Lib(String input,String output) {
         inputFileName = input;
         outputFileName = output;
     }
 
+    /*读取文件，开始计数*/
     public void startCount() {
         words = countWords(inputFileName);
         chars = countChars(inputFileName);
@@ -23,19 +25,18 @@ public class Lib {
         wordList = countWordFrequency(inputFileName);
     }
 
+    /*将结果输出到文件*/
     public void outputResult() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
-            bw.write("characters: "+chars +"\n");
-            bw.write("words: "+words +"\n");
-            bw.write("lines: "+lines +"\n");
 
+            bw.write("characters: " + chars + "\n");
+            bw.write("words: " + words + "\n");
+            bw.write("lines: " + lines + "\n");
             for(int i = 0;i < wordList.size() && i < 10;i++){
-                // System.out.println(list.get(i).getKey()+ ": " +list.get(i).getValue());
-                bw.write(wordList.get(i).getKey()+ ": " +wordList.get(i).getValue()+"\n");
+                bw.write(wordList.get(i).getKey() + ": " + wordList.get(i).getValue() + "\n");
             }
             bw.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,7 +51,8 @@ public class Lib {
 
     /*获取单词列表*/
     public List<String> getWordList(String inputFile) {
-        List<String> wordList = new ArrayList();//单词列表
+        //单词列表
+        List<String> wordList = new ArrayList();
         try {
             BufferedReader br = new BufferedReader(new FileReader(inputFile));
             String line = null;
@@ -59,7 +61,6 @@ public class Lib {
                 //分割符：空格，非字母数字符号,以分割符来分割出单词
                 String[] words = line.split("[^a-zA-Z0-9]");
                 //单词：至少以4个英文字母开头
-                Pattern pattern = Pattern.compile("[a-zA-Z]{4}[a-zA-Z0-9]*");
                 for (String word : words){
                     if (word.length() >= 4) {
                         //正则表达式判断单词是否合法
@@ -107,7 +108,7 @@ public class Lib {
         try {
             BufferedReader br = new BufferedReader(new FileReader(inputFile));
             String line = "";
-            while((line = br.readLine())!=null){
+            while((line = br.readLine()) != null){
                 //判断是否为空白行
                 //if (!line.isBlank())java8没有这个
                 //   count++;
@@ -134,16 +135,19 @@ public class Lib {
         for (String word : wordList){
             if (words.containsKey(word))
                 words.put(word,words.get(word)+1);
-            else//如果map里没有这个单词，添加进去，count=1
-                words.put(word,1);
+            else {
+                //如果map里没有这个单词，添加进去，count=1
+                words.put(word, 1);
+            }
         }
-        ArrayList<Map.Entry<String,Integer>> list = sortMap(words);    //按值进行排序
+        //按值进行排序
+        ArrayList<Map.Entry<String,Integer>> list = sortMap(words);
 
         return list;
     }
 
     /*对map按value排序*/
-    public ArrayList sortMap(Map<String,Integer> oldmap){
+    public ArrayList sortMap(Map<String,Integer> oldmap) {
 
         ArrayList<Map.Entry<String,Integer>> list = new ArrayList<Map.Entry<String,Integer>>(oldmap.entrySet());
 
