@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -9,19 +7,47 @@ public class WordCount {
 
     public static void main(String[] args) {
 
-        countWords();
-        countChars();
-        countLines();
-        countWordFrequency();
+        String inputFileName = "input.txt";
+
+        int words = countWords(inputFileName);
+        int chars = countChars(inputFileName);
+        int lines = countLines(inputFileName);
+        ArrayList<Map.Entry<String,Integer>> list = countWordFrequency(inputFileName);
+
+        String outputFileName = "output.txt";
+
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
+            bw.write(String.valueOf(words)+"\n");
+            bw.write(String.valueOf(chars)+"\n");
+            bw.write(String.valueOf(lines)+"\n");
+
+
+            for(int i = 0;i < list.size() && i < 10;i++){
+               // System.out.println(list.get(i).getKey()+ ": " +list.get(i).getValue());
+                bw.write(list.get(i).getKey()+ ": " +list.get(i).getValue()+"\n");
+            }
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /*统计单词数*/
+    public static int countWords(String inputFile) {
+        List<String> wordList = getWordList(inputFile);
+        int count = wordList.size();
+        return count;
     }
 
     /*统计单词数*/
-    public static List<String> countWords()
-    {
+    public static List<String> getWordList(String inputFile) {
         int count = 0;
         List<String> wordList = new ArrayList();//单词列表
         try {
-            BufferedReader br = new BufferedReader(new FileReader("input.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(inputFile));
 
             String line = null;
             //一行一行读取文件
@@ -61,10 +87,10 @@ public class WordCount {
 
 
     /*统计ascii字符数*/
-    public static void countChars() {
+    public static int countChars(String inputFile) {
         int count = 0;
         try {
-            BufferedReader br = new BufferedReader(new FileReader("input.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(inputFile));
             int ch = -1;
             while ((ch = br.read()) != -1) {
                 //属于ascii码，就计下
@@ -78,14 +104,17 @@ public class WordCount {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        finally {
+            return count;
+        }
 
     }
 
     /*统计文件的有效行数,任何包含**非空白**字符的行，都需要统计。*/
-    public static void countLines(){
+    public static int countLines(String inputFile){
         int count = 0;
         try {
-            BufferedReader br = new BufferedReader(new FileReader("input.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(inputFile));
             String line = "";
             while((line = br.readLine())!=null){
                 //判断是否为空白行
@@ -100,12 +129,15 @@ public class WordCount {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        finally {
+            return count;
+        }
     }
 
     /*统计词频，只输出出现最多的10个*/
-    public static void countWordFrequency()
+    public static ArrayList countWordFrequency(String inputFile)
     {
-        List<String> wordList = countWords();
+        List<String> wordList = getWordList(inputFile);
         //key 单词  value 出现次数
         Map<String, Integer> words = new TreeMap<String,Integer>();
 
@@ -116,11 +148,13 @@ public class WordCount {
             else//如果map里没有这个单词，添加进去，count=1
                 words.put(word,1);
         }
-        sortMap(words);    //按值进行排序
+        ArrayList<Map.Entry<String,Integer>> list = sortMap(words);    //按值进行排序
+
+        return list;
     }
 
     /*对map按value排序*/
-    public static void sortMap(Map<String,Integer> oldmap){
+    public static ArrayList sortMap(Map<String,Integer> oldmap){
 
         ArrayList<Map.Entry<String,Integer>> list = new ArrayList<Map.Entry<String,Integer>>(oldmap.entrySet());
 
@@ -132,8 +166,11 @@ public class WordCount {
             }
         });
 
+
         for(int i = 0;i < list.size() && i < 10;i++){
             System.out.println(list.get(i).getKey()+ ": " +list.get(i).getValue());
         }
+
+        return list;
     }
 }
