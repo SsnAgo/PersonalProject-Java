@@ -18,7 +18,7 @@
 ## 操作符前后空格
 >双目操作符前后各加一个空格；
 ## 测试代码块
-(```)
+```
 public class User{
 
 public static final double PI = 3.14;//这是一个常量
@@ -39,4 +39,4 @@ private int chooseValue（）{//这是另一个函数
 
 }
 /*这是文末注释*/
-(```)
+```
