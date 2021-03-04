@@ -22,7 +22,7 @@ public class Lib {
      * @param filePath
      * @return result
      */
-    public String returnCharacters(String filePath) {
+    private String returnCharacters(String filePath) {
 
         //该实现方法在最后一行为空行时，会导致结果出问题。
 //        String stream = "";
@@ -80,7 +80,7 @@ public class Lib {
      * @param filePath
      * @return result
      */
-    public String returnWords(String filePath) {
+    private String returnWords(String filePath) {
         String result = "";
         String string = "";
         // 因为string具有不可变性，用StringBuffer来进行读取的添加
@@ -130,7 +130,7 @@ public class Lib {
      * @param filePath
      * @return result
      */
-    public String returnLines(String filePath) {
+    private String returnLines(String filePath) {
         String result = "";
         int line = 0;
         FileInputStream fileInputStream = null;
@@ -170,7 +170,7 @@ public class Lib {
      * @param filePath
      * @return
      */
-    public String returnTopWords(String filePath){
+    private String returnTopWords(String filePath){
         String result = "";
         String string = "";
         StringBuffer stringBuffer = new StringBuffer();
@@ -230,12 +230,62 @@ public class Lib {
         }
         return result;
     }
+
     /**
-     *
-     * @param filePath
-     * @return result
+     *生成最终的输出结果，并将其写入到指定文件
+     * @param inFilePath , outFilePath
+     * @return 无
      */
-    public void createOutput(String filePath){
+    public void createOutput(String inFilePath,String outFilePath) throws IOException {
+        String result = "";
+        String characterResult = returnCharacters(inFilePath);
+        String wordResult = returnWords(inFilePath);
+        String lineResult = returnLines(inFilePath);
+        String topWordResult = returnTopWords(inFilePath);
+
+        if (characterResult != null){
+            result += characterResult;
+            result += System.getProperty("line.separator");
+        }else {
+            System.out.println("统计字符数时出错！");
+        }
+
+
+        if (wordResult != null){
+            result += wordResult;
+            result += System.getProperty("line.separator");
+        }else {
+            System.out.println("统计单词数时出错！");
+        }
+
+        if (lineResult != null){
+            result += lineResult;
+            result += System.getProperty("line.separator");
+        }else {
+            System.out.println("统计有效行数时出错！");
+        }
+
+        if (topWordResult != null){
+            result += topWordResult;
+            result += System.getProperty("line.separator");
+        }else {
+            System.out.println("统计字符数时出错！");
+        }
+
+        System.out.println(result);
+
+
+        FileWriter fileWriter = null;
+        BufferedWriter bufferedWriter = null;
+        try {
+            fileWriter = new FileWriter(outFilePath);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            bufferedWriter.close();
+        }
 
     }
 
