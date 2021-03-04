@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.HashMap;
+import java.util.List;
 
 public class WordCount {
 
@@ -18,7 +20,7 @@ public class WordCount {
             System.out.println("文件读取异常");
             System.exit(0);
         }else{
-            WordUtil wu = new WordUtil();
+            WordUtil wu = new WordUtilImpl();
 
             String result = "";
 
@@ -29,7 +31,16 @@ public class WordCount {
             //统计文件的有效行数（对应输出第三行）
             result+="lines: "+wu.countLine(input)+"\n";
             //统计文件中各单词的出现次数（对应输出接下来10行）
-            result += wu.countWordFrequency(input);
+            List<HashMap.Entry<String, Integer>> wordList = wu.countWordFrequency(input);
+            if(wordList != null){
+
+                for (HashMap.Entry h : wordList) {
+                    result += h.getKey() + ": " + h.getValue() + "\n";
+                }
+            } else{
+                result += "无单词";
+            }
+
 
             //结果输出至文件
             outputToTxt(output,result);
