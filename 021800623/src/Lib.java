@@ -70,7 +70,7 @@ public class Lib {
    }
 
    private void calculateWordNum(){
-        String[] contents = fileContent.split("[^(a-zA-Z0-9)]");
+        String[] contents = fileContent.split("[^a-zA-Z0-9]");
         for (String content:contents)
         {
            if (isWord(content)){
