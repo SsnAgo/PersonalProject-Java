@@ -17,7 +17,7 @@ public class Lib {
         outputFileName = output;
     }
 
-    /*¶ÁÈ¡ÎÄ¼ş£¬¿ªÊ¼¼ÆÊı*/
+    /*è¯»å–æ–‡ä»¶ï¼Œå¼€å§‹è®¡æ•°*/
     public void startCount() {
         words = countWords(inputFileName);
         chars = countChars(inputFileName);
@@ -25,7 +25,7 @@ public class Lib {
         wordList = countWordFrequency(inputFileName);
     }
 
-    /*½«½á¹ûÊä³öµ½ÎÄ¼ş*/
+    /*å°†ç»“æœè¾“å‡ºåˆ°æ–‡ä»¶*/
     public void outputResult() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
@@ -42,30 +42,30 @@ public class Lib {
         }
     }
 
-    /*Í³¼Æµ¥´ÊÊı*/
+    /*ç»Ÿè®¡å•è¯æ•°*/
     public int countWords(String inputFile) {
         List<String> wordList = getWordList(inputFile);
         int count = wordList.size();
         return count;
     }
 
-    /*»ñÈ¡µ¥´ÊÁĞ±í*/
+    /*è·å–å•è¯åˆ—è¡¨*/
     public List<String> getWordList(String inputFile) {
-        //µ¥´ÊÁĞ±í
+        //å•è¯åˆ—è¡¨
         List<String> wordList = new ArrayList<String>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(inputFile));
             String line = null;
-            //Ò»ĞĞÒ»ĞĞ¶ÁÈ¡ÎÄ¼ş
+            //ä¸€è¡Œä¸€è¡Œè¯»å–æ–‡ä»¶
             while((line = br.readLine()) != null){
-                //·Ö¸î·û£º¿Õ¸ñ£¬·Ç×ÖÄ¸Êı×Ö·ûºÅ,ÒÔ·Ö¸î·ûÀ´·Ö¸î³öµ¥´Ê
+                //åˆ†å‰²ç¬¦ï¼šç©ºæ ¼ï¼Œéå­—æ¯æ•°å­—ç¬¦å·,ä»¥åˆ†å‰²ç¬¦æ¥åˆ†å‰²å‡ºå•è¯
                 String[] words = line.split("[^a-zA-Z0-9]");
-                //µ¥´Ê£ºÖÁÉÙÒÔ4¸öÓ¢ÎÄ×ÖÄ¸¿ªÍ·
+                //å•è¯ï¼šè‡³å°‘ä»¥4ä¸ªè‹±æ–‡å­—æ¯å¼€å¤´
                 for (String word : words){
                     if (word.length() >= 4) {
-                        //ÕıÔò±í´ïÊ½ÅĞ¶Ïµ¥´ÊÊÇ·ñºÏ·¨
+                        //æ­£åˆ™è¡¨è¾¾å¼åˆ¤æ–­å•è¯æ˜¯å¦åˆæ³•
                         if (pattern.matcher(word).matches()){
-                            //Í³Ò»×ªĞ¡Ğ´
+                            //ç»Ÿä¸€è½¬å°å†™
                             wordList.add(word.toLowerCase());
                         }
                     }
@@ -79,7 +79,7 @@ public class Lib {
     }
 
 
-    /*Í³¼Æascii×Ö·ûÊı*/
+    /*ç»Ÿè®¡asciiå­—ç¬¦æ•°*/
     public int countChars(String inputFile) {
         int count = 0;
         try {
@@ -88,7 +88,7 @@ public class Lib {
                 count++;
 //            int ch = -1;
 //            while ((ch = br.read()) != -1) {
-//                //ÊôÓÚasciiÂë£¬¾Í¼ÆÏÂ
+//                //å±äºasciiç ï¼Œå°±è®¡ä¸‹
 //                if (ch <=127 )
 //                    count++;
 //            }
@@ -98,15 +98,15 @@ public class Lib {
         return count;
     }
 
-    /*Í³¼ÆÎÄ¼şµÄÓĞĞ§ĞĞÊı,ÈÎºÎ°üº¬ ·Ç¿Õ°× ×Ö·ûµÄĞĞ£¬¶¼ĞèÒªÍ³¼Æ¡£*/
+    /*ç»Ÿè®¡æ–‡ä»¶çš„æœ‰æ•ˆè¡Œæ•°,ä»»ä½•åŒ…å« éç©ºç™½ å­—ç¬¦çš„è¡Œï¼Œéƒ½éœ€è¦ç»Ÿè®¡ã€‚*/
     public int countLines(String inputFile){
         int count = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader(inputFile));
             String line = "";
             while((line = br.readLine()) != null){
-                //ÅĞ¶ÏÊÇ·ñÎª¿Õ°×ĞĞ
-                //if (!line.isBlank())java8Ã»ÓĞÕâ¸ö
+                //åˆ¤æ–­æ˜¯å¦ä¸ºç©ºç™½è¡Œ
+                //if (!line.isBlank())java8æ²¡æœ‰è¿™ä¸ª
                 //   count++;
                 if (!(line.trim().isEmpty()))
                     count++;
@@ -118,29 +118,29 @@ public class Lib {
         return count;
     }
 
-    /*Í³¼Æ´ÊÆµ£¬Ö»Êä³ö³öÏÖ×î¶àµÄ10¸ö*/
+    /*ç»Ÿè®¡è¯é¢‘ï¼Œåªè¾“å‡ºå‡ºç°æœ€å¤šçš„10ä¸ª*/
     public ArrayList<Map.Entry<String,Integer>> countWordFrequency(String inputFile)
     {
         List<String> wordList = getWordList(inputFile);
-        //key µ¥´Ê  value ³öÏÖ´ÎÊı
+        //key å•è¯  value å‡ºç°æ¬¡æ•°
         Map<String, Integer> words = new TreeMap<String,Integer>();
 
-        //Èç¹ûÓĞÕâ¸öµ¥´Ê count ++
+        //å¦‚æœæœ‰è¿™ä¸ªå•è¯ count ++
         for (String word : wordList){
             if (words.containsKey(word))
                 words.put(word,words.get(word)+1);
             else {
-                //Èç¹ûmapÀïÃ»ÓĞÕâ¸öµ¥´Ê£¬Ìí¼Ó½øÈ¥£¬count=1
+                //å¦‚æœmapé‡Œæ²¡æœ‰è¿™ä¸ªå•è¯ï¼Œæ·»åŠ è¿›å»ï¼Œcount=1
                 words.put(word, 1);
             }
         }
-        //°´Öµ½øĞĞÅÅĞò
+        //æŒ‰å€¼è¿›è¡Œæ’åº
         ArrayList<Map.Entry<String,Integer>> list = sortMap(words);
 
         return list;
     }
 
-    /*¶Ômap°´valueÅÅĞò*/
+    /*å¯¹mapæŒ‰valueæ’åº*/
     public ArrayList<Map.Entry<String,Integer>> sortMap(Map<String,Integer> oldmap) {
 
         ArrayList<Map.Entry<String,Integer>> list = new ArrayList<Map.Entry<String,Integer>>(oldmap.entrySet());
@@ -148,7 +148,7 @@ public class Lib {
         Collections.sort(list,new Comparator<Map.Entry<String,Integer>>(){
             @Override
             public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                //½µĞòÅÅĞò
+                //é™åºæ’åº
                 return o2.getValue() - o1.getValue();
             }
         });

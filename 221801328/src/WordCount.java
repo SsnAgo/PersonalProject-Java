@@ -18,6 +18,6 @@ public class WordCount {
             lib.outputResult();
         }
         else
-            System.out.println("´íÎó£¬ÇëÊäÈëÁ½¸öÎÄ¼şµÄÃû×Ö");
+            System.out.println("é”™è¯¯ï¼Œè¯·è¾“å…¥ä¸¤ä¸ªæ–‡ä»¶çš„åå­—");
     }
 }
