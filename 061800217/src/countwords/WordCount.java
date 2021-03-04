@@ -1,14 +1,8 @@
 package countwords;
 import java.io.*;
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.Map.Entry;
+import java.util.Set;
 
 public class WordCount {
 	public static void main(String args[]) throws IOException {
@@ -19,16 +13,23 @@ public class WordCount {
 		String file_in = args[0];
 		String file_out = args[1];
 		
+		String word_str = "";
 		HashMap<String, Integer>word_freq = new HashMap<String,Integer>();
+		Map<String, Integer>word_map = new HashMap<>();
 		int result = 0,word = 0,line = 0;
 		String file_path = FileIO.readFile(file_in);		
 		if(file_path.compareTo("error")!=0) {			
-			try {
-				result = DoCount.countCharacters(file_path);
-				word = DoCount.wordNum(file_path,word_freq);
+			try {								
+				word_map = DoCount.countCharacters(file_path);
+				Set<String> keys = word_map.keySet();
+				for(Object key:keys) {
+					result = word_map.get(key);
+					word_str = (String) key;
+				}
+				word = DoCount.wordNum(file_path,word_str,word_freq);
 				line = DoCount.countLine(file_path);
 			} catch (Exception e) {
-				System.out.print("error");
+				System.out.print("error1");
 				return;
 				// TODO: handle exception
 			}
@@ -37,9 +38,9 @@ public class WordCount {
 			return;
 		}
 		//Êä³ö
-		String out_word ="characters:"+result
-				+"\nwords:"+word
-				+"\nline:"+line;
+		String out_word ="characters:" + result
+				+ "\nwords:" + word
+				+ "\nline:" + line;
 		boolean write_in = FileIO.writeFile(file_out, out_word);
 		Map<String, Integer>out_words = DoCount.sortWords(word_freq);
 		write_in = FileIO.writeFile("output.txt", out_words);
