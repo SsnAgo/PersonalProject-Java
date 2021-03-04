@@ -7,10 +7,10 @@ public class WordCount {
     public static void main(String[] args) throws IOException{
         // write your code here
         System.out.println("hello");
-        System.out.println(countChar("C:\\Users\\Scenario\\Desktop\\test.txt"));
-        System.out.println(countLine("C:\\Users\\Scenario\\Desktop\\test.txt"));
-        System.out.println(countWord("C:\\Users\\Scenario\\Desktop\\test.txt"));
-        countkeyword("C:\\Users\\Scenario\\Desktop\\test.txt");
+        System.out.println(countChar(args[0]));
+        System.out.println(countLine(args[0]));
+        System.out.println(countWord(args[0]));
+        countkeyword(args[0]);
     }
     public static int countChar(String filepath)throws IOException {
         BufferedReader reader=new BufferedReader(new FileReader(filepath));
