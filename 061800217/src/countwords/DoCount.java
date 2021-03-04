@@ -32,9 +32,10 @@ public class DoCount {
 		return line;
 	}
 	//统计文件的字符数	
-	public static int countCharacters (String path) throws IOException {
+	public static Map<String, Integer> countCharacters (String path) throws IOException {
 		int num = 0;
 		int len = 0;
+		Map<String, Integer>result = new HashMap<String, Integer>();
 		char[] a = new char[50000];
 		FileReader fReader = new FileReader(path);
 		BufferedReader bReader = new BufferedReader(fReader);	
@@ -42,9 +43,12 @@ public class DoCount {
 		{
 				num = len;
 		}
+		String str = String.valueOf(a);
+		System.out.print(str);
 		fReader.close();
 		bReader.close();
-		return num;	
+		result.put(str, num);
+		return result;	
 	}
 	//统计单词
 	public static int wordNum(String path,HashMap<String, Integer> word_freq)throws IOException{
