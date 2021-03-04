@@ -4,6 +4,12 @@
 #过滤整个.idea文件夹
 /.idea/
 
+#过滤整个test文件夹
+/test/
+
+#过滤整个out文件夹
+/out/
+
 #过滤所有.txt文件
 *.txt
 

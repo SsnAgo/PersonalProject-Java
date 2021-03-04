@@ -9,8 +9,8 @@ public class WordCount {
 
         String input = args[0];
         String output = args[1];
-//        System.out.println(input+","+output);
-//        System.out.println("1111");
+        System.out.println(input+","+output);
+        System.out.println("1111");
 
         File inputfile = new File("../"+input);
         //判断文件是否存在？

@@ -6,10 +6,10 @@ import java.util.regex.Pattern;
 public class WordUtilImpl implements WordUtil{
 
     //父目录
-    public static final String PARENTDIRECTORY = "../";
+    public static final String PARENTDIRECTORY = "..\\";
 
     //统计字符数
-    public Integer countChar(String fileName) throws IOException{
+    public  Integer countChar(String fileName) throws IOException{
         return countChar(fileName, PARENTDIRECTORY);
     }
     public Integer countChar(String fileName, String fileDirectory) throws IOException {
@@ -140,6 +140,23 @@ public class WordUtilImpl implements WordUtil{
                 }
             }
 
+            //法一：返回值void
+            /*
+            Set<WordEntity> set=new TreeSet<WordEntity>();
+            for(String s:map.keySet()){
+                WordEntity wordEntry=new WordEntity(s,map.get(s));
+                set.add(wordEntry);
+            }
+            Iterator<WordEntity> ite=set.iterator();
+            int count=0;
+            while(ite.hasNext()){
+                if(count>=10)
+                    break;
+                System.out.println(ite.next());
+                count++;
+            }*/
+
+            //法二：返回值 String
             if(!wordMap.isEmpty()){
                 //按单词个数排序
                 wordList = Sort(wordMap);
