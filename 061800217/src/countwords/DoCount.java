@@ -22,7 +22,7 @@ public class DoCount {
 		BufferedReader bReader = new BufferedReader(fReader);
 		while((string = bReader.readLine())!=null)
 		{	
-			line++;
+			line++; 
 		}
 		fReader.close();
 		bReader.close();
@@ -40,7 +40,6 @@ public class DoCount {
 		{
 				num = len;
 		}
-		
 		fReader.close();
 		bReader.close();
 		return num;	
@@ -58,8 +57,7 @@ public class DoCount {
 			array.add(str1);
 		}
 		fReader.close();
-		bReader.close();
-		
+		bReader.close();		
 		String rule = ".*[a-z]+.*" ;
 		java.util.regex.Pattern p = java.util.regex.Pattern.compile(rule);
 		Iterator iterator = array.iterator();
