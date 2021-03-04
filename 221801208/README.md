@@ -1,10 +1,10 @@
 # WordCount使用说明
-##运行
+## 如何运行
 在命令行输入：
 ```
 java WordCount input.txt output.txt
 ```
-##功能
+## 功能简介
 统计input.txt中的以下几个指标
 1. 统计文件的字符数（对应输出第一行）：
     - 统计Ascii码，汉字不考虑
@@ -34,3 +34,8 @@ word2: number
 ...
 ```
 
+## 作业链接
+[PersonalProject-Java](https://github.com/Trump800/PersonalProject-Java)
+
+## 博客链接
+[My Blog](https://www.cnblogs.com/SakuChyan/p/14477385.html)
