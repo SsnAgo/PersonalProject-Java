@@ -13,7 +13,7 @@ public class WordCount {
         out.write("words: "+countWord(args[0])+"\n");
         out.write("lines: "+countLine(args[0])+"\n");
         out.close();
-        countkeyword(args[0],args[1]);
+        countKeyword(args[0],args[1]);
         System.out.println("文件创建成功！");
     }
     public static int countChar(String filepath)throws IOException {
@@ -23,10 +23,12 @@ public class WordCount {
             System.out.println("文件流无法读取");
         }
         int num=0;
-        String line=null;
-        while((line=reader.readLine())!=null)
+        int result;
+        while((result=reader.read())!=-1)
         {
-            num+=line.length();
+            num+=1;
+            System.out.print((char)result);
+
         }
         reader.close();
         return num;
@@ -75,7 +77,7 @@ public class WordCount {
         }
         return num;
     }
-    public static  void countkeyword(String filepath,String filepath2)throws IOException {
+    public static  void countKeyword(String filepath, String filepath2)throws IOException {
         int n=countWord(filepath);
         int N=10;
         FileWriter file=new FileWriter(filepath2,true);
