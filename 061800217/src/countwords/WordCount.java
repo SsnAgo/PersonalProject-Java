@@ -11,9 +11,7 @@ import java.util.stream.Collectors;
 import java.util.Map.Entry;
 
 public class WordCount {
-
 	public static void main(String args[]) throws IOException {
-		
 		if(args.length !=2) {
 			System.out.print("参数输入有误！");
 			return;
@@ -46,8 +44,6 @@ public class WordCount {
 		Map<String, Integer>out_words = DoCount.sortWords(word_freq);
 		write_in = FileIO.writeFile("output.txt", out_words);
 	}
-
-
 }
 
 
