@@ -30,4 +30,23 @@ public class Lib
         return content.toString();
     }
 
+    //获取文件中的字符数
+    public static int getCharacterNum(String str)
+    {
+        int charactersNum = 0;
+        char[] a = str.toCharArray();
+        for(int i = 0;i < str.length();i++)
+        {
+            if(a[i] >= 0&&a[i] <= 127)
+            {
+                charactersNum++;
+            }
+            else
+            {
+                continue;
+            }
+        }
+        return charactersNum;
+    }
+
 }
