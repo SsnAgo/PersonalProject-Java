@@ -25,7 +25,7 @@ public class Output {
         System.out.println("character: "+characterNum);
         System.out.println("word: "+wordNum);
         System.out.println("line: "+lineNum);
-        for (int i=0;i<10;i++){
+        for (int i=0;i<(topTen.size()>=10?10:topTen.size());i++){
             System.out.println(topTen.get(i));
         }
     }
