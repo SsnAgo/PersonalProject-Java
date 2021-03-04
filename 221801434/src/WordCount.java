@@ -60,7 +60,7 @@ public class WordCount {
             {
                 if(a.length()>3&&(a.charAt(0)<'0'||a.charAt(0)>'9'))
                 {
-                    word.put(a,0);
+                    word.put(a.toLowerCase(),0);
 
                 }
             }
@@ -88,6 +88,7 @@ public class WordCount {
             String []s3=s2.split(" ");
             for(String a:s3)
             {
+                a=a.toLowerCase();
                 if(a.length()>3&&(a.charAt(0)<'0'||a.charAt(0)>'9'))
                 {
                     int number=(int)word.get(a);
