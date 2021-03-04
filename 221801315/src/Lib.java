@@ -6,11 +6,11 @@ import java.util.regex.Pattern;
 
 /**
  * 功能：WordCount中main方法要调用的函数
- * 作者：张福荣
+ * 作者：张**
  * 学号：221801315
- * 邮箱：784536133@qq.com
+ * 邮箱：****@***.com
  * 创建时间：2021/2/28 15:22
- * 最后修改时间：2021/3/4 2:22
+ * 最后修改时间：2021/3/4 16:45
  */
 public class Lib {
     private static final Map<String, Integer> wordFrequencyRecords = new HashMap<>();   //单词频率记录表
@@ -247,8 +247,16 @@ public class Lib {
                 if (isDigit((char) temp)) {  //避免44aaaa这种形式的字符串被认作单词
                     if (word.equals(""))
                         beforeIsDigit = true;
-                    else
-                        word += (char) temp;
+                    else {
+                        if (letterCount >= 4)
+                            word += (char) temp;
+                        else {
+                            word = "";
+                            letterCount = 0;
+                            beforeIsDigit = true;
+                        }
+                    }
+
                 } else if (isLetter((char) temp)) {
                     if (!beforeIsDigit) {
                         ++letterCount;
