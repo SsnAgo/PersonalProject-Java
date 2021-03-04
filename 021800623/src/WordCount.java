@@ -14,7 +14,7 @@ public class WordCount {
             lib.writeFile();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("文件不存在");
+            System.out.println("File not Found");
         }
     }
 }
