@@ -3,6 +3,22 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Lib {
+    static int characters,words,lines;//字符数、单词数、行数
+    static String freq;//词频
+
+    //读取文件内容，获得字符串
+    public static String readFile(String inputFile) throws IOException {
+        Reader reader = openInputFile(inputFile);
+        StringBuilder stringBuffer = new StringBuilder();
+        int ch;
+        while((ch = reader.read()) != -1){
+            stringBuffer.append((char) ch);
+        }
+        reader.close();
+        return String.valueOf(stringBuffer);
+    }
+
+
 
     //读取输入文件
     public static Reader openInputFile(String fileName) {
@@ -19,7 +35,7 @@ public class Lib {
 
     //获得输出流
     public static BufferedWriter openOutputFile(String fileName) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(fileName),true),"utf-8"));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(fileName), true), "utf-8"));
         return bw;
     }
 
@@ -54,7 +70,7 @@ public class Lib {
     public static int charactersCount(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
         Writer writer = new FileWriter(outputFile);
-        int num = 0,temp=0;
+        int num = 0, temp = 0;
         while ((temp = reader.read()) != -1) {
             num++;
         }
@@ -68,7 +84,7 @@ public class Lib {
     public static int wordsCount(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
         Writer writer = openOutputFile(outputFile);
-        int num = 0,temp=0;
+        int num = 0, temp = 0;
         String word = "";
         while ((temp = reader.read()) != -1) {
             while (isValidChar(temp)) {
@@ -94,7 +110,7 @@ public class Lib {
     public static int linesCount(String inputFile, String outputFile) throws IOException {
         Reader reader = openInputFile(inputFile);
         Writer writer = openOutputFile(outputFile);
-        int num = 0,temp=0;
+        int num = 0, temp = 0;
         String line = "";
         while ((temp = reader.read()) != -1) {
             while (temp != -1 && (char) temp != '\n') {
@@ -175,9 +191,4 @@ public class Lib {
         writer.close();
         return sortedWords;
     }
-
-
-
-
-
 }
