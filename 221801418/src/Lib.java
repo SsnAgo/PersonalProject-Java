@@ -2,8 +2,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Lib {
-	public String readTextFile(String filePath){
+	public String readTextFile(String filePath){			//文件的读取
 		StringBuilder Text = new StringBuilder();
 		try {
                 File file=new File(filePath);
@@ -25,20 +25,18 @@ public class Lib {
                     read.close();
 
                 }else{
-                	System.out.println("�Ҳ������ĵ���");
+                	System.out.println("文档不存在！");
                 }
         } catch (Exception e) {
-            System.out.println("���ĵ�����");
+            System.out.println("打开文档出错！");
             e.printStackTrace();
         }
 		return Text.toString();
-     
     }
 	
-	public void writeTextFile(int chars,int words,int lines,String times){
+	public void writeTextFile(int chars,int words,int lines,String times,String filePath){
 		String str="charcters:"+chars+"\nwords:"+words+"\nlines"+lines+"\n"+times;
-		String filePath="output.txt";
-		FileOutputStream p = null;
+		FileOutputStream p;
 		try {
 			p = new FileOutputStream(filePath);
 			p.write(str.getBytes());
@@ -49,7 +47,9 @@ public class Lib {
 		}
 	}
 	
-    public static int countChars(String str) {			//�����ַ�����
+	
+	
+    public static int countChars(String str) {			//统计字符数量
     	int sum=0;
     	char[] cs=str.toCharArray();
     	for(int i=0;i<cs.length;i++) {
@@ -61,15 +61,15 @@ public class Lib {
     
     
     
-    public static int countWords(String str) {			//���ص�������
+    public static int countWords(String str) {					//统计单词数量
     	str=str.toLowerCase();
-    	String[] strArray=str.split("[^a-z0-9]+");		//���Գ���������ĸ���ַ����ָ�
+    	String[] strArray=str.split("[^a-z0-9]+");		//把可能是单词的字符串切割出来
     	int words=0;
     	for(int i=0;i<strArray.length;i++) {
     		if(strArray[i].length()<4)continue;
     		else {
-    			String temp=strArray[i].substring(0,4);
-    			if(temp.matches("[a-z]*")) {			//�ж��Ƿ���ϵ��ʹ���
+    			String temp=strArray[i].substring(0,4);	//检测是否符合规则
+    			if(temp.matches("[a-z]*")) {			
     				words++;
     			}
     		}
@@ -78,10 +78,10 @@ public class Lib {
     }
     
     
-    public static int countLines(String str) {			//��������
-    	String[] LINE=str.split("\\s");					//���հ׷��ָ�
+    public static int countLines(String str) {					//统计行数
+    	String[] LINE=str.split("\\s");					//把可能换行的地方分割出来
     	int lines=LINE.length;
-    	for(int i=0;i<LINE.length;i++) {				//�۳����пհ׵�����
+    	for(int i=0;i<LINE.length;i++) {				//减去空白行
     		if(LINE[i].isEmpty())lines--;
     	}
     	return lines;
@@ -90,53 +90,51 @@ public class Lib {
     
     
     
-    public String countTimes(String str) {		//ͳ�Ƶ��ʳ���Ƶ�ʲ�����
+    public String countTimes(String str) {				//统计单词出现次数
     	str=str.toLowerCase();
     	String[] strArray=str.split("[^a-z0-9]+");
-	    List<String> temp = new ArrayList<String>();	//temp���ڴ�ŷ��ϵ��ʹ�����ַ���
+	    List<String> temp = new ArrayList<String>();	//temp用于保存符合规则的字符串
     	for(int i=0;i<strArray.length;i++) {
     		if(strArray[i].length()<4)continue;
     		else {
     			String strtemp=strArray[i].substring(0,4);
-    			if(strtemp.matches("[a-z]*")) {			//�ж��Ƿ���ϵ��ʹ��򣬷��Ϲ���ļ��뵽temp��
+    			if(strtemp.matches("[a-z]*")) {
     				temp.add(strArray[i]);
     			}
     		}
     	}
     	strArray=temp.toArray(new String[temp.size()]);
     	Map<String,Integer> map = new HashMap<String,Integer>();
-    	for (int i = 0; i < strArray.length; i++) {			//�ѷ��Ϲ�����ַ������뵽map����
-    		if(map.get(strArray[i])==null){
+    	for (int i = 0; i < strArray.length; i++) {			//把符合规则的单词存入map
+    		if(map.get(strArray[i])==null){					//单词是key，次数是value，在map中没出现过则记录，出现过value加1
     			map.put(strArray[i], 1);
     		}else{
     			map.put(strArray[i], map.get(strArray[i])+1);
     		}
     	}
-    	Set<String> key= map.keySet();					//��ȡ��map�����е�����keyֵ
-    	StringBuilder finalstr=new StringBuilder();		//finalstr���ڴ��һ������Ľ��
-		while(!map.isEmpty()) {
-			int i=0,maxvalue=0;							//i����ͳ�Ƽ��뵽finalstr����ĵ��ʵ�����,intmax���ڼ�¼�������ĵ��ʵĳ��ִ���
-			String maxstr=" ";							//maxstr��ʾ���ִ������ĵ���
+    	Set<String> key= map.keySet();					//获取所有keyֵ
+    	StringBuilder finalstr=new StringBuilder();		//finalstr用于记录最后结果
+		while(!map.isEmpty()) {							//循环比较最大value的单词记录到finalstr中
+			int i=0,maxvalue=0;							
+			String maxstr=" ";							
 			for(String s:key) {
-				int k=map.get(s);						//k��ʾ��ǰ�������ĵ��ʵĳ���Ƶ��
-				if(k>maxvalue) {
-					maxvalue=k;
+				int v=map.get(s);
+				if(v>maxvalue) {
+					maxvalue=v;
 					maxstr=s;
 				}
-				else if(k==maxvalue) {					//��������������ʳ���Ƶ��һ������Ƚ�ASCII��Ĵ�С
+				else if(v==maxvalue) {					//如果value的值相同就比较ASCII码
 					if(maxstr.compareTo(s)>0) {
-						maxvalue=k;
+						maxvalue=v;
 						maxstr=s;
 					}
 				}
 			}
 			finalstr.append(maxstr+":"+maxvalue+"\n");
 			map.remove(maxstr);
-			if(i==9)break;							//���iͳ����10�����ʵ�����û������ǿ���˳�
+			if(i==9)break;							//如果finalstr中的单词数量已经有10个了就退出循环
 		}
     	return finalstr.toString();
     }
-
-
-
 }
+
