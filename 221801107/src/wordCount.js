@@ -4,8 +4,8 @@ const { calCharacterCount } = require("./character");
 const { calNoEmptyRowsCount } = require("./row");
 const {
   calWordCount,
-  calSortedWordsFrequency,
-  // calSortedWordsFrequencyByHeap,
+  // calSortedWordsFrequency,
+  calSortedWordsFrequencyByHeap,
 } = require("./word");
 
 const SRC_PATH = path.join(__dirname);
@@ -35,9 +35,9 @@ const main = () => {
 
     const content = fs.readFileSync(input).toString();
 
-    const writeContent = `${calCharacterCount(content)}\n${calWordCount(
+    const writeContent = `characters: ${calCharacterCount(content)}\nwords: ${calWordCount(
       content
-    )}\n${calNoEmptyRowsCount(content)}\n${calSortedWordsFrequency(content, 10)
+    )}\nlines: ${calNoEmptyRowsCount(content)}\n${calSortedWordsFrequencyByHeap(content, 10)
       .map((item) => `${item.word}: ${item.count}\n`)
       .join("")}`;
 
