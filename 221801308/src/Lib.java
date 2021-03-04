@@ -23,17 +23,20 @@ public class Lib {
 
     /**
      * read file and perform all the required calculation
+     * @param inputFile
+     * @throws IOException
      */
     public static void beginCount(String inputFile) throws IOException {
         String builderString = readFileContent(inputFile);
         countChars(builderString);
         countWords(builderString);
         countLines(builderString);
-        sortWords(builderString);
     }
 
     /**
      * get the file content
+     * @throws IOException
+     * @return
      */
     public static String readFileContent(String inputFile) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(inputFile));
@@ -55,53 +58,47 @@ public class Lib {
     /**
      * get the number of characters
      */
-    public static int countChars(String builderString) {
+    public static void countChars(String builderString) {
         charNumber = builderString.length();
-        return charNumber;
     }
 
     /**
      * get the number of lines
      */
-    public static int countLines(String builderString) {
+    public static void countLines(String builderString) {
         lineNumber = 0;
         Pattern linePattern = Pattern.compile(LINE_REGEX);
         Matcher matcher = linePattern.matcher(builderString);
         while(matcher.find()) {
             lineNumber++;
         }
-        return lineNumber;
     }
 
     /**
      * get the number of words
      */
-    public static int countWords(String builderString) {
+    public static void countWords(String builderString) {
         wordNumber = 0;
-        Pattern wordPattern = Pattern.compile(WORD_REGEX);
-        Matcher matcher = wordPattern.matcher(builderString);
-        while(matcher.find()) {
-            wordNumber++;
-        }
-        return wordNumber;
-    }
-
-    /**
-     * sort valid words
-     */
-    public static Map<String, Integer> sortWords(String builderString) {
         Map<String, Integer> mapWords = new HashMap<>();
         Pattern wordPattern = Pattern.compile(WORD_REGEX);
         Matcher matcher = wordPattern.matcher(builderString);
         while(matcher.find()) {
+            wordNumber++;
             String word = matcher.group(2);
             if(!mapWords.containsKey(word)) {
-                mapWords.put(word, 1);
+               mapWords.put(word, 1);
             } else{
                 mapWords.put(word, mapWords.get(word)+1);
             }
         }
+        sortMap(mapWords);
+    }
 
+    /**
+     * sort the words
+     * @param mapWords
+     */
+    public static void sortMap(Map<String, Integer> mapWords) {
         Set<Entry<String, Integer>> mapEntry = mapWords.entrySet();
         List<Entry<String, Integer>> entryList = new LinkedList<Entry<String, Integer>>(mapEntry);
         entryList.sort(new Comparator<Entry<String, Integer>>() {
@@ -123,13 +120,13 @@ public class Lib {
             } else {
                 break;
             }
-            //System.out.println(i);
+//            System.out.println(i);
         }
-        return linkedMapWords;
     }
 
     /**
      * write data to the file
+     * @throws IOException
      */
     public static void writeFileContent(String outputFile) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
