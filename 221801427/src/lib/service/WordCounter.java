@@ -5,7 +5,7 @@ import java.util.*;
 public class WordCounter
 {
     /**
-     * @param content
+     * @param words
      * @return µ¥´Ê×ÜÊı
      */
     public static int countWord(Map<String, Long> words)

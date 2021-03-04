@@ -11,12 +11,12 @@ public class FilePrinter
      * @param wordCnt
      * @param lineCnt
      * @param freqList
-     * @param fileName
+     * @param outputFileName
      */
     public static void writeFile(int charCnt, int wordCnt, int lineCnt, ArrayList<HashMap.Entry<String, Long>> freqList,
-            String fileName)
+            String outputFileName)
     {
-        File file = new File(fileName);
+        File file = new File(outputFileName);
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
         try

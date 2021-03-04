@@ -3,7 +3,7 @@ package lib.service;
 public class CharCounter
 {
     /**
-     * @param fileName
+     * @param content
      * @return ×Ö·û×ÜÊı
      */
     public static int countChar(String content)

@@ -18,7 +18,6 @@ public class WordCount
      */
     private static String inputFileName;
     private static String outputFileName;
-    private static String content = new String();
 
     private int charCnt = 0;
     private int wordCnt = 0;
@@ -34,42 +33,16 @@ public class WordCount
 
     public void Count()
     {
-        InputStreamReader inputStreamReader = null;
-        BufferedReader bufferedReader = null;
+        String content = new String();
+        Map<String, Long> words;
 
-        try
-        {
-            inputStreamReader = new InputStreamReader(new FileInputStream(inputFileName));
-            bufferedReader = new BufferedReader(inputStreamReader);
-            StringBuilder contents = new StringBuilder();
-            Map<String, Long> words;
+        content = FileReader.readFile(inputFileName);
+        charCnt = CharCounter.countChar(content);
+        lineCnt = LineCounter.countLine(content);
 
-            int in;
-            while ((in = bufferedReader.read()) != -1)
-            {
-                contents.append((char) in);
-            }
-            content = contents.toString().toLowerCase();
-
-            charCnt = CharCounter.countChar(content);
-            lineCnt = LineCounter.countLine(content);
-            words = StringAnalyser.analyseString(content);
-            wordCnt = WordCounter.countWord(words);
-            freqList = FrequencySorter.sortFrequency(words);
-
-            bufferedReader.close();
-            inputStreamReader.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            System.out.println("File Not Found");
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            System.out.println("Error Reading File");
-            e.printStackTrace();
-        }
+        words = StringAnalyser.analyseString(content);
+        wordCnt = WordCounter.countWord(words);
+        freqList = FrequencySorter.sortFrequency(words);
     }
 
     public void Print()
