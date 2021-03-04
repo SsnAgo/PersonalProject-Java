@@ -11,9 +11,9 @@ import java.util.stream.Stream;
 public class Utils {
 
     /**
-     * get a List contains every line in the input file
+     *  获取输入文件的行字符串集合
      *
-     * @param filename
+     * @param filename 输入文件名
      * @return
      * @throws IOException
      */
@@ -24,7 +24,7 @@ public class Utils {
     }
 
     /**
-     * compare two String type values by dictionary order
+     * 根据字典顺序排序两个字符串
      * @param str1
      * @param str2
      * @return
@@ -47,9 +47,9 @@ public class Utils {
     }
 
     /**
-     * sort Map by the count of words
+     * 根据value或字典顺序排序映射表
      *
-     * @param wordsToNumMap
+     * @param wordsToNumMap 单词-单词个数映射表
      * @return
      */
     public static Map<String, Integer> sortMapByNum(Map<String, Integer> wordsToNumMap) {
@@ -59,7 +59,7 @@ public class Utils {
                 .stream()
                 .sorted((p1, p2) -> {
                     // 单词数不一样则按单词数目排序
-                    if (p1.getValue() != p2.getValue()) {
+                    if (!p1.getValue().equals(p2.getValue())) {
                         return p2.getValue().compareTo(p1.getValue());
                     } else {
                         // 单词数一致则按字典顺序排序
@@ -72,21 +72,21 @@ public class Utils {
 
 
     /**
-     * generate output string message
-     * @param sortedWordsToNumMap
+     *  生成输出数据
+     * @param sortedWordsToNumMap 已排序的映射表
      * @return
      */
     public static StringBuilder generateOutputString(Map<String,Integer> sortedWordsToNumMap){
         StringBuilder outputStringBuilder = new StringBuilder();
         outputStringBuilder.append(String.format("characters: %s\nlines: %s\nwords: %s\n",
-                CountResultHolder.charactersCount,
-                CountResultHolder.linesCount,
-                CountResultHolder.wordsCount));
+                CountResultHolder.getCharactersCount(),
+                CountResultHolder.getLinesCount(),
+                CountResultHolder.getWordsCount()));
         // 限制最多输出10个
         int i = 0;
         for (Map.Entry<String,Integer> entry :sortedWordsToNumMap.entrySet()){
             if (i++ < 10){
-                CountResultHolder.wordToNumMap.put(entry.getKey(),entry.getValue());
+                CountResultHolder.putIntoMap(entry.getKey(),entry.getValue());
                 outputStringBuilder.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
             }else break;
         }

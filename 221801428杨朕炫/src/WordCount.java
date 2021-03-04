@@ -13,28 +13,33 @@ import java.util.stream.Stream;
 
 public class WordCount {
 
-    /** save the status code of result
-     *      1000 : success
-     *      1001 : params error
-     *      1002 : file type error
-     *      1003 : No file found
-     *      1004 : Read Or Write Error
-     *      1005 : Other errors
+    /** 保存程序结果状态
+     *      1000 : 流程正常
+     *      1001 : 参数个数错误
+     *      1002 : 文件名或文件类型错误
+     *      1003 : 未找到文件
+     *      1004 : 文件读写错误
+     *      1005 : 其他错误
       */
     private static int statusCode;
+    public static void setStatusCode(int code) {
+        statusCode = code;
+    }
+    public static int getStatusCode() {
+        return statusCode;
+    }
 
-    //java WordCount input.txt output.txt
 
     /**
-     * write result string to output file
-     * @param filename
-     * @param message
+     * 将程序输出写入文件
+     * @param filename 输出文件名
+     * @param message 输出字符串
      * @throws IOException
      */
     public static void writeOutputToFile(String filename,String message) throws IOException{
-        FileWriter writer = null;
+        BufferedWriter writer = null;
         try{
-            writer = new FileWriter(filename);
+            writer = new BufferedWriter(new FileWriter(filename));
             writer.write(message);
         }finally {
             try{
@@ -45,8 +50,9 @@ public class WordCount {
         }
     }
 
+
     /**
-     * whether input file name and output file name form of *.txt
+     * 判断文件名是否合法
      * @param args
      */
     public static boolean isValidFile(String[] args){
@@ -63,22 +69,14 @@ public class WordCount {
 
     }
 
+
     /**
-     * whether input file name valid
-     * @param code
+     *  主程序
+     * @param args 命令行参数数组
      */
-
-    public static void setStatusCode(int code) {
-        statusCode = code;
-    }
-
-    public static int getStatusCode() {
-        return statusCode;
-    }
-
     public static void main(String[] args){
 
-        // throw Exception if params error
+        // 若命令行参数不为2个则参数错误
         if (args.length != 2){
             setStatusCode(1001);
             System.out.println("you should  input 2 parameters!");
@@ -86,7 +84,7 @@ public class WordCount {
         }
 
 
-
+        // 文件名，类型错误
         if (!isValidFile(args)) {
             setStatusCode(1002);
             System.out.println("File name error or File Type Error , only receive txt file !");
@@ -95,22 +93,21 @@ public class WordCount {
 
         String inputFile = args[0];
         String outputFile = args[1];
-        // start count process
+        // 开始流程
         try {
-            // count characters
+            // 计算字符
             Counters.countCharacters(inputFile);
-            // count lines
+            // 计算行数
             List<String> lineList = Utils.getLineList(inputFile);
             Counters.countLines(lineList);
-            // count words
+            // 计算单词
             Map<String, Integer> stringIntegerMap = Counters.countWordsAndTransform(lineList);
             stringIntegerMap = Utils.sortMapByNum(stringIntegerMap);
-            // get output and write to File
+            // 获得输出内容，写出
             StringBuilder sb = Utils.generateOutputString(stringIntegerMap);
             writeOutputToFile(outputFile,sb.toString());
             setStatusCode(1000);
-            System.out.println("write data to " + outputFile + " successfully!");
-
+            System.out.println("write data to " + outputFile + " successfully !");
         } catch (FileNotFoundException e) {
             setStatusCode(1003);
             System.out.println("No Such File Found!");

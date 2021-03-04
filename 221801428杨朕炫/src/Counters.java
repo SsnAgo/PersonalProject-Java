@@ -1,3 +1,4 @@
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,18 +10,18 @@ import java.util.regex.Pattern;
 
 public class Counters {
     /**
-     * calculate the number of characters in input file
+     *  计数文件的字符数
      *
-     * @param filename input file name
+     * @param filename 输入文件名
      */
     public static void countCharacters(String filename) throws IOException, RuntimeException {
-        FileReader fileReader = null;
-        try {
-            fileReader = new FileReader(filename);
+        BufferedReader fileReader = null;
+            try {
+                fileReader = new BufferedReader(new FileReader(filename));
             int c;
             boolean hasContent = false;
             while ((c = fileReader.read()) != -1) {
-                CountResultHolder.charactersCount++;
+                CountResultHolder.increaseCharactersCount();
                 if (!hasContent) hasContent = true;
             }
             if (!hasContent) {
@@ -38,23 +39,23 @@ public class Counters {
     }
 
     /**
-     * calculate the number of valid lines(expects lines that just contain space) in input file
+     *  计数有效行数
      *
-     * @param list line list
+     * @param list 行字符串集合
      */
     public static void countLines(List<String> list) {
         list.forEach(line -> {
             // 空行不算有效行
             if (!line.trim().equals("")) {
-                CountResultHolder.linesCount++;
+                CountResultHolder.increaseLinesCount();
             }
         });
     }
 
     /**
-     * calculate the count of words and put valid words into HashMap
+     *  计算有效单词数，并将单词存入映射表
      *
-     * @param list line list
+     * @param list 行字符串集合
      * @return
      */
     public static Map<String, Integer> countWordsAndTransform(List<String> list) {
@@ -68,7 +69,7 @@ public class Counters {
                 Matcher matcher = pattern.matcher(word);
                 // 计数有效单词并将其加入映射集合
                 if (matcher.matches()) {
-                    CountResultHolder.wordsCount++;
+                    CountResultHolder.increaseWordsCount();
                     wordToNumMap.merge(word, 1, Integer::sum);
                 }
             }
