@@ -11,6 +11,7 @@ public class WordCount {
 
         countWords();
         countChars();
+        countLines();
     }
 
     /*统计单词数*/
@@ -67,6 +68,28 @@ public class WordCount {
                 if (ch <=127 )
                     count++;
 //                System.out.println(ch);
+            }
+            System.out.println(count);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /*统计文件的有效行数,任何包含**非空白**字符的行，都需要统计。*/
+    public static void countLines(){
+        int count = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("input.txt"));
+            String line = "";
+            while((line = br.readLine())!=null){
+                //判断是否为空白行
+                if (!line.isBlank())
+                {
+                    count++;
+                }
             }
             System.out.println(count);
         } catch (FileNotFoundException e) {
