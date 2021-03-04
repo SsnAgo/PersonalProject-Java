@@ -1,0 +1,10 @@
+file edit \t
+view view \r
+navigate \n
+code edit? 
+refactor!
+run edit
+tools code
+my name is joker,
+i am twenty years old,
+how about you?
