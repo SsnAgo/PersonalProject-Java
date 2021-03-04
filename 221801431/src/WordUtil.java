@@ -91,4 +91,85 @@ public class WordUtil {
     }
 
 
+    //统计各单词出现次数,并排序
+    public static String countWordFrequency(String filename) throws IOException {
+        String temp="";
+        String result = "";
+
+        Map<String,Integer> wordMap=new HashMap<String,Integer>();
+        try {
+            File file =new File("../"+filename);
+            //缓冲区
+            BufferedReader bReader;
+            bReader=new BufferedReader(new FileReader(file));
+            //按行读文件，用正则表达式分割
+            while ((temp = bReader.readLine()) != null){
+                String[] words = temp.split("[^a-zA-Z0-9]+");
+                for (String word : words) {
+                    word = word.toLowerCase();
+                    if (word.matches("[a-zA-Z]{4}[a-zA-Z0-9]*") ) {
+                        //若此单词已经记录过，value + 1
+                        if(wordMap.containsKey(word)){
+                            wordMap.put(word, wordMap.get(word)+1);
+                        } else {
+                            //若未记录，初始化value = 1
+                            wordMap.put(word, 1);
+                        }
+                    }
+                }
+            }
+
+            //法一：返回值void
+            /*
+            Set<WordEntity> set=new TreeSet<WordEntity>();
+            for(String s:map.keySet()){
+                WordEntity wordEntry=new WordEntity(s,map.get(s));
+                set.add(wordEntry);
+            }
+            Iterator<WordEntity> ite=set.iterator();
+            int count=0;
+            while(ite.hasNext()){
+                if(count>=10)
+                    break;
+                System.out.println(ite.next());
+                count++;
+            }*/
+            //法二：返回值 String
+            if(!wordMap.isEmpty()){
+                //按单词个数排序
+                List<HashMap.Entry<String, Integer>> wordList = Sort(wordMap);
+                for (HashMap.Entry h : wordList){
+                    result += h.getKey() + ": " + h.getValue() + "\n";
+                }
+            } else{
+                result += "无单词";
+            }
+
+            bReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
+
+    //单词排序函数，将字典依次按照出现次数排序，次数相同的按字典序排序
+    public  static List<HashMap.Entry<String, Integer>> Sort(Map m){
+        List<HashMap.Entry<String, Integer>> wordList = new ArrayList<HashMap.Entry<String, Integer>>(m.entrySet());
+
+        Comparator<Map.Entry<String, Integer>> com = new Comparator<Map.Entry<String, Integer>>(){
+
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                if(o1.getValue()==o2.getValue())
+                    return o1.getKey().compareTo(o2.getKey());//字典序
+                return o2.getValue()-o1.getValue();//从大到小
+            }
+        };
+        wordList.sort(com);
+        return wordList;
+    }
+
 }
