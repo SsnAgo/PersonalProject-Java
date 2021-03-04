@@ -53,4 +53,42 @@ public class WordUtil {
         bReader.close();//关闭流
         return result;//返回结果
     }
+
+    //统计行数
+    public static String countLine(String filename) throws IOException{
+        String temp = "";
+        String regEx="[\n\\t\\r ]";
+        //或：String regEx="[\\s]"; //匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]
+
+        //初始化行数
+        int line=0;
+        File file=new File("../"+filename);
+        //缓冲区
+        BufferedReader bReader;
+        bReader=new BufferedReader(new FileReader(file));
+        //按行读取文件，进行正则处理判断有效行数
+        while((temp = bReader.readLine())!=null) {
+            /*
+            另解：
+            String aa = " ";
+            String str = "原字符串";
+            String newString = str.replaceAll(regEX,aa);
+            //不想保留原来的字符串可以直接写成 “str = str.replaceAll(regEX,aa);”
+             */
+            String aa = " ";//这里是将特殊字符换为aa字符串," "代表直接去掉
+            Pattern p = Pattern.compile(regEx);
+            Matcher m = p.matcher(temp);//这里把想要替换的字符串传进来
+            String newString = m.replaceAll(aa).trim();
+
+            if(!newString.equals("")){
+                //System.out.println("有效行："+newString);
+                line++;
+            }
+        }
+        bReader.close();//关闭流
+        String result=""+line;//保存结果
+        return result;//返回结果
+    }
+
+
 }
