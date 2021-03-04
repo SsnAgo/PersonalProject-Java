@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class WordCount {
+    //读文件
     public static String readFile(File filePath) {
         StringBuilder result = new StringBuilder();
         try {
@@ -26,6 +27,7 @@ public class WordCount {
         return "";
     }
 
+    //写文件
     public static void writeFile(int characters, int words, int lines,File filePath,
                                  List<HashMap.Entry<String, Integer>> wList) {
         try {
@@ -55,9 +57,14 @@ public class WordCount {
         }
     }
 
+    //处理文件
+
+
     public static void main(String[] args) {
-        File input, output;
-        String data;
+        File input =null, output = null;
+        String data = null;
+
+        //命令行读文件
         if (args.length < 2) {
             System.out.println("Input error! Please restart the program.");
         }
@@ -67,7 +74,18 @@ public class WordCount {
             output = new File(args[1]);
             data = readFile(input);//读入的文本内容
         }
+
+        //处理文本
         Lib lib = new Lib();
+        String dataLen = data.replaceAll("\r\n", "\n");
+        int characters = dataLen.length();
+        int words = lib.wordCount(data);
+        int lines = lib.lineCount(data);
+        List<Map.Entry<String,Integer>> wordList = lib.wordSort();
+
+        //输出文本
+        writeFile(characters,words,lines,output,wordList);
+
 
     }
 
