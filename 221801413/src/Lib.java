@@ -68,7 +68,7 @@ public class Lib
         return charCount;
     }
 
-        /**
+    /**
      * 利用正则表达式，判断有效行数
      *
      * @ param chStr
@@ -87,5 +87,54 @@ public class Lib
         }
 
         return lines;
+    }
+
+    /**
+     * 利用正则表达式，判断有效单词数
+     *
+     * @ param chStr
+     * @ return valid words‘ number
+     * */
+    public static int getWordNum(String chStr){
+        int wordNum = 0;
+        String regexWords = "[a-zA-Z]{4,}[a-zA-Z0-9]*";
+
+        Pattern wordPattern = Pattern.compile(regexWords);
+        Matcher wordMatcher = wordPattern.matcher(chStr);
+
+        while(wordMatcher.find()){
+            wordNum++;
+        }
+
+        return wordNum;
+    }
+
+    /**
+     * 利用正则表达式，判断有效单词并记录其出现次数,将该单词与其出现次数存入Map集合中
+     *
+     * @ param chStr, wordMap
+     * @ return valid words‘ number
+     * */
+    public static void creatWordMap(String chStr, Map<String, Integer> wordMap){
+        //匹配分隔符分离单词，并用String[]保存
+        String[] words = chStr.split("\\s");
+        String regexWord = "[a-zA-Z]{4,}[a-zA-Z0-9]*";
+
+        //验证单词有效性，有效的单词存入集合Map<String, Integer>中
+        for(int i = 0; i < words.length; i++){
+            if(words[i].matches(regexWord)) {
+                //忽略单词大小写，判断其是否已经存在，若存在，则其value值加一
+                if(wordMap.containsKey(words[i].toLowerCase())){
+                    int value = 1 + wordMap.get(words[i].toLowerCase());
+
+                    wordMap.put(words[i], value);
+                }
+                //若不存在，则存入wordMap
+                else {
+                    wordMap.put(words[i], 1);
+                }
+            }
+        }
+
     }
 }
