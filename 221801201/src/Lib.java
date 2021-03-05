@@ -19,7 +19,7 @@ public class Lib{
                 }
             }
             return data;
-        }catch(Exception e){//异常处理
+        }catch(Exception e){
             System.out.println("Can not open input file!");
             return null;
         }
@@ -76,7 +76,7 @@ public class Lib{
     public String bytesToString(byte[] bs){
         return new String(bs,StandardCharsets.UTF_8);
     }
-
+    
     public String vectorByteToString(Vector<Byte> vb){
         byte[] bytes=new byte[vb.size()];
         for(int i=0;i<vb.size();i++){
