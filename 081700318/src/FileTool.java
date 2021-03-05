@@ -120,9 +120,9 @@ public class FileTool {
     public void writeResult(int CharNums, int RowNums, int WordNums, ArrayList<Map.Entry<String, Integer>> TopList)
     {
         try {
-            OutputWriter.write("characters:"+CharNums+"\n");
-            OutputWriter.write("words:"+WordNums+"\n");
-            OutputWriter.write("lines:"+RowNums+"\n");
+            OutputWriter.write("characters: "+CharNums+"\n");
+            OutputWriter.write("words: "+WordNums+"\n");
+            OutputWriter.write("lines: "+RowNums+"\n");
             for (Map.Entry<String, Integer>TopWord: TopList)
             {
                 OutputWriter.write(TopWord.getKey()+": "+TopWord.getValue()+"\n");
