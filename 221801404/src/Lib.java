@@ -1,12 +1,18 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lib
 {
+    private int wordNum;
+    private HashMap<String,Integer> map;
+    //获取单词数
+    public int getWordNum()
+    {
+        return wordNum;
+    }
     //从文件中读取数据
     public static String readFile(String filePath)
     {
@@ -61,7 +67,21 @@ public class Lib
         }
         return linesNum;
     }
-
-
-
+    //统计单词
+    public void getWordNum(String string)
+    {
+        String temp;
+        int wordNum = 0;
+        String[] content = string.split("[^a-zA-Z0-9]");
+        for (String element:content)
+        {
+            temp = element.toLowerCase();
+            if (temp.matches("[a-zA-Z]{4}[a-zA-Z0-9]*"))
+            {
+                map.merge(temp, 1, Integer::sum);
+                wordNum++;
+            }
+        }
+        System.out.println(wordNum);
+    }
 }
