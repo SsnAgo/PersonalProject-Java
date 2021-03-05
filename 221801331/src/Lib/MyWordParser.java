@@ -119,7 +119,6 @@ public class MyWordParser implements WordParser
         {
           continue;
         }
-
         if(isLetter(c))     //若为字母
         {
           wordReader.append(c);  //加入单词读取器

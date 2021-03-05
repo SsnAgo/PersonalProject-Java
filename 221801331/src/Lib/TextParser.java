@@ -106,90 +106,85 @@ public class TextParser
    */
   public void writeToFile()
   {
-    StringBuilder content=new StringBuilder("characters:"+validCharsNum+"\n" +
-        "words:"+wordNum+"\n" +
-        "lines:"+validLinesNum+"\n");
+    StringBuilder content=new StringBuilder("characters: "+validCharsNum+"\n" +
+        "words: "+wordNum+"\n" +
+        "lines: "+validLinesNum+"\n");
     Map<String,Integer> map=getWordCountMapBySize(10);
     for (String key: map.keySet())
     {
-      content.append(key+":"+map.get(key)+"\n");
+      content.append(key+": "+map.get(key)+"\n");
     }
     IOHandler.writeToFile(outputFile,content.toString());
-
-    //
-    System.out.println(content.toString());
-    //
   }
 
-  public String getInputFile() {
+  //get、set方法
+  public String getInputFile()
+  {
     return inputFile;
   }
 
-  public void setInputFile(String inputFile) {
+  public void setInputFile(String inputFile)
+  {
     this.inputFile = inputFile;
   }
 
-  public String getOutputFile() {
+  public String getOutputFile()
+  {
     return outputFile;
   }
 
-  public void setOutputFile(String outputFile) {
+  public void setOutputFile(String outputFile)
+  {
     this.outputFile = outputFile;
   }
 
-  public String getTextContent() {
+  public String getTextContent()
+  {
     return textContent;
   }
 
-  public void setTextContent(String textContent) {
+  public void setTextContent(String textContent)
+  {
     this.textContent = textContent;
   }
 
-  public int getValidCharsNum() {
+  public int getValidCharsNum()
+  {
     return validCharsNum;
   }
 
-  public void setValidCharsNum(int validCharsNum) {
-    this.validCharsNum = validCharsNum;
-  }
-
-  public int getValidLinesNum() {
+  public int getValidLinesNum()
+  {
     return validLinesNum;
   }
 
-  public void setValidLinesNum(int validLinesNum) {
-    this.validLinesNum = validLinesNum;
-  }
-
-  public int getWordNum() {
+  public int getWordNum()
+  {
     return wordNum;
   }
 
-  public void setWordNum(int wordNum) {
-    this.wordNum = wordNum;
-  }
-
-  public Map<String, Integer> getWordCountMap() {
+  public Map<String, Integer> getWordCountMap()
+  {
     return wordCountMap;
   }
 
-  public void setWordCountMap(Map<String, Integer> wordCountMap) {
-    this.wordCountMap = wordCountMap;
-  }
-
-  public CharParser getCharParser() {
+  public CharParser getCharParser()
+  {
     return charParser;
   }
 
-  public void setCharParser(CharParser charParser) {
+  public void setCharParser(CharParser charParser)
+  {
     this.charParser = charParser;
   }
 
-  public WordParser getWordParser() {
+  public WordParser getWordParser()
+  {
     return wordParser;
   }
 
-  public void setWordParser(WordParser wordParser) {
+  public void setWordParser(WordParser wordParser)
+  {
     this.wordParser = wordParser;
   }
 
