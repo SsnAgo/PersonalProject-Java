@@ -112,17 +112,21 @@ public class ComputeTool {
                 executor.execute(new Runnable() {
                     @Override
                     public void run() {
-                        Pattern WordPattern = Pattern.compile("[a-zA-Z]{4}[a-zA-Z0-9]*");//使用正则表达式匹配单词
-                            Matcher WordMatcher = WordPattern.matcher(ValidRow);
-                            while (WordMatcher.find()) {
+                        Pattern WordPattern = Pattern.compile("(^[a-zA-Z]{4}[a-zA-Z0-9]*)");//使用正则表达式匹配单词
+                        for(String Word:ValidRow.split("[^a-zA-Z0-9]"))
+                        {
+                            Matcher WordMatcher = WordPattern.matcher(Word);
+                            if(WordMatcher.find())
+                            {
                                 String ValidWord;
-                                ValidWord = WordMatcher.group().toLowerCase();
+                                ValidWord=WordMatcher.group(0).toLowerCase();
                                 if(ValidWords.putIfAbsent(ValidWord,1)!=null)
                                 {
                                     ValidWords.computeIfPresent(ValidWord, (k, v) -> v + 1);
                                 }
                             }
                         }
+                    }
                     }
                 );
             }
@@ -141,7 +145,7 @@ public class ComputeTool {
     /**
      * @description      获取所有单词的集合并且根据出现频率对其排序
      */
-    public int CountWordNums(int k)
+    private int CountWordNums(int k)
     {
         PriorityQueue<Map.Entry<String, Integer>> Queue=new PriorityQueue<>((O1, O2) -> {
             if(O2.getValue() - O1.getValue()!=0)
