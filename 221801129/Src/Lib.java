@@ -41,8 +41,8 @@ public class Lib {
     }
 
     /**
-     *调用各功能的函数
-     * @throws IOException
+     *
+     * @throws IOException 文件I/O异常
      */
     public void handleFile() throws IOException {
     String file = readFile();
@@ -56,7 +56,7 @@ public class Lib {
     /**
      * 将文件读取进字符串
      * @return 文件内容字符串
-     * @throws IOException
+     * @throws IOException 文件找不到异常
      */
     public String readFile() throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(inputFile));
@@ -148,7 +148,7 @@ public class Lib {
         writer.write("lines: " + lineNum + "\n");
         if (wordsRank.size() > 10) {
             for (int i = 0; i < 10; i++) {
-                writer.write(wordsRank.get(i).getKey() + ": " + wordsRank.get(i).getValue());
+                writer.write(wordsRank.get(i).getKey() + ": " + wordsRank.get(i).getValue() + "\n");
             }
         }
         else {
