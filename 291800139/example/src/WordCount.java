@@ -11,7 +11,7 @@ public class WordCount {
     /**
      * 读取文件
      * @param filePath
-     * @return
+     * @return String
      */
     public static String readFile(File filePath) {
         StringBuilder result = new StringBuilder();
@@ -27,7 +27,7 @@ public class WordCount {
             br.close();
             return result.toString();
         } catch (Exception e) {
-            System.out.println("Failed to read! <error> :" + e.getMessage());;
+            System.out.println("Failed to read! <error> :" + e.getMessage());
         }
         return "";
     }
@@ -43,7 +43,7 @@ public class WordCount {
     public static void writeFile(int characters, int words, int lines,File filePath,
                                  List<HashMap.Entry<String, Integer>> wList) {
         try {
-            //获取写文件字节流并构造BufferedOutputStram类写文件
+            //获取写文件字节流并构造BufferedWriter类写文件
             OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(filePath),
                                               "utf-8");
             BufferedWriter bw = new BufferedWriter(osw);
@@ -87,7 +87,6 @@ public class WordCount {
         //测试是否成功读到文本内容
         //System.out.println(data);
 
-        //@Test
         //绝对路径测试写入是否成功
 //        input = new File("E:\\GitHub\\PersonalProject-Java\\291800139\\example\\src\\input.txt");
 //        output = new File("E:\\GitHub\\PersonalProject-Java\\291800139\\example\\src\\output.txt");
