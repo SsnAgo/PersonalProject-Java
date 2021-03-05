@@ -184,6 +184,7 @@ public class Lib {
             }
             word = "" + (char) temp;
         }
+
         sortedWords = words.entrySet().stream()
                 .sorted(new Comparator<Map.Entry<String, Integer>>() {
 
