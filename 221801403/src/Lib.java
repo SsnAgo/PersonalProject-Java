@@ -1,4 +1,4 @@
-import java.io.*;
+mport java.io.*;
 import java.util.*;
 
 class Lib {
@@ -19,43 +19,51 @@ class Lib {
         countChar = 0;
         countWord = 0;
         countLine = 0;
+        List<Map.Entry<String,Integer>> list = null;
     }
 
     //读取文件字符数
-    int getCountChar() throws FileNotFoundException {
+    void getCountChar() throws FileNotFoundException {
         in=new InputStreamReader(new FileInputStream(inputFile));
         br = new BufferedReader(in);
         try {
-            while(br.read()!=-1)
+            char ch;
+            while((ch=(char)br.read())!=(char)-1)
             {
-                countChar++;
+                if(ch<=127)//保证读取的字符为ASCLL码
+                {
+                    countChar++;
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return countChar;
     }
 
     //读取文件有效行数
-     int getLineCount() throws FileNotFoundException {
+     void getLineCount() throws FileNotFoundException {
         in = new InputStreamReader(new FileInputStream(inputFile));
         br = new BufferedReader(in);
         try {
-            String line = null;
+            String line;
             while ((line = br.readLine()) != null) {
-                if (line.trim().equals(""))//排除含有空白字符的行
-                    continue;
-                else
-                    countLine++;
+                char[] c=line.toCharArray();
+                for (int i=0;i<c.length;i++)
+                {
+                    if (c[i]!='\n' && c[i]!='\r' && c[i]!='\t')
+                    {
+                        countLine++;
+                        break;
+                    }
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return countLine;
     }
 
     //读取文件中单词个数
-    int getWordNum() throws FileNotFoundException {
+    void getWordNum() throws FileNotFoundException {
         in = new InputStreamReader(new FileInputStream(inputFile));
         br = new BufferedReader(in);
         String words;
@@ -74,54 +82,47 @@ class Lib {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return countWord;
     }
 
     //选取出现频率最高的10个单词输出
-    List getWordTopRate() throws FileNotFoundException {
+     void getWordTopRate() throws IOException {
         in = new InputStreamReader(new FileInputStream(inputFile));
         br = new BufferedReader(in);
         String words;
-        try {
-            while ((words = br.readLine()) != null) {
-                String[] strs = words.split("[^a-zA-Z0-9]");
-                String regexs = "^[a-zA-Z]{4,}.*";
-                for (int i = 0; i < strs.length; i++) {
-                    if (strs[i].matches(regexs)) {
-                        if (!map.containsKey(strs[i].toLowerCase())) {
-                            //排除重复单词
-                            map.put(strs[i].toLowerCase(), 1);
-                        } else {
-                            //使用map来保存出现过的单词，并变成全小写形式
-                            int num = map.get(strs[i].toLowerCase());
-                            map.put(strs[i].toLowerCase(), num + 1);
-                        }
+        while ((words = br.readLine()) != null) {
+            String[] strs = words.split("[^a-zA-Z0-9]");
+            String regexs = "^[a-zA-Z]{4,}.*";
+            for (int i = 0; i < strs.length; i++) {
+                if (strs[i].matches(regexs)) {
+                    if (!map.containsKey(strs[i].toLowerCase())) {
+                        //排除重复单词
+                        map.put(strs[i].toLowerCase(), 1);
+                    } else {
+                        //使用map来保存出现过的单词，并变成全小写形式
+                        int num = map.get(strs[i].toLowerCase());
+                        map.put(strs[i].toLowerCase(), num + 1);
                     }
                 }
             }
-            List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
-            list.sort(new Comparator<Map.Entry<String, Integer>>() {
-                @Override
-                public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                    if(o1.getValue().equals(o2.getValue())) {
-                        //频率相同按字典序排序
-                        return o1.getKey().compareTo(o2.getKey());
-                    }
-                    else
-                        //按值排序
-                        return o2.getValue().compareTo(o1.getValue());
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return list.size() < 10 ? list.subList(0, list.size()) : list.subList(0, 10);
-
+        list = new ArrayList<Map.Entry<String, Integer>>(map.entrySet());
+        list.sort(new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                if(o1.getValue().equals(o2.getValue())) {
+                    //频率相同按字典序排序
+                    return o1.getKey().compareTo(o2.getKey());
+                }
+                else
+                    //按值排序
+                    return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+        
     }
 
     //将数据录入到指定文件中
-    void writeFile() throws FileNotFoundException {
-        try {
+    void writeFile() throws IOException {
             out = new OutputStreamWriter(new FileOutputStream(outputFile),"UTF-8");
             StringBuilder str = new StringBuilder();
             str.append("characters: "+countChar+"\n" + "words: "+countWord+"\n" +"lines: "+countWord+"\n");
@@ -131,9 +132,6 @@ class Lib {
             out.write(str.toString());
             out.flush();
             out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }
