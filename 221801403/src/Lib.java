@@ -125,7 +125,7 @@ class Lib {
     void writeFile() throws IOException {
             out = new OutputStreamWriter(new FileOutputStream(outputFile),"UTF-8");
             StringBuilder str = new StringBuilder();
-            str.append("characters: "+countChar+"\n" + "words: "+countWord+"\n" +"lines: "+countWord+"\n");
+            str.append("characters: "+countChar+"\n" + "words: "+countWord+"\n" +"lines: "+countLine+"\n");
             for(int i = 0;i<(list.size()<10 ? list.size():10);i++){
                 str.append(list.get(i).getKey()+": "+list.get(i).getValue()+"\n");
             }
