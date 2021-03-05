@@ -1,16 +1,18 @@
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Lib
 {
-    int sumLines = 0;   /*总行数*/
-    int sumChars = 0;   /*总字符数*/
-    int sumWords = 0;   /*总单词数*/
-    String resultStr = "";    /*文章拼接而成的字符串*/
-    Map<String,Integer> map = new HashMap<String, Integer>();    /*用于统计词频*/
-    String sortResultStr = "";    /*用于生成最高频10个单词的字符串*/
+    int sumLines = 0;
+    int sumChars = 0;
+    int sumWords = 0;
+    String resultStr = "";    /* a string formed by splicing articles */
+    Map<String,Integer> map = new HashMap<String, Integer>();    /* word frequency statistics */
+    String sortResultStr = "";    /*a string formed by 10 sorted words*/
 
-    /*根据文件路径获得BufferReader*/
+    /*get BufferReader by file path*/
     public static BufferedReader getBufferedReader(String path)
     {
         FileReader fr = null;
@@ -20,14 +22,14 @@ public class Lib
         }
         catch (FileNotFoundException e)
         {
-            System.err.println("错误，文件未找到！");
+            System.err.println("err, file is not found!");
             e.printStackTrace();
         }
         assert fr != null;
         return new BufferedReader(fr);
     }
 
-    /*获得文章字符串*/
+    /*get a string formed by the file*/
     public String readToString(String path)
     {
         String encoding = "UTF-8";
@@ -50,13 +52,13 @@ public class Lib
         }
         catch (UnsupportedEncodingException e)
         {
-            System.err.println(" OS不支持 " + encoding);
+            System.err.println(" OS is not supported! " + encoding);
             e.printStackTrace();
             return null;
         }
     }
 
-    /*统计文章字符数*/
+    /*count the number of characters*/
     public void charCount(String path)
     {
         this.resultStr = readToString(path);
@@ -65,7 +67,18 @@ public class Lib
         this.sumChars = this.resultStr.length();
     }
 
-    /*统计文章行数*/
+    /*delete some character*/
+    public String stringTrimAll(String input)
+    {
+        if (null == input)
+            return "";
+        final String regx = "\\s*|\t|\r|\n";
+        Pattern patt = Pattern.compile(regx);
+        Matcher m = patt.matcher(input);
+        return m.replaceAll("");
+    }
+
+    /*count the number of the lines which is not blank*/
     public void lineCount(String path)
     {
         String temp;
@@ -76,22 +89,22 @@ public class Lib
             temp = br.readLine();
             while(temp != null)
             {
+                temp = stringTrimAll(temp);
                 if(temp.length() > 0)
                 {
-                    this.sumLines ++;    //统计行数
+                    this.sumLines ++;
                 }
                 temp = br.readLine();
             }
         }
         catch (IOException e)
         {
-            System.err.println("行数统计输出错误！");
+            System.err.println("the err of line count!");
             e.printStackTrace();
         }
-
     }
 
-    /*统计文章单词数*/
+    /*count the number of the right words*/
     public void wordCount(String path)
     {
         this.resultStr = readToString(path);
@@ -99,7 +112,7 @@ public class Lib
         this.resultStr = this.resultStr.replace('\n', ' ');
         this.resultStr = this.resultStr.replaceAll("[^A-Za-z0-9]", " ");
         this.resultStr = this.resultStr.toLowerCase();
-        String[] words = this.resultStr.split(" ");    //分割获得所有单词
+        String[] words = this.resultStr.split(" ");    // divide with spaces
 
         this.sumWords = 0;
         for (String word : words)
@@ -110,14 +123,14 @@ public class Lib
                 for (j = 0; j < 4; j++)
                 {
                     char x = word.charAt(j);
-                    if (x <= 'a' || x >= 'z') break;
+                    if (x < 'a' || x > 'z') break;
                 }
-                if (j == 4) this.sumWords++;    //此单词符合标准,计入总词数
+                if (j == 4) this.sumWords++;
             }
         }
     }
 
-    /*单词类*/
+    /*Words' class*/
     public class Word implements Comparable<Word>
     {
         String key;
@@ -136,7 +149,7 @@ public class Lib
         }
     }
 
-    /*统计词频信息*/
+    /*count the frequency of words*/
     public void wordFrequencyCount(String path)
     {
         this.resultStr = readToString(path);
@@ -144,7 +157,7 @@ public class Lib
         this.resultStr = this.resultStr.replace('\n', ' ');
         this.resultStr = this.resultStr.replaceAll("[^A-Za-z0-9]", " ");
         this.resultStr = this.resultStr.toLowerCase();
-        String[] words = this.resultStr.split(" ");    //分割获得所有单词
+        String[] words = this.resultStr.split(" ");    // divide with spaces
 
         for(String word : words)
         {
@@ -154,15 +167,14 @@ public class Lib
                 for (j = 0; j < 4; j++)
                 {
                     char x = word.charAt(j);
-                    if (x <= 'a' || x >= 'z') break;
+                    if (x < 'a' || x > 'z') break;
                 }
-                if(j == 4)    //此单词符合标准
+                if(j == 4)
                 {
                     int x = 0;
                     if(this.map.get(word) == null)  x++;
                     else  x = this.map.get(word).intValue() + 1;
                     this.map.put(word, x);
-
                 }
             }
         }
@@ -183,14 +195,14 @@ public class Lib
         }
     }
 
-    /*将结果文本输出到文件*/
-    public static void outputFile(String result)
+    /*output the result text to a file*/
+    public static void outputFile(String result, String outputPath)
     {
-        PrintWriter writer = null;    //指定路径、编码方式
+        PrintWriter writer = null;
         try
         {
             writer = new PrintWriter(new OutputStreamWriter(
-                    new FileOutputStream("C:\\Users\\HUAWEI\\Desktop\\output.txt"), "utf-8"));
+                    new FileOutputStream(outputPath), "utf-8"));
         }
         catch (UnsupportedEncodingException e)
         {
@@ -200,7 +212,7 @@ public class Lib
         {
             e.printStackTrace();
         }
-        writer.print(result);    //写入内容不换行
+        writer.print(result);
         writer.close();
     }
 
