@@ -26,7 +26,7 @@ public class Lib {
 				read.close();
 
 			}else {
-				System.out.println("文档不存在！");
+				System.out.println(filePath+"文档不存在！");
 			}
 		}catch (Exception e) {
 			System.out.println("打开文档出错！");
@@ -41,7 +41,7 @@ public class Lib {
 	public void writeTextFile(int chars,int words,int lines,
 			String times,String filePath) {	//把所有统计的结果输出
 		String str = "charcters:" + chars + "\nwords:" + 
-			words + "\nlines"+lines + "\n" + times;
+			words + "\nlines:"+lines + "\n" + times;
 		FileOutputStream p;
 		try {
 			p = new FileOutputStream(filePath);
@@ -121,7 +121,7 @@ public class Lib {
     			map.put(strArray[i],1);
 			}else{
 				map.put(strArray[i],map.get(strArray[i]) + 1);
-    		}
+			}
 		}
 		
 		Set<String> key = map.keySet();	//获取所有keyֵ
