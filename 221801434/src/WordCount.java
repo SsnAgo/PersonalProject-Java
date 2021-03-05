@@ -9,40 +9,40 @@ public class WordCount {
         Lib.countChar(args[0]);
         Lib.countWord(args[0]);
         Lib.countLine(args[0]);
-        Lib.countKeyword(args[0]);
+        Lib.countKeyword();
 
         FileWriter file=new FileWriter(args[1]);
         BufferedWriter out = new BufferedWriter(file);
-        out.write("characters: "+Lib.charnum+"\n");
-        out.write("words: "+Lib.wordnum+"\n");
-        out.write("lines: "+Lib.linenum+"\n");
-        int N=10;int n=Lib.wordnum;
-        for(int i=0;i<=N;i++)
-        {
 
+        out.write("characters: "+Lib.charnum+"\n");
+        out.write("lines: "+Lib.linenum+"\n");
+        out.write("words: "+Lib.wordnum+"\n");
+        for(int k=0;k<Lib.realnum;k++)
+        {
             int max=0;
             String maxs=null;
-            for (String key : Lib.word.keySet()) {
-                if(max<(int) Lib.word.get(key))
+            for(String key:Lib.keyWord.keySet()){
+                if(max<(int) Lib.keyWord.get(key))
                 {
-                    max=(int) Lib.word.get(key);
+                    max=(int) Lib.keyWord.get(key);
                     maxs=key;
 
                 }
-                if(max==(int) Lib.word.get(key))
+                if(max==(int) Lib.keyWord.get(key))
                 {
                     if(maxs.compareTo(key)>0)
                     {
-                        max=(int) Lib.word.get(key);
+                        max=(int) Lib.keyWord.get(key);
                         maxs=key;
                     }
                 }
+
             }
-            out.write(maxs+":"+max+"\n");
-            Lib.word.remove(maxs);
-            n--;
-            if(n<=0) break;
+            out.write(maxs+": "+max+"\n");
+            Lib.keyWord.remove(maxs);
         }
+
+
         out.close();
         System.out.println("文件创建成功！");
     }
