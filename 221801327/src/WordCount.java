@@ -11,9 +11,15 @@ import static java.lang.Character.isLetter;
 */
 public class WordCount{
     public static void main(String[] args){
-        File inputFile = new File(args[0]);
-        File outputFile = new File(args[1]);
-        Lib.outputFile(inputFile, outputFile);
+        if(args.length!=2){
+            System.out.println("参数输入个数有误，请重新输入");
+            return ;
+        }else{
+            File inputFile = new File(args[0]);
+            File outputFile = new File(args[1]);
+            Lib.outputFile(inputFile, outputFile);
+        }
+
     }
 
 

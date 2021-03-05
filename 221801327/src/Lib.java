@@ -3,13 +3,12 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.lang.Character.isLetter;
 /*
   类名：Lib
   作者:黄明亮 日期:2021-3-4
   模块描述: 一个方法类，提供获取该文件字符数，单词总数，有效行数，单词的出现次数函数，并输出至output文件的功能
   函数列表: countCharacters(File file), countTotalWords(File inputFile), countValidLines(File inputFile)
-               , List<Map.Entry<String, Integer>> countWords
+               , countWords(File inputFile)
 */
 public class Lib {
     /*
@@ -55,8 +54,8 @@ public class Lib {
         int characters = 0;
 
         try {
-            BufferedInputStream bufferedInputStream=new BufferedInputStream(new FileInputStream(inputFile));
-            while((bufferedInputStream.read())!=-1){
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(inputFile));
+            while((bufferedInputStream.read()) != -1){
                 characters ++;
             }
 
