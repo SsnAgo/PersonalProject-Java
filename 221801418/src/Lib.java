@@ -40,8 +40,8 @@ public class Lib {
 	
 	public void writeTextFile(int chars,int words,int lines,
 			String times,String filePath) {	//把所有统计的结果输出
-		String str = "charcters:" + chars + "\nwords:" + 
-			words + "\nlines:"+lines + "\n" + times;
+		String str = "charcters: " + chars + "\nwords: " + 
+			words + "\nlines: "+lines + "\n" + times;
 		FileOutputStream p;
 		try {
 			p = new FileOutputStream(filePath);
@@ -142,7 +142,7 @@ public class Lib {
 					}
 				}
 			}
-			finalstr.append(maxstr + ":" + maxvalue + "\n");
+			finalstr.append(maxstr + ": " + maxvalue + "\n");
 			map.remove(maxstr);
 			if(i == 9)break;	//如果finalstr中的单词数量已经有10个了就退出循环
 		}
