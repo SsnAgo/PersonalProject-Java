@@ -31,54 +31,18 @@ public class WordCount
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-//        if(args.length == 2) {
-//            Lib lib= new Lib();
-//            String inPut = "input.txt";
-//            String outPut = "output.txt";
-//
-//            WordCount wordCount = new WordCount(inPut,outPut);
-//            wordCount.initWordCount();
-//
-//            lib.initWordMap(wordCount.readStr);
-//
-//
-//            System.out.println("characters:"+lib.getCharactersNum(wordCount.readStr));
-//            System.out.println("wordsNum:"+lib.getWordNum(wordCount.readStr));
-//            System.out.println("lines:"+lib.getLines(wordCount.readStr));
-//
-//            List<Map.Entry<String, Integer>> topTenWords = new ArrayList<Map.Entry<String, Integer>>();
-//            topTenWords = lib.sortWordMap();
-//
-//            for(Map.Entry<String,Integer> map : topTenWords) {
-//                System.out.println(map.getKey()+":"+map.getValue());
-//            }
-//
-////        String outMessage = lib.outMessage(lib.getWordNum(str),lib.getLines(str),lib.getCharactersNum(str), topTenWords);
-////        lib.writeFile(outMessage,outPut);
-//        }
-//        else {
-//            System.out.println("参数错误，请重新输入");
-//        }
-
-        Lib lib= new Lib();
-        String inPut = "input.txt";
-        String outPut = "output.txt";
-
-        WordCount wordCount = new WordCount(inPut,outPut);
-        wordCount.initWordCount();
-
-        lib.initWordMap(wordCount.readStr);
 
 
-        System.out.println("characters:"+lib.getCharactersNum(wordCount.readStr));
-        System.out.println("wordsNum:"+lib.getWordNum(wordCount.readStr));
-        System.out.println("lines:"+lib.getLines(wordCount.readStr));
+        long a= System.currentTimeMillis();
+        LibTest libTest = new LibTest();
 
-        List<Map.Entry<String, Integer>> topTenWords = new ArrayList<Map.Entry<String, Integer>>();
-        topTenWords = lib.sortWordMap();
+        libTest.testLines();
+        libTest.testCharacters();
+        libTest.testWords();
+        libTest.testSort();
 
-        for(Map.Entry<String,Integer> map : topTenWords) {
-            System.out.println(map.getKey()+":"+map.getValue());
-        }
+
+        System.out.print("程序结束时间");
+        System.out.println(System.currentTimeMillis()-a+"毫秒");
     }
 }

@@ -29,3 +29,8 @@
 
 # 第八次commit
 > 1. 添加LibTest类，以便于进行单元测试
+
+# 第九次commit
+> 1. 删除了Lib类中对静态成员Map进行初始化的方法，Map在getWordNum()方法时就进行初始化，提升了性能。
+> 2. 为LibTest类的所有方法添加显示运行时间的代码，方便测试
+> 3. 修改WordCount类中Main函数代码，执行测试

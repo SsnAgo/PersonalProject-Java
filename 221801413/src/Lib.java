@@ -49,9 +49,6 @@ public class Lib
             try {
                 br.close();
             }
-            catch (NullPointerException e) {
-                e.printStackTrace();
-            }
             catch (IOException e) {
                 e.printStackTrace();
             }
@@ -98,57 +95,67 @@ public class Lib
     }
 
     /**
-     * 利用正则表达式，判断有效单词数
+     * 利用正则表达式，判断有效单词数,记录其出现次数,将该单词与其出现次数存入Map集合中
      *
      * @ param chStr
      * @ return valid words‘ number
      * */
-    public static int getWordNum(String chStr){
-        int wordNum = 0;
+    public static long getWordNum(String chStr){
+        long wordNum = 0;
 
         Pattern wordPattern = Pattern.compile(WORD_REGEX);
         Matcher wordMatcher = wordPattern.matcher(chStr);
 
         while(wordMatcher.find()){
+            String temp = wordMatcher.group(2).trim();
             wordNum++;
+            if(!wordMap.containsKey(temp)) {
+                wordMap.put(temp, 1);
+            }
+            //若不存在，则存入wordMap
+            else {
+                int value = 1 + wordMap.get(temp);
+
+                wordMap.put(temp, value);
+            }
         }
 
         return wordNum;
     }
 
     /**
-     * 利用正则表达式，判断有效单词并记录其出现次数,将该单词与其出现次数存入Map集合中
+     * 利用正则表达式，
      *
      * @ param chStr, wordMap
      * @ return valid words‘ number
      * */
-    public static void initWordMap(String chStr){
-        //匹配分隔符分离单词，并用保存
-        String[] words = chStr.split("\\s+");
-        /**
-         * 位于第一位的单词会多出一个空白字符，假设合法单词为apple，则其为[,a,p,p,l,e]
-         * */
-        words[0] = words[0].substring(1);
-
-
-        //验证单词有效性，有效的单词存入集合Map<String, Integer>中
-        for(int i = 0; i < words.length; i++) {
-            if(words[i].matches(WORD_REGEX)) {
-                String temp = words[i].toLowerCase();
-
-                //忽略单词大小写，判断其是否已经存在，若存在，则其value值加一
-                if(!wordMap.containsKey(temp)) {
-                    wordMap.put(temp, 1);
-                }
-                //若不存在，则存入wordMap
-                else {
-                    int value = 1 + wordMap.get(temp);
-
-                    wordMap.put(temp, value);
-                }
-            }
-        }
-    }
+//    public static void initWordMap(String chStr) {
+//        //匹配分隔符分离单词，并用保存
+//        String[] words = chStr.split("\\s+");
+//        /**
+//         * 位于第一位的单词会多出一个空白字符，假设合法单词为apple，则其为[,a,p,p,l,e]
+//         * */
+//        words[0] = words[0].substring(1);
+//
+//
+//        //验证单词有效性，有效的单词存入集合Map<String, Integer>中
+//        for(int i = 0; i < words.length; i++) {
+//            if(words[i].matches(WORD_REGEX)) {
+//                String temp = words[i].toLowerCase();
+//
+//                //忽略单词大小写，判断其是否已经存在，若存在，则其value值加一
+//                if(!wordMap.containsKey(temp)) {
+//                    wordMap.put(temp, 1);
+//                }
+//                //若不存在，则存入wordMap
+//                else {
+//                    int value = 1 + wordMap.get(temp);
+//
+//                    wordMap.put(temp, value);
+//                }
+//            }
+//        }
+//    }
 
     /**
      * 使用比较器对单词频率进行排序
