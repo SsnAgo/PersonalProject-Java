@@ -1,14 +1,13 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lib
 {
     static Map<String,Integer> wordsMap=new HashMap<>();
-    //获取单词数
+
     //从文件中读取数据
     public static String readFile(String filePath)
     {
@@ -83,10 +82,25 @@ public class Lib
                 }
             }
         }
-
         return WordsNum;
     }
 
-
     //对单词进行排序
+    public List<Map.Entry<String,Integer>> sortMap()
+    {
+        List<Map.Entry<String,Integer>> wordList= new ArrayList<>(wordsMap.entrySet());
+        Collections.sort(wordList, (o1, o2) ->
+        {
+            if (o1.getValue().equals(o2.getValue()))
+            {
+                return o1.getKey().compareTo(o2.getKey());
+            }
+            else
+            {
+                return o2.getValue()-o1.getValue();
+            }
+        });
+        return wordList;
+    }
+
 }

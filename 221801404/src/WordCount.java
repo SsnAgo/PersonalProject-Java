@@ -1,5 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 public class WordCount
 {
@@ -40,5 +41,8 @@ public class WordCount
         System.out.println("行数："+linesNum);
         int a = Lib.getWordsNum(content);
         System.out.println("单词数："+a);
+        Lib lib = new Lib();
+        List list = lib.sortMap();
+        System.out.println(list);
     }
 }
