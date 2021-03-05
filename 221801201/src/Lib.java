@@ -20,7 +20,7 @@ public class Lib{
             }
             return data;
         } catch (Exception e) {
-            System.out.println("Can not open source file!");
+            System.out.println("Can not open input file!");
             return null;
         }
     }
@@ -74,12 +74,12 @@ public class Lib{
     }
 
     public void output(WordCount wordCount){
-//        try{
-//            System.setOut(new PrintStream(new BufferedOutputStream(
-//                    new FileOutputStream(outputFileName)),true));
-//        }catch(FileNotFoundException e){
-//            e.printStackTrace();
-//        }
+        try{
+            System.setOut(new PrintStream(new BufferedOutputStream(
+                    new FileOutputStream(wordCount.outputFileName)),true));
+        }catch(FileNotFoundException e){
+            System.out.println("Can not open output file!");
+        }
         System.out.println("characters: "+wordCount.sourceBytes.length);
         System.out.println("words: "+wordCount.wordCount);
         System.out.println("lines: "+wordCount.lineCount);

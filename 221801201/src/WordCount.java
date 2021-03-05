@@ -10,9 +10,6 @@ public class WordCount{
     byte[] sourceBytes;
     String outputFileName;
 
-
-
-
     public static void main(String[] args){
         if(args.length!=2){
             System.out.println("Wrong argument number!");
@@ -24,7 +21,7 @@ public class WordCount{
         Lib lib=new Lib();
         w.sourceBytes=lib.readFileToBytes(inputFileName);
         if(w.sourceBytes==null){
-            System.out.println("exit error");
+            System.out.println("Exit with file reading error.");
         }else{
             lib.analyzeBytes(w);
             lib.output(w);
