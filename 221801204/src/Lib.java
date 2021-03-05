@@ -16,26 +16,6 @@ public class Lib
         this.outFileName = outFileName;
     }
 
-    public String getInFileName()
-    {
-        return this.inFileName;
-    }
-
-    public String getOutFileName()
-    {
-        return this.outFileName;
-    }
-
-    public void setInFileName(String in)
-    {
-        this.inFileName = in;
-    }
-
-    public void setOutFileName(String out)
-    {
-        this.outFileName = out;
-    }
-
     /* 总函数，可一键完成所有功能 */
     public void getAll() throws IOException
     {
