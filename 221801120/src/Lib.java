@@ -118,7 +118,7 @@ public class Lib {
      */
     public void countWordsNum(){
         wordsNum = 0;
-        wordsMap = new TreeMap<String,Integer>();
+        wordsMap = new HashMap<String,Integer>();
         String word;
         Integer num;
         String[] words = content.split("[^a-zA-Z0-9]+");
@@ -158,7 +158,12 @@ public class Lib {
         Collections.sort(wordsList, new Comparator<Map.Entry<String, Integer>>() {
             public int compare(Map.Entry<String, Integer> word1,
                                Map.Entry<String, Integer> word2) {
-                return word2.getValue() - word1.getValue();
+                if(word1.getValue().equals(word2.getValue())) {
+                    return word1.getKey().compareTo(word2.getKey());
+                }
+                else {
+                    return word2.getValue() - word1.getValue();
+                }
             }
         });
         return wordsList;
