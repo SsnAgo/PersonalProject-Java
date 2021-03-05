@@ -12,7 +12,7 @@ public class WordCount {
 		BufferedReader reader = new BufferedReader(new FileReader(infile));
 		StringBuilder builder = new StringBuilder();
 		int ch;
-		lineNum = 0;
+		//lineNum = 0;
 		while ((ch = reader.read()) != -1) {
 			/*if (ch == 10)
 				lineNum++;*/
@@ -26,8 +26,10 @@ public class WordCount {
 	 * 测试的输出函数java WordCount input.txt output.txt
 	 */
 	public void printResult (String infile) throws IOException {
-		System.out.println("字符数: "+Lib.countCharNum(readFile(infile)));
-		System.out.println("有效行数: "+Lib.countBlankLineNum(readFile(infile)));
+		String str = readFile(infile);
+		System.out.println("字符数: "+Lib.countCharNum(str));
+		System.out.println("有效行数: "+Lib.countValidLineNum(str));
+		System.out.println("单词数: "+Lib.countWordNum(str));
 	}
 
 	public static void main(String[] args) throws IOException {
