@@ -5,6 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * 根据本次作业需求实现的单词解析器
+ */
 public class MyWordParser implements WordParser
 {
   private Map<String,Integer> wordCountMap;   //单词频率统计
@@ -43,7 +46,7 @@ public class MyWordParser implements WordParser
   }
 
   /**
-   * 判断是否是有效字符
+   * 判断是否是有效字符（这里的有效字符指字母和数字）
    * @param c
    * @return
    */
@@ -68,8 +71,8 @@ public class MyWordParser implements WordParser
   {
     isWordReading=false;    //单词读取结束，读取位改为false
     num++;   //单词数量+1
+    String word=wordReader.toString().toLowerCase();    //将单词转换为全小写
     Integer count;
-    String word=wordReader.toString().toLowerCase();
     wordCountMap.put(word,(count=wordCountMap.get(word))==null?1:count+1);  //更新map
     return num; //返回数量
   }
@@ -93,7 +96,7 @@ public class MyWordParser implements WordParser
   {
     char c;
     int num=0;
-    for (int i=0;i<text.length();i++)
+    for (int i=0;i<text.length();i++)   //遍历文本内容
     {
       c=text.charAt(i);
       if(isWordReading)   //正在读取单词
@@ -164,6 +167,10 @@ public class MyWordParser implements WordParser
         );
   }
 
+  /**
+   * get方法
+   * @return
+   */
   public Map<String, Integer> getWordCountMap()
   {
     return wordCountMap;

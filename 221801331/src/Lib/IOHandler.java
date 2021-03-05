@@ -7,7 +7,6 @@ import java.io.*;
  */
 public class IOHandler
 {
-
   public static String encoding="utf-8";    //编码格式
 
   /**
@@ -19,14 +18,15 @@ public class IOHandler
   {
     try
     {
-      BufferedReader reader=new BufferedReader(new InputStreamReader(new FileInputStream(inputFile),encoding));
+      BufferedReader reader=new BufferedReader(
+          new InputStreamReader(new FileInputStream(inputFile),encoding));  //创建输入流
       StringBuilder resultBuilder=new StringBuilder();
       int r;
       while((r=reader.read())!=-1)    //读取文件
       {
         resultBuilder.append((char) r);
       }
-      reader.close();
+      reader.close();     //关闭
       return resultBuilder.toString();    //返回预处理后的文本内容
     }
     catch (FileNotFoundException e)
@@ -51,10 +51,9 @@ public class IOHandler
     try
     {
       BufferedWriter writer = new BufferedWriter(new OutputStreamWriter
-          (new FileOutputStream(new File(outputFile),true),encoding));
-
-      writer.write(textContent);
-      writer.close();
+          (new FileOutputStream(new File(outputFile),true),encoding));  //创建输出流
+      writer.write(textContent);    //输出
+      writer.close();       //关闭
     }
     catch (FileNotFoundException e)
     {

@@ -2,7 +2,9 @@ package Lib;
 
 import java.util.Map;
 
-//单词解析器接口
+/**
+ * 单词解析器接口
+ */
 public interface WordParser
 {
   /**

@@ -1,12 +1,11 @@
 package Lib;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 /**
- * 文本解析
+ * 文本解析器
  */
 public class TextParser
 {
@@ -109,8 +108,8 @@ public class TextParser
     StringBuilder content=new StringBuilder("characters: "+validCharsNum+"\n" +
         "words: "+wordNum+"\n" +
         "lines: "+validLinesNum+"\n");
-    Map<String,Integer> map=getWordCountMapBySize(10);
-    for (String key: map.keySet())
+    Map<String,Integer> map=getWordCountMapBySize(10); //获取单词频率map前10位
+    for (String key: map.keySet())    //遍历并加入输出
     {
       content.append(key+": "+map.get(key)+"\n");
     }

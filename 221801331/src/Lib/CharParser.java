@@ -1,6 +1,8 @@
 package Lib;
 
-//字符解析器接口
+/**
+ * 字符解析器接口
+ */
 public interface CharParser
 {
   /**

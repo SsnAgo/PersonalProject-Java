@@ -1,13 +1,13 @@
 package Lib;
 
 /**
- * 字符解析器
+ * 根据本次作业需求实现的字符解析器
  */
 public class MyCharParser implements CharParser
 {
     private boolean isLineHasChar=false;    //标志位,判断该行是否有非空白字符
 
-    private String textContent;
+    private String textContent;   //文本内容
 
     /**
      * 默认构造方法
@@ -17,13 +17,13 @@ public class MyCharParser implements CharParser
     }
 
   /**
-   * 判断是否为有效字符
+   * 判断是否为有效字符（这里指ASCII码）
    * @param c
    * @return
    */
     private boolean isCharValid(char c)
     {
-      if((int)c>0&&(int)c<128)
+      if((int)c>0&&(int)c<128)    //判断是否为ASCII码
       {
         return true;
       }
@@ -41,10 +41,10 @@ public class MyCharParser implements CharParser
     public String parseText(String text)
     {
       char c;
-      StringBuilder sb=new StringBuilder();   //保存解析结果
-      for (int i=0;i<text.length();i++)
+      StringBuilder sb=new StringBuilder();   //用于保存解析结果
+      for (int i=0;i<text.length();i++)   //遍历解析前的文本内容
       {
-        c = text.charAt(i);
+        c=text.charAt(i);
         if (isCharValid(c))     //判断是否为有效字符
         {
           sb.append(c);     //若有效则加入stringbulider
@@ -74,7 +74,7 @@ public class MyCharParser implements CharParser
     {
       char c;
       int num=0;
-      for (int i=0;i<textContent.length();i++)
+      for (int i=0;i<textContent.length();i++)    //遍历解析后的文本内容
       {
         c=textContent.charAt(i);
         if(c!='\t'||c!='\r'||c!='\n'||c!=' ')      //非空白字符
@@ -86,7 +86,7 @@ public class MyCharParser implements CharParser
           if(isLineHasChar==true)   //若改行有非空字符
           {
             num++;          //计数
-            isLineHasChar=false;
+            isLineHasChar=false;    //重置标志位
           }
         }
       }
