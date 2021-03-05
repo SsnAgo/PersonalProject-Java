@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,7 +61,7 @@ public class Counters {
      */
     public static Map<String, Integer> countWordsAndTransform(List<String> list) {
 
-        Map<String, Integer> wordToNumMap = new HashMap<>();
+        Map<String, Integer> wordToNumMap = new TreeMap<>();
         // 正则表达式匹配四个英文开头的有效单词
         Pattern pattern = Pattern.compile("[A-Za-z]{4}.*?");
         list.forEach(line -> {

@@ -116,7 +116,8 @@ public class WordCount {
             setStatusCode(1004);
             System.out.println("Read Or Write File Error!");
             return;
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             setStatusCode(1005);
             System.out.println(e.getMessage());
             return;

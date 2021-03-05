@@ -1,5 +1,6 @@
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -9,7 +10,7 @@ public class CountResultHolder {
     private static int charactersCount = 0;
     private  static int linesCount = 0;
     private static int wordsCount = 0;
-    private static Map<String,Integer> wordToNumMap = new LinkedHashMap<>();
+    private static Map<String,Integer> wordToNumMap = new TreeMap<>();
 
     public static void increaseCharactersCount(){
         charactersCount ++;
