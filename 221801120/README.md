@@ -5,7 +5,7 @@
 java WordCount input.txt output.txt
 ```
 
-## 基本需求
+## 功能简介
 ### 1.统计文件的字符数（对应输出第一行）：
 - 只需要统计Ascii码，汉字不需考虑。
 - 空格，水平制表符，换行符，均算字符。
@@ -33,3 +33,8 @@ word2: number
 ...
 ```
 
+## 作业链接
+[软工实践寒假作业（2/2）](https://edu.cnblogs.com/campus/fzu/2021SpringSoftwareEngineeringPractice/homework/11740)
+
+## 博客链接
+[软工实践寒假作业（2/2）](https://www.cnblogs.com/FZU-TKQ/p/14453148.html)
