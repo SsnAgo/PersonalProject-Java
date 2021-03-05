@@ -6,6 +6,7 @@ public class WordCount
 {
     public static void main(String[] args) throws IOException
     {
+        //long start = System.currentTimeMillis();
         if(args.length < 2)
         {
             System.out.println("请输入两个文件路径！！！！");
@@ -23,13 +24,13 @@ public class WordCount
         FileOutputStream fileOutputStream=new FileOutputStream(outFilePath);
         OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream,"UTF-8");
         BufferedWriter bufferedWriter=new BufferedWriter(outputStreamWriter);
-        bufferedWriter.write("characters:"+charactersNum+"\nwordsNum:"+wordsNum+"\nlines:"+linesNum);
+        bufferedWriter.write("characters: "+charactersNum+"\nwords: "+wordsNum+"\nlines: "+linesNum);
         //对单词按出现次数输出
         String word = "";
         int i = 0;
         for (Map.Entry<String,Integer>map:wordsMap)
         {
-            word += map.getKey()+":"+map.getValue()+"\n";
+            word += map.getKey()+": "+map.getValue()+"\n";
             i++;
             if(i == 10)
             {
@@ -38,5 +39,8 @@ public class WordCount
         }
         bufferedWriter.write("\n"+word);
         bufferedWriter.flush();
+        long end = System.currentTimeMillis();
+        
+        //System.out.println("time costs: " + (end - start) + "ms");
     }
 }
