@@ -13,13 +13,13 @@ public class Lib{
             int length=(int)f.length();
             byte[] data=new byte[length];
             new FileInputStream(f).read(data);
-            for(int i=0;i<data.length;i++){
+            for(int i=0;i<data.length;i++){//大写字母转化为小写
                 if(data[i]>='A'&&data[i]<='Z'){
                     data[i]+=32;
                 }
             }
             return data;
-        }catch(Exception e){
+        }catch(Exception e){//异常处理
             System.out.println("Can not open input file!");
             return null;
         }
@@ -28,6 +28,7 @@ public class Lib{
     public void analyzeBytes(WordCount w){
         int wordStart=0;
         boolean isNumberStart=false;
+        boolean isEmptyLine=true;
         Vector<Byte> currentWord=new Vector<>();
         String currentWordToString;
         for(int i=0;i<w.sourceBytes.length;i++){
@@ -35,6 +36,7 @@ public class Lib{
             if(w.sourceBytes[i]>='a'&&w.sourceBytes[i]<='z'&&!isNumberStart){
                 wordStart++;
                 currentWord.add(w.sourceBytes[i]);
+                isEmptyLine=false;
             }else if(w.sourceBytes[i]>='0'&&w.sourceBytes[i]<='9'&&!isNumberStart){
                 if(wordStart==0){
                     isNumberStart=true;
@@ -44,10 +46,14 @@ public class Lib{
                 }else{
                     currentWord.add(w.sourceBytes[i]);
                 }
+                isEmptyLine=false;
             }else{
-//                if(i>1&&w.sourceBytes[i]=='\n'&&w.sourceBytes[i-1]!='\n'&&w.sourceBytes[i-2]!='\n'){//分析行数
-//                    w.lineCount++;
-//                }
+                if(w.sourceBytes[i]=='\n'&&!isEmptyLine){
+                    w.lineCount++;
+                    isEmptyLine=true;
+                }else if(w.sourceBytes[i]!='\t'&&w.sourceBytes[i]!='\r'&&w.sourceBytes[i]!='\n'&&w.sourceBytes[i]!=' '){
+                    isEmptyLine=false;
+                }
                 if(wordStart>=4){
                     currentWordToString=vectorByteToString(currentWord);
                     if(w.wordCountMap.containsKey(currentWordToString)){
@@ -62,40 +68,9 @@ public class Lib{
                 isNumberStart=false;
             }
         }
-    }
-
-    int countLines(String fileName){
-        int count=0;
-        BufferedReader br=null;
-        FileReader fr=null;
-        try{
-            fr=new FileReader(fileName);
-            br=new BufferedReader(fr);
-            String value=br.readLine();
-            while(value!=null){
-                value=value.trim();
-                if(!"".equals(value)){
-                    System.out.println(value);
-                    count++;
-                }
-                value=br.readLine();
-            }
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        }catch(IOException e){
-            e.printStackTrace();
-        }finally{
-            try{
-                if(br!=null)
-                    br.close();
-                if(fr!=null)
-                    fr.close();
-            }catch(IOException e){
-                e.printStackTrace();
-            }
+        if(w.sourceBytes[w.sourceBytes.length-1]!='\n'){
+            w.lineCount++;
         }
-
-        return count;
     }
 
     public String bytesToString(byte[] bs){
@@ -117,7 +92,7 @@ public class Lib{
         }catch(FileNotFoundException e){
             System.out.println("Can not open output file!");
         }
-        System.out.println("characters: "+wordCount.characterCount);
+        System.out.println("characters: "+wordCount.sourceBytes.length);
         System.out.println("words: "+wordCount.wordCount);
         System.out.println("lines: "+wordCount.lineCount);
         List<Map.Entry<String,Integer>> list=sortMap(wordCount.wordCountMap);
