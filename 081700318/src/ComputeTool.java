@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 public class ComputeTool {
 
     private String TargetString;
-    private ArrayList<String> Rows;
     private ArrayList<String> ValidRows;
     private ConcurrentHashMap<String, Integer> ValidWords;
     public   ArrayList<Map.Entry<String, Integer>> TopList;
@@ -44,13 +43,15 @@ public class ComputeTool {
      */
     private int countRowNums()
     {
-        Rows =new ArrayList<String>(Arrays.asList(TargetString.split("\n")));
         ValidRows =new ArrayList<String>();
-
-        for (String Row:Rows)
-        {
-            if(!(Row.trim().isEmpty()))
-                ValidRows.add(Row);//将有效行加入集合
+        String TempRow;
+        StringTokenizer Tokenizer=new StringTokenizer(TargetString , "\n",false);
+        while(Tokenizer.hasMoreTokens()){
+            TempRow=Tokenizer.nextToken().trim();
+            if(!TempRow.isEmpty())
+            {
+                ValidRows.add(TempRow);
+            }
         }
         return  ValidRows.size();
     }
@@ -84,17 +85,21 @@ public class ComputeTool {
                     public void run() {
                         System.out.println(Start+" "+End);
                         for (int j = Start; j<End; j++) {
-                            Pattern WordPattern = Pattern.compile("[a-zA-Z]{4}[a-zA-Z0-9]*");//使用正则表达式匹配单词
-                            Matcher WordMatcher = WordPattern.matcher(ValidRows.get(j));
-                            while (WordMatcher.find()) {
-                                String ValidWord;
-                                    ValidWord=WordMatcher.group();
-                                    if(ValidWords.putIfAbsent(ValidWord,1)!=null)
+                            Pattern WordPattern = Pattern.compile("(^[a-zA-Z]{4}[a-zA-Z0-9]*)");//使用正则表达式匹配单词
+                            for(String Word:ValidRows.get(j).split("[^a-zA-z0-9]"))
+                                {
+                                    Matcher WordMatcher = WordPattern.matcher(Word);
+                                    if(WordMatcher.find())
                                     {
-                                        ValidWords.computeIfPresent(ValidWord, (k, v) -> v + 1);
+                                        String ValidWord;
+                                        ValidWord=WordMatcher.group(0).toLowerCase();
+                                        if(ValidWords.putIfAbsent(ValidWord,1)!=null)
+                                        {
+                                            ValidWords.computeIfPresent(ValidWord, (k, v) -> v + 1);
+                                        }
                                     }
                                 }
-                            }
+                        }
                         }
                     }
                 );
@@ -111,7 +116,7 @@ public class ComputeTool {
                             Matcher WordMatcher = WordPattern.matcher(ValidRow);
                             while (WordMatcher.find()) {
                                 String ValidWord;
-                                ValidWord = WordMatcher.group();
+                                ValidWord = WordMatcher.group().toLowerCase();
                                 if(ValidWords.putIfAbsent(ValidWord,1)!=null)
                                 {
                                     ValidWords.computeIfPresent(ValidWord, (k, v) -> v + 1);
