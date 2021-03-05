@@ -13,26 +13,32 @@ public class FilePrinter
      * @param freqList
      * @param outputFileName
      */
-    public static void writeFile(int charCnt, int wordCnt, int lineCnt, ArrayList<HashMap.Entry<String, Integer>> freqList,
-            String outputFileName)
+    public static void writeFile(int charCnt, int wordCnt, int lineCnt,
+            ArrayList<HashMap.Entry<String, Integer>> freqList, String outputFileName)
     {
+        // 接受需要统计的数值并打印
         File file = new File(outputFileName);
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
         try
         {
             fileWriter = new FileWriter(file);
-            bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter = new BufferedWriter(fileWriter);// 使用BufferedWriter提高性能
 
             bufferedWriter.write("characters: " + charCnt + "\n");
             bufferedWriter.write("words: " + wordCnt + "\n");
             bufferedWriter.write("lines: " + lineCnt + "\n");
             for (HashMap.Entry<String, Integer> map : freqList)
             {
-                bufferedWriter.write(map.getKey() + ": " + map.getValue() + "\n");
+                bufferedWriter.write(map.getKey() + ": " + map.getValue() + "\n");// 打印HashMap的键与对应值
             }
             bufferedWriter.flush();
             bufferedWriter.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            System.out.println("File Not Found");
+            e.printStackTrace();
         }
         catch (IOException e)
         {
@@ -41,3 +47,4 @@ public class FilePrinter
         }
     }
 }
+

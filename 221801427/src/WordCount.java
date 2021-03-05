@@ -26,22 +26,23 @@ public class WordCount
 
     public void Count()
     {
-        final String content = FileReader.readFile(inputFileName);
-        HashMap<String, Integer> words;
-        words = StringAnalyser.analyseString(content);
+        final String content = FileReader.readFile(inputFileName);// 从文件读取字符串
+        final HashMap<String, Integer> words = StringAnalyser.analyseString(content);// 从字符串拆分有效单词，统计入HashMap
 
         ExecutorService executor = Executors.newCachedThreadPool();
 
         Future<Integer> charCnt = executor.submit(new Callable<Integer>()
         {
+            // 统计字符数
             public Integer call()
             {
-                return CharCounter.countChar(content);
+                return CharAndWordCounter.countChar(content);
             }
         });
 
         Future<Integer> lineCnt = executor.submit(new Callable<Integer>()
         {
+            // 统计有效行数
             public Integer call()
             {
                 return LineCounter.countLine(content);
@@ -50,15 +51,17 @@ public class WordCount
 
         Future<Integer> wordCnt = executor.submit(new Callable<Integer>()
         {
+            // 统计有效单词数
             public Integer call()
             {
-                return WordCounter.countWord(words);
+                return CharAndWordCounter.countWord(words);
             }
         });
 
         Future<ArrayList<HashMap.Entry<String, Integer>>> freqList = executor
                 .submit(new Callable<ArrayList<HashMap.Entry<String, Integer>>>()
                 {
+                    // 排序词频前10单词
                     public ArrayList<HashMap.Entry<String, Integer>> call()
                     {
                         return FrequencySorter.sortFrequency(words);
@@ -67,7 +70,7 @@ public class WordCount
 
         try
         {
-            FilePrinter.writeFile(charCnt.get(), wordCnt.get(), lineCnt.get(), freqList.get(), outputFileName);
+            FilePrinter.writeFile(charCnt.get(), wordCnt.get(), lineCnt.get(), freqList.get(), outputFileName);// 打印结果
             executor.shutdown();
         }
         catch (InterruptedException | ExecutionException e)
@@ -79,12 +82,14 @@ public class WordCount
     public static void main(String[] args)
     {
         WordCount cmd;
+
         if (args.length != 2)
         {
             System.out.println("Invalid input");
             return;
         }
-        cmd = new WordCount(args[0], args[1]);
-        cmd.Count();
+        cmd = new WordCount(args[0], args[1]);// 传入参数（输入输出文件名）
+        // cmd = new WordCount("src/input.txt", "src/output.txt");
+        cmd.Count();// 统计
     }
 }

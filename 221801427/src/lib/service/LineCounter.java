@@ -10,7 +10,7 @@ public class LineCounter
 
     /**
      * @param content
-     * @return 有效行数
+     * @return 鏈夋晥琛屾暟
      */
     public static int countLine(String content)
     {
@@ -20,6 +20,7 @@ public class LineCounter
         matcher = VALID_LINE_PATTERN.matcher(content);
         while (matcher.find())
         {
+            //鍒╃敤姝ｅ垯琛ㄨ揪寮忓尮閰嶆湁鏁堣锛岀┖琛屼笉缁熻锛屽寘鎷琝t \r \n 绌烘牸浠ュ強鐢变粬浠粍鎴愮殑鎯呭喌
             cnt++;
         }
         return cnt;
