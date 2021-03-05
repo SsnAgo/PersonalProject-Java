@@ -104,7 +104,7 @@ public class Lib {
         //输出map
         for(int i=0;i<list.size();i++) {
             if(i>9) break;
-            write(list.get(i).getKey() + " = " + list.get(i).getValue());
+            write(list.get(i).getKey() + " = " + list.get(i).getValue() + "\n");
         }
 
     }
