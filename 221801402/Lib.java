@@ -100,6 +100,12 @@ public class Lib {
             if (n>10){
                 n=10;
             }
+            for (int i = 0; i < n; i++) {
+                System.out.println(list.get(i).getKey() + ":" + list.get(i).getValue());
+                out.write(list.get(i).getKey()+":"+list.get(i).getValue()+"\n");
+            }
+            out.flush();
+            out.close();
         }catch (Exception e) {
             e.printStackTrace();
         }
