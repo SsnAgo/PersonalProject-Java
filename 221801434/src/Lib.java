@@ -48,9 +48,8 @@ public class Lib {
 
         String line = null;
         while ((line = reader.readLine()) != null) {
-            String s1 = line.replaceAll("\\W", " ");
-            String s2 = s1.replaceAll(" +", " ");
-            String[] s3 = s2.split(" ");
+
+            String[] s3 = line.split("[^A-Za-z0-9]");
             for (String a : s3) {
                 a=a.toLowerCase();
                 if (a.length() > 3 && (a.charAt(0) < '0' || a.charAt(0) > '9')) {
