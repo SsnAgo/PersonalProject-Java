@@ -1,7 +1,4 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Map;
 
 
@@ -57,8 +54,29 @@ public class Lib {
      * @return int 文件行数
      */
     public int getLinesCount(String file_path){
-        
-        return 0;
+        BufferedReader reader = null;
+        int counter = 0;
+        try {
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream(file_path)));
+            String line = null;
+            while((line=reader.readLine())!=null){
+                //判断改行是否非空
+                if (line.length()>0&&!line.matches("\\s+")){
+                    counter++;
+                }
+            }
+        }catch (IOException e){
+            System.err.println(file_path+"文件打开失败");
+        }finally {
+            if (reader!=null){
+                try {
+                    reader.close();
+                }catch (IOException e){
+                    System.err.println(file_path+"文件关闭失败");
+                }
+            }
+        }
+        return counter;
     }
 
     /**

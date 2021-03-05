@@ -21,6 +21,6 @@ public class WordCount {
         }
 
         Lib lib = new Lib();
-        System.out.println(lib.getAsciiCount(args[0]));
+        System.out.println(lib.getLinesCount(args[0]));
     }
 }
