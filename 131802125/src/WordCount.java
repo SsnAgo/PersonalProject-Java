@@ -56,7 +56,7 @@ public class WordCount
         }
         catch(Exception e)
         {
-            System.out.println("没有找到文件");
+            System.out.println("未找到文件");
             e.printStackTrace();
         }
     }
