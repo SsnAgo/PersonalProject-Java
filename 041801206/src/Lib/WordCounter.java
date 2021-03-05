@@ -58,7 +58,7 @@ public class WordCounter {
                 }
                 nowlineNum++;
                 if(nowlineNum >= lineToThread || flag){
-                    multiCounterList.add(new MultiCounter(toStatisticsStr));    //创建心线程并启动
+                    multiCounterList.add(new MultiCounter(toStatisticsStr));    //创建新线程并启动
                     multiCounterList.get(multiCounterList.size() - 1).start();
                     nowlineNum=0;
                     if(toStatisticsStr.length()!=0) toStatisticsStr.delete(0,toStatisticsStr.length()-1);
@@ -68,6 +68,7 @@ public class WordCounter {
                     break;
                 }
             }
+            if(temp==null) emptyLineNum++;
             in.close();
             for(int i = 0;i < multiCounterList.size();i++){
                 multiCounterList.get(i).join();   //所有线程结束后合并Map

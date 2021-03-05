@@ -9,11 +9,13 @@ import java.io.InputStreamReader;
 
 public class WordCount {
    public static void main(String args[]) throws IOException {
+
       try {
+         System.out.println(args);
          System.out.println("=====> Input examples: java WordCount C:\\Users\\cmy\\Desktop\\input.txt " +
                  "C:\\Users\\cmy\\Desktop\\output.txt");
          BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
-         String cmd;
+         String cmd=null;
          cmd = scanner.readLine();
          if(cmd.substring(0,14).equals("java WordCount") || cmd.length() <= 14)
          {

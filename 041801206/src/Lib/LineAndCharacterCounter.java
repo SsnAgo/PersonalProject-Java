@@ -50,6 +50,9 @@ public class LineAndCharacterCounter extends Thread {
             if(flag == 1) charNum = (whileCount - 1 ) * 1000 + remain;
             else  charNum = (whileCount -1) * 1000 + remain - lineNum;
             in.close();
+            if(lineNum != 0 ){
+                lineNum += 1;
+            }
             useTime = System.currentTimeMillis() - startTime;
         }catch (Exception e){
             e.printStackTrace();

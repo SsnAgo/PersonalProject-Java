@@ -16,6 +16,7 @@ public class Output {
     public Output(int characterNum, int lineNum, int wordNum,int emptyLine,
                   List<Map.Entry<String,Integer>> mapList, String outPutFilePath) {
         this.characterNum = characterNum;
+        if(emptyLine==1 && lineNum == 0) emptyLine = 0;
         this.lineNum = lineNum-emptyLine;
         this.wordNum = wordNum;
         this.outPutFilePath = outPutFilePath;
@@ -30,11 +31,11 @@ public class Output {
     public void writeToOutPut(){
         try {
             BufferedWriter out = new BufferedWriter(new FileWriter(outPutFilePath));
-            out.write("character: "+characterNum+"\t\n");
-            out.write("word: "+wordNum+"\t\n");
-            out.write("line: "+lineNum+"\t\n");
+            out.write("character: "+characterNum+"\n");
+            out.write("word: "+wordNum+"\n");
+            out.write("line: "+lineNum+"\n");
             for (int i=0;i<(topTen.size()>=10?10:topTen.size());i++){
-                out.write(topTen.get(i)+"\t\n");
+                out.write(topTen.get(i)+"\n");
             }
             out.close();
             System.out.println("文件输出成功！");
