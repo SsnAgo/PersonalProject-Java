@@ -16,7 +16,7 @@ public class FilePrinter
     public static void writeFile(int charCnt, int wordCnt, int lineCnt,
             ArrayList<HashMap.Entry<String, Integer>> freqList, String outputFileName)
     {
-        // 接受需要统计的数值并打印
+        // 接收需要统计的数值并打印
         File file = new File(outputFileName);
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
