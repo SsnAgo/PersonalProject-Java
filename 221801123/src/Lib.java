@@ -1,4 +1,3 @@
-import sun.nio.ch.IOUtil;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -6,10 +5,10 @@ import java.util.regex.Pattern;
 /**
  * 统计工具
  */
-public class Lib {
+class Lib {
 
 	//存放单词与其对应出现的次数
-	static HashMap<String, Integer> mp = null;
+	static private HashMap<String, Integer> mp = null;
 
 	/**
 	 * 统计总字符数

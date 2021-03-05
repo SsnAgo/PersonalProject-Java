@@ -8,24 +8,6 @@ import java.util.List;
 public class WordCount {
 
 	/**
-	 * 测试的输出函数java WordCount input.txt output.txt
-	 */
-	/*public void printResult (String infile) throws IOException {
-		String str = readFile(infile);
-		System.out.println("字符数: " + Lib.countCharNum(str));
-		System.out.println("有效行数: " + Lib.countValidLineNum(str));
-		System.out.println("单词数: " + Lib.countWordNum(str));
-		List<HashMap.Entry<String, Integer>> wordsList = Lib.sortWordMap();
-		int count = 0;
-		for (HashMap.Entry s : wordsList) {
-			count++;
-			System.out.println(s.getKey()+": " + s.getValue());
-			if (count >= 10)
-				break;
-		}
-	}*/
-
-	/**
 	 * 文件处理工具类
 	 */
 	static class IOUtil{
