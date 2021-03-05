@@ -22,7 +22,7 @@ public class Lib {
      * @param filePath
      * @return result
      */
-    private String returnCharacters(String filePath) {
+    public String returnCharacters(String filePath) {
         int bytes = 0;
         byte[] stream = new byte[20*1024];
         int len = stream.length;
@@ -45,7 +45,6 @@ public class Lib {
             }
         }
         result = CHARACTER + CHARACTERS_NUM;
-        System.out.println(result);
         return result;
     }
 
@@ -54,7 +53,7 @@ public class Lib {
      * @param filePath
      * @return result
      */
-    private String returnWords(String filePath) {
+    public String returnWords(String filePath) {
         String result = "";
         String string = "";
         // 因为string具有不可变性，用StringBuffer来进行读取的添加
@@ -75,7 +74,6 @@ public class Lib {
                 string = stringBuffer.toString();
                 string = string.toLowerCase();
                 string = string.replaceAll(WORD_FILTER_REGEX," ");
-
                 StringTokenizer stringTokenizer = new StringTokenizer(string);
                 while (stringTokenizer.hasMoreTokens()){
                     String word = stringTokenizer.nextToken();
@@ -104,7 +102,7 @@ public class Lib {
      * @param filePath
      * @return result
      */
-    private String returnLines(String filePath) {
+    public String returnLines(String filePath) {
         String result = "";
         int line = 0;
         FileInputStream fileInputStream = null;
@@ -112,7 +110,6 @@ public class Lib {
             fileInputStream = new FileInputStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(fileInputStream));
             String temp = "";
-
             try {
                 //从BufferReader中读取下一行
                 while ((temp = br.readLine()) != null){
@@ -135,7 +132,6 @@ public class Lib {
             }
         }
         result = LINE + LINES_NUM;
-        System.out.println(result);
         return result;
     }
 
@@ -144,7 +140,7 @@ public class Lib {
      * @param filePath
      * @return
      */
-    private String returnTopWords(String filePath){
+    public String returnTopWords(String filePath){
         String result = "";
         String string = "";
         StringBuffer stringBuffer = new StringBuffer();
@@ -217,37 +213,36 @@ public class Lib {
         String lineResult = returnLines(inFilePath);
         String topWordResult = returnTopWords(inFilePath);
 
-        if (characterResult != null){
+        if (characterResult != CHARACTER){
             result += characterResult;
             result += System.getProperty("line.separator");
         }else {
-            System.out.println("统计字符数时出错！");
+            System.out.println("程序在统计字符数时出错，无返回结果！");
         }
 
 
-        if (wordResult != null){
+        if (wordResult != WORD){
             result += wordResult;
             result += System.getProperty("line.separator");
         }else {
-            System.out.println("统计单词数时出错！");
+            System.out.println("程序在统计单词数时出错，无返回结果！");
         }
 
-        if (lineResult != null){
+        if (lineResult != LINE){
             result += lineResult;
             result += System.getProperty("line.separator");
         }else {
-            System.out.println("统计有效行数时出错！");
+            System.out.println("程序在统计有效行时出错，无返回结果！");
         }
 
         if (topWordResult != null){
             result += topWordResult;
             result += System.getProperty("line.separator");
         }else {
-            System.out.println("统计字符数时出错！");
+            System.out.println("程序在统计词频时出错，无返回结果！");
         }
 
         System.out.println(result);
-
 
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
