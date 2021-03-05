@@ -8,6 +8,7 @@ public class Lib
     int sumLines = 0;   /*总行数*/
     int sumChars = 0;   /*总字符数*/
     int sumWords = 0;   /*总单词数*/
+    String resultStr = "";    /*文章拼接而成的字符串*/
 
     /*根据文件路径获得BufferReader*/
     public static BufferedReader readFile(String path)
@@ -26,18 +27,24 @@ public class Lib
         return br;
     }
 
-    /*统计文章行数*/
+    /*统计文章行数并将文章拼接成一个字符串*/
     public void lineCount(BufferedReader br)
     {
+        String temp;
         this.sumLines = 0;
-        String temp = null;
         try
         {
             temp = br.readLine();
             while(temp != null)
             {
-                this.sumLines ++;
+                if(temp.length() > 0)
+                {
+                    this.sumLines ++;
+                    this.resultStr += temp;
+                }
                 temp = br.readLine();
+                if(temp != null)
+                    this.resultStr += " ";
             }
         }
         catch (IOException e)
@@ -51,7 +58,13 @@ public class Lib
     /*统计文章字符数*/
     public void charCount(BufferedReader br) throws IOException
     {
+        System.out.println(this.resultStr);
+        System.out.println(this.resultStr.length());
 
+        //byte[] bytes = br.toString().getBytes();
+        //String temp = br.toString();
+
+        //this.sumChars = bytes.length;
     }
 
     /*统计文章单词数*/
