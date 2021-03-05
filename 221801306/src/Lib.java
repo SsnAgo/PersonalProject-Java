@@ -70,7 +70,7 @@ public class Lib {
      */
     public static int countLines(String content) {
         int lines = 0;
-        StringTokenizer st = new StringTokenizer(content, "\n\r");
+        StringTokenizer st = new StringTokenizer(content, "\n");
         while (st.hasMoreTokens()) {
             String line = st.nextToken();
             if (!line.trim().equals("")) {
