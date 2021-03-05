@@ -38,9 +38,9 @@ public class WordCount {
 			return;
 		}
 		//Êä³ö
-		String out_word ="characters:" + result
-				+ "\nwords:" + word
-				+ "\nline:" + line;
+		String out_word ="characters: " + result
+				+ "\nwords: " + word
+				+ "\nlines: " + line;
 		boolean write_in = FileIO.writeFile(file_out, out_word);
 		Map<String, Integer>out_words = DoCount.sortWords(word_freq);
 		write_in = FileIO.writeFile("output.txt", out_words);
