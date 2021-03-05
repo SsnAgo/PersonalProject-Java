@@ -1,8 +1,9 @@
 {
   "dependencies": {
-    "mocha": "^8.3.0"
+    "mocha": "^8.3.0",
+    "nyc": "^15.1.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "nyc mocha"
   }
 }

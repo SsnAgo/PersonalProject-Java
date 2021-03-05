@@ -16,9 +16,9 @@ function isBlankLine(text){
  */
 function analyseLine(text) {
     let lineCount = 0
-    let lines = text.split("\n")
+    let lines = text.split('\n')
     lines.forEach(line => {
-        let l = line.replace("\r", "")
+        let l = line.replace('\r', '')
         if (l.length > 0 && !isBlankLine(l)) {
             lineCount ++
         }

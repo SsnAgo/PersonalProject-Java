@@ -58,7 +58,7 @@ function analyseWord(text) {
                     words.push(newWord)
                 }
                 wordLetters = 0
-                newWord = ""
+                newWord = ''
                 beforeSeparatorDefeat = false
         }
     }

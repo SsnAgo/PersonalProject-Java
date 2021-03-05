@@ -1,7 +1,4 @@
-const analyseChar = require('./analyseChar')
-const analyseWord = require('./analyseWord')
-const analyseMostFrequentWords = require('./analyseMostFrequentWords')
-const analyseLine = require('./analyseLine')
+const Lib = require('./Lib')
 
 const fs = require("fs")
 const path = require("path")
@@ -13,16 +10,29 @@ const commandPath = resolve('./')
 const inputFile = filenames[0]
 const outputFile = filenames[1]
 
-// let text = fs.readFileSync(path.resolve(commandPath, inputFile), 'utf-8')
-// const charNumber = analyseChar(text)
-// const wordNumber = analyseWord(text)
-// const frequentWords = analyseMostFrequentWords(text)
-// const lineCount = analyseLine(text)
-//
-// const resultFile = path.resolve(commandPath, outputFile)
-// fs.appendFileSync(resultFile, `characters: ${charNumber}\n`)
-// fs.appendFileSync(resultFile, `words: ${wordNumber}\n`)
-// fs.appendFileSync(resultFile, `lines: ${lineCount}\n`)
-// frequentWords.forEach((item) => {
-//     fs.appendFileSync(resultFile, `${item.word}: ${item.number}\n`)
-// });
+let text
+
+try {
+    text = fs.readFileSync(path.resolve(commandPath, inputFile), 'utf-8')
+} catch (exception) {
+    console.log('Error:', exception.message)
+    console.log('请检查文件是否存在/是否有足够权限')
+}
+
+const charNumber = Lib.analyseChar(text)
+const wordNumber = Lib.analyseWord(text)
+const frequentWords = Lib.analyseMostFrequentWords(text)
+const lineCount = Lib.analyseLine(text)
+const resultFile = path.resolve(commandPath, outputFile)
+
+try {
+    fs.writeFileSync(resultFile, '')
+    fs.appendFileSync(resultFile, `characters: ${charNumber}\n`)
+    fs.appendFileSync(resultFile, `words: ${wordNumber}\n`)
+    fs.appendFileSync(resultFile, `lines: ${lineCount}\n`)
+    frequentWords.forEach((item) => {
+        fs.appendFileSync(resultFile, `${item.word}: ${item.number}\n`)
+    })
+} catch (exception) {
+    console.log('Error:', exception.message)
+}

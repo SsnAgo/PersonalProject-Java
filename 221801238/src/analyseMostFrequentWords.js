@@ -63,7 +63,7 @@ function analyseMostFrequentWords(text) {
                     addToMap(newWord)
                 }
                 wordLetters = 0
-                newWord = ""
+                newWord = ''
         }
     }
 
