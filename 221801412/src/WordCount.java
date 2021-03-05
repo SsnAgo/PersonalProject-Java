@@ -10,8 +10,8 @@ public class WordCount {
 	    File output;
 	    //若命令行参数小于2则新建文件
 	    if (args.length < 2) {
-	        input = new File("D:/PersonalProject-Java/221801412/src/input.txt");
-	        output = new File("D:/PersonalProject-Java/221801412/src/output.txt");
+	        input = new File("rc/input.txt");
+	        output = new File("src/output.txt");
         }
         else {
             input = new File(args[0]);
