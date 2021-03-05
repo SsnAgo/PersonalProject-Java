@@ -138,7 +138,6 @@ public class Lib {
 				 }else {
 					 hashMap.put(tempword,  1);
 				 }
-				 wordcount++;
 			 }
 	        if (linechcount > 0) {
 	       	 linecount++;
