@@ -16,40 +16,63 @@ public class Lib {
             inputFile=new File(inputPath);
         }
 
+        //获取文件的BufferReader
         public BufferedReader getReader(){
             try {
                 reader=new BufferedReader(new FileReader(inputFile));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+                System.out.println("输出文件错误！请重新运行程序！");
             }
             return reader;
         }
 
         //写文件
-        public void writeFile(String content,String outpath){
-
+        public void writeFile(String content,String outputPath){
+            try {
+                BufferedWriter out =new BufferedWriter(new FileWriter(outputPath));
+                out.write(content);
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("输出文件错误！");
+            }
         }
     }
 
     //统计字符数，返回long
-    public static long countChars(BufferedReader tempReader) throws IOException {
-        BufferedReader reader=tempReader;
+    public static long countChars(String inputPath) throws IOException {
+        BufferedReader tempReader=new BufferedReader(new FileReader(inputPath));
         long charsNum=0;
-        while(reader.read()!=-1){
+        while(tempReader.read()!=-1){
             charsNum++;
         }
+        tempReader.close();
         return charsNum;
     }
 
     //统计单词数
-    public static long countWords(BufferedReader tempReader) throws IOException {
+    public static long countWords(String inputPath) throws IOException {
+        BufferedReader tempReader=new BufferedReader(new FileReader(inputPath));
         Hashtable mapWord=countWordsTable(tempReader,true);
+        tempReader.close();
         return (long) mapWord.get("wordsNum");
     }
 
 
-    public static Map<String, Long> countWordFrequency(BufferedReader tempReader) throws IOException {
-        return sortWord(countWordsTable(tempReader,false));
+    //统计词频，返回map
+    public static String countWordFrequency(String inputPath) throws IOException {
+        BufferedReader tempReader=new BufferedReader(new FileReader(inputPath));
+        Map<String,Long> sortMap=sortWord(countWordsTable(tempReader,false));
+        StringBuilder frequency=new StringBuilder();
+        tempReader.close();
+        Set<Map.Entry<String, Long>> entrySet;
+        entrySet=sortMap.entrySet();
+        for (Map.Entry<String, Long> entry : entrySet) {
+            frequency.append(entry.getKey()).append(": ").append(entry.getValue()).append('\n');
+        }
+
+        return frequency.toString();
     }
 
     //统计单词，返回map
