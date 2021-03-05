@@ -10,8 +10,7 @@ public class WordCount
 
   public static void main(String[] args) throws IOException
   {
-    TextParser textParser =new TextParser(args[0],args[1],
-        charParser,wordParser);
+    TextParser textParser =new TextParser(args[0],args[1], charParser,wordParser);
     textParser.countValidChars();
     textParser.countValidLines();
     textParser.countWordNum();

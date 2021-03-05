@@ -7,6 +7,9 @@ import java.io.*;
  */
 public class IOHandler
 {
+
+  public static String encoding="utf-8";    //编码格式
+
   /**
    * 文件预处理
    * @param inputFile
@@ -16,7 +19,7 @@ public class IOHandler
   {
     try
     {
-      BufferedReader reader=new BufferedReader(new InputStreamReader(new FileInputStream(inputFile),"utf-8"));
+      BufferedReader reader=new BufferedReader(new InputStreamReader(new FileInputStream(inputFile),encoding));
       StringBuilder resultBuilder=new StringBuilder();
       int r;
       while((r=reader.read())!=-1)    //读取文件
@@ -48,7 +51,7 @@ public class IOHandler
     try
     {
       BufferedWriter writer = new BufferedWriter(new OutputStreamWriter
-          (new FileOutputStream(new File(outputFile),true),"utf-8"));
+          (new FileOutputStream(new File(outputFile),true),encoding));
 
       writer.write(textContent);
       writer.close();
