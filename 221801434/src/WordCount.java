@@ -44,6 +44,8 @@ public class WordCount {
         String line=null;
         while((line=reader.readLine())!=null)
         {
+            String s1 = line.replaceAll("\\s", "");
+            if(s1.length()!=0)
             num+=1;
         }
         reader.close();
