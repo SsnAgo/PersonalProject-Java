@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,11 +10,15 @@ import java.util.Map;
 
 public class Lib
 {
+    //有效行数正则表达式
+    private static String LINE_REGEX = "(\n|^)\\s*\\S+";
+    private static String WORD_REGEX = "([^A-Za-z0-9]+|^)([a-zA-Z]{4,}[a-zA-Z0-9]*)";
+    private static Map<String, Integer> wordMap = new HashMap<String, Integer>();
     /**
      * 读取文件，生成字符串并返回
      *
      * @ param filePath
-     * @ return
+     * @ return TextContent
      * */
     public static String readFile(String filePath) {
         int temp;
@@ -48,7 +49,7 @@ public class Lib
             try {
                 br.close();
             }
-            catch (NullPointerException e){
+            catch (NullPointerException e) {
                 e.printStackTrace();
             }
             catch (IOException e) {
@@ -65,7 +66,7 @@ public class Lib
      * @ param chStr
      * @ return characters' number
      * */
-    public static int getCharactersCount(String chStr) {
+    public static int getCharactersNum(String chStr) {
         int charCount = 0;
         char[] charArray = chStr.toCharArray();
         for(int i = 0; i < charArray.length; i++) {
@@ -84,13 +85,12 @@ public class Lib
      * */
     public static int getLines(String chStr){
         int lines = 0;
-        String regex = "(\n|^)\\s*\\S+";
 
         //使用正则表达式匹配有效的字符行
-        Pattern charPattern = Pattern.compile(regex);
-        Matcher matcher = charPattern.matcher(chStr);
+        Pattern charPattern = Pattern.compile(LINE_REGEX);
+        Matcher charmatcher = charPattern.matcher(chStr);
 
-        while(matcher.find()){
+        while(charmatcher.find()){
             lines++;
         }
 
@@ -105,9 +105,8 @@ public class Lib
      * */
     public static int getWordNum(String chStr){
         int wordNum = 0;
-        String regexWords = "([^A-Za-z0-9]+|^)([a-zA-Z]{4,}[a-zA-Z0-9]*)";
 
-        Pattern wordPattern = Pattern.compile(regexWords);
+        Pattern wordPattern = Pattern.compile(WORD_REGEX);
         Matcher wordMatcher = wordPattern.matcher(chStr);
 
         while(wordMatcher.find()){
@@ -123,18 +122,18 @@ public class Lib
      * @ param chStr, wordMap
      * @ return valid words‘ number
      * */
-    public static void creatWordMap(String chStr, Map<String, Integer> wordMap){
-        //匹配分隔符分离单词，并用String[]保存
-        String[] words = chStr.split("\\s");
+    public static void initWordMap(String chStr){
+        //匹配分隔符分离单词，并用保存
+        String[] words = chStr.split("\\s+");
         /**
          * 位于第一位的单词会多出一个空白字符，假设合法单词为apple，则其为[,a,p,p,l,e]
          * */
         words[0] = words[0].substring(1);
-        String regexWord = "([^A-Za-z0-9]+|^)([a-zA-Z]{4,}[a-zA-Z0-9]*)";
+
 
         //验证单词有效性，有效的单词存入集合Map<String, Integer>中
         for(int i = 0; i < words.length; i++) {
-            if(words[i].matches(regexWord)) {
+            if(words[i].matches(WORD_REGEX)) {
                 String temp = words[i].toLowerCase();
 
                 //忽略单词大小写，判断其是否已经存在，若存在，则其value值加一
@@ -149,7 +148,6 @@ public class Lib
                 }
             }
         }
-
     }
 
     /**
@@ -158,7 +156,7 @@ public class Lib
      * @ param wordMap
      * @ return list
      * */
-    public static List  sortWordMap(Map<String, Integer> wordMap) {
+    public static List  sortWordMap() {
 
         //将wordMap转换为List，方便排序
         List<Map.Entry<String, Integer>> list =new ArrayList<Map.Entry<String, Integer>>(wordMap.entrySet());

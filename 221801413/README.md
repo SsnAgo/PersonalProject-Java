@@ -20,3 +20,9 @@
 > 1. 为Lib类添加了outMessage()方法，对将要输出的信息进行整合
 > 2. 为Lib类添加了文件写入方法writeFile()
 > 3. 修改了WordCount类中Main()函数部分代码，以便于测试输出
+
+# 第七次commit
+> 1. 修改Lib类，将正则表达式设为Lib静态成员变量
+> 2. 修改Lib类，添加静态Map变量
+> 3. 修改WordCount类，添加了成员变量inPut、outPut以及readStr
+> 4. 为WordCount添加了构造函数以及初始化成员变量方法
