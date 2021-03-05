@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public interface WordUtil {
 
@@ -69,4 +70,19 @@ public interface WordUtil {
      * @throws IOException
      */
     public List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName, String fileDirectory) throws IOException;
+
+    /**
+     *
+     * @param fileName
+     * @return Set<WordEntity>
+     * @throws IOException
+     */
+    public Set<WordEntity> countWordFrequency2(String fileName) throws IOException;
+    /**
+     *
+     * @param fileName
+     * @return Set<WordEntity>
+     * @throws IOException
+     */
+    public Set<WordEntity> countWordFrequency2(String fileName, String fileDirectory) throws IOException;
 }
