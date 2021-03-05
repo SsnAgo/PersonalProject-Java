@@ -17,18 +17,18 @@ class WordCount{
         bufferedReader.mark((int)inputFile.length()+1);
         StringBuilder content=new StringBuilder();
         int characterCount= CountCore.characterCount(bufferedReader);
-        content.append("characters:"+characterCount+"\n");
+        content.append("characters: "+characterCount+"\n");
         bufferedReader.reset();
         int words=CountCore.wordCount(bufferedReader);
-        content.append("words:"+words+"\n");
+        content.append("words: "+words+"\n");
         bufferedReader.reset();
         int lines=CountCore.lineCount(bufferedReader);
-        content.append("lines:"+lines+"\n");
+        content.append("lines: "+lines+"\n");
         bufferedReader.reset();
         Map<String,Integer> map=CountCore.wordStore(bufferedReader);
         List<Map.Entry<String,Integer>> list=CountCore.sortByFrequency(map);
         for(int i=0;i<10&&i<list.size();i++){
-            content.append(list.get(i).getKey()+":"+list.get(i).getValue()+"\n");
+            content.append(list.get(i).getKey()+": "+list.get(i).getValue()+"\n");
         }
         FileIO.writeToFile(outputFile,content.toString());
     }
