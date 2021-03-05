@@ -53,7 +53,8 @@ public class Lib {
     }
 
     //统计单词，返回map
-    private static Hashtable<String,Long> countLineWords(String line,Hashtable<String,Long> mapWord,boolean countWords){
+    private static Hashtable<String,Long> countLineWords
+            (String line,Hashtable<String,Long> mapWord,boolean countWords){
         long wordsNum=0;
         int wordFlag=0;
         StringBuilder tempWord=new StringBuilder();     //存单词
@@ -74,8 +75,7 @@ public class Lib {
                 if(wordFlag>=4){                            //当遇到分隔符或检索到行尾时
                     wordsNum++;                            //若有wordFlag>=4，判定为单词有效，将有效单词++
                     String tempWordString=tempWord.toString().toLowerCase();
-                    if(!countWords){
-                        //加入map前判断单词在map中是否存在，存在则取出其value,将其+1后放入map
+                    if(!countWords){                //加入map前判断单词在map中是否存在，存在则取出其value,将其+1后放入map
                         long count=mapWord.containsKey (tempWordString)?mapWord.get(tempWordString):0;
                         mapWord.put(tempWordString,count+1);
                     }
@@ -105,7 +105,8 @@ public class Lib {
         return sorted;
     }
 
-    private static Hashtable<String,Long> countWordsTable(BufferedReader tempReader,boolean countLine) throws IOException {
+    private static Hashtable<String,Long> countWordsTable
+            (BufferedReader tempReader,boolean countLine) throws IOException {
         Hashtable<String,Long> mapWord=new Hashtable<>();
         if(countLine)
             mapWord.put("wordsNum",0L);
