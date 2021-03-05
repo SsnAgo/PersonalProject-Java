@@ -11,6 +11,7 @@ public class WordCount
 	{
 		Lib lib=new Lib();
 		 String str=lib.charactersCount(inPath);
+		 
 	        int charNum=lib.charactersNumberCount(str);
 	        int wordNum=lib.wordsNumberCount(str);
 	        int lineNum=lib.linesNumberCount(inPath);
@@ -18,12 +19,12 @@ public class WordCount
 	        
 	        List<Map.Entry<String,Integer>> wordsList=lib.SortMap();
 	       
-	        String words="";
+	        String wordsSort="";
 	        
-	        
+	        //获取频率前十单词
 	        for(Map.Entry<String,Integer>map:wordsList)
 	        {
-	            words+=map.getKey()+":"+map.getValue()+"\n";
+	            wordsSort+=map.getKey()+":"+map.getValue()+"\n";
 	            i++;
 	            if(i==10)
 	            {
@@ -31,28 +32,18 @@ public class WordCount
 	            }
 	        }
 	        
-	        FileOutputStream fileOutputStream=new FileOutputStream(outPath);
-	        OutputStreamWriter outputStreamWriter=new OutputStreamWriter(fileOutputStream,"UTF-8");
-	        BufferedWriter bufferedWriter=new BufferedWriter(outputStreamWriter);
+	        lib.writeNum(charNum,wordNum,lineNum,wordsSort,outPath);
 	        
-	        bufferedWriter.write("characters:"+charNum+"\nwords:"+wordNum+"\nlines:"+lineNum);
-	        
-	        bufferedWriter.write("\n"+words);
-
-	        bufferedWriter.flush();
-	        
-	        bufferedWriter.close();
-	        
-	        System.out.print(charNum);
+	        //System.out.print(charNum);
 	}
+	
     public static void main(String[] args) throws IOException 
     {
 
         
-        //String inPath= args[0];
-        //String outPath=args[1];
-        String inPath="D:\\eclipse\\wordcount_java\\src\\wordcount_java\\test.txt";
-        String outPath="D:\\eclipse\\wordcount_java\\src\\wordcount_java\\te.txt";
+        String inPath= args[0];
+        String outPath=args[1];
+        
         WordCount.countNumber(inPath,outPath);
         
 
