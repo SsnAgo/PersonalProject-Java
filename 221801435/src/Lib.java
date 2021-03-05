@@ -94,16 +94,18 @@ public class Lib {
      * @param file_info 文件内容字符串
      * @return Map集合，key为string类型，代表单词内容；integer是单词出现次数
      */
+
     public List<Map.Entry<String,Integer>> getMostFrequentlyWords(String file_info){
         //先遍历一遍，将所有非字母数字的符号都换成空格符
         StringBuilder builder = new StringBuilder(file_info);
         for (int i=0;i<builder.length();i++){
-            if (!Character.isDigit(builder.charAt(i))&&!Character.isLetter(builder.charAt(i))){
+            char c = builder.charAt(i);
+            if (!Character.isDigit(c)&&!((c>='a'&&c<='z'||c>='A'&&c<='Z'))){
                 builder.setCharAt(i,' ');
             }
         }
         //将其按空格拆分
-        String []words = builder.toString().split(" ");
+        String []words = builder.toString().split("\\s+");
         //保存每个单词和其出现的频率
         Map<String,Integer> words_map = new HashMap<>();
         //该数组用于排序

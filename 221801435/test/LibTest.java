@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test;
 import org.junit.runners.JUnit4;
 
+import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LibTest {
@@ -32,6 +34,33 @@ class LibTest {
     public void testLinesCount(){
         Lib lib = new Lib();
         assertEquals(3,lib.getLinesCount("test2.txt"));
+        assertEquals(0,lib.getLinesCount("test999.txt"));
     }
+
+    @Test
+    public void testGetFrequentWords(){
+        List<Map.Entry<String,Integer>> list = null;
+        Map<String,Integer> map = new HashMap<>();
+        map.put("asda3",1);
+        map.put("asdd3",1);
+        map.put("asdff1",1);
+        map.put("asdas",1);
+        map.put("asdd",2);
+        list = new ArrayList<>(map.entrySet());
+        list.sort(new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                if (o1.getValue()!=o2.getValue()){
+                    return o1.getValue().compareTo(o2.getValue());
+                }else{
+                    return -1*o1.getKey().compareTo(o2.getKey());
+                }
+            }
+        });
+        Collections.reverse(list);
+        Lib lib = new Lib();
+        assertEquals(list,lib.getMostFrequentlyWords(lib.fileToString("test4.txt")));
+    }
+
     
 }
