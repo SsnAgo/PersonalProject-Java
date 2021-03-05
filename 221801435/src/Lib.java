@@ -72,12 +72,13 @@ public class Lib {
         //先遍历一遍，将所有非字母数字的符号都换成空格符
         StringBuilder builder = new StringBuilder(file_info);
         for (int i=0;i<builder.length();i++){
-            if (!Character.isDigit(builder.charAt(i))&&!Character.isLetter(builder.charAt(i))){
+            char c = builder.charAt(i);
+            if (!Character.isDigit(c)&&!((c>='a'&&c<='z'||c>='A'&&c<='Z'))){
                 builder.setCharAt(i,' ');
             }
         }
         //将其按空格拆分
-        String []words = builder.toString().split(" ");
+        String []words = builder.toString().split("\\s+");
         //判断是否是合法字符,统计单词数量
         int counter = 0;
         for(int i=0;i<words.length;i++){
