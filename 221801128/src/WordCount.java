@@ -79,9 +79,9 @@ public class WordCount {
             return;
         }
 
-		File dir = new File(".");
-		inputfile = dir.getCanonicalPath()+"\\"+args[0];
-		outputfile = dir.getCanonicalPath()+"\\"+args[1];
+		//File dir = new File(".");
+		inputfile = args[0];
+		outputfile = args[1];
 		//System.out.println("读取文件的地址："+inputfile);
 		//printall();//打印函数，有需要可以解开。
 		//写入指定文件

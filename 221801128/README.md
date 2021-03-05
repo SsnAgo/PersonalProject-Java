@@ -57,3 +57,6 @@ java WordCount input.txt output.txt
 优化写入函数中的读取部分，仅读取一次文件，提高效率。
 ## 第十五次commit
 修改了README.md文件
+## 第十六次commit
+修改了main文件输入时对inputfile和outputfile的存储
+避免老师打不开文件。
