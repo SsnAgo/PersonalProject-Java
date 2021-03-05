@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,8 +62,6 @@ public class Lib
     public void charCount(String path)
     {
         this.resultStr = readToString(path);
-        //this.resultStr = this.resultStr.replace('\r', ' ');
-        //this.resultStr = this.resultStr.replace('\n', ' ');
         this.sumChars = this.resultStr.length();
     }
 
@@ -109,8 +106,6 @@ public class Lib
     public void wordCount(String path)
     {
         this.resultStr = readToString(path);
-        //this.resultStr = this.resultStr.replace('\r', ' ');
-        //this.resultStr = this.resultStr.replace('\n', ' ');
         this.resultStr = this.resultStr.replaceAll("[^A-Za-z0-9]", " ");
         this.resultStr = this.resultStr.toLowerCase();
         String[] words = this.resultStr.split(" ");    // divide with spaces
@@ -154,8 +149,6 @@ public class Lib
     public void wordFrequencyCount(String path)
     {
         this.resultStr = readToString(path);
-        //this.resultStr = this.resultStr.replace('\r', ' ');
-        //this.resultStr = this.resultStr.replace('\n', ' ');
         this.resultStr = this.resultStr.replaceAll("[^A-Za-z0-9]", " ");
         this.resultStr = this.resultStr.toLowerCase();
         String[] words = this.resultStr.split(" ");    // divide with spaces
@@ -216,71 +209,5 @@ public class Lib
         writer.print(result);
         writer.close();
     }
-
-    /*test*/
-    public static String getRandomString()
-    {
-        int[] num = new int[96];
-        char ch;
-        StringBuffer sb = new StringBuffer();
-        /*空白符*/
-        num[0] = 9;
-        num[1] = 10;
-        num[2] = 13;
-        num[3] = 32;
-        /*数字*/
-        for(int i = 0; i < 10 ; i++)
-        {
-            num[i+4] = i + '0';
-        }
-        /*小写字母*/
-        for(int i = 0; i < 26 ; i++)
-        {
-            num[i+14] = i + 'a';
-        }
-        /*大写字母*/
-        for(int i = 0; i < 26 ; i++)
-        {
-            num[i+40] = i + 'A';
-        }
-        /*额外增加空格的数量,控制单词长度*/
-        for(int i = 0; i < 30 ; i++)
-        {
-            num[i+66] = ' ';
-        }
-
-        int x;
-        for (int i = 0; i < 1000000; i++)
-        {
-            x = ThreadLocalRandom.current().nextInt(96);
-            sb.append((char) num[x]);
-        }
-        return sb.toString();
-    }
-
-    /*output to file*/
-    public static void writeToFile(String content, String inPath)
-    {
-        FileWriter fw = null;
-        try {
-            //创建字符输出流对象，负责向文件内写入
-            fw = new FileWriter(inPath);
-            //将str里面的内容读取到fw所指定的文件中
-            fw.write(content);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }finally{
-            if(fw!=null){
-                try {
-                    fw.close();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
 
 }

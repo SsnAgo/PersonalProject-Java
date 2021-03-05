@@ -5,20 +5,12 @@ public class WordCount
     public static void main(String[] args)
     {
         Lib lib = new Lib();
-        //test path " C:\\Users\\HUAWEI\\Desktop\\input.txt ";
         String inPath;    // file path
         String outPath;    // file path
         String result;    // final output
-        //Scanner scanner = new Scanner(System.in);
-        //inPath = scanner.nextLine();
-        //inPath = args[0].toString();
-        //outPath = args[1].toString();
 
-
-        inPath = "C:\\Users\\HUAWEI\\Desktop\\input.txt";
-        outPath = "C:\\Users\\HUAWEI\\Desktop\\output.txt";
-        String test = lib.getRandomString();
-        lib.writeToFile(test, inPath);
+        inPath = args[0].toString();
+        outPath = args[1].toString();
 
 
         lib.lineCount(inPath);
