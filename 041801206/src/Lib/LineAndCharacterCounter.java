@@ -11,12 +11,16 @@ public class LineAndCharacterCounter extends Thread {
     private long startTime;
     private long useTime;
     private String filePath;
+    private int endWithN;
+
+
 
     public LineAndCharacterCounter(String filePath){
         this.startTime=System.currentTimeMillis();
         this.lineNum=0;
         this.charNum=0;
         this.filePath=filePath;
+        endWithN=0;
     }
 
     @Override
@@ -34,25 +38,27 @@ public class LineAndCharacterCounter extends Thread {
                 for (int i = 0;i < chars.length;i++){
                     if (chars[i] == '\n') lineNum++;
                     if((int)chars[i] == 0) {
+                        if(chars[i-1]=='\n') endWithN=1;
                         remain = i;
                         break;
                     }
                 }
                 whileCount++;
             }
-
             int flag = 0;
+            int moreLine = 0;
+            if (lineNum != 0) {
+                lineNum++;
+                moreLine = 1;
+            }
             if(lineNum == 0 && whileCount != 0){
                 lineNum += 1;
                 flag = 1;
             }
             if(whileCount == 0) whileCount++;   //将统计结果分类，计算实际结果
             if(flag == 1) charNum = (whileCount - 1 ) * 1000 + remain;
-            else  charNum = (whileCount -1) * 1000 + remain - lineNum;
+            else  charNum = (whileCount -1) * 1000 + remain - lineNum + moreLine;
             in.close();
-            if(lineNum != 0 ){
-                lineNum += 1;
-            }
             useTime = System.currentTimeMillis() - startTime;
         }catch (Exception e){
             e.printStackTrace();
@@ -62,7 +68,9 @@ public class LineAndCharacterCounter extends Thread {
     public int getLineNum() {
         return lineNum;
     }
-
+    public int getEndWithN() {
+        return endWithN;
+    }
     public int getCharNum() {
         return charNum;
     }

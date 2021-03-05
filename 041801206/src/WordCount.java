@@ -26,6 +26,7 @@ public class WordCount {
             Output output=new Output(lineAndCharacterCounter.getCharNum(), lineAndCharacterCounter.getLineNum(),
                wordCounter.getWordNum(),
                wordCounter.getEmptyLineNum(),
+               lineAndCharacterCounter.getEndWithN(),
                wordCounter.getMaplist(),
                outPutPath
                );

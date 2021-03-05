@@ -13,11 +13,12 @@ public class Output {
     private String outPutFilePath;
     private List<String> topTen;
 
-    public Output(int characterNum, int lineNum, int wordNum,int emptyLine,
+
+    public Output(int characterNum, int lineNum, int wordNum,int emptyLine,int endWithN,
                   List<Map.Entry<String,Integer>> mapList, String outPutFilePath) {
         this.characterNum = characterNum;
-        if(emptyLine==1 && lineNum == 0) emptyLine = 0;
-        this.lineNum = lineNum-emptyLine;
+        if(emptyLine==1 && lineNum == 0) emptyLine = 0;  
+        this.lineNum = lineNum - emptyLine - endWithN;
         this.wordNum = wordNum;
         this.outPutFilePath = outPutFilePath;
         this.emptyNum=emptyLine;

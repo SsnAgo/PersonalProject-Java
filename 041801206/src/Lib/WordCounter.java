@@ -68,7 +68,7 @@ public class WordCounter {
                     break;
                 }
             }
-            if(temp==null) emptyLineNum++;
+
             in.close();
             for(int i = 0;i < multiCounterList.size();i++){
                 multiCounterList.get(i).join();   //所有线程结束后合并Map
