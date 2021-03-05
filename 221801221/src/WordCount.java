@@ -14,10 +14,7 @@ public class WordCount {
         outputFileContentBuilder.append("characters: " + wordCount.countChar() + "\n");
         outputFileContentBuilder.append("words: " + wordCount.countWord() + "\n");
         outputFileContentBuilder.append("lines: " + wordCount.countLine() + "\n");
-        for (WordEntry e:
-                wordCount.getTop10WordsByFrequencyOfAppearance()) {
-            outputFileContentBuilder.append(e.key + ": " + e.value + "\n");
-        }
+        outputFileContentBuilder.append(wordCount.getTop10WordsByFrequencyOfAppearanceInString());
         FileUtil.outputStringToFile(args[1],outputFileContentBuilder.toString());
     }
 
