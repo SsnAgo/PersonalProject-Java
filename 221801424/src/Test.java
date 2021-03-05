@@ -6,7 +6,7 @@
 //    /**
 //     * ≤‚ ‘π¶ƒ‹1
 //     */
-//    public void testCharnums(){
+//    public void testCharnums() throws IOException {
 //        Utils utils=new Utils();
 //        String message;
 //        StringBuilder stringBuilder = new StringBuilder();
@@ -15,7 +15,8 @@
 //            stringBuilder.append((char)i);
 //        }
 //        message=stringBuilder.toString();
-//        System.out.println("characters: "+utils.charNums(message));
+//        utils.writeTo("1.txt",message);
+//        System.out.println("characters: "+utils.charNums("1.txt"));
 //    }
 //
 //    /**
@@ -81,7 +82,7 @@
 //    }
 //
 //
-//    public static void main(String []args){
+//    public static void main(String []args) throws IOException {
 //        Test test=new Test();
 //        test.testCharnums();
 //        test.testWordnums();
