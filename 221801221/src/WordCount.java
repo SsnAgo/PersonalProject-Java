@@ -87,14 +87,6 @@ public class WordCount {
             this.key = key;
             this.value = value;
         }
-
-        @Override
-        public String toString() {
-            return "WordEntry{" +
-                    "key=" + key +
-                    ", value=" + value +
-                    '}';
-        }
     }
 
 }
