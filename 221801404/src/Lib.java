@@ -71,13 +71,17 @@ public class Lib
 
         for(int i=0;i<temp.length;i++)
         {
-            if(temp[i].matches(regexs)){
+            if(temp[i].matches(regexs))
+            {
                 WordsNum++;
                 String insertKey=temp[i].toLowerCase();
-                if (wordsMap.containsKey(insertKey)){
+                if (wordsMap.containsKey(insertKey))
+                {
                     int j=wordsMap.get(insertKey);
                     wordsMap.put(insertKey,j+1);
-                }else {
+                }
+                else
+                {
                     wordsMap.put(insertKey,1);
                 }
             }
