@@ -11,9 +11,9 @@ public class WordCount {
         String fileContent = FileUtil.getFullFile(args[0]);
         WordCount wordCount = new WordCount(fileContent);
         StringBuilder outputFileContentBuilder = new StringBuilder();
-        outputFileContentBuilder.append("characters: " + wordCount.countCharNum() + "\n");
+        outputFileContentBuilder.append("characters: " + wordCount.countChar() + "\n");
         outputFileContentBuilder.append("words: " + wordCount.countWord() + "\n");
-        outputFileContentBuilder.append("lines: " + wordCount.countLIne() + "\n");
+        outputFileContentBuilder.append("lines: " + wordCount.countLine() + "\n");
         for (WordEntry e:
                 wordCount.getTop10WordsByFrequencyOfAppearance()) {
             outputFileContentBuilder.append(e.key + ": " + e.value + "\n");
@@ -25,7 +25,7 @@ public class WordCount {
         this.inputFileContent = fileContent;
     }
 
-    public int countCharNum(){
+    public int countChar(){
         return inputFileContent.length();
     }
 
@@ -39,7 +39,7 @@ public class WordCount {
         return wordsNum;
     }
 
-    public int countLIne(){
+    public int countLine(){
         String[] lines = inputFileContent.split("\n");
         int linesNum = lines.length;
         for (String line:
