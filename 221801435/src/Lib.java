@@ -1,5 +1,5 @@
 import java.io.*;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -26,7 +26,6 @@ public class Lib {
                 counter++;
             }
         }
-        System.out.println(file_info);
         return counter;
     }
 
@@ -92,11 +91,54 @@ public class Lib {
     /**
      * 编写者：221801435
      * 功能：统计文件中出现次数最多的十个单词
-     * @param file_path 文件路径
-     * @return
+     * @param file_info 文件内容字符串
+     * @return Map集合，key为string类型，代表单词内容；integer是单词出现次数
      */
-    public Map<String,Integer> getMostFrequentlyWords(String file_path){
-        return null;
+    public List<Map.Entry<String,Integer>> getMostFrequentlyWords(String file_info){
+        //先遍历一遍，将所有非字母数字的符号都换成空格符
+        StringBuilder builder = new StringBuilder(file_info);
+        for (int i=0;i<builder.length();i++){
+            if (!Character.isDigit(builder.charAt(i))&&!Character.isLetter(builder.charAt(i))){
+                builder.setCharAt(i,' ');
+            }
+        }
+        //将其按空格拆分
+        String []words = builder.toString().split(" ");
+        //保存每个单词和其出现的频率
+        Map<String,Integer> words_map = new HashMap<>();
+        //该数组用于排序
+        List<Map.Entry<String,Integer>> words_arr = null;
+        //开始统计
+        for (int i=0;i<words.length;i++){
+            //首先得是合法单词
+            if (isWord(words[i])){
+                //判断是否在Map中出现过，没有出现则加1,map中只保存小写形式
+                String current = words[i].toLowerCase();
+                if (words_map.containsKey(current)){
+                    int num = words_map.get(current);
+                    words_map.put(current,num+1);
+                }else{
+                    words_map.put(current,1);
+                }
+            }
+        }
+
+        //排序
+        words_arr = new ArrayList<>(words_map.entrySet());
+        words_arr.sort(new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                if (o1.getValue()!=o2.getValue()){
+                    return o1.getValue().compareTo(o2.getValue());
+                }else{
+                    return -1*o1.getKey().compareTo(o2.getKey());
+                }
+            }
+        });
+
+        //从大到小，所以要翻转
+        Collections.reverse(words_arr);
+        return words_arr;
     }
 
     /**
