@@ -1,22 +1,47 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Count {
 	//定义三个函数，分别用来将字符数、单词数、有效行数、十个词频最高的单词写入文件
-	void countChar(String fileName) 
+	static void countChar(FileInputStream fis) throws IOException 
 	{
 		int count_char=0;
 	}
-	void countWord(String fileName)
+	void countWord(FileInputStream fis)
 	{
 		int count_word=0;
 	}
-	void countLine(String fileName) 
+	void countLine(FileInputStream fis) 
 	{
 		int count_line=0;
 	}
-	void countWordFrequency(String fileName)
+	void countWordFrequency(FileInputStream fis)
 	{
 		
+	}
+	public static void main(String[] args) throws Exception {
+		FileInputStream fis = new FileInputStream("C:\\Users\\ling\\Desktop\\新建文本文档.txt");
+    	//创建类进行文件的读取
+    	InputStreamReader read = new InputStreamReader(fis);    	
+    	//可用于读取指定文件   
+        BufferedReader in = new BufferedReader(read);  
+        String str=null;//定义一个字符串类型变量str
+        int count_char=0;//用于统计总字符数 
+        int count_line=0;
+        String regxSpace = "\\s*";
+        while ((str = in.readLine())!= null) 
+        {//readLine()方法, 用于读取一行,只要读取内容不为空就一直执行   	
+        	count_char += str.length();  
+        	if(!str.matches(regxSpace))
+        		count_line++;
+        }
+        System.out.print(count_line);
+        System.out.print(count_char);
+        fis.close();
 	}
 }
