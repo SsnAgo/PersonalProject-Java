@@ -4,9 +4,9 @@
 # 运行方式
 1、进入学号文件夹下的src文件夹中
 2、编译：
-javac -encoding UTF-8 WordCount.java
+javac -encoding UTF-8 WordCount.java Lib.java
 3、运行：
-java WordCount input.txt output.txt
+java WordCount input.txt(输入文件) output.txt（输出文件）
 
 # 作业链接
 [寒假作业(2/2)](https://www.cnblogs.com/cyl1221/p/14481822.html)
