@@ -92,6 +92,14 @@ public class Lib {
                     }
                 }
             });
+            int n = list.size();
+            System.out.println("一共有" + n + "种单词");
+            out.write("characters:"+charNum+"\n");
+            out.write("words:"+n+"\n");
+            out.write("lines:"+lineNum+"\n");
+            if (n>10){
+                n=10;
+            }
         }catch (Exception e) {
             e.printStackTrace();
         }
