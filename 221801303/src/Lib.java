@@ -6,7 +6,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lib {
-    Control con = new Control();
+    File out;
+    public void set(String o){
+        out = new File(o);
+    }
     public void linecount(File file) {
         int count = 0;
         try {
@@ -21,7 +24,7 @@ public class Lib {
         catch (Exception e) {
             e.printStackTrace();
         }
-        con.write("Lines:" + count + "\n");
+        write("Lines:" + count + "\n");
     }
 
     public void charcount(File file){
@@ -39,7 +42,7 @@ public class Lib {
         catch(Exception e) {
             e.printStackTrace();
         }
-        con.write("characters:" + count + "\n");
+        write("characters:" + count + "\n");
     }
 
     public void wordcount(File file){
@@ -86,16 +89,28 @@ public class Lib {
             }
             map.put(word, num);
         }
-        con.write("words:" + count + "\n");
+        write("words:" + count + "\n");
         Set<String> keys = map.keySet();
         for (String key : keys) {
             int i=0;
             Integer value = map.get(key);
-            con.write(key + ":" + value + "\n");
+            write(key + ":" + value + "\n");
             i++;
             if(i>9) break;
         }
+    }
 
+    public void write(String content){
+        try {
+            FileWriter fw = new FileWriter(out,true);
+            BufferedWriter bfw = new BufferedWriter(fw);
+            bfw.write(content);
+            bfw.close();
+            fw.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
