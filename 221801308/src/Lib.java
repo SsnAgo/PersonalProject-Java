@@ -114,6 +114,7 @@ public class Lib {
                 }
             }
         });
+
         linkedMapWords = new LinkedHashMap<>();
         int i = 0;
         for(Entry<String, Integer> entry: entryList) {
@@ -133,7 +134,6 @@ public class Lib {
      */
     public static void writeFileContent(String outputFile) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
-        int i = 0;
         try {
             writer.write("characters: " + charNumber + "\n");
             writer.write("words: " + wordNumber + "\n");

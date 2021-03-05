@@ -10,8 +10,8 @@ public class WordCount {
             return;
         }
         long startTime = System.currentTimeMillis();
-        //Lib.beginCount("C:\\Users\\wangyu\\Desktop\\PersonalProject-Java\\221801308\\src\\input6.txt");
-        //Lib.writeFileContent("C:\\Users\\wangyu\\Desktop\\PersonalProject-Java\\221801308\\src\\output6.txt");
+        //Lib.beginCount("C:\\Users\\wangyu\\Desktop\\PersonalProject-Java\\221801308\\src\\input7.txt");
+        //Lib.writeFileContent("C:\\Users\\wangyu\\Desktop\\PersonalProject-Java\\221801308\\src\\output7.txt");
         Lib.beginCount(args[0]);
         Lib.writeFileContent(args[1]);
         long endTime = System.currentTimeMillis();
