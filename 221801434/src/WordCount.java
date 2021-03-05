@@ -6,6 +6,7 @@ public class WordCount {
 
     public static void main(String[] args) throws IOException{
         // write your code here
+        long startTime = System.currentTimeMillis();
         Lib.countChar(args[0]);
         Lib.countWord(args[0]);
         Lib.countLine(args[0]);
@@ -15,8 +16,9 @@ public class WordCount {
         BufferedWriter out = new BufferedWriter(file);
 
         out.write("characters: "+Lib.charnum+"\n");
-        out.write("lines: "+Lib.linenum+"\n");
         out.write("words: "+Lib.wordnum+"\n");
+        out.write("lines: "+Lib.linenum+"\n");
+
         for(int k=0;k<Lib.realnum;k++)
         {
             int max=0;
@@ -41,10 +43,9 @@ public class WordCount {
             out.write(maxs+": "+max+"\n");
             Lib.keyWord.remove(maxs);
         }
-
-
         out.close();
-        System.out.println("文件创建成功！");
+        long endTime = System.currentTimeMillis();
+        System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
     }
 
 
