@@ -26,3 +26,6 @@
 > 2. 修改Lib类，添加静态Map变量
 > 3. 修改WordCount类，添加了成员变量inPut、outPut以及readStr
 > 4. 为WordCount添加了构造函数以及初始化成员变量方法
+
+# 第八次commit
+> 1. 添加LibTest类，以便于进行单元测试
