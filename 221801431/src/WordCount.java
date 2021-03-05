@@ -40,7 +40,9 @@ public class WordCount {
             //统计文件中各单词的出现次数（对应输出接下来10行）
             List<HashMap.Entry<String, Integer>> wordList = wu.countWordFrequency(input, filePath);
             result.append(WordFrequency1(wordList));
-            /*Set<WordEntity> wordSet =  wu.countWordFrequency2(input, filePath);
+            /*
+            //法二：
+            Set<WordEntity> wordSet =  wu.countWordFrequency2(input, filePath);
             result.append(WordFrequency2(wordSet));*/
 
             //结果输出至文件
