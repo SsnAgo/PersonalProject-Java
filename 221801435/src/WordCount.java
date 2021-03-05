@@ -27,9 +27,13 @@ public class WordCount {
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(args[1])));
             Lib lib = new Lib();
             String file_info = lib.fileToString(args[0]);
+            //ascii字符数
             writer.write(lib.getAsciiCount(file_info)+"\n");
+            //单词数
             writer.write(lib.getWordsCount(file_info)+"\n");
+            //行数
             writer.write(lib.getLinesCount(args[0])+"\n");
+            //出现次数最多的十个单词
             List<Map.Entry<String,Integer>> words_arr = lib.getMostFrequentlyWords(file_info);
             //判断一下是否有十个单词
             int len = words_arr.size()>=10?10:words_arr.size();
