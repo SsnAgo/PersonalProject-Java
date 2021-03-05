@@ -23,7 +23,7 @@ class WordCount {
 
                 String characters = tempStringbuild.toString();
                 long begintime = Utils.getTime();
-                stringBuilder.append("characters: ").append(utils.charNums(characters)).append("\n");
+                stringBuilder.append("characters: ").append(utils.charNums(readPath)).append("\n");
                 stringBuilder.append("words: ").append(utils.wordNums(tempStringbuild)).append("\n");
                 stringBuilder.append("lines: ").append(utils.lineNums(readPath)).append("\n");
 
@@ -59,7 +59,7 @@ class WordCount {
                 StringBuilder tempStringbuild = utils.readIn(readPath);
                 //处理特殊字符，以免被误以为是单词的一部分
                 String characters = tempStringbuild.toString();
-                stringBuilder.append("characters: ").append(utils.charNums(characters)).append("\n");
+                stringBuilder.append("characters: ").append(utils.charNums(readPath)).append("\n");
                 stringBuilder.append("words: ").append(utils.wordNums(tempStringbuild)).append("\n");
                 stringBuilder.append("lines: ").append(utils.lineNums(readPath)).append("\n");
                 List list;
