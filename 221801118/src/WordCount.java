@@ -8,6 +8,7 @@ public class WordCount
         Lib lib = new Lib();
         //测试文本的绝对路径" C:\\Users\\HUAWEI\\Desktop\\input.txt ";
         String path;    // 文件路径
+        String result;    //最终输出
         Scanner scanner = new Scanner(System.in);
         path = scanner.nextLine();
         lib.lineCount(path);    //lib行数属性已赋值
@@ -15,10 +16,12 @@ public class WordCount
         lib.wordCount(path);    //lib单词数属性已赋值
         lib.wordFrequencyCount(path);    //lib词频map统计完成
 
-        System.out.println(lib.sumLines);
-        System.out.println(lib.sumChars);
-        System.out.println(lib.sumWords);
-        System.out.println(lib.sortResultStr);
+        result = "characters: " + lib.sumChars + "\n";
+        result += "words: " + lib.sumWords + "\n";
+        result += "lines: " + lib.sumLines + "\n";
+        result += lib.sortResultStr;
+
+        System.out.println(result);
 
     }
 }
