@@ -1,5 +1,4 @@
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,7 +39,7 @@ public class Lib
         char[] a = str.toCharArray();
         for(int i = 0;i < str.length();i++)
         {
-            if(a[i] >= 0&&a[i] <= 127)
+            if(a[i] >= 0 && a[i] <= 127)
             {
                 charactersNum++;
             }
