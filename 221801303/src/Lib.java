@@ -8,12 +8,12 @@ import java.util.regex.Pattern;
 public class Lib {
     Control con = new Control();
     public void linecount(File file) {
-        int i = 0;
+        int count = 0;
         try {
             FileReader fr = new FileReader(file);
             BufferedReader bufr = new BufferedReader(fr);
             while (bufr.readLine() != null) {
-                i++;
+                count++;
             }
             bufr.close();
             fr.close();
@@ -21,17 +21,17 @@ public class Lib {
         catch (Exception e) {
             e.printStackTrace();
         }
-        con.write("Lines:"+i+"\n");
+        con.write("Lines:" + count + "\n");
     }
 
     public void charcount(File file){
-        int countc=0;
+        int count = 0;
         try
         {
             FileReader fr = new FileReader(file);
             BufferedReader bfr = new BufferedReader(fr);
             while((char)bfr.read()!=(char)-1){
-               countc++;
+               count++;
             }
             bfr.close();
             fr.close();
@@ -39,7 +39,7 @@ public class Lib {
         catch(Exception e) {
             e.printStackTrace();
         }
-        con.write("characters:"+countc+"\n");
+        con.write("characters:" + count + "\n");
     }
 
     public void wordcount(File file){
@@ -73,11 +73,11 @@ public class Lib {
         Map<String, Integer> map = new TreeMap<String, Integer>();
         String word = "";
         Integer num = null;
-        int total = 0;
+        int count = 0;
 
         while(matcher.find()) {
             word = matcher.group();
-            total ++;
+            count ++;
             if(map.containsKey(word)) {
                 num = map.get(word);
                 num += 1;
@@ -86,12 +86,12 @@ public class Lib {
             }
             map.put(word, num);
         }
-        con.write("words:"+total+"\n");
+        con.write("words:" + count + "\n");
         Set<String> keys = map.keySet();
         for (String key : keys) {
             int i=0;
             Integer value = map.get(key);
-            con.write(key+":"+value+"\n");
+            con.write(key + ":" + value + "\n");
             i++;
             if(i>9) break;
         }
