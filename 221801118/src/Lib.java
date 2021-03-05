@@ -1,17 +1,15 @@
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 
 public class Lib
 {
-    int sumChars = 0;   /*总字符数*/
     int sumLines = 0;   /*总行数*/
+    int sumChars = 0;   /*总字符数*/
     int sumWords = 0;   /*总单词数*/
     String resultStr = "";    /*文章拼接而成的字符串*/
+    byte[] resultByte = new byte[30 * 1024];
 
     /*根据文件路径获得BufferReader*/
-    public static BufferedReader readFile(String path)
+    public static BufferedReader getBufferedReader(String path)
     {
         FileReader fr = null;
         try
@@ -27,7 +25,56 @@ public class Lib
         return br;
     }
 
-    /*统计文章行数并将文章拼接成一个字符串*/
+    /*获得文章字符串*/
+    public String readToString(String path)
+    {
+        String encoding = "UTF-8";
+        File file = new File(path);
+        Long filelength = file.length();
+        byte[] filecontent = new byte[filelength.intValue()];
+        try
+        {
+            FileInputStream in = new FileInputStream(file);
+            in.read(filecontent);
+            in.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        try
+        {
+            return new String(filecontent, encoding);
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            System.err.println(" OS不支持 " + encoding);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /*统计文章字符数*/
+    public void charCount(FileInputStream fis) throws IOException
+    {
+        int length = this.resultByte.length;
+        int i;
+        //this.sumChars = 0;
+        while ((i = fis.read()) != -1)
+        {
+            //this.sumChars += i;
+            this.resultStr += (char)i;
+            //this.resultByte, 0, this.resultByte.length
+            //System.out.print((char) i);
+        }
+
+    }
+
+    /*统计文章行数*/
     public void lineCount(BufferedReader br)
     {
         String temp;
@@ -39,12 +86,9 @@ public class Lib
             {
                 if(temp.length() > 0)
                 {
-                    this.sumLines ++;
-                    this.resultStr += temp;
+                    this.sumLines ++;    //统计行数
                 }
                 temp = br.readLine();
-                if(temp != null)
-                    this.resultStr += " ";
             }
         }
         catch (IOException e)
@@ -53,18 +97,6 @@ public class Lib
             e.printStackTrace();
         }
 
-    }
-
-    /*统计文章字符数*/
-    public void charCount(BufferedReader br) throws IOException
-    {
-        System.out.println(this.resultStr);
-        System.out.println(this.resultStr.length());
-
-        //byte[] bytes = br.toString().getBytes();
-        //String temp = br.toString();
-
-        //this.sumChars = bytes.length;
     }
 
     /*统计文章单词数*/
