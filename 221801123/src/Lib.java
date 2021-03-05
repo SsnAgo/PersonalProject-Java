@@ -1,6 +1,7 @@
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * 统计工具
@@ -8,7 +9,7 @@ import java.util.regex.Pattern;
 public class Lib {
 
 	//存放单词与其对应出现的次数
-	static HashMap<String, Integer> mp = new HashMap<>();
+	static HashMap<String, Integer> mp = null;
 
 	/**
 	 * 统计总字符数
@@ -39,6 +40,7 @@ public class Lib {
 		//全部默认为小写
 		str = str.toLowerCase();
 		String[] words = str.split("[^a-z0-9]+");
+		mp = new HashMap<>();
 		for (String word : words) {
 			if (word.matches("[a-z]{4,}[a-z0-9]*")) {
 				wordNum++;
