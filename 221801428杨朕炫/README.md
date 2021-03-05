@@ -74,6 +74,19 @@ java WordCount.java input.txt output.txt
 
 
 
+**注意：若要测试文本量很大的输入文件（例如txt文件大小达到100MB），则很有可能排序时会报错，解决办法：设置**
+
+**JVM运行时参数`-Djava.util.Arrays.useLegacyMergeSort=true`以向前兼容。**
+
+> IDEA设置JVM启动参数步骤
+>
+> 1. 打开运行选项卡下的Edit Configurations
+> 2. 在Configuration选项卡下的**VM Options**中指定运行时参数
+
+
+
+
+
 ## 功能简介
 
 
