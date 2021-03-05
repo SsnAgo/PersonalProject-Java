@@ -50,7 +50,7 @@ class Lib {
                 char[] c=line.toCharArray();
                 for (int i=0;i<c.length;i++)
                 {
-                    if (c[i]!='\n' && c[i]!='\r' && c[i]!='\t')
+                    if (c[i]!='\n' )
                     {
                         countLine++;
                         break;
