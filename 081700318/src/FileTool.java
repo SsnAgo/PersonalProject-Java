@@ -62,7 +62,7 @@ public class FileTool {
     /**
      * @description      关闭Reader的函数
      */
-    void closeReader()
+    Boolean closeReader()
     {
         try
         {
@@ -74,13 +74,15 @@ public class FileTool {
         catch (Exception e)
         {
             e.printStackTrace();
+            return  false;
         }
+        return  true;
     }
 
     /**
      * @description      关闭Writer的函数
      */
-    void closeWriter()
+    Boolean closeWriter()
     {
         try
         {
@@ -92,7 +94,9 @@ public class FileTool {
         catch (Exception e)
         {
             e.printStackTrace();
+            return false;
         }
+        return  true;
     }
     /**
      * @description      将文件中所有字符转化为一个string并返回

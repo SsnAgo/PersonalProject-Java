@@ -1,11 +1,8 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,7 +59,7 @@ public class ComputeTool {
     private int countWordTypeNums()
     {
         ValidWords = new ConcurrentHashMap<>();
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 8, 200, TimeUnit.MILLISECONDS,
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 200, TimeUnit.MILLISECONDS,
                 new ArrayBlockingQueue<Runnable>(ValidRows.size()));
 
         int i=0;
@@ -83,10 +80,9 @@ public class ComputeTool {
                 executor.execute(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println(Start+" "+End);
                         for (int j = Start; j<End; j++) {
                             Pattern WordPattern = Pattern.compile("(^[a-zA-Z]{4}[a-zA-Z0-9]*)");//使用正则表达式匹配单词
-                            for(String Word:ValidRows.get(j).split("[^a-zA-z0-9]"))
+                            for(String Word:ValidRows.get(j).split("[^a-zA-Z0-9]"))
                                 {
                                     Matcher WordMatcher = WordPattern.matcher(Word);
                                     if(WordMatcher.find())
