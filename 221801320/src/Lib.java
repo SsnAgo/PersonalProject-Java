@@ -4,9 +4,9 @@ import java.io.*;
 import java.util.stream.Collectors;
 import java.util.*;
 
-public class Lib {
+public class Lib {//各项方法
 	
-public static Reader openInputFile(String fileName) {
+public static Reader openInputFile(String fileName) {//创建输入文件流
 		
 		String ERROR_MESSAGE = "文件路径不存在";
 		
@@ -23,16 +23,14 @@ public static Reader openInputFile(String fileName) {
 		return reader;
 	}
 	
-	public static void writeToFile(String fileName ,String str) throws IOException {
-		File file = new File(fileName);
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "utf-8"));
-
-		bw.write(str);
+	public static BufferedWriter openOutputFile(String fileName) throws IOException {//生成输出流
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(fileName),true),"utf-8"));
+		return bw;
 	}
 		
-		public static String output = "";
 		
-		public static boolean isValidChar(int temp) {
+		
+		public static boolean isValidChar(int temp) {//判断是否是有效字符
 			if((temp >= 97 && temp <= 122) || (temp >= 65 && temp <= 90) || (temp >= 48 && temp <= 57)) {
 	            return true;
 	        } else {
@@ -40,7 +38,7 @@ public static Reader openInputFile(String fileName) {
 	        }
 		}
 	
-	    public static boolean isNum(int temp) {
+	    public static boolean isNum(int temp) {//判断是否是数字
 	        if (temp >= 48 && temp <= 57) {
 	            return true;
 	        } else {
@@ -48,7 +46,7 @@ public static Reader openInputFile(String fileName) {
 	        }
 	    }
 
-	    public static boolean isValidChars(char[] chars) {
+	    public static boolean isValidChars(char[] chars) {//判断是否是单词
 	        if (chars.length >= 4 && !isNum(chars[0]) && !isNum(chars[1]) && !isNum(chars[2]) && !isNum(chars[3])) {
 	            return true;
 	        } else {
@@ -56,27 +54,30 @@ public static Reader openInputFile(String fileName) {
 	        }
 	    }
 		
-		public static void charactersCount(String inputFile)throws IOException{
-			Reader reader = openInputFile(inputFile);
+		public static void charactersCount(String inputFile,String outputFile)throws IOException{
+		
 			int numCount = 0;
 			int temp;
+			
+			Reader reader = openInputFile(inputFile);
+			Writer writer = new FileWriter(outputFile);
 			
 			while((temp = reader.read()) != -1) {
 				numCount++;
 			}
-			
-			output.concat("characters: " + numCount + '\n');
-			System.out.println("1"+ output);
-			System.out.println(numCount);
+			writer.append("characters: " + numCount + '\n');
+		
 			reader.close();
-			
+			writer.close();
 		}
 		
-		public static void wordsCount(String inputFile)throws IOException{
-			Reader reader = openInputFile(inputFile);
+		public static void wordsCount(String inputFile,String outputFile)throws IOException{
 			int temp;
 			int numCount = 0;
 			String word = null;
+			
+			Reader reader = openInputFile(inputFile);
+			Writer writer = openOutputFile(outputFile);
 			
 			while((temp = reader.read()) != -1) {
 				if(isValidChar(temp)) {
@@ -94,13 +95,16 @@ public static Reader openInputFile(String fileName) {
 				}
 				word = "" + (char)temp;
 			}
-			output.concat("words: " + numCount + '\n');
+			writer.append("words: " + numCount + '\n');
 			reader.close();
+			writer.close();
 		}
 		
 		
-		public static void linesCount(String inputFile) throws IOException{
+		public static void linesCount(String inputFile,String outputFile) throws IOException{
+			
 			Reader reader = openInputFile(inputFile);
+			Writer writer = openOutputFile(outputFile);
 			int temp;
 			int numCount=0;
 			String line = "";
@@ -117,10 +121,14 @@ public static Reader openInputFile(String fileName) {
 			line = "";
 			}
 			reader.close();
-			output.concat("lines: " + numCount + "\n");
+			
+			writer.append("lines: " + numCount + "\n");
+			writer.close();
 		}
-		public static void wordNum(String inputFile) throws IOException {
-	        Reader reader = openInputFile(inputFile);
+		public static void wordNum(String inputFile,String outputFile) throws IOException {
+			
+			Reader reader = openInputFile(inputFile);
+			Writer writer = openOutputFile(outputFile);
 	       
 	        int temp;
 	        String word = "";
@@ -165,18 +173,21 @@ public static Reader openInputFile(String fileName) {
 	                })
 	                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
 	                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-	        printWords(result);
+	        printWords(result,writer);
 	        reader.close();
+	        writer.close();
 	    }
 
 
-	    public static void printWords(Map<String, Integer> map) throws IOException {
+	    public static void printWords(Map<String, Integer> map , Writer writer) throws IOException {
 	        int i = 0;
+	        
 	        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-	            output.concat(entry.getKey() + ": " + entry.getValue() + "\n");
+	        	writer.append(entry.getKey() + ": " + entry.getValue() + "\n");
 	            if (i++ >= 9) {
 	            }
 	        }
+	       
 	    }
 
 	}
