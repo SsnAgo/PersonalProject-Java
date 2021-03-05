@@ -1,29 +1,34 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Scanner;
+
 
 public class WordCount
 {
-    public static void main(String[] args)
+
+    int sumLines = 0;   /*总行数*/
+    int sumChars = 0;   /*总字符数*/
+    int sumWords = 0;   /*总单词数*/
+
+
+    public static void main(String[] args) throws IOException
     {
+        WordCount wc = new WordCount();
         Lib lib = new Lib();
-        String inPath;    // file path
-        String outPath;    // file path
-        String result;    // final output
+        //测试文本的绝对路径" C:\\Users\\HUAWEI\\Desktop\\test.txt ";
+        String path = null;    // 文件路径
+        Scanner scanner = new Scanner(System.in);
+        path = scanner.nextLine();
+        BufferedReader br = null;
+        br = lib.readFile(path);
 
-        inPath = args[0].toString();
-        outPath = args[1].toString();
+        lib.lineCount(br, wc);
+        System.out.println("文本一共有" + wc.sumLines + "行");
 
-
-        lib.lineCount(inPath);
-        lib.charCount(inPath);
-        lib.wordCount(inPath);
-        lib.wordFrequencyCount(inPath);
-
-        result = "characters: " + lib.sumChars + "\n";
-        result += "words: " + lib.sumWords + "\n";
-        result += "lines: " + lib.sumLines + "\n";
-        result += lib.sortResultStr;
-        lib.outputFile(result, outPath);
-
-        System.out.println(result);
     }
+
+
+
 }
