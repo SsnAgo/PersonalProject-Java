@@ -9,7 +9,7 @@ public class WordCount
 	{
 		if(args.length<2) 
 		{
-            System.out.println("²ÎÊý²»×ã2¸ö");
+            System.out.println("å‚æ•°ä¸è¶³2ä¸ª");
         }
         else 
         {

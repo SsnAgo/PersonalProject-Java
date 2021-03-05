@@ -5,22 +5,22 @@ import java.util.HashMap;
 
 public class Lib 
 {
-	HashMap<String,Integer> hashMap=new HashMap<String,Integer>(); //Í³¼Æ´ÊÆµ
+	HashMap<String,Integer> hashMap=new HashMap<String,Integer>(); //ç»Ÿè®¡è¯é¢‘
 	
-	public int countChar(File file)	//Í³¼Æ×Ö·ûÊı
+	public int countChar(File file)	//ç»Ÿè®¡å­—ç¬¦æ•°
 	{
-		int i=0; //¼ÇÂ¼×Ö·ûÊı
+		int i=0; //è®°å½•å­—ç¬¦æ•°
 		try 
 		{		
 			FileReader fr=new FileReader(file);
 			BufferedReader bfr=new BufferedReader(fr);
 			char ch;
 			
-			while((ch=(char)bfr.read())!=(char)-1) //°´×Ö·û¶ÁÈ¡ÎÄ±¾ÄÚÈİ
+			while((ch=(char)bfr.read())!=(char)-1) //æŒ‰å­—ç¬¦è¯»å–æ–‡æœ¬å†…å®¹
 			{
 				if(ch>=0 && ch<=127) 
 				{
-					i++; //ÀÛ¼Æ×Ö·ûÊı
+					i++; //ç´¯è®¡å­—ç¬¦æ•°
 		        }	
 			}
 			
@@ -36,7 +36,7 @@ public class Lib
 		return i;
 	}
 	
-	public int countLine(File file) //Í³¼ÆĞĞÊı
+	public int countLine(File file) //ç»Ÿè®¡è¡Œæ•°
 	{
 		int count=0;
 		try 
@@ -67,7 +67,7 @@ public class Lib
 		return count;
 	}
 	
-	public int countWord(File file) //Í³¼Æµ¥´Ê³öÏÖÆµÂÊ
+	public int countWord(File file) //ç»Ÿè®¡å•è¯å‡ºç°é¢‘ç‡
 	{
 		
 		int countWords=0;
@@ -79,19 +79,19 @@ public class Lib
 			char ch;
 			
 			String str="";
-			while((ch=(char)bfr.read()) != (char)-1)//°´×Ö·û¶ÁÈ¡ÎÄ±¾ÄÚÈİ
+			while((ch=(char)bfr.read()) != (char)-1)//æŒ‰å­—ç¬¦è¯»å–æ–‡æœ¬å†…å®¹
 			{						
 				str+=ch;
 			}
 			
-			String[] strs=str.split("[^a-zA-Z0-9]"); //½«ÎÄ±¾ÄÚÈİ°´·Ö¸ô·û·Ö¿ª³ÉÈô¸É×Ö·û´®
+			String[] strs=str.split("[^a-zA-Z0-9]"); //å°†æ–‡æœ¬å†…å®¹æŒ‰åˆ†éš”ç¬¦åˆ†å¼€æˆè‹¥å¹²å­—ç¬¦ä¸²
 			
 			for(int i=0;i<strs.length;i++) 
 			{
-			    if(strs[i].matches("[a-zA-Z]{4,}[a-zA-Z0-9]*")) //ÒÀ´ÎÅĞ¶Ï×Ö·û´®ÊÇ·ñÊÇµ¥´Ê
+			    if(strs[i].matches("[a-zA-Z]{4,}[a-zA-Z0-9]*")) //ä¾æ¬¡åˆ¤æ–­å­—ç¬¦ä¸²æ˜¯å¦æ˜¯å•è¯
 			    {
-			    	addWordToHash(hashMap,strs[i]); //ÊÇµ¥´ÊÔò¼ÓÈëÍ³¼ÆÓÃµÄhashMap
-			    	countWords++; //¼ÆÊı¼ÓÒ»
+			    	addWordToHash(hashMap,strs[i]); //æ˜¯å•è¯åˆ™åŠ å…¥ç»Ÿè®¡ç”¨çš„hashMap
+			    	countWords++; //è®¡æ•°åŠ ä¸€
 			    }
 			}
 			bfr.close();
@@ -106,39 +106,39 @@ public class Lib
 		return countWords;
 	}
 	
-	public void addWordToHash(HashMap<String,Integer> hash,String str) //°Ñ×Ö·û´®¼ÓÈëÒ»¸öHashMap
+	public void addWordToHash(HashMap<String,Integer> hash,String str) //æŠŠå­—ç¬¦ä¸²åŠ å…¥ä¸€ä¸ªHashMap
 	{
-		//È«²¿ÖÃÎªĞ¡Ğ´
+		//å…¨éƒ¨ç½®ä¸ºå°å†™
 		str=str.toLowerCase();
 		
-		if (!hash.containsKey(str)) //ÈôÉĞÎŞ´Ëµ¥´Ê
+		if (!hash.containsKey(str)) //è‹¥å°šæ— æ­¤å•è¯
 		{ 
 			hash.put(str,1);
 		} 
-		else //Èç¹ûÓĞ£¬¾Í½«´ÎÊı¼Ó1
+		else //å¦‚æœæœ‰ï¼Œå°±å°†æ¬¡æ•°åŠ 1
 		{
 			hash.put(str,hash.get(str)+1);
 		}
 	
 	}
 	
-	public void addWordToTree(TreeMap<String,Integer> tree,String str) //°Ñ×Ö·û´®¼ÓÈëÒ»¸öTreeMap
+	public void addWordToTree(TreeMap<String,Integer> tree,String str) //æŠŠå­—ç¬¦ä¸²åŠ å…¥ä¸€ä¸ªTreeMap
 	{
-		if (!tree.containsKey(str)) //ÈôÉĞÎŞ´Ëµ¥´Ê
+		if (!tree.containsKey(str)) //è‹¥å°šæ— æ­¤å•è¯
 		{ 
 			tree.put(str,1);
 		} 
-		else //Èç¹ûÓĞ£¬¾Í½«´ÎÊı¼Ó1
+		else //å¦‚æœæœ‰ï¼Œå°±å°†æ¬¡æ•°åŠ 1
 		{
 			tree.put(str,tree.get(str)+1);
 		}
 	
 	}
 	
-	public String countWordFrequency(HashMap<String,Integer> hash) //°´ÆµÂÊÊä³ö
+	public String countWordFrequency(HashMap<String,Integer> hash) //æŒ‰é¢‘ç‡è¾“å‡º
 	{
 		String result="";
-		//±éÀúmap
+		//éå†map
 		Iterator iterator=hash.keySet().iterator();
 		int maxOccur=0;
 		while(iterator.hasNext())
@@ -147,24 +147,24 @@ public class Lib
 			if (hash.get(word)>maxOccur)
 				maxOccur=hash.get(word);
 		}
-		//System.out.println("×î¶à³öÏÖ£º"+maxOccur);	
+		//System.out.println("æœ€å¤šå‡ºç°ï¼š"+maxOccur);	
 		
-		//¹¹Ôì³õÊ¼»¯TreeMapÊı×é
+		//æ„é€ åˆå§‹åŒ–TreeMapæ•°ç»„
 		TreeMap[] wordArray=new TreeMap[maxOccur+1];
 		for (int i=0;i<=maxOccur;i++) 
 		{
 			wordArray[i]=new TreeMap<String,Integer>();
 		}
 		
-		//Ôö¸ÄTreeMapÊı×é
-		iterator=hash.keySet().iterator(); //ÖØÖÃµü´úÆ÷
+		//å¢æ”¹TreeMapæ•°ç»„
+		iterator=hash.keySet().iterator(); //é‡ç½®è¿­ä»£å™¨
 		while(iterator.hasNext())
 		{
 			String word=(String)iterator.next();
 			addWordToTree(wordArray[hash.get(word)],word);
 		}
 		
-		//±éÀúTreeMapÊı×é
+		//éå†TreeMapæ•°ç»„
 		int num=1;
 		for (int i=maxOccur;i>0;i--) 
 		{
@@ -184,11 +184,11 @@ public class Lib
 		return result;
 	}
 	
-	public void writeToText(File file,String str) //×·¼ÓĞ´Èë output.txt
+	public void writeToText(File file,String str) //è¿½åŠ å†™å…¥ output.txt
 	{
 		try 
 		{	   
-			FileWriter fw=new FileWriter(file,true); //µÚ¶ş¸ö²ÎÊıtrueÔòÎªappend·½Ê½´ò¿ªÎÄ¼ş
+			FileWriter fw=new FileWriter(file,true); //ç¬¬äºŒä¸ªå‚æ•°trueåˆ™ä¸ºappendæ–¹å¼æ‰“å¼€æ–‡ä»¶
 			BufferedWriter bfw=new BufferedWriter(fw);
 			bfw.write(str);
 				
@@ -201,11 +201,11 @@ public class Lib
 		}
 	}
 	
-	public void clearText(File file) //Çå¿Õ output.txt
+	public void clearText(File file) //æ¸…ç©º output.txt
 	{
 		try 
 		{	   
-			FileWriter writer=new FileWriter(file); //Ã»ÓĞµÚ¶ş¸ö²ÎÊıtrueÔòÎªĞ´·½Ê½´ò¿ª
+			FileWriter writer=new FileWriter(file); //æ²¡æœ‰ç¬¬äºŒä¸ªå‚æ•°trueåˆ™ä¸ºå†™æ–¹å¼æ‰“å¼€
 			writer.write("");
 			writer.close();
 		} 
@@ -215,25 +215,25 @@ public class Lib
 		}
 	}
 	
-	public void process(File input,File output) //»ã×ÜÊä³ö
+	public void process(File input,File output) //æ±‡æ€»è¾“å‡º
 	{
-		//Êä³öÇ°Çå¿ÕÔ­ÓĞÄÚÈİ
+		//è¾“å‡ºå‰æ¸…ç©ºåŸæœ‰å†…å®¹
 		clearText(output);	
 		
-		//Í³¼ÆÎÄ±¾
+		//ç»Ÿè®¡æ–‡æœ¬
 		int countChar1=countChar(input);
 		int countWord1=countWord(input);
 		int countLine1=countLine(input);
 		String countWordFrequency1=countWordFrequency(hashMap); 
 		
-		//ºÏ³É½á¹û
+		//åˆæˆç»“æœ
 		String result="";
 		result+="characters: "+countChar1+"\n";
 		result+="words: "+countWord1+"\n";
 		result+="lines: "+countLine1+"\n";
 		result+=countWordFrequency1;
 		
-		//Êä³ö½á¹û
+		//è¾“å‡ºç»“æœ
 		writeToText(output,result);
 		
 	}
