@@ -11,14 +11,13 @@ public class WordCount
         String path = null;    // 文件路径
         Scanner scanner = new Scanner(System.in);
         path = scanner.nextLine();
-        BufferedReader br = lib.getBufferedReader(path);
-        lib.resultStr = lib.readToString(path).toString();    //获得文章字符串
-        lib.lineCount(br);
-        lib.charCount();
-
+        lib.lineCount(path);    //lib行数属性已赋值
+        lib.charCount(path);    //lib字符数属性已赋值
+        lib.wordCount(path);    //lib单词数属性已赋值
 
         System.out.println(lib.sumLines);
         System.out.println(lib.sumChars);
+        System.out.println(lib.sumWords);
 
     }
 }
