@@ -1,7 +1,5 @@
-
-*.html
-*.xml
-*.iml
-*.md
+*.zip  
 *.class
-/.idea/
+*.txt
+*.exe
+*.jar
