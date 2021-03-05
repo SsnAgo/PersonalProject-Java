@@ -6,11 +6,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lib {
-    public int linecount(File file) {
+    Control con=new Control();
+    public void linecount(File file) {
         int i=0;
         try {
-            String name = file.getName();
-            System.out.println("File:" + name);
             FileReader fr = new FileReader(file);
             BufferedReader bufr = new BufferedReader(fr);
             while (bufr.readLine() != null) {
@@ -22,27 +21,25 @@ public class Lib {
         catch (Exception e) {
             e.printStackTrace();
         }
-       return i;
+        con.write("Lines:"+i+"\r\n");
     }
 
-    public int charcount(File file){
+    public void charcount(File file){
         int countc=0;
         try
         {
             FileReader fr = new FileReader(file);
             BufferedReader bfr = new BufferedReader(fr);
-            while((char)bfr.read()!=(char)-1)//按字符读取文本内容
-            {
+            while((char)bfr.read()!=(char)-1){
                countc++;
             }
             bfr.close();
             fr.close();
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             e.printStackTrace();
         }
-        return countc;
+        con.write("characters:"+countc+"\r\n");
     }
 
     public void wordcount(File file){
@@ -88,14 +85,16 @@ public class Lib {
             }
             map.put(word, num);
         }
+        con.write("words:"+total+"\r\n");
         Set<String> keys = map.keySet();
         for (String key : keys) {
+            int i=0;
             Integer value = map.get(key);
-            System.out.printf("%s: %s\n", key, value);
+            con.write(key+":"+value+"\r\n");
+            i++;
+            if(i>9) break;
         }
-        System.out.println();
-        System.out.println("total words : " + total);
-        System.out.println("different words : " + map.size());
+
     }
 }
 
