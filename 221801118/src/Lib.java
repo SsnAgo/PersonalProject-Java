@@ -5,6 +5,10 @@ import java.io.IOException;
 
 public class Lib
 {
+    int sumLines = 0;   /*总行数*/
+    int sumChars = 0;   /*总字符数*/
+    int sumWords = 0;   /*总单词数*/
+
     /*根据文件路径获得BufferReader*/
     public static BufferedReader readFile(String path)
     {
@@ -23,16 +27,16 @@ public class Lib
     }
 
     /*统计文章行数*/
-    public void lineCount(BufferedReader br, WordCount wc)
+    public void lineCount(BufferedReader br)
     {
-        wc.sumLines = 0;
+        this.sumLines = 0;
         String temp = null;
         try
         {
             temp = br.readLine();
             while(temp != null)
             {
-                wc.sumLines ++;
+                this.sumLines ++;
                 temp = br.readLine();
             }
         }
@@ -45,13 +49,13 @@ public class Lib
     }
 
     /*统计文章字符数*/
-    public void charCount(BufferedReader br, WordCount wc) throws IOException
+    public void charCount(BufferedReader br) throws IOException
     {
 
     }
 
     /*统计文章单词数*/
-    public  void wordCount(BufferedReader br, WordCount wc) throws IOException
+    public  void wordCount(BufferedReader br) throws IOException
     {
 
     }
