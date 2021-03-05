@@ -1,4 +1,4 @@
-const Lib = require('./Lib')
+const Lib = require('./Lib/Lib')
 
 const fs = require("fs")
 const path = require("path")
