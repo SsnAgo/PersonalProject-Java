@@ -27,13 +27,18 @@ public class Lib{
 
     public void analyzeBytes(WordCount w){
         int wordStart=0;
+        boolean isNumberStart=false;
         Vector<Byte> currentWord=new Vector<>();
         String currentWordToString;
         for(int i=0;i<w.sourceBytes.length;i++){
-            if(w.sourceBytes[i]>='a'&&w.sourceBytes[i]<='z'){//分析单词数
+            //分析单词数
+            if(w.sourceBytes[i]>='a'&&w.sourceBytes[i]<='z'&&!isNumberStart){
                 wordStart++;
                 currentWord.add(w.sourceBytes[i]);
-            }else if(w.sourceBytes[i]>='0'&&w.sourceBytes[i]<='9'){
+            }else if(w.sourceBytes[i]>='0'&&w.sourceBytes[i]<='9'&&!isNumberStart){
+                if(wordStart==0){
+                    isNumberStart=true;
+                }
                 if(wordStart<4){
                     wordStart=0;
                 }else{
@@ -54,6 +59,7 @@ public class Lib{
                 }
                 wordStart=0;
                 currentWord.clear();
+                isNumberStart=false;
             }
         }
     }
@@ -115,7 +121,10 @@ public class Lib{
         System.out.println("words: "+wordCount.wordCount);
         System.out.println("lines: "+wordCount.lineCount);
         List<Map.Entry<String,Integer>> list=sortMap(wordCount.wordCountMap);
-        for(int i=0;i<10;i++){
+        for(int i=0;i<list.size();i++){
+            if(i>9){
+                break;
+            }
             System.out.println(list.get(i).getKey()+": "+list.get(i).getValue());
         }
         System.setOut(new PrintStream(new BufferedOutputStream(

@@ -5,7 +5,7 @@ import java.util.*;
 
 public class WordCount{
     int lineCount=0;
-    Map<String,Integer> wordCountMap;
+    Map<String,Integer> wordCountMap=new HashMap<>();
     int wordCount=0;
     int characterCount=0;
     byte[] sourceBytes;
@@ -16,7 +16,6 @@ public class WordCount{
             System.out.println("Wrong argument number!");
         }
         WordCount w=new WordCount();
-        w.wordCountMap=new HashMap<>();
         String inputFileName=args[0];
         w.outputFileName=args[1];
         Lib lib=new Lib();
