@@ -62,5 +62,11 @@ class LibTest {
         assertEquals(list,lib.getMostFrequentlyWords(lib.fileToString("test4.txt")));
     }
 
-    
+    @Test
+    public void testWordCount(){
+        WordCount.main(new String[]{"input.txt"});
+        WordCount.main(new String[]{"input.txt","output.txt","aaa.txt"});
+        WordCount.main(new String[]{"input3333.txt","output.txt"});
+        WordCount.main(new String[]{"input.txt","output.txt"});
+    }
 }
