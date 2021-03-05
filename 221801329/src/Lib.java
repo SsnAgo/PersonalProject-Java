@@ -1,3 +1,5 @@
+import org.junit.Test;
+
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -80,5 +82,4 @@ public class Lib {
         wordList.sort(cmp);
         return wordList;
     }
-
 }

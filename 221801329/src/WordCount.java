@@ -171,10 +171,9 @@ public class WordCount{
                 }
             }
         }
-        /*
+        /**
          * @description 将结果写入文件
-         * @return
-         * */
+         */
         public static void outputToFile() {
             BufferedWriter bw = null;
             StringBuilder str = new StringBuilder("characters: " + chars + "\n"
@@ -213,12 +212,12 @@ public class WordCount{
      * @description 程序主入口
      */
     public static void main(String[] args) {
-//        if (args.length<2) {
-//            System.out.println("请输入\"输入文件\"和\"输出文件\"的路径");
-//            return;
-//        }
+        if (args.length!=2) {
+            System.out.println("请输入\"输入文件\"和\"输出文件\"的路径");
+            return;
+        }
         long startTime = System.currentTimeMillis();
-        Solver solver = new Solver("test3.txt","a3.txt");
+        Solver solver = new Solver(args[0],args[1]);
         solver.setList();
         solver.poolSolve();
         System.out.println(System.currentTimeMillis()-startTime + "ms");
