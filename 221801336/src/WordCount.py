@@ -15,7 +15,7 @@ def count_chars(file_name):
         with io.open(file_name,"r",encoding='utf-8') as file_obj:
             for content in file_obj:
                 c_cs += count_line_chars(content)
-        m = "characters：" + str(c_cs)+"\n"
+        m = "characters: " + str(c_cs)+"\n"
         return m
     except OSError as reason:
         print('FileError'+str(reason))
@@ -50,7 +50,7 @@ def count_word(file_name):
         return 0
     else:
         result = sum(words.values())
-        m = "words："+str(result)+"\n"
+        m = "words: "+str(result)+"\n"
         return m
 
 #统计文件的有效行数
@@ -81,7 +81,7 @@ def count_words(file_name):
         s = ""
         for i in words2:
             if (m<10):
-                s += str(i[0])+":"+str(i[1])+"\n"
+                s += str(i[0])+": "+str(i[1])+"\n"
                 m+=1
         return s
 
@@ -91,7 +91,6 @@ def out_file(filename,s):
     else:
         try:
             with io.open(filename, 'a',encoding='utf-8') as file_object:
-
                 file_object.write(s)
         except OSError as reason:
             print('FileError'+str(reason))
