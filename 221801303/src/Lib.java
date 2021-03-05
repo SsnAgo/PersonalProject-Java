@@ -6,9 +6,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lib {
-    Control con=new Control();
+    Control con = new Control();
     public void linecount(File file) {
-        int i=0;
+        int i = 0;
         try {
             FileReader fr = new FileReader(file);
             BufferedReader bufr = new BufferedReader(fr);
@@ -21,7 +21,7 @@ public class Lib {
         catch (Exception e) {
             e.printStackTrace();
         }
-        con.write("Lines:"+i+"\r\n");
+        con.write("Lines:"+i+"\n");
     }
 
     public void charcount(File file){
@@ -39,7 +39,7 @@ public class Lib {
         catch(Exception e) {
             e.printStackTrace();
         }
-        con.write("characters:"+countc+"\r\n");
+        con.write("characters:"+countc+"\n");
     }
 
     public void wordcount(File file){
@@ -66,6 +66,7 @@ public class Lib {
         catch (IOException e1) {
             e1.printStackTrace();
         }
+
         String stb=stb1.toString().toLowerCase();
         Pattern pattern = Pattern.compile("[a-zA-Z]{4,}+[0-9]*");//正则表达式
         Matcher matcher = pattern.matcher(stb);
@@ -85,12 +86,12 @@ public class Lib {
             }
             map.put(word, num);
         }
-        con.write("words:"+total+"\r\n");
+        con.write("words:"+total+"\n");
         Set<String> keys = map.keySet();
         for (String key : keys) {
             int i=0;
             Integer value = map.get(key);
-            con.write(key+":"+value+"\r\n");
+            con.write(key+":"+value+"\n");
             i++;
             if(i>9) break;
         }
