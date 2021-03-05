@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -91,15 +89,24 @@ public class Lib {
             map.put(word, num);
         }
         write("words:" + count + "\n");
-        //输出
-        Set<String> keys = map.keySet();
-        for (String key : keys) {
-            int i=0;
-            Integer value = map.get(key);
-            write(key + ":" + value + "\n");
-            i++;
+
+        //将map按照出现次数排序
+        //自定义比较器
+        Comparator<Map.Entry<String, Integer>> valCmp = new Comparator<Map.Entry<String,Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                return o2.getValue() - o1.getValue();
+            }
+        };
+
+        List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String,Integer>>(map.entrySet()); //传入map
+        Collections.sort(list,valCmp);
+        //输出map
+        for(int i=0;i<list.size();i++) {
             if(i>9) break;
+            write(list.get(i).getKey() + " = " + list.get(i).getValue());
         }
+
     }
 
     //输出到文件
