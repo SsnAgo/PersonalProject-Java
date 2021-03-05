@@ -1,5 +1,5 @@
 /************************************************************
-* FileName: WordCount.cpp
+* FileName: WordCount.Java
 * 
 * Author: 131802125邱梓洛
 * 
