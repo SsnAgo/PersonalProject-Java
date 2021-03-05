@@ -16,6 +16,26 @@ public class Lib
         this.outFileName = outFileName;
     }
 
+    public String getInFileName()
+    {
+        return this.inFileName;
+    }
+
+    public String getOutFileName()
+    {
+        return this.outFileName;
+    }
+
+    public void setInFileName(String in)
+    {
+        this.inFileName = in;
+    }
+
+    public void setOutFileName(String out)
+    {
+        this.outFileName = out;
+    }
+
     /* 总函数，可一键完成所有功能 */
     public void getAll() throws IOException
     {
@@ -50,16 +70,17 @@ public class Lib
     }
 
     /* 统计文件的字符数，只需要统计Ascii码，汉字不需考虑，空格，水平制表符，换行符，均算字符 */
-    public void getCharNum() throws IOException
+    public int getCharNum() throws IOException
     {
         try (Reader reader = getFileReader(); Writer writer = getFileWriter())
         {
-            int charNum = 0, temp;
+            int charNum = 0,temp;
             while ((temp = reader.read()) != -1)
             {
                 charNum++;
             }
             writer.write("characters: " + charNum + '\n');
+            return charNum;
         }
     }
 
@@ -92,7 +113,7 @@ public class Lib
     }
 
     /* 统计文件的单词总数，单词：至少以4个英文字母开头，跟上字母数字符号，单词以分隔符分割，不区分大小写。*/
-    public void getWordNum() throws IOException
+    public int getWordNum() throws IOException
     {
         int wordNum = 0;
         TurnFileToString();
@@ -105,6 +126,7 @@ public class Lib
                 }
             }
             writer.write("words: " + wordNum + "\n");
+            return wordNum;
         }
     }
 
@@ -120,12 +142,15 @@ public class Lib
         for (int i = 0; i < toJudgeWords.length; i++)
         {
             String s = toJudgeWords[i];
-            if (isWord(s) && wordSet.contains(s))
+            if (isWord(s))
             {
-                int num = wordMap.get(s) + 1;
-                wordMap.put(s,num);
+                if (wordSet.contains(s))
+                {
+                    int num = wordMap.get(s) + 1;
+                    wordMap.put(s, num);
+                }
+                else wordMap.put(s,1);
             }
-            else wordMap.put(s,1);
         }
 
         /* 录入之后排序，频率相同的单词，优先输出字典序靠前的单词 */
@@ -158,7 +183,7 @@ public class Lib
     }
 
     /* 统计文件的有效行数，任何包含非空白字符的行，都需要统计，空白字符包括空格，\r,\t,\n */
-    public void getLineNum() throws IOException
+    public int getLineNum() throws IOException
     {
         try(BufferedReader reader = getFileReader();Writer writer = getFileWriter())
         {
@@ -172,6 +197,7 @@ public class Lib
                 }
             }
             writer.write("lines: " + lineNum + "\n");
+            return lineNum;
         }
     }
 
