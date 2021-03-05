@@ -7,8 +7,8 @@ public class WordCount {
 	    File input;
 	    File output;
 	    if(args.length<2){
-	        input=new File("src/input.txt");
-	        output=new File("src/output.txt");
+	        input = new File("src/input.txt");
+	        output = new File("src/output.txt");
         }
         else {
             input = new File(args[0]);
