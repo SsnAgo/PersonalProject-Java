@@ -1,6 +1,5 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Lib
 {
@@ -9,7 +8,7 @@ public class Lib
     int sumWords = 0;   /*总单词数*/
     String resultStr = "";    /*文章拼接而成的字符串*/
     Map<String,Integer> map = new HashMap<String, Integer>();    /*用于统计词频*/
-    String sortResult = "";    /*用于生成最高频10个单词的字符串*/
+    String sortResultStr = "";    /*用于生成最高频10个单词的字符串*/
 
     /*根据文件路径获得BufferReader*/
     public static BufferedReader getBufferedReader(String path)
@@ -102,7 +101,7 @@ public class Lib
         this.resultStr = this.resultStr.toLowerCase();
         String[] words = this.resultStr.split(" ");    //分割获得所有单词
 
-        int count = 0;
+        this.sumWords = 0;
         for (String word : words)
         {
             if (word.length() > 3)
@@ -113,10 +112,9 @@ public class Lib
                     char x = word.charAt(j);
                     if (x <= 'a' || x >= 'z') break;
                 }
-                if (j == 4) count++;
+                if (j == 4) this.sumWords++;    //此单词符合标准,计入总词数
             }
         }
-        this.sumWords = count;
     }
 
     /*单词类*/
@@ -139,7 +137,7 @@ public class Lib
     }
 
     /*统计词频信息*/
-    public String wordFrequencyCount(String path)
+    public void wordFrequencyCount(String path)
     {
         this.resultStr = readToString(path);
         this.resultStr = this.resultStr.replace('\r', ' ');
@@ -169,7 +167,20 @@ public class Lib
             }
         }
 
-        return sortResult;
+        Set<Word> set = new TreeSet<Word>();
+        for(String key : this.map.keySet())
+        {
+            set.add(new Word(key, this.map.get(key)));
+        }
+        int sum = 0;
+        Iterator<Word> t = set.iterator();
+        while (t.hasNext())
+        {
+            Word word = t.next();
+            this.sortResultStr += word.key + ": " + word.value + "\n";
+            sum++;
+            if(sum == 10)  break;
+        }
 
     }
 
