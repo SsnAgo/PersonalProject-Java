@@ -9,21 +9,21 @@ public class Lib
 
 
     
-    //»ñÈ¡ÎÄ¼şµÄËùÓĞÄÚÈİ
+    //è·å–æ–‡ä»¶çš„æ‰€æœ‰å†…å®¹
     public static String charactersCount(String filePath)
     {
 
-        BufferedReader bufferedReader=null;
+        BufferedReader bReader=null;
         StringBuilder str=null;
 
         try 
         {
             FileReader reader=new FileReader(filePath);
-            bufferedReader=new BufferedReader(reader);
+            bReader=new BufferedReader(reader);
             str=new StringBuilder();
             int flag;
             //str.append(bufferedReader.read());
-            while ((flag=bufferedReader.read())!=-1)
+            while ((flag=bReader.read())!=-1)
             {
                 str.append((char)flag);
             }
@@ -38,7 +38,7 @@ public class Lib
         {
             try 
             {
-                bufferedReader.close();
+                bReader.close();
             } 
             catch (IOException e) 
             {
@@ -50,37 +50,28 @@ public class Lib
     }
 
     
-    //×ÖÊı×ÜÊıÍ³¼Æ
+    //å­—æ•°æ€»æ•°ç»Ÿè®¡
     public static int charactersNumberCount(String str)
     {
 
         int num=0;
-
-        char[] temp=str.toCharArray();
-        for(int i=0;i<temp.length;i++)
-        {
-            if(temp[i]>=0&&temp[i]<=127)
-            {
-                num++;
-            }
-        }
-        num++;
-        //num=str.length();
+        
+        num=str.length();
 
         return num;
     }
     
     
-    //µ¥´Ê×ÖÊıÍ³¼Æ
-    static int wordsNumberCount(String str)
+    //å•è¯å­—æ•°ç»Ÿè®¡
+    public static int wordsNumberCount(String str)
     {
 
         int num=0;
         
-        //½«ËùÓĞ×Ö·ûÓÃ·Ö¸ô·û·Ö¿ª
+        //å°†æ‰€æœ‰å­—ç¬¦ç”¨åˆ†éš”ç¬¦åˆ†å¼€
         String[] word=str.split("\\s+");
         
-        //ÅĞ¶ÏÊÇ·ñÎªµ¥´ÊµÄÌõ¼ş
+        //åˆ¤æ–­æ˜¯å¦ä¸ºå•è¯çš„æ¡ä»¶
         String strings="^[a-zA-Z]{4,}.*";
         for(int i=0;i<word.length;i++)
         {
@@ -88,50 +79,27 @@ public class Lib
             {
                 num++;
                 
-                //×ª»¯ÎªĞ¡Ğ´
-                String insertKey=word[i].toLowerCase();
-                if (wordsMap.containsKey(insertKey))
+                //è½¬åŒ–ä¸ºå°å†™
+                String lowCase=word[i].toLowerCase();
+                
+                //å°†æ•°æ®æ’å…¥mapåœ¨åˆ©ç”¨mapå®ç°æ’åº
+                if (wordsMap.containsKey(lowCase))
                 {
-                    int j=wordsMap.get(insertKey);
-                    wordsMap.put(insertKey,j+1);
+                    int j=wordsMap.get(lowCase);
+                    wordsMap.put(lowCase,j+1);
                 }
                 else 
                 {
-                    wordsMap.put(insertKey,1);
+                    wordsMap.put(lowCase,1);
                 }
             }
         }
 
         return num;
     }
-
-    //°´µ¥´ÊÆµÂÊ½øĞĞÅÅĞò
-    public List<Map.Entry<String,Integer>> SortMap()
-    {
-
-        List<Map.Entry<String,Integer>> wordList=new ArrayList<Map.Entry<String, Integer>>(wordsMap.entrySet());
-
-        Collections.sort(wordList, new Comparator<Map.Entry<String, Integer>>() 
-        {
-            @Override
-            public int compare(Map.Entry<String, Integer> map1, Map.Entry<String, Integer> map2) 
-            {
-                if (map1.getValue().equals(map2.getValue()))
-                {
-                    return map1.getKey().compareTo(map2.getKey());
-                }
-                else 
-                {
-                    return map2.getValue()-map1.getValue();
-                }
-            }
-        });
-
-        return wordList;
-    }
-
-
-    static int linesNumberCount(String filePath)
+    
+  //è®¡ç®—è¡Œæ•°
+    public static int linesNumberCount(String filePath)
     {
     	File file=new File(filePath);
     	int count=0;
@@ -164,6 +132,50 @@ public class Lib
 
         return count;
     }
+
+    //æŒ‰å•è¯é¢‘ç‡è¿›è¡Œæ’åº
+    public List<Map.Entry<String,Integer>> SortMap()
+    {
+
+        List<Map.Entry<String,Integer>> wordList=new ArrayList<Map.Entry<String, Integer>>(wordsMap.entrySet());
+
+        Collections.sort(wordList, new Comparator<Map.Entry<String, Integer>>() 
+        {
+        	
+        	//åˆ©ç”¨åŒ¿åå†…éƒ¨ç±»å®ç°æ’åº
+            @Override
+            public int compare(Map.Entry<String, Integer> map1, Map.Entry<String, Integer> map2) 
+            {
+                if (map1.getValue().equals(map2.getValue()))
+                {
+                    return map1.getKey().compareTo(map2.getKey());
+                }
+                else 
+                {
+                    return map2.getValue()-map1.getValue();
+                }
+            }
+        	
+        });
+
+        return wordList;
+    }
+    
+    public static void writeNum(int charNum,int wordNum,int lineNum,String wordsSort,String outPath)throws IOException 
+	{
+		FileOutputStream fileOutputStream=new FileOutputStream(outPath);
+        OutputStreamWriter outputStreamWriter=new OutputStreamWriter(fileOutputStream,"UTF-8");
+        BufferedWriter bufferedWriter=new BufferedWriter(outputStreamWriter);
+        
+        bufferedWriter.write("characters:"+charNum+"\nwords:"+wordNum+"\nlines:"+lineNum+"\n"+wordsSort);
+        
+        bufferedWriter.flush();
+        
+        bufferedWriter.close();
+	}
+
+
+    
 
 }
 
