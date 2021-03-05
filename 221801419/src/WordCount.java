@@ -27,12 +27,12 @@ public class WordCount {
         FileOutputStream fileOutputStream=new FileOutputStream(outputPath);
         OutputStreamWriter outputStreamWriter=new OutputStreamWriter(fileOutputStream,"UTF-8");
         BufferedWriter bufferedWriter=new BufferedWriter(outputStreamWriter);
-        bufferedWriter.write("characters:"+strNum+"\nwords:"+wordNum+"\nlines:"+lineNum);
+        bufferedWriter.write("characters: "+strNum+"\nwords: "+wordNum+"\nlines: "+lineNum);
 
         String words="";
         int i=0;
         for(Map.Entry<String,Integer>map:wordsMap){
-            words+=map.getKey()+":"+map.getValue()+"\n";
+            words+=map.getKey()+": "+map.getValue()+"\n";
             i++;
             if(i==10){
                 break;
