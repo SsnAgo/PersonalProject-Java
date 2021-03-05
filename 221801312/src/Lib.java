@@ -3,9 +3,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Lib {
-
     public static int lineNum;
-
     //文件工具类，用于读取文件和写入文件
     public static class FileUtil{
         private File inputFile;
@@ -44,11 +42,11 @@ public class Lib {
     public static long countChars(String inputPath) throws IOException {
         BufferedReader tempReader=new BufferedReader(new FileReader(inputPath));
         long charsNum=0;
-        while(tempReader.read()!=-1){
+        while(tempReader.read()!=-1){           //遍历reader
             charsNum++;
         }
         tempReader.close();
-        return charsNum;
+        return charsNum;                       //返回字符数
     }
 
     //统计单词数
@@ -59,8 +57,7 @@ public class Lib {
         return (long) mapWord.get("wordsNum");
     }
 
-
-    //统计词频，返回map
+    //统计词频，返回string
     public static String countWordFrequency(String inputPath) throws IOException {
         BufferedReader tempReader=new BufferedReader(new FileReader(inputPath));
         Map<String,Long> sortMap=sortWord(countWordsTable(tempReader,false));
@@ -71,11 +68,10 @@ public class Lib {
         for (Map.Entry<String, Long> entry : entrySet) {
             frequency.append(entry.getKey()).append(": ").append(entry.getValue()).append('\n');
         }
-
         return frequency.toString();
     }
 
-    //统计单词，返回map
+    //统计每行单词，返回map
     private static Hashtable<String,Long> countLineWords
             (String line,Hashtable<String,Long> mapWord,boolean countWords){
         long wordsNum=0;
@@ -113,8 +109,7 @@ public class Lib {
         return mapWord;
     }
 
-    //map排序，将值按升序排序，当值相同时键按字典序排序
-    //返回一个map
+    //map排序，将值按升序排序，当值相同时键按字典序排序    返回map
     private static Map<String, Long> sortWord(Map<String,Long> map) {
         Map<String, Long> sorted = map.entrySet().stream()
                 .sorted(Map.Entry.<String, Long> comparingByValue().reversed()       //值升序排序
@@ -128,6 +123,7 @@ public class Lib {
         return sorted;
     }
 
+    //遍历文件统计单词
     private static Hashtable<String,Long> countWordsTable
             (BufferedReader tempReader,boolean countLine) throws IOException {
         Hashtable<String,Long> mapWord=new Hashtable<>();
