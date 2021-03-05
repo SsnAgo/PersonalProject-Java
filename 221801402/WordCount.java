@@ -3,6 +3,7 @@ import java.io.PrintWriter;
 public class WordCount {
 
     public static void  main(String args[]) {
+
         String inFile = args[0];
         String outFile = args[1];
 
@@ -17,6 +18,7 @@ public class WordCount {
             System.out.println(charNum);
             lineNum=a.CountLine(inFile);
             System.out.println(lineNum);
+            a.CountWord(inFile,outFile,charNum,lineNum);
         }catch (Exception e) {
             e.printStackTrace();
         }
