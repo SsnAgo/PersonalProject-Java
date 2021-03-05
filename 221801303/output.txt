@@ -1,7 +1,0 @@
-characters:43
-Lines:3
-words:5
-abcd:1
-abcd123132:1
-close:1
-commit:2
