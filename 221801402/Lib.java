@@ -46,7 +46,6 @@ public class Lib {
         }
 
 
-
     public void CountWord(String inpath,String outpath,int charNum,int lineNum) {
         File file = new File(inpath);
         try {
