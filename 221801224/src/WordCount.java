@@ -6,6 +6,9 @@ public class WordCount {
     public static void main(String args[])throws IOException{
         String inputFileName = args[0];
         String outputFileName = args[1];
+        if(args[0] == null ||args[1] == null){
+            System.out.println("输入参数错误！");
+        }
         //File file = new File("C:/Users/Lenovo/Desktop/input1.txt");
         File file = new File(inputFileName);
         Lib lib = new Lib(file);
