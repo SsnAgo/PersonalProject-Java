@@ -6,19 +6,19 @@ import java.util.regex.Pattern;
 public class WordUtilImpl implements WordUtil{
 
     //父目录
-    public static final String PARENTDIRECTORY = ".." + File.separator;
+    public static final String PARENT_DIRECTORY = ".." + File.separator;
     //获取当前绝对目录路径：
     public static final String ABSOLUTE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator;
 
     //统计字符数
-    public Integer countChar(String fileName) throws IOException{
+    public Integer countChar(String fileName) throws IOException {
         return countChar(fileName, ABSOLUTE_PATH);
     }
     public Integer countChar(String fileName, String fileDirectory) throws IOException {
         //文件名、文件路径正确性判断
-        try{
+        try {
             MyException(fileName, fileDirectory);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
@@ -27,20 +27,17 @@ public class WordUtilImpl implements WordUtil{
         int x = -1;
         File file = new File(fileDirectory + fileName);
         BufferedReader bReader;
-        try{
+        try {
             bReader = new BufferedReader(new FileReader(file));
             //逐个字符读取文件
-            while((x = bReader.read())!=-1) {
-                char a=(char)x;
-            /*if(a!='\n'&&a!='\r'){
-                charNum++;
-            }*/
+            while ((x = bReader.read()) != -1) {
+                char a = (char)x;
                 charNum++;
             }
             //关闭流
             bReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("文件未找到! "+e.getMessage());
+            System.out.println("文件未找到! " + e.getMessage());
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -49,14 +46,14 @@ public class WordUtilImpl implements WordUtil{
     }
 
     //统计单词总数
-    public Integer countWord(String fileName) throws IOException{
+    public Integer countWord(String fileName) throws IOException {
         return countWord(fileName, ABSOLUTE_PATH);
     }
-    public Integer countWord(String fileName, String fileDirectory) throws IOException{
+    public Integer countWord(String fileName, String fileDirectory) throws IOException {
         //文件名、文件路径正确性判断
-        try{
+        try {
             MyException(fileName, fileDirectory);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
@@ -65,7 +62,7 @@ public class WordUtilImpl implements WordUtil{
         File file = new File(fileDirectory + fileName);
         //缓冲区
         BufferedReader bReader;
-        try{
+        try {
             bReader = new BufferedReader(new FileReader(file));
             String temp = "";
 
@@ -75,7 +72,7 @@ public class WordUtilImpl implements WordUtil{
                 for (String word : words) {
                     word.toLowerCase();
                     //碰到符合条件的单词，单词数+1
-                    if (word.matches("[a-zA-Z]{4}[a-zA-Z0-9]*") ) {
+                    if (word.matches("[a-zA-Z]{4}[a-zA-Z0-9]*")) {
                         wordNum++;
                     }
                 }
@@ -85,7 +82,7 @@ public class WordUtilImpl implements WordUtil{
             //关闭流
             bReader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("文件未找到! "+e.getMessage());
+            System.out.println("文件未找到! " + e.getMessage());
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -95,14 +92,14 @@ public class WordUtilImpl implements WordUtil{
 
 
     //统计行数
-    public Integer countLine(String fileName) throws IOException{
+    public Integer countLine(String fileName) throws IOException {
         return countLine(fileName, ABSOLUTE_PATH);
     }
-    public Integer countLine(String fileName, String fileDirectory) throws IOException{
+    public Integer countLine(String fileName, String fileDirectory) throws IOException {
         //文件名、文件路径正确性判断
-        try{
+        try {
             MyException(fileName, fileDirectory);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
@@ -115,10 +112,10 @@ public class WordUtilImpl implements WordUtil{
         File file = new File(fileDirectory + fileName);
         //缓冲区
         BufferedReader bReader;
-        try{
+        try {
             bReader = new BufferedReader(new FileReader(file));
             //按行读取文件，进行正则处理判断有效行数
-            while((temp = bReader.readLine()) != null) {
+            while ((temp = bReader.readLine()) != null) {
                 /*
                 //法一：替换法
                 String aa = " ";
@@ -135,35 +132,32 @@ public class WordUtilImpl implements WordUtil{
                 Matcher m = p.matcher(temp);
                 String newString = m.replaceAll(aa).trim();
 
-                if(!newString.equals("")){
+                if(!newString.equals("")) {
                     //System.out.println("有效行："+newString);
                     line++;
                 }
-
             }
             //关闭流
             bReader.close();
-            //String result=""+line;
         } catch (FileNotFoundException e) {
-            System.out.println("文件未找到! "+e.getMessage());
+            System.out.println("文件未找到! " + e.getMessage());
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
         return line;
     }
 
 
     //统计各单词出现次数,并排序
     //通过HashMap排序
-    public List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName) throws IOException{
+    public List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName) throws IOException {
         return countWordFrequency(fileName, ABSOLUTE_PATH);
     }
     public List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName, String fileDirectory) throws IOException {
         //文件名、文件路径正确性判断
-        try{
+        try {
             MyException(fileName, fileDirectory);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
@@ -177,15 +171,15 @@ public class WordUtilImpl implements WordUtil{
             File file = new File(fileDirectory + fileName);
             bReader = new BufferedReader(new FileReader(file));
             //按行读文件，用正则表达式分割
-            while ((temp = bReader.readLine()) != null){
+            while ((temp = bReader.readLine()) != null) {
                 String[] words = temp.split("[^a-zA-Z0-9]+");
                 //在分割出单词之后，将单词遍历储存在hashmap当中，在储存前先判断是否为合法单词
                 for (String word : words) {
                     word = word.toLowerCase();
-                    if (word.matches("[a-zA-Z]{4}[a-zA-Z0-9]*") ) {
+                    if (word.matches("[a-zA-Z]{4}[a-zA-Z0-9]*")) {
                         //若此单词已经记录过，value + 1
-                        if(wordMap.containsKey(word)){
-                            wordMap.put(word, wordMap.get(word)+1);
+                        if (wordMap.containsKey(word)) {
+                            wordMap.put(word, wordMap.get(word) + 1);
                         } else {
                             //若未记录，初始化value = 1
                             wordMap.put(word, 1);
@@ -193,8 +187,7 @@ public class WordUtilImpl implements WordUtil{
                     }
                 }
             }
-
-            if(!wordMap.isEmpty()){
+            if(!wordMap.isEmpty()) {
                 //按单词个数排序
                 wordList = Sort(wordMap);
             }
@@ -210,14 +203,14 @@ public class WordUtilImpl implements WordUtil{
 
     //统计各单词出现次数,并排序
     //通过Set排序
-    public Set<WordEntity> countWordFrequency2(String fileName) throws IOException{
+    public Set<WordEntity> countWordFrequency2(String fileName) throws IOException {
         return countWordFrequency2(fileName, ABSOLUTE_PATH);
     }
     public Set<WordEntity> countWordFrequency2(String fileName, String fileDirectory) throws IOException {
         //文件名、文件路径正确性判断
-        try{
+        try {
             MyException(fileName, fileDirectory);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
@@ -231,15 +224,15 @@ public class WordUtilImpl implements WordUtil{
             File file = new File(fileDirectory + fileName);
             bReader = new BufferedReader(new FileReader(file));
             //按行读文件，用正则表达式分割
-            while ((temp = bReader.readLine()) != null){
+            while ((temp = bReader.readLine()) != null) {
                 String[] words = temp.split("[^a-zA-Z0-9]+");
                 //在分割出单词之后，将单词遍历储存在hashmap当中，在储存前先判断是否为合法单词
                 for (String word : words) {
                     word = word.toLowerCase();
-                    if (word.matches("[a-zA-Z]{4}[a-zA-Z0-9]*") ) {
+                    if (word.matches("[a-zA-Z]{4}[a-zA-Z0-9]*")) {
                         //若此单词已经记录过，value + 1
-                        if(wordMap.containsKey(word)){
-                            wordMap.put(word, wordMap.get(word)+1);
+                        if (wordMap.containsKey(word)) {
+                            wordMap.put(word, wordMap.get(word) + 1);
                         } else {
                             //若未记录，初始化value = 1
                             wordMap.put(word, 1);
@@ -249,11 +242,11 @@ public class WordUtilImpl implements WordUtil{
             }
 
             //Set<WordEntity> wordSet = new TreeSet<WordEntity>();
-            for(String s : wordMap.keySet()){
+            for (String s : wordMap.keySet()) {
                 WordEntity wordEntry = new WordEntity(s, wordMap.get(s));
                 wordSet.add(wordEntry);
             }
-
+            //关闭流
             bReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("文件未找到! " + e.getMessage());
@@ -265,14 +258,14 @@ public class WordUtilImpl implements WordUtil{
 
 
     //单词排序函数，将map依次按照出现次数排序，次数相同的按字典序排序
-    public  List<HashMap.Entry<String, Integer>> Sort(Map m){
+    public  List<HashMap.Entry<String, Integer>> Sort(Map m) {
         List<HashMap.Entry<String, Integer>> wordList = new ArrayList<HashMap.Entry<String, Integer>>(m.entrySet());
 
-        Comparator<Map.Entry<String, Integer>> com = new Comparator<Map.Entry<String, Integer>>(){
+        Comparator<Map.Entry<String, Integer>> com = new Comparator<Map.Entry<String, Integer>>() {
 
             @Override
             public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                if(o1.getValue() == o2.getValue()){
+                if (o1.getValue() == o2.getValue()) {
                     //字典序
                     return o1.getKey().compareTo(o2.getKey());
                 }
@@ -285,9 +278,9 @@ public class WordUtilImpl implements WordUtil{
     }
 
     //判断文件名是否为文本文件
-    public boolean rightDocument(String fileName){
+    public boolean rightDocument(String fileName) {
         boolean result = false;
-        if (fileName.matches("[\\s\\S]*.txt") ){
+        if (fileName.matches("[\\s\\S]*.txt")) {
             result = true;
         }
         return result;

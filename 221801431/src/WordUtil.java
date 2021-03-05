@@ -11,7 +11,7 @@ public interface WordUtil {
      * @return Integer
      * @throws IOException
      */
-    public Integer countChar(String fileName) throws IOException;
+     Integer countChar(String fileName) throws IOException;
 
     /**
      *
@@ -20,7 +20,7 @@ public interface WordUtil {
      * @return Integer
      * @throws IOException
      */
-    public Integer countChar(String fileName, String fileDirectory) throws IOException;
+     Integer countChar(String fileName, String fileDirectory) throws IOException;
 
 
     /**
@@ -29,7 +29,7 @@ public interface WordUtil {
      * @return Integer
      * @throws IOException
      */
-    public Integer countWord(String fileName) throws IOException;
+     Integer countWord(String fileName) throws IOException;
 
     /**
      *
@@ -37,7 +37,7 @@ public interface WordUtil {
      * @return Integer
      * @throws IOException
      */
-    public Integer countWord(String fileName, String fileDirectory) throws IOException;
+     Integer countWord(String fileName, String fileDirectory) throws IOException;
 
     /**
      * 统计行数
@@ -45,7 +45,7 @@ public interface WordUtil {
      * @return Integer
      * @throws IOException
      */
-    public Integer countLine(String fileName) throws IOException;
+     Integer countLine(String fileName) throws IOException;
 
     /**
      *
@@ -53,7 +53,7 @@ public interface WordUtil {
      * @return Integer
      * @throws IOException
      */
-    public Integer countLine(String fileName, String fileDirectory) throws IOException;
+     Integer countLine(String fileName, String fileDirectory) throws IOException;
 
     /**
      * 统计各单词出现次数,并排序
@@ -61,7 +61,7 @@ public interface WordUtil {
      * @return List<HashMap.Entry<String, Integer>>
      * @throws IOException
      */
-    public List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName) throws IOException;
+     List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName) throws IOException;
 
     /**
      *
@@ -69,7 +69,7 @@ public interface WordUtil {
      * @return List<HashMap.Entry<String, Integer>>
      * @throws IOException
      */
-    public List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName, String fileDirectory) throws IOException;
+     List<HashMap.Entry<String, Integer>> countWordFrequency(String fileName, String fileDirectory) throws IOException;
 
     /**
      *
@@ -77,12 +77,12 @@ public interface WordUtil {
      * @return Set<WordEntity>
      * @throws IOException
      */
-    public Set<WordEntity> countWordFrequency2(String fileName) throws IOException;
+     Set<WordEntity> countWordFrequency2(String fileName) throws IOException;
     /**
      *
      * @param fileName
      * @return Set<WordEntity>
      * @throws IOException
      */
-    public Set<WordEntity> countWordFrequency2(String fileName, String fileDirectory) throws IOException;
+     Set<WordEntity> countWordFrequency2(String fileName, String fileDirectory) throws IOException;
 }

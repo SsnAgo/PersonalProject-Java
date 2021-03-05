@@ -4,7 +4,7 @@
 
    - 在路径（本项目，例：G:\SoftEngineeringPractice\WinterVacation\PersonalProject-Java\221801431\src）上运行命令行
 
-   - 编译：javac -encoding UTF-8 WordCount.java 
+   - 编译：javac -Xlint:unchecked -encoding UTF-8 WordCount.java 
 
    - 运行：（例）java WordCount input.txt output.txt
 
