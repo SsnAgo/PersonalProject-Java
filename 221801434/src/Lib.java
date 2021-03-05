@@ -2,13 +2,22 @@ import java.io.*;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Lib类用于统计字符数，行数，单词数，词频
+ * 并保存在静态变量之中供主类调用
+ */
 public class Lib {
-    public static int charnum = 0;
-    public static int linenum = 0;
-    public static int wordnum = 0;
-    public static int realnum=0;
-    public static Map<String, Object> word = new TreeMap<String, Object>();
-    public static Map<String, Object> keyWord = new TreeMap<String, Object>();
+    public static int charnum = 0;//记录字符数
+    public static int linenum = 0;//记录有效行数
+    public static int wordnum = 0;//记录单词数
+    public static int realnum=0;//记录存在keyWord中单词的真实数量
+    public static Map<String, Object> word = new TreeMap<String, Object>();//记录所有单词
+    public static Map<String, Object> keyWord = new TreeMap<String, Object>();//记录单词数量前十的单词
+    /**
+     * 统计字符数函数
+     * @param filepath
+     * @throws IOException
+     */
     public static void countChar(String filepath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filepath));
         if (!reader.ready()) {
@@ -23,7 +32,11 @@ public class Lib {
 
 
     }
-
+    /**
+     * 统计有效行数
+     * @param filepath
+     * @throws IOException
+     */
     public static void countLine(String filepath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filepath));
         if (!reader.ready()) {
@@ -39,7 +52,11 @@ public class Lib {
         reader.close();
 
     }
-
+    /**
+     * 统计单词和词频
+     * @param filepath
+     * @throws IOException
+     */
     public static void countWord(String filepath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filepath));
         if (!reader.ready()) {
@@ -75,7 +92,9 @@ public class Lib {
         wordnum = total;
 
     }
-
+    /**
+     * 统计数量前十的单词
+     */
     public static void countKeyword() {
         int n=wordnum;
         int N=10;
