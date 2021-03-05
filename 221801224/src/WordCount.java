@@ -32,12 +32,12 @@ public class WordCount {
         try
         {
             output = new PrintWriter(file1);
-            output.println("characters:" + chars);
-            output.println("words:" + words);
-            output.println("lines:" + lines );
+            output.println("characters: " + chars);
+            output.println("words: " + words);
+            output.println("lines: " + lines );
             int i = 0;
             while(wordSet[i] != null){
-                output.println(wordSet[i] + ":" + freSet[i]);
+                output.println(wordSet[i] + ": " + freSet[i]);
                 i++;
             }
             output.close();
