@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.HashMap;
+import java.util.List;
 
 public class WordCount {
 
@@ -27,9 +29,13 @@ public class WordCount {
 	 */
 	public void printResult (String infile) throws IOException {
 		String str = readFile(infile);
-		System.out.println("字符数: "+Lib.countCharNum(str));
-		System.out.println("有效行数: "+Lib.countValidLineNum(str));
-		System.out.println("单词数: "+Lib.countWordNum(str));
+		System.out.println("字符数: " + Lib.countCharNum(str));
+		System.out.println("有效行数: " + Lib.countValidLineNum(str));
+		System.out.println("单词数: " + Lib.countWordNum(str));
+		List<HashMap.Entry<String, Integer>> wordsList = Lib.sortWordMap();
+		for (HashMap.Entry s : wordsList) {
+			System.out.println(s.getKey()+": " + s.getValue());
+		}
 	}
 
 	public static void main(String[] args) throws IOException {
