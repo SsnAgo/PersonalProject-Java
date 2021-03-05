@@ -23,14 +23,17 @@ public class Utils {
     private StringBuilder stringBuilder = new StringBuilder();
 
 
+
+
+
     /**
      * 1.遍历来判断是否为asc码来统计字符数
      *
-     * @param characters
+     * @param filepath
      * @return
      */
     @SuppressWarnings("JavaDoc")
-    public int charNums(String characters) {
+    public int charNums(String filepath) throws IOException {
         // 通过正则表达式来匹配
 //        String regexs = "\\p{ASCII}";
 //        Pattern pattern = Pattern.compile(regexs);
@@ -39,13 +42,22 @@ public class Utils {
 //            // 找到一个字母，累加
 //            char_num++;
 //        }
-        char []list=characters.toCharArray();
-        for(int i=0;i<characters.length();i++){
-            if((int)list[i]<128){
-                char_num++;
+        BufferedReader bufferedReader = null;
+        try{
+            String pre_path=new File("").getAbsolutePath();
+            bufferedReader = new BufferedReader(
+                    new InputStreamReader(new FileInputStream( pre_path+ "\\" + filepath),"utf-8"));
+            while((bufferedReader.read())!=-1)
+            {
+                char_num+=1;
             }
         }
-        // 匹配完毕，返回结果
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        if(bufferedReader!=null){
+            bufferedReader.close();
+        }
         return char_num;
     }
 
@@ -61,9 +73,7 @@ public class Utils {
         // 构造正则表达式，去根据空格拆分整篇文章
         // temp字符串数组将保存所有的单词
         //处理特殊字符，以免被误以为是单词的一部分
-        String[] temps = words.toString()
-                .replace(".", " ").replace(",", " ")
-                .replace("!", " ").replace("?", " ").split("\\s+");
+        String[] temps = words.toString() .split("[^a-zA-Z0-9]");
         // 构造题意：以字母开头且长度大于4的单词
         String regexs = "^[a-zA-Z]{4,}.*";
         // 循环遍历这个数组，利用正则表达式去匹配
@@ -119,9 +129,7 @@ public class Utils {
     @SuppressWarnings("JavaDoc")
     public List mapNums(StringBuilder words) {
         //利用空格来分隔单词，并利用正则表达式来匹配正确的单词
-        String[] temps = words.toString()
-                .replace(".", " ").replace(",", " ")
-                .replace("!", " ").replace("?", " ").split("\\s+");
+        String[] temps = words.toString() .split("[^a-zA-Z0-9]");
         String regexs = "^[a-zA-Z]{4,}.*";
         for (int i = 0; i < temps.length; i++) {
             if (temps[i].matches(regexs)) {
