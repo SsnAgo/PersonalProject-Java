@@ -14,7 +14,7 @@ public class Lib {
             br.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return result.toString();
@@ -23,11 +23,10 @@ public class Lib {
     public static int getCharactersCount(String str) {
         int count = 0;
         char[] ch = str.toCharArray();
-        for (int i = 0; i < ch.length; i++) {
+        for (int i = 0; i < ch.length; i++) {//只计算ASCII字符
             if (ch[i] >= 0 && ch[i] < 128) {
                 count++;
             }
-            //只计算ACSII字符
         }
         return count;
     }
@@ -56,8 +55,6 @@ public class Lib {
         for (int i = 0; i < count.length; i++) {//由于后来发现如果两个换行符连续出现，则会split会将空字符串一并计入，因此用另一个表只记录非空值的部分
             if (count[i] != "") lineList.add(count[i]);
         }
-        for (int i = 0; i < count.length; i++)
-            System.out.println(count[i]);
         return lineList.size();
     }
 
@@ -104,9 +101,7 @@ public class Lib {
             }
             bw.flush();
             bw.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return 0;
