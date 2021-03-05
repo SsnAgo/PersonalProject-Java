@@ -76,10 +76,13 @@ function countValidLine(data) {
     let lines = data.split("\n");
     // console.log(lines);
     for(let i=0; i<lines.length; i++) {
-        if(lines[i] == "") {
+        const emptylineReg = new RegExp("^[ \s\r\n\t]*$");
+        if(lines[i] == "" || emptylineReg.test(lines[i])) {
+            // console.log("remove");
             lines.splice(i, 1);
             i--;
         }
+        
     }
     // console.log(lines);
     return lines.length;

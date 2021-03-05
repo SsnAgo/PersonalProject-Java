@@ -118,7 +118,12 @@ dist
 # test files
 input.txt
 output.txt
+lib.test.js
+*.cpuprofile
+*.log
+profile.txt
 
 # package files
 package.json
 package-lock.json
+.gitignore
