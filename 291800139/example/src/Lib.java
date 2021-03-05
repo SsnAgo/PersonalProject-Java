@@ -32,7 +32,7 @@ public class Lib {
     }
 
     /**
-     * 判断字符是否为字母
+     * 判断字符是否为小写字母
      * @param charSequence
      * @return boolean值
      */

@@ -48,8 +48,8 @@ public class WordCount {
                                               "utf-8");
             BufferedWriter bw = new BufferedWriter(osw);
             String text = "characters: " + characters + "\r\n"
-                    + "words: " + words + "\r\n"
-                    + "lines: " + lines + "\r\n";
+                            + "words: " + words + "\r\n"
+                            + "lines: " + lines + "\r\n";
             int count = 0;
             //词频前10的换行操作
             for (Map.Entry<String, Integer> entry:wList) {
