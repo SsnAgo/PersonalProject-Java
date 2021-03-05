@@ -14,6 +14,7 @@ public class WordCounter {
     private List<Map.Entry<String,Integer>> maplist;
     private long startTime;
     private long useTime;
+    private int LINE_TO_THREAD=100000;
 
     public int getEmptyLineNum() {
         return emptyLineNum;
@@ -34,20 +35,20 @@ public class WordCounter {
         emptyLineNum=0;
         allWordHashMap=new HashMap<String, Integer>();
         startTime=System.currentTimeMillis();
-        count(filePath,10000);
+        count(filePath,LINE_TO_THREAD);
         useTime=System.currentTimeMillis() - startTime;
     }
 
 
     private void count(String filePath,int lineToThread){
-        try {
+        try {  //输入
             InputStreamReader read = new InputStreamReader(new FileInputStream(filePath), "utf-8");
             BufferedReader in = new BufferedReader(read);
             String temp = null;
             StringBuffer toStatisticsStr=new StringBuffer();
             int nowlineNum=0;
             List<MultiCounter> multiCounterList=new ArrayList<>();
-            while (true) {
+            while (true) {     //读取行，分配给多个线程
                 boolean flag= (temp = in.readLine()) == null;
                 if(!flag){
                     toStatisticsStr.append(temp + "-");
@@ -57,7 +58,7 @@ public class WordCounter {
                 }
                 nowlineNum++;
                 if(nowlineNum >= lineToThread || flag){
-                    multiCounterList.add(new MultiCounter(toStatisticsStr));
+                    multiCounterList.add(new MultiCounter(toStatisticsStr));    //创建心线程并启动
                     multiCounterList.get(multiCounterList.size() - 1).start();
                     nowlineNum=0;
                     if(toStatisticsStr.length()!=0) toStatisticsStr.delete(0,toStatisticsStr.length()-1);
@@ -69,11 +70,11 @@ public class WordCounter {
             }
             in.close();
             for(int i = 0;i < multiCounterList.size();i++){
-                multiCounterList.get(i).join();
+                multiCounterList.get(i).join();   //所有线程结束后合并Map
                 mergeMap(multiCounterList.get(i).getPartWordHashMap());
             }
-            sortByValue();
-    }catch (Exception e){
+            sortByValue();  //按value排序
+        }catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -115,12 +116,12 @@ public class WordCounter {
            for (int i = 0;i < str.length();i++){
                int asciiNum=(int)str.charAt(i);
                if((asciiNum >=48 && asciiNum <= 57)||(asciiNum >= 97 && asciiNum <= 122)){
-                   wordLength++;
+                   wordLength++; //读取可以成为单词的字符
                }else{
                    tempWord=str.substring(i - wordLength,i);
-                   if(wordLength>3 && isWord(tempWord)){
+                   if(wordLength>3 && isWord(tempWord)){   //获取两个分隔符的间的单词是否为合法单词
                        if(partWordHashMap.containsKey(tempWord)){
-                           partWordHashMap.put(tempWord,partWordHashMap.get(tempWord)+1);
+                           partWordHashMap.put(tempWord,partWordHashMap.get(tempWord)+1); //保存进线程自己的Map
                        }else{
                            partWordHashMap.put(tempWord,1);
                        }

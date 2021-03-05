@@ -13,7 +13,8 @@ public class Output {
     private String outPutFilePath;
     private List<String> topTen;
 
-    public Output(int characterNum, int lineNum, int wordNum,int emptyLine,List<Map.Entry<String,Integer>> mapList, String outPutFilePath) {
+    public Output(int characterNum, int lineNum, int wordNum,int emptyLine,
+                  List<Map.Entry<String,Integer>> mapList, String outPutFilePath) {
         this.characterNum = characterNum;
         this.lineNum = lineNum-emptyLine;
         this.wordNum = wordNum;

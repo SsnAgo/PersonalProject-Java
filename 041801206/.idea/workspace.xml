@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="222867e0-6fce-4642-bdf7-9a08a8444a6a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Test/replace.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lib/LineAndCharacterCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lib/LineAndCharacterCounter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lib/Output.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lib/Output.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lib/WordCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lib/WordCounter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +17,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -41,6 +46,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Test" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -95,6 +101,7 @@
       <workItem from="1614740613409" duration="4981000" />
       <workItem from="1614751807934" duration="13524000" />
       <workItem from="1614837979268" duration="16911000" />
+      <workItem from="1614912832372" duration="7346000" />
     </task>
     <servers />
   </component>
@@ -118,22 +125,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="421" y="96" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1614669172573" />
-    <state width="1237" height="175" key="GridCell.Tab.0.bottom" timestamp="1614881930439">
+    <state width="1237" height="175" key="GridCell.Tab.0.bottom" timestamp="1614934683611">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="175" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1614881930439" />
-    <state width="1237" height="175" key="GridCell.Tab.0.center" timestamp="1614881930439">
+    <state width="1237" height="175" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1614934683611" />
+    <state width="1237" height="175" key="GridCell.Tab.0.center" timestamp="1614934683611">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="175" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1614881930439" />
-    <state width="1237" height="175" key="GridCell.Tab.0.left" timestamp="1614881930438">
+    <state width="1237" height="175" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1614934683611" />
+    <state width="1237" height="175" key="GridCell.Tab.0.left" timestamp="1614934683610">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="175" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1614881930438" />
-    <state width="1237" height="175" key="GridCell.Tab.0.right" timestamp="1614881930439">
+    <state width="1237" height="175" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1614934683610" />
+    <state width="1237" height="175" key="GridCell.Tab.0.right" timestamp="1614934683611">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="175" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1614881930439" />
+    <state width="1237" height="175" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1614934683611" />
     <state x="142" y="0" key="SettingsEditor" timestamp="1614671661234">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
