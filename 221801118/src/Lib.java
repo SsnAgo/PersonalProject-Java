@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Lib
 {
@@ -6,6 +8,8 @@ public class Lib
     int sumChars = 0;   /*总字符数*/
     int sumWords = 0;   /*总单词数*/
     String resultStr = "";    /*文章拼接而成的字符串*/
+    Map<String,Integer> map = new HashMap<String, Integer>();    /*用于统计词频*/
+    String sortResult = "";    /*用于生成最高频10个单词的字符串*/
 
     /*根据文件路径获得BufferReader*/
     public static BufferedReader getBufferedReader(String path)
@@ -20,8 +24,8 @@ public class Lib
             System.err.println("错误，文件未找到！");
             e.printStackTrace();
         }
-        BufferedReader br = new BufferedReader(fr);
-        return br;
+        assert fr != null;
+        return new BufferedReader(fr);
     }
 
     /*获得文章字符串*/
@@ -29,17 +33,13 @@ public class Lib
     {
         String encoding = "UTF-8";
         File file = new File(path);
-        Long filelength = file.length();
-        byte[] filecontent = new byte[filelength.intValue()];
+        long filelength = file.length();
+        byte[] filecontent = new byte[(int) filelength];
         try
         {
             FileInputStream in = new FileInputStream(file);
             in.read(filecontent);
             in.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
         }
         catch (IOException e)
         {
@@ -93,7 +93,7 @@ public class Lib
     }
 
     /*统计文章单词数*/
-    public  void wordCount(String path)
+    public void wordCount(String path)
     {
         this.resultStr = readToString(path);
         this.resultStr = this.resultStr.replace('\r', ' ');
@@ -101,22 +101,76 @@ public class Lib
         this.resultStr = this.resultStr.replaceAll("[^A-Za-z0-9]", " ");
         this.resultStr = this.resultStr.toLowerCase();
         String[] words = this.resultStr.split(" ");    //分割获得所有单词
-        int sum = words.length;
+
         int count = 0;
-        for(int i = 0; i < sum; i++)
+        for (String word : words)
         {
-            if(words[i].length() > 3)
+            if (word.length() > 3)
             {
                 int j;
-                for(j = 0; j < 4; j++)
+                for (j = 0; j < 4; j++)
                 {
-                    char x = words[i].charAt(j);
-                    if(x <= 'a' && x >= 'z')  break;
+                    char x = word.charAt(j);
+                    if (x <= 'a' || x >= 'z') break;
                 }
-                if(j == 4)  count++;
+                if (j == 4) count++;
             }
         }
         this.sumWords = count;
+    }
+
+    /*单词类*/
+    public class Word implements Comparable<Word>
+    {
+        String key;
+        Integer value;
+
+        public Word(String key, Integer value)
+        {
+            this.key = key;
+            this.value = value;
+        }
+        @Override
+        public int compareTo(Word word)
+        {
+            int x = word.value.intValue() - this.value.intValue();
+            return (x == 0 ? this.key.compareTo(word.key) : x);
+        }
+    }
+
+    /*统计词频信息*/
+    public String wordFrequencyCount(String path)
+    {
+        this.resultStr = readToString(path);
+        this.resultStr = this.resultStr.replace('\r', ' ');
+        this.resultStr = this.resultStr.replace('\n', ' ');
+        this.resultStr = this.resultStr.replaceAll("[^A-Za-z0-9]", " ");
+        this.resultStr = this.resultStr.toLowerCase();
+        String[] words = this.resultStr.split(" ");    //分割获得所有单词
+
+        for(String word : words)
+        {
+            if (word.length() > 3)
+            {
+                int j;
+                for (j = 0; j < 4; j++)
+                {
+                    char x = word.charAt(j);
+                    if (x <= 'a' || x >= 'z') break;
+                }
+                if(j == 4)    //此单词符合标准
+                {
+                    int x = 0;
+                    if(this.map.get(word) == null)  x++;
+                    else  x = this.map.get(word).intValue() + 1;
+                    this.map.put(word, x);
+
+                }
+            }
+        }
+
+        return sortResult;
+
     }
 
 }
