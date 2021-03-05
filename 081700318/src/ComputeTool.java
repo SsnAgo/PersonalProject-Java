@@ -59,7 +59,7 @@ public class ComputeTool {
     private int countWordTypeNums()
     {
         ValidWords = new ConcurrentHashMap<>();
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 200, TimeUnit.MILLISECONDS,
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(8, 8, 200, TimeUnit.MILLISECONDS,
                 new ArrayBlockingQueue<Runnable>(ValidRows.size()));
 
         int i=0;
