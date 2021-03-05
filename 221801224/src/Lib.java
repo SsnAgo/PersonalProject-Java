@@ -20,7 +20,7 @@ public class Lib {
         charNum = 0;
         lineNum = 0;
         wordNum = 0;
-        caculate();
+        calculate();
         addMap();
         mapSort(map);
     }
@@ -69,7 +69,7 @@ public class Lib {
 
     }
 
-    public  void caculate(){//计算行数，并将每行的字符串送去判定
+    public  void calculate(){//计算行数，并将每行的字符串送去判定
         //List<String> list = new ArrayList<String>();
         int lineCount = 0;
         String result = " ";
