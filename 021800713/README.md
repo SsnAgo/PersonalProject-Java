@@ -34,3 +34,8 @@ word1: number
 word2: number
 ...
 ```
+## 作业链接
+[WordCount](https://github.com/Lin-HYC/PersonalProject-Java)
+
+## 博客链接
+[寒假作业2/2](https://www.cnblogs.com/LinX666/p/14482674.html)
