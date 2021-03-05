@@ -2,122 +2,59 @@ import java.io.*;
 import java.util.*;
 
 public class WordCount {
-
+    /**
+     * 主函数
+     */
     public static void main(String[] args) {
 	    File input;
 	    File output;
-	    if(args.length<2){
-	        input = new File("src/input.txt");
-	        output = new File("src/output.txt");
+	    //若命令行参数小于2则新建文件
+	    if (args.length < 2) {
+	        input = new File("D:/PersonalProject-Java/221801412/src/input.txt");
+	        output = new File("D:/PersonalProject-Java/221801412/src/output.txt");
         }
         else {
             input = new File(args[0]);
             output = new File(args[1]);
         }
-        CountData cd = new CountData();
-
-        Lib.countChar(input);
-        Lib.openFile(input);
-        cd = Lib.getCd();
-
-        int countChar = cd.getCountChar();
-        int countLine = cd.getCountLine();
-        int countWord = cd.getCountWord();
-        List<Map.Entry<String, Integer>> getWordFrequency = cd.getGetWordFrequency();
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(output));
-            bw.write("characters: " + countChar + "\n");
-            bw.write("words: " + countWord + "\n");
-            bw.write("lines: " + countLine + "\n");
+            CountData data = new CountData();
+            Lib.openFile(input);
+            Lib.countChar(input);
+            data = Lib.getData();
+            //统计字符数
+            int countChar = data.getCountChar();
+            //统计行数
+            int countLine = data.getCountLine();
+            //统计单词数
+            int countWord = data.getCountWord();
+            List<Map.Entry<String, Integer>> getWordFrequency = data.getGetWordFrequency();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+            writer.write("characters: " + countChar + "\n");
+            writer.write("words: " + countWord + "\n");
+            writer.write("lines: " + countLine + "\n");
             if (getWordFrequency.size() < 10) {
                 for (int i = 0; i < getWordFrequency.size(); i++) {
-                    bw.write(getWordFrequency.get(i).getKey() + ": " + getWordFrequency.get(i).getValue());
-                    bw.write("\n");
+                    writer.write(getWordFrequency.get(i).getKey() + ": " + getWordFrequency.get(i).getValue());
+                    writer.write("\n");
                 }
             }
             else {
                 for (int i = 0; i < 10; i++) {
-                    bw.write(getWordFrequency.get(i).getKey() + ":" + getWordFrequency.get(i).getValue());
-                    bw.write("\n");
+                    writer.write(getWordFrequency.get(i).getKey() + ":" + getWordFrequency.get(i).getValue());
+                    writer.write("\n");
                 }
             }
-            bw.close();
-        }
-        catch (IOException e) {
+            writer.close();
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return;
         }
-        finally {
-        }
-    }
-}
-class CountData{
-    int countWord;
-    int countLine;
-    int countChar;
-    HashMap<String, Integer> getWordFrequency;
-
-    CountData() {
-        countWord = 0;
-        countLine = 0;
-        countChar = 0;
-        getWordFrequency = new HashMap<String, Integer>();
-    }
-
-    void setCountWord(int n) {
-        countWord += n;
-    }
-
-    void setCountLine() {
-        countLine++;
-    }
-
-    void setCountLine(int n) {
-        countLine += n;
-    }
-
-    void setCountChar(int n) {
-        countChar += n;
-    }
-
-    void setGetWordFrequency(HashMap<String, Integer> n) {
-        for (String s : n.keySet()) {
-            if (getWordFrequency.containsKey(s)) {
-                getWordFrequency.put(s, getWordFrequency.get(s) + n.get(s));
-            }
-            else {
-                getWordFrequency.put(s, 1);
-            }
-        }
-    }
-
-    /*Used to return the value of countWord;*/
-    int getCountWord() {
-        return countWord;
-    }
-
-    /*Used to return the value of countLine;*/
-    int getCountLine() {
-        return countLine;
-    }
-
-    /*Used to return the value of countChar;*/
-    int getCountChar() {
-        return countChar;
-    }
-    List<Map.Entry<String, Integer>> getGetWordFrequency() {
-        List<Map.Entry<String, Integer>> list = null;
-        list = new ArrayList<Map.Entry<String, Integer>>(getWordFrequency.entrySet());
-        list.sort(new Comparator<Map.Entry<String, Integer>>() {
-            @Override
-            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                if (o1.getValue() != o2.getValue()) {
-                    return o2.getValue().compareTo(o1.getValue());
-                }
-                else {
-                    return o1.getKey().compareTo(o2.getKey());
-                }
-            }
-        });
-        return list;
     }
 }

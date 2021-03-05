@@ -1,0 +1,13 @@
+characters: 2869
+words: 284
+lines: 40
+nickel:10
+caledonia:8
+mine:6
+will:6
+tesla:5
+electric:4
+agreement:3
+control:3
+goro:3
+mining:3
