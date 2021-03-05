@@ -21,6 +21,7 @@ public class WordCount {
         }
 
         Lib lib = new Lib();
-        System.out.println(lib.getLinesCount(args[0]));
+        String file_info = lib.fileToString(args[0]);
+        System.out.println(lib.getWordsCount(file_info));
     }
 }

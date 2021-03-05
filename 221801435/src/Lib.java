@@ -66,12 +66,27 @@ public class Lib {
 
     /**
      * 编写者：221801435
-     * @param file_path 文件路径
+     * @param file_info 文件信息字符串
      * @return int 文件单词数
      */
-    public int getWordsCount(String file_path){
-        StringBuilder builder = new StringBuilder();
-        return 0;
+    public int getWordsCount(String file_info){
+        //先遍历一遍，将所有非字母数字的符号都换成空格符
+        StringBuilder builder = new StringBuilder(file_info);
+        for (int i=0;i<builder.length();i++){
+            if (!Character.isDigit(builder.charAt(i))&&!Character.isLetter(builder.charAt(i))){
+                builder.setCharAt(i,' ');
+            }
+        }
+        //将其按空格拆分
+        String []words = builder.toString().split(" ");
+        //判断是否是合法字符,统计单词数量
+        int counter = 0;
+        for(int i=0;i<words.length;i++){
+            if (isWord(words[i])){
+                counter++;
+            }
+        }
+        return counter;
     }
 
     /**
@@ -105,14 +120,14 @@ public class Lib {
         }
         //后跟字母数字符号
         for(int i=3;i<word.length();i++){
-            if(!Character.isDigit(test.charAt(i))&&!Character.isAlphabetic(test.charAt(i))){
+            if(!Character.isDigit(test.charAt(i))&&!Character.isLetter(test.charAt(i))){
                 return false;
             }
         }
         return true;
     }
 
-    private String fileToString(String file_path){
+    public String fileToString(String file_path){
         BufferedReader reader = null;
         StringBuilder builder = new StringBuilder();
         try {
