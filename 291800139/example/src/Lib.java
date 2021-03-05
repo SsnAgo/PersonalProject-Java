@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lib {
-    public static Map<String, Integer> wordsMap = new HashMap<>();
+     Map<String, Integer> wordsMap = new HashMap<>();
 
     /**
      * 统计文件行数
