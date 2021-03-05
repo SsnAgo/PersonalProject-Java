@@ -4,6 +4,7 @@ public class WordCount {
 
     public static void  main(String args[]) {
         String inFile = args[0];
+        String outFile = args[1];
 
         try{
             int charNum;
