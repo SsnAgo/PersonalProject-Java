@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-
 /**
  * 编写者：221801435
  * 主要完成四个个功能：
@@ -50,13 +49,13 @@ public class Lib {
                 }
             }
         }catch (IOException e){
-            System.err.println(file_path+"文件打开失败");
+            System.out.println(file_path+"文件打开失败");
         }finally {
             if (reader!=null){
                 try {
                     reader.close();
                 }catch (IOException e){
-                    System.err.println(file_path+"文件关闭失败");
+                    System.out.println(file_path+"文件关闭失败");
                 }
             }
         }
@@ -180,16 +179,16 @@ public class Lib {
                 builder.append((char)c);
             }
         }catch (FileNotFoundException e){
-            System.err.println(file_path+"文件不存在");
+            System.out.println(file_path+"文件不存在");
         }catch (IOException e){
-            System.err.println(file_path+"文件打开失败");
+            System.out.println(file_path+"文件打开失败");
         }
         finally {
             if (reader!=null){
                 try {
                     reader.close();
                 }catch (IOException e){
-                    System.err.println(file_path+"文件关闭失败");
+                    System.out.println(file_path+"文件关闭失败");
                 }
             }
         }

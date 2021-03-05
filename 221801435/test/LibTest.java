@@ -21,5 +21,17 @@ class LibTest {
         assertEquals(2,lib.getWordsCount(lib.fileToString("test3.txt")));
     }
 
+    @Test
+    public void testFileToString(){
+        Lib lib = new Lib();
+        assertEquals("",lib.fileToString("test999.txt"));
+        assertEquals("wsad我在这里等你!2312  ASDa! asd1 $a2ds @1sda @as3a",lib.fileToString("test3.txt"));
+    }
 
+    @Test
+    public void testLinesCount(){
+        Lib lib = new Lib();
+        assertEquals(3,lib.getLinesCount("test2.txt"));
+    }
+    
 }
