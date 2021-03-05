@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Lib {
-    private int chcount = 0;   //字符总数
-    private int wordcount = 0;	//单词总数
-    private int linecount = 0;	//行总数
+    private int chcount;   //字符总数
+    private int wordcount;	//单词总数
+    private int linecount;	//行总数
     String finname;
     String foutname;
     Map<String,  Integer > hashMap = new HashMap<String, Integer>();
@@ -29,130 +29,7 @@ public class Lib {
         this.foutname = foutname;
     }
 	void wordOccMax() {
-		
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(finname));
-	        int i = 0;
-	        char ch;
-	
-	        int canbeword = 0; 	//每次增加，当最后大于四的时候成立
-	        int canbetransferred = 0;//可能为\n\r
-	        int linechcount = 0;    //为空不能算一行
-	        String tempword = "";
-	        //每个单词一次循环
-	        while ((i = br.read()) != -1) {
-	       	 ch = (char)i;
-	       	 if (ch == '\n') {
-	       		 /*
-	       		  * 如果linechcount =  = 0，则说明换行前为空，空换行无效
-	       		  * 换行后把linechcount置为0
-	       		  */
-	       		 if (linechcount != 0) {
-	       			 linecount++;
-	       		 }
-	       		 linechcount = 0;
-	       		if (canbeword >=  4) {
-	      			 if (hashMap.containsKey(tempword)) {
-	      				 Integer hvalue = ((Integer)hashMap.get(tempword))+1;
-	      				 hashMap.put(tempword,  hvalue);
-	      			 }else {
-	      				 hashMap.put(tempword,  1);
-	      			 }
-	      		 }
-	  			 tempword = "";
-	  			 canbeword = 0;
-	       	 }
-	       	 if (canbetransferred == 1) {
-	       	/* 处理\n\r
-	       	 * 一、若是下一个为'r'或'n'，则说明'\'的作用是用于转义
-	       	 * 1、将canbetransferred重置
-	       	 * 2、字符总数chcount--，因为\之前已经加过1次了
-	       	 * 3、重新读取下一个文件字符。
-	       	 * 
-	       	 * 二、若是下一个不为'r'或'n'，则说明'\'的作用是用于分隔
-	       	 * 1、将canbetransferred重置
-	       	 * 2、将进入下一层判断首字母
-	       	 */
-	       		 canbetransferred = 0;
-	       		 if (ch == 'n') {
-	       			 if (linechcount != 0) {
-		        			 linecount++;
-		        		 }
-		        		 linechcount = 0;
-	       			 continue;
-	       		 }
-	       		 
-	       		 linechcount++;//不是换行符就++
-	       		 if (ch == 'r') {
-	       			 continue;
-	       		 }
-	
-	       	 }
-	       	 if (!Character.isLetter(ch) && !Character.isDigit(ch)) {
-	       		 /* 分割符
-	       		  * 一、ch为'\'
-		        	 * 1、判断tempword是否可为word（通过canbeword是否为4），若是则加入hashmap,  且wordcount++;
-		        	 * 2、将tempword、canbeword重置
-		        	 * 3、将canbetransferred = 1;
-		        	 * 4、continue，进入下一层判断是否为'r'或'n'
-		        	 * 
-		        	 * 二、ch不为'\'
-		        	 * 1、判断tempword是否可为word（通过canbeword是否为4），若是则加入hashmap,  且wordcount++;
-		        	 * 2、将tempword、canbeword重置
-		        	 * 3、continue，进入下一层判断是否为'r'或'n'
-		        	 */
-	       		 if ((i == 92)) {
-	       			 canbetransferred = 1;
-	       		}
-	       		 if (canbeword >=  4) {
-	       			 if (hashMap.containsKey(tempword)) {
-	       				 Integer hvalue = ((Integer)hashMap.get(tempword))+1;
-	       				 hashMap.put(tempword,  hvalue);
-	       			 }else {
-	       				 hashMap.put(tempword,  1);
-	       			 }
-	       		 }
-	   			 tempword = "";
-	   			 canbeword = 0;
-	       	 }else if (Character.isLetter(ch)) {
-	       		 canbeword++;
-	       		 linechcount++;
-	       		 if (Character.isUpperCase(ch)) {
-	       			 ch = Character.toLowerCase(ch);
-	       		 }
-	       		 tempword += ch;
-	       	 }else if (Character.isDigit(ch)) {
-	       		 linechcount++;
-	       		 if (canbeword < 4) {
-	       			 canbeword = 0;
-	       			 tempword = "";
-	       		 }else {
-	       			 tempword += ch;
-	       		 }
-	       	 }
-	        } 
-	        if (canbeword >=  4) {
-				 if (hashMap.containsKey(tempword)) {
-					 Integer hvalue = ((Integer)hashMap.get(tempword))+1;
-					 hashMap.put(tempword,  hvalue);
-				 }else {
-					 hashMap.put(tempword,  1);
-				 }
-			 }
-	        if (linechcount > 0) {
-	       	 linecount++;
-	        }
-	
-	        br.close(); 
-        }
-        catch (ArrayIndexOutOfBoundsException ex) { 
-	        System.out.println("\nPlease Enter the File Name in Command Line Argument. \n"+ 
-	        "For Example :- java WordCount File1.txt File2.txt"); 
-        } 
-        catch (IOException ex) { 
-        	System.out.println("File Does Not Found in given Directory. "); 
-        }
-		
+			
     	List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String,  Integer>>(hashMap.entrySet()); //将map的entryset放入list集合
 		//对list进行排序，并通过Comparator传入自定义的排序规则
 		Collections.sort(list, new Comparator<Map.Entry<String,  Integer>>() {
@@ -198,9 +75,7 @@ public class Lib {
     		BufferedReader br = new BufferedReader(new FileReader(finname));
 	         int i = 0;
 	         char ch;
-	         int canbeword = 0; 	//每次增加，当最后大于四的时候成立
 	         int canbetransferred = 0;//可能为\n\r
-	         int linechcount = 0;    //为空不能算一行
 	         //每个单词一次循环
 	         while ((i = br.read()) != -1) {
 	        	 ch = (char)i;
@@ -244,7 +119,7 @@ public class Lib {
 	         while ((i = br.read()) != -1) {
 	        	 
 	        	 ch = (char)i;
-	        	 if (ch == '\n') {
+	        	 if (i == 10 || i == 13) {
 	        		 /*
 	        		  * 如果linechcount =  = 0，则说明换行前为空，空换行无效
 	        		  * 换行后把linechcount置为0
@@ -254,6 +129,26 @@ public class Lib {
 	        		 }
 	        		 linechcount = 0;
 	        		 if (canbeword >=  4) {
+	        			 if (hashMap.containsKey(tempword)) {
+		       				 Integer hvalue = ((Integer)hashMap.get(tempword))+1;
+		       				 hashMap.put(tempword,  hvalue);
+		       			 }else {
+		       				 hashMap.put(tempword,  1);
+		       			 }
+	          			 wordcount++;
+	          		 }
+	      			 tempword = "";
+	      			 canbeword = 0;
+	      			 continue;
+	        	 }
+	        	 if (ch == ' ') {
+	        		 if (canbeword >=  4) {
+	        			 if (hashMap.containsKey(tempword)) {
+		       				 Integer hvalue = ((Integer)hashMap.get(tempword))+1;
+		       				 hashMap.put(tempword,  hvalue);
+		       			 }else {
+		       				 hashMap.put(tempword,  1);
+		       			 }
 	          			 wordcount++;
 	          		 }
 	      			 tempword = "";
@@ -261,8 +156,8 @@ public class Lib {
 	      			 continue;
 	        	 }
 	        	 if (canbetransferred == 1) {
-	        	/* 处理\n\r
-	        	 * 一、若是下一个为'r'或'n'，则说明'\'的作用是用于转义
+	        	/* 处理\n\r\t
+	        	 * 一、若是下一个为'r'或'n'或't'，则说明'\'的作用是用于转义
 	        	 * 1、将canbetransferred重置
 	        	 * 2、字符总数chcount--，因为\之前已经加过1次了
 	        	 * 3、重新读取下一个文件字符。
@@ -280,11 +175,10 @@ public class Lib {
 	        			 continue;
 	        		 }
 	        		 
-	        		 linechcount++;//不是换行符就++
-	        		 if (ch == 'r') {
+	        		 if (ch == 'r' || ch == 't') {
 	        			 continue;
 	        		 }
-
+	        		 linechcount++;
 	        	 }
 	        	 if (!Character.isLetter(ch) && !Character.isDigit(ch)) {
 	        		 /* 分割符
@@ -299,14 +193,23 @@ public class Lib {
 	 	        	 * 2、将tempword、canbeword重置
 	 	        	 * 3、continue，进入下一层判断是否为'r'或'n'
 	 	        	 */
-	        		 if ((i == 92)) {
-	        			 canbetransferred = 1;
-	        		}
+	        		 
 	        		 if (canbeword >=  4) {
+	        			 if (hashMap.containsKey(tempword)) {
+		       				 Integer hvalue = ((Integer)hashMap.get(tempword))+1;
+		       				 hashMap.put(tempword, hvalue);
+		       			 }else {
+		       				 hashMap.put(tempword, 1);
+		       			 }
 	        			 wordcount++;
 	        		 }
         			 tempword = "";
         			 canbeword = 0;
+        			 if ((i == 92)) {
+	        			 canbetransferred = 1;
+	        			 continue;
+	        		}
+        			 linechcount++;
 	        	 }else if (Character.isLetter(ch)) {
 	        		 canbeword++;
 	        		 linechcount++;
@@ -325,6 +228,12 @@ public class Lib {
 	        	 }
 	         } 
 	         if (canbeword >=  4) {
+	        	 if (hashMap.containsKey(tempword)) {
+       				 Integer hvalue = ((Integer)hashMap.get(tempword))+1;
+       				 hashMap.put(tempword,  hvalue);
+       			 }else {
+       				 hashMap.put(tempword,  1);
+       			 }
     			 wordcount++;
     		 }
 	         if (linechcount > 0) {

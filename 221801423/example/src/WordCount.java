@@ -14,8 +14,8 @@ import java.util.Set;;
 public class WordCount {
     public static void main(String[] args){
     	long start=System.currentTimeMillis(); //获取开始时间
-      	 String finname = new String("C:\\ccc\\s13.txt");
-      	String foutname = new String("C:\\ccc\\s14.txt");
+      	 String finname = new String(args[0]);
+      	String foutname = new String(args[1]);
       	 //String foutname = args[1];
       	Lib lib = new Lib(finname,foutname);
       	lib.characterCount();
