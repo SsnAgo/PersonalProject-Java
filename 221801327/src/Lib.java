@@ -23,15 +23,9 @@ public class Lib {
         int PRINT_WORDS_NUMBER = 10;
 
         int characters = countCharacters(inputFile);
-        System.out.println(characters);
         int words = countTotalWords(inputFile);
-        System.out.println(words);
         int lines = countValidLines(inputFile);
-        System.out.println(lines);
         List<Map.Entry<String, Integer>> list = countWords(inputFile);
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).getKey()+":"+list.get(i).getValue());
-        }
 
         try {
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(outputFile));

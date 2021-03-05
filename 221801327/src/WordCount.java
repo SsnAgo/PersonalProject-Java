@@ -11,10 +11,10 @@ import static java.lang.Character.isLetter;
 */
 public class WordCount{
     public static void main(String[] args){
-        //File inputFile = new File(args[0]);
-        //File outputFile = new File(args[1]);
-        File inputFile = new File("src\\input.txt");
-        File outputFile = new File("output.txt");
+        File inputFile = new File(args[0]);
+        File outputFile = new File(args[1]);
         Lib.outputFile(inputFile, outputFile);
     }
+
+
 }
