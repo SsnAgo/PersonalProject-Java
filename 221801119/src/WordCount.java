@@ -13,16 +13,8 @@ import java.lang.String;
 public class WordCount {
 	public static void main(String[] args) {
 		//get filename from users and process input string
-		Scanner input = new Scanner(System.in);
-		String inputStr = input.nextLine();
-		input.close();
-		if (! isValid(inputStr)) {
-			System.out.print("Invalid input!");
-			return;
-		}
-        String[] files = inputStr.split(" "); 
-        String inputFile = files[0];
-        String outputFile = files[1];
+		String inputFile = args[0];
+        String outputFile = args[1];
 		//main function
         CoreCount coreCount = new CoreCount(inputFile);
         coreCount.count();
@@ -30,6 +22,7 @@ public class WordCount {
 		File file = new File(outputFile);
 		try {
 			file.createNewFile();
+			//BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file.getPath()), "utf-8"));
 			writer.append("characters: " + coreCount.getCharCount() + "\n");
 			writer.append("words: " + coreCount.getWordCount() + "\n");
@@ -43,16 +36,11 @@ public class WordCount {
 	        	wordsNum += 1;
 	        }
 	        writer.close();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	} 
-	public static boolean isValid(String string) {
-		string = string.trim();
-		if(! string.contains(" ")) {
-			return false;
-		}
-		return true;
-	}
 }
 
