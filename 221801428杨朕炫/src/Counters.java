@@ -64,13 +64,14 @@ public class Counters {
         // 正则表达式匹配四个英文开头的有效单词
         Pattern pattern = Pattern.compile("[A-Za-z]{4}.*?");
         list.forEach(line -> {
-            String[] strings = line.split("\\s+|\\t|,|;|\\.|!|\\?|:");
+            String[] strings = line.split("[^a-zA-Z0-9]");
             for (String word : strings) {
-                Matcher matcher = pattern.matcher(word);
+                String w = word.trim().toLowerCase();
+                Matcher matcher = pattern.matcher(w);
                 // 计数有效单词并将其加入映射集合
                 if (matcher.matches()) {
                     CountResultHolder.increaseWordsCount();
-                    wordToNumMap.merge(word, 1, Integer::sum);
+                    wordToNumMap.merge(w, 1, Integer::sum);
                 }
             }
         });
