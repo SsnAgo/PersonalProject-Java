@@ -38,16 +38,17 @@ public class Lib {
 		int wordNum = 0;
 		//全部默认为小写
 		str = str.toLowerCase();
-		Pattern wordPattern = Pattern.compile("[a-z]{4}[a-z0-9]*");
-		Matcher matcher = wordPattern.matcher(str);
-		while (matcher.find()) {
-			wordNum++;
-			String g = matcher.group();
-			if(null == mp.get(g)){
-				mp.put(g, 1);
-			} else {
-				int n = mp.get(g);
-				mp.put(g, n + 1);
+		String[] words = str.split("[^a-z0-9]+");
+		for (String word : words) {
+			if (word.matches("[a-z]{4,}[a-z0-9]*")) {
+				wordNum++;
+				if (mp.containsKey(word)){
+					int n = mp.get(word);
+					mp.put(word, n+1);
+				}
+				else {
+					mp.put(word, 1);
+				}
 			}
 		}
 		return wordNum;
@@ -63,13 +64,11 @@ public class Lib {
 			public int compare(HashMap.Entry<String, Integer> word1, HashMap.Entry<String, Integer> word2) {
 				if(word1.getValue().equals(word2.getValue())) {
 					return word1.getKey().compareTo(word2.getKey());
-				}
-				else {
+				} else {
 					return word2.getValue() - word1.getValue();
 				}
 			}
 		});
-
 		return wordsList;
 	}
 }
