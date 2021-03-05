@@ -11,6 +11,10 @@ class WordCount{
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+        if(args.length!=2){
+            System.out.println("输入的参数个数有误,请检查后重写输入！");
+            return;
+        }
         File inputFile=new File(args[0]);
         File outputFile=new File(args[1]);
         BufferedReader bufferedReader=FileIO.readFromFile(inputFile);
