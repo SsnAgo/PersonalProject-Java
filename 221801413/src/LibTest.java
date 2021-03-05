@@ -48,7 +48,7 @@ public class LibTest {
 
 
         Lib lib = new Lib();
-        lib.getLines(testStr);
+        lib.getLinesNum(testStr);
         System.out.print("获得行数时间:");
         System.out.println(System.currentTimeMillis()-b+"毫秒\n");
 //        System.out.println("Lines:"+lib.getLines(testStr));

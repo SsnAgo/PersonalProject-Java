@@ -12,8 +12,11 @@ public class Lib
 {
     //有效行数正则表达式
     private static String LINE_REGEX = "(\n|^)\\s*\\S+";
+    //有效单词数正则表达式
     private static String WORD_REGEX = "([^A-Za-z0-9]+|^)([a-zA-Z]{4,}[a-zA-Z0-9]*)";
+    //存放单词与前出现频率的Map集合
     private static Map<String, Integer> wordMap = new HashMap<String, Integer>();
+
     /**
      * 读取文件，生成字符串并返回
      *
@@ -63,8 +66,8 @@ public class Lib
      * @ param chStr
      * @ return characters' number
      * */
-    public static int getCharactersNum(String chStr) {
-        int charCount = 0;
+    public static long getCharactersNum(String chStr) {
+        long charCount = 0;
         char[] charArray = chStr.toCharArray();
         for(int i = 0; i < charArray.length; i++) {
             if(charArray[i] <= 127)
@@ -80,7 +83,7 @@ public class Lib
      * @ param chStr
      * @ return valid lines
      * */
-    public static int getLines(String chStr){
+    public static int getLinesNum(String chStr){
         int lines = 0;
 
         //使用正则表达式匹配有效的字符行
@@ -103,16 +106,18 @@ public class Lib
     public static long getWordNum(String chStr){
         long wordNum = 0;
 
+        //使用正则表达式匹配
         Pattern wordPattern = Pattern.compile(WORD_REGEX);
         Matcher wordMatcher = wordPattern.matcher(chStr);
 
         while(wordMatcher.find()){
             String temp = wordMatcher.group(2).trim();
             wordNum++;
+            //若单词不存在，则加入wordMap
             if(!wordMap.containsKey(temp)) {
                 wordMap.put(temp, 1);
             }
-            //若不存在，则存入wordMap
+            //若存在，则将其value值加1
             else {
                 int value = 1 + wordMap.get(temp);
 
@@ -122,40 +127,6 @@ public class Lib
 
         return wordNum;
     }
-
-    /**
-     * 利用正则表达式，
-     *
-     * @ param chStr, wordMap
-     * @ return valid words‘ number
-     * */
-//    public static void initWordMap(String chStr) {
-//        //匹配分隔符分离单词，并用保存
-//        String[] words = chStr.split("\\s+");
-//        /**
-//         * 位于第一位的单词会多出一个空白字符，假设合法单词为apple，则其为[,a,p,p,l,e]
-//         * */
-//        words[0] = words[0].substring(1);
-//
-//
-//        //验证单词有效性，有效的单词存入集合Map<String, Integer>中
-//        for(int i = 0; i < words.length; i++) {
-//            if(words[i].matches(WORD_REGEX)) {
-//                String temp = words[i].toLowerCase();
-//
-//                //忽略单词大小写，判断其是否已经存在，若存在，则其value值加一
-//                if(!wordMap.containsKey(temp)) {
-//                    wordMap.put(temp, 1);
-//                }
-//                //若不存在，则存入wordMap
-//                else {
-//                    int value = 1 + wordMap.get(temp);
-//
-//                    wordMap.put(temp, value);
-//                }
-//            }
-//        }
-//    }
 
     /**
      * 使用比较器对单词频率进行排序
@@ -175,6 +146,7 @@ public class Lib
                 if(o1.getValue().equals(o2.getValue())) {
                     return o1.getKey().compareTo(o2.getKey());
                 }
+                //否则按频率排序
                 else {
                     return o2.getValue()-o1.getValue();
                 }
@@ -197,32 +169,35 @@ public class Lib
      * @ param words,lines,characters,
      * @ return list
      * */
-    public static String outMessage(int words, int lines, int characters, List<Map.Entry<String, Integer>> topTenWords) {
+    public static String outMessage(long words, int lines, long characters, List<Map.Entry<String, Integer>> topTenWords) {
         //拼接信息
-        String outMessage = "characters:"+characters+"\nwords:"+words+"\nlines:"+lines+"\n";
+        String outMessage = "characters: "+characters+"\nwords: "+words+"\nlines: "+lines+"\n";
 
 
         for(Map.Entry<String,Integer> map : topTenWords) {
-            outMessage += map.getKey()+":"+map.getValue()+"\n";
+            outMessage += map.getKey()+": "+map.getValue()+"\n";
         }
         return outMessage;
     }
+
     /**
      * 将单词数，有效行数以及词频信息写入文件
      *
      * @ param wordMap
      * @ return list
      * */
-
     public static void writeFile(String outMessage, String filePath) {
+        //创建输出流
         FileOutputStream fileOutputStream = null;
         OutputStreamWriter streamWriter = null;
         BufferedWriter bufferedWriter = null;
+
         try {
             fileOutputStream = new FileOutputStream(filePath);
             streamWriter = new OutputStreamWriter(fileOutputStream,"UTF-8");
             bufferedWriter = new BufferedWriter(streamWriter);
 
+            //将得到的数据写入对应路径的文件
             bufferedWriter.write(outMessage);
             bufferedWriter.flush();
         }
@@ -238,6 +213,7 @@ public class Lib
         }
         finally {
             try {
+                //关闭输出流
                 fileOutputStream.close();
                 streamWriter.close();
                 bufferedWriter.close();
