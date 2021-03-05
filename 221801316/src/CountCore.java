@@ -3,14 +3,13 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class CountCore {
-    public static int characterCount(File inputFile){
-        BufferedReader bufferedReader= null;
+    /**
+     * 字符统计
+     * @param bufferedReader
+     * @return characterCount 字符个数
+     */
+    public static int characterCount(BufferedReader bufferedReader){
         int characterCount=0;
-        try {
-            bufferedReader = new BufferedReader(new FileReader(inputFile));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
         while (true) {
             try {
                 if (!(bufferedReader.read()!=-1)) break;
@@ -21,17 +20,27 @@ public class CountCore {
         }
         return characterCount;
     }
+
+    /**
+     * 判断是否是一个合法的单词
+     * @param string
+     * @return 布尔值
+     */
     public static boolean isWord(String string){
         String wordRegex="[a-z]{4}[a-z0-9]*";
         return Pattern.matches(wordRegex,string);
     }
-    public static Map<String,Integer> wordStore(File inputFile){
+
+    /**
+     * 将合法的单词存入map
+     * @param bufferedReader
+     * @return 单词与数量的键值对map
+     */
+    public static Map<String,Integer> wordStore(BufferedReader bufferedReader){
         Map<String,Integer> result=new HashMap<>();
-        BufferedReader bufferedReader=null;
         String splitRegex="[^a-zA-Z0-9]";
         try {
             String str;
-            bufferedReader=new BufferedReader(new FileReader(inputFile));
             while((str=bufferedReader.readLine())!=null){
                 str=str.toLowerCase().replaceAll(splitRegex," ");
                 //将分隔符全部替换成" "
@@ -46,40 +55,51 @@ public class CountCore {
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        }  catch (IOException e) {
             e.printStackTrace();
         }
         return result;
     }
-    public static int wordCount(File inputFile){
+
+    /**
+     * 单词总数统计
+     * @param bufferedReader
+     * @return 单词总的个数
+     */
+    public static int wordCount(BufferedReader bufferedReader){
        int words=0;
-        Map<String,Integer> map=wordStore(inputFile);
+        Map<String,Integer> map=wordStore(bufferedReader);
        for(Map.Entry<String,Integer> entry:map.entrySet()){
             words+=entry.getValue();
         }
        return words;
     }
 
-    public static int lineCount(File inputFile){
-        BufferedReader bufferedReader=null;
+    /**
+     * 行数统计
+     * @param bufferedReader
+     * @return 非空白行的数量
+     */
+    public static int lineCount(BufferedReader bufferedReader){
         //正则表达式,匹配至少一个非空白字符
         String regex="\\S+";
         int lines=0;
         try {
-            bufferedReader=new BufferedReader(new FileReader(inputFile));
             String str;
             while((str=bufferedReader.readLine())!=null){
                 if(Pattern.matches(regex,str))lines++;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        }  catch (IOException e) {
             e.printStackTrace();
         }
         return lines;
     }
+
+    /**
+     * 对map中的键值对进行自定义排序
+     * @param map
+     * @return 有序的键值对实体的list
+     */
     public static List<Map.Entry<String,Integer>> sortByFrequency(Map<String,Integer> map){
         List<Map.Entry<String,Integer>> list=new ArrayList<>(map.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
