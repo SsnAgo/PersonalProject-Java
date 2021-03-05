@@ -1,11 +1,10 @@
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+
 
 public class Control {
     public File in;
     Lib cou = new Lib();
+    //将输入输出位置赋值
     public void set(String i,String o){
         in = new File(i);
         cou.set(o);

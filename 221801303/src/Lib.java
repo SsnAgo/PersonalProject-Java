@@ -48,7 +48,8 @@ public class Lib {
     public void wordcount(File file){
         BufferedReader bfr = null;
         try {
-            bfr = new BufferedReader(new FileReader("input.txt"));
+            FileReader fr = new FileReader(file);
+            bfr = new BufferedReader(fr);
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -70,7 +71,7 @@ public class Lib {
             e1.printStackTrace();
         }
 
-        String stb=stb1.toString().toLowerCase();
+        String stb=stb1.toString().toLowerCase();//将所有英文变为小写
         Pattern pattern = Pattern.compile("[a-zA-Z]{4,}+[0-9]*");//正则表达式
         Matcher matcher = pattern.matcher(stb);
         Map<String, Integer> map = new TreeMap<String, Integer>();
@@ -90,6 +91,7 @@ public class Lib {
             map.put(word, num);
         }
         write("words:" + count + "\n");
+        //输出
         Set<String> keys = map.keySet();
         for (String key : keys) {
             int i=0;
@@ -100,6 +102,7 @@ public class Lib {
         }
     }
 
+    //输出到文件
     public void write(String content){
         try {
             FileWriter fw = new FileWriter(out,true);
