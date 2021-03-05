@@ -73,6 +73,25 @@ public class Lib {
             bufr.close();
             fr.close();
 
+            ArrayList<HashMap.Entry<String, Integer>> list =
+                    new ArrayList<HashMap.Entry<String, Integer>>(map.entrySet());
+            Collections.sort(list, new Comparator<HashMap.Entry<String, Integer>>() {
+                public int compare(Map.Entry<String, Integer> o1, Map.Entry<String,Integer> o2) {
+                    if (o1.getValue() < o2.getValue()) {
+                        return 1;
+                    } else {
+                        if (o1.getValue().equals(o2.getValue())) {
+                            if (o1.getKey().compareTo(o2.getKey()) > 0) {
+                                return 1;
+                            } else {
+                                return -1;
+                            }
+                        } else {
+                            return -1;
+                        }
+                    }
+                }
+            });
         }catch (Exception e) {
             e.printStackTrace();
         }
