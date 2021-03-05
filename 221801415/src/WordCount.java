@@ -9,8 +9,8 @@ public class WordCount
 
 	public static void countNumber(String inPath, String outPath)throws IOException 
 	{
-		Lib lib=new Lib();
-		 String str=lib.charactersCount(inPath);
+		    Lib lib=new Lib();
+		    String str=lib.charactersCount(inPath);
 		 
 	        int charNum=lib.charactersNumberCount(str);
 	        int wordNum=lib.wordsNumberCount(str);
@@ -32,9 +32,23 @@ public class WordCount
 	            }
 	        }
 	        
-	        lib.writeNum(charNum,wordNum,lineNum,wordsSort,outPath);
+	        writeNum(charNum,wordNum,lineNum,wordsSort,outPath);
 	        
 	        //System.out.print(charNum);
+	}
+	
+	public static void writeNum(int charNum,int wordNum,int lineNum,String wordsSort,String outPath)throws IOException 
+	{
+		FileOutputStream fileOutputStream=new FileOutputStream(outPath);
+        OutputStreamWriter outputStreamWriter=new OutputStreamWriter(fileOutputStream,"UTF-8");
+        BufferedWriter bufferedWriter=new BufferedWriter(outputStreamWriter);
+        
+        bufferedWriter.write("characters:"+charNum+"\nwords:"+wordNum+"\nlines:"+lineNum+"\n"+wordsSort);
+        
+        //System.out.print(charNum+wordNum+lineNum+wordsSort);//
+        bufferedWriter.flush();
+        
+        bufferedWriter.close();
 	}
 	
     public static void main(String[] args) throws IOException 
