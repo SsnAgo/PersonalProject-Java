@@ -15,13 +15,21 @@ public class WordCount {
 		 * 读取指定文件，返回对应字符串形式
 		 */
 		static String readFile(String infile) throws IOException {
-			BufferedReader reader = new BufferedReader(new FileReader(infile));
+			BufferedReader reader = null;
 			StringBuilder builder = new StringBuilder();
-			int ch;
-			while ((ch = reader.read()) != -1) {
-				builder.append((char)ch);
+			int ch = 0;
+			try {
+				reader = new BufferedReader(new FileReader(infile));
+				while ((ch = reader.read()) != -1) {
+					builder.append((char)ch);
+				}
+			} catch (IOException e) {
+				System.out.println("文件读取错误");
+				throw e;
+			} finally {
+				if (reader != null)
+					reader.close();
 			}
-			reader.close();
 			return builder.toString();
 		}
 
@@ -29,9 +37,17 @@ public class WordCount {
 		 * 写文件
 		 */
 		static void writeFile(String result, String outfile) throws IOException {
-			BufferedWriter writer = Files.newBufferedWriter(Paths.get(outfile), StandardCharsets.UTF_8);
-			writer.write(result.toString());
-			writer.close();
+			BufferedWriter writer = null;
+			try {
+				writer = Files.newBufferedWriter(Paths.get(outfile), StandardCharsets.UTF_8);
+				writer.write(result);
+			} catch (IOException e) {
+				System.out.println("文件写入错误");
+				throw e;
+			} finally {
+				if (writer != null)
+					writer.close();
+			}
 		}
 	}
 
@@ -62,13 +78,18 @@ public class WordCount {
 
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		if (args.length < 2) {
-			System.out.println("2 parameters needed");
+			System.out.println("2 paths needed");
 			return;
 		} else if (args.length > 2)
 			System.out.println("choose tow font paths");
 
-		new WordCount().process(args[0],args[1]);
+		try {
+			new WordCount().process(args[0], args[1]);
+		} catch (IOException e){
+			System.out.println("出错啦");
+			e.printStackTrace();
+		}
 	}
 }
