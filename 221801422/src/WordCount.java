@@ -18,7 +18,7 @@ public class WordCount {
     public void init()
     {
         this.line = Lib.getLineCount(Lib.readFromFile(this.inputPath));
-        this.chararacter = Lib.getCharCount(Lib.readFromFile(this.inputPath));
+        this.character = Lib.getCharCount(Lib.readFromFile(this.inputPath));
         this.word = Lib.getWordCount(Lib.readFromFile(this.inputPath));
     }
 
