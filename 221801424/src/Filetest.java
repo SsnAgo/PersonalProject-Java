@@ -16,7 +16,7 @@ public class Filetest {
 //                test.stringBuilder.append("windows").append(i).append(" ");
 //        }
         for (int i = 0; i < 10; i++) {
-            test.stringBuilder.append("sjy1 ");
+            test.stringBuilder.append("sjy1\t ");
         }
         for (int i = 0; i < 10; i++) {
             test.stringBuilder.append("sjydl12121,\n");
