@@ -2,7 +2,7 @@
 [Github项目地址](https://github.com/Poisson7/PersonalProject-Java)
 刚开始拿到题目后，题目中命令行参数，统计文件中的字符数、单词总数、有效行数、单词出现次数、[字典序](https://blog.csdn.net/qq_37050329/article/details/86637183)、文件输入输出等。
 使用的语言是java，命令行参数可以通过Main函数传入的参数args[]来获取，文件的输入输出通过InputStreamReader和OutputStreamWriter来读写，通过BufferedReader来一个个读取文件中的字符，最后统计的单词次数通过HashMap来存储，之后转化为ArrayList来[排序](https://www.imooc.com/article/42746)获取前十单词。
-###计算模块接口的设计与实现过程，关键代码，解释思路，独到之处
+### 计算模块接口的设计与实现过程，关键代码，解释思路，独到之处
 ```java
 lib();
 void fileCount(String inputFile);//读取文件，通过BufferedReader读取字符，通过读取的字符来判断计数
@@ -67,20 +67,20 @@ void CountWord(int x){
             }
             out.write(str.toString());
 ```
-###计算模块接口部分的性能改进
-###计算模块部分单元测试展示,单元测试得到的测试覆盖率截图
-####计算模块正确性部分
+### 计算模块接口部分的性能改进
+### 计算模块部分单元测试展示,单元测试得到的测试覆盖率截图
+#### 计算模块正确性部分
 1. 测试统计字符功能
->测试数据是ASCII码0-127
+> 测试数据是ASCII码0-127
 ASCII字符都能被统计出来，汉字不在测试文档中不做测试
 2. 测试统计行数用例
->测试数据是" "+"\n"+"\t"+"\n"+"\r"+"\n"
+> 测试数据是" "+"\n"+"\t"+"\n"+"\r"+"\n"
 仅存在空白字符的行数不会被统计
 3. 测试单词数
->测试用例 file123 1file fil1e
+> 测试用例 file123 1file fil1e
 以上都不为单词
 4. 测试单词前10
->测试用例
+> 测试用例
 测试数据"aaaa2,aaaa20,aaaa30,aaaa19\n"*循环次数5次，末尾append("aaaa9\n")
 ```java
     for(int i=0;i<str.length();i++){
