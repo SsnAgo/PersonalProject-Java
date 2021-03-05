@@ -51,6 +51,7 @@ public class Lib {
     public void CountWord(String inpath,String outpath,int charNum,int lineNum) {
         File file = new File(inpath);
         try {
+            int sum=0;
             FileReader fr = new FileReader(file);
             BufferedReader bufr = new BufferedReader(fr);
             FileWriter out = new FileWriter(outpath);
@@ -66,8 +67,10 @@ public class Lib {
                     if (word.matches(regex)) {
                         if (map.get(word) == null) {
                             map.put(word, 1);
+                            sum++;
                         } else {
                             map.put(word, map.get(word) + 1);
+                            sum++;
                         }
                     }
                 }
@@ -100,7 +103,7 @@ public class Lib {
             System.out.println("一共有" + n + "种单词");
             //输出到目标文件
             out.write("characters:"+charNum+"\n");
-            out.write("words:"+n+"\n");
+            out.write("words:"+sum+"\n");
             out.write("lines:"+lineNum+"\n");
             if (n>10){
                 n=10;
