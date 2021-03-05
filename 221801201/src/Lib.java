@@ -8,18 +8,18 @@ import java.util.Vector;
 public class Lib{
 
     public byte[] readFileToBytes(String fileName){
-        try {
-            File f = new File(fileName);
-            int length = (int) f.length();
-            byte[] data = new byte[length];
+        try{
+            File f=new File(fileName);
+            int length=(int)f.length();
+            byte[] data=new byte[length];
             new FileInputStream(f).read(data);
             for(int i=0;i<data.length;i++){
-                if(data[i]>='A' && data[i]<='Z'){
+                if(data[i]>='A'&&data[i]<='Z'){
                     data[i]+=32;
                 }
             }
             return data;
-        } catch (Exception e) {
+        }catch(Exception e){
             System.out.println("Can not open input file!");
             return null;
         }
@@ -40,9 +40,9 @@ public class Lib{
                     currentWord.add(w.sourceBytes[i]);
                 }
             }else{
-                if(i>1&&w.sourceBytes[i]=='\n'&&w.sourceBytes[i-1]!='\n'&&w.sourceBytes[i-2]!='\n'){//分析行数
-                    w.lineCount++;
-                }
+//                if(i>1&&w.sourceBytes[i]=='\n'&&w.sourceBytes[i-1]!='\n'&&w.sourceBytes[i-2]!='\n'){//分析行数
+//                    w.lineCount++;
+//                }
                 if(wordStart>=4){
                     currentWordToString=vectorByteToString(currentWord);
                     if(w.wordCountMap.containsKey(currentWordToString)){
@@ -56,16 +56,47 @@ public class Lib{
                 currentWord.clear();
             }
         }
-        if(w.sourceBytes[w.sourceBytes.length-1]!='\n'){
-            w.lineCount++;
-        }
     }
 
-    public String bytesToString(byte[] bs) {
+    int countLines(String fileName){
+        int count=0;
+        BufferedReader br=null;
+        FileReader fr=null;
+        try{
+            fr=new FileReader(fileName);
+            br=new BufferedReader(fr);
+            String value=br.readLine();
+            while(value!=null){
+                value=value.trim();
+                if(!"".equals(value)){
+                    System.out.println(value);
+                    count++;
+                }
+                value=br.readLine();
+            }
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch(IOException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(br!=null)
+                    br.close();
+                if(fr!=null)
+                    fr.close();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        return count;
+    }
+
+    public String bytesToString(byte[] bs){
         return new String(bs,StandardCharsets.UTF_8);
     }
 
-    public String vectorByteToString(Vector<Byte> vb) {
+    public String vectorByteToString(Vector<Byte> vb){
         byte[] bytes=new byte[vb.size()];
         for(int i=0;i<vb.size();i++){
             bytes[i]=vb.get(i);
@@ -80,10 +111,10 @@ public class Lib{
         }catch(FileNotFoundException e){
             System.out.println("Can not open output file!");
         }
-        System.out.println("characters: "+wordCount.sourceBytes.length);
+        System.out.println("characters: "+wordCount.characterCount);
         System.out.println("words: "+wordCount.wordCount);
         System.out.println("lines: "+wordCount.lineCount);
-        List<Map.Entry<String, Integer>> list =sortMap(wordCount.wordCountMap);
+        List<Map.Entry<String,Integer>> list=sortMap(wordCount.wordCountMap);
         for(int i=0;i<10;i++){
             System.out.println(list.get(i).getKey()+": "+list.get(i).getValue());
         }
@@ -91,8 +122,8 @@ public class Lib{
                 new FileOutputStream(FileDescriptor.out)),true));
     }
 
-    public List<Map.Entry<String, Integer>> sortMap(Map<String,Integer> wordCountMap){
-        List<Map.Entry<String, Integer>> list =new ArrayList<>(wordCountMap.entrySet()); //转换为list
+    public List<Map.Entry<String,Integer>> sortMap(Map<String,Integer> wordCountMap){
+        List<Map.Entry<String,Integer>> list=new ArrayList<>(wordCountMap.entrySet()); //转换为list
         list.sort((o1,o2)->{
             if(o2.getValue().equals(o1.getValue())){
                 return o1.getKey().compareTo(o2.getKey());
