@@ -41,7 +41,7 @@ public class Lib {
         }
     }
 
-    public void addMap() {
+    public void addMap() {//将筛选好的单词放入map中，若存在则value+1，不存在则设value=1
         for (String mapWord : list) {
             if(map.get(mapWord) != null) {
                 map.put(mapWord, map.get(mapWord) + 1);
@@ -53,7 +53,7 @@ public class Lib {
         //mapSort(map);
     }
 
-    public  void mapSort(Map<String,Integer> oldmap){
+    public  void mapSort(Map<String,Integer> oldmap){//定义比较器根据value的值降序排列
         ArrayList<Map.Entry<String, Integer>> newList = new ArrayList<>(oldmap.entrySet());
         Collections.sort(newList, new Comparator<>() {
             @Override
@@ -119,7 +119,6 @@ public class Lib {
     public int getLines(){//返回行数
         return lineNum;
     }
-
     public int getWords(){//返回单词数
         return wordNum;
     }
