@@ -8,20 +8,6 @@ import java.util.List;
 public class WordCount {
 
 	/**
-	 * 读取指定文件，返回对应字符串形式
-	 */
-	public  String readFile(String infile) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(infile));
-		StringBuilder builder = new StringBuilder();
-		int ch;
-		while ((ch = reader.read()) != -1) {
-			builder.append((char)ch);
-		}
-		reader.close();
-		return builder.toString();
-	}
-
-	/**
 	 * 测试的输出函数java WordCount input.txt output.txt
 	 */
 	/*public void printResult (String infile) throws IOException {
@@ -40,31 +26,67 @@ public class WordCount {
 	}*/
 
 	/**
-	 * 写文件
+	 * 文件处理工具类
 	 */
-	public void writeFile(String infile, String outfile) throws IOException {
-		String content = readFile(infile);
-		StringBuilder str = new StringBuilder("characters: " + Lib.countCharNum(content) + "\n"
+	static class IOUtil{
+		/**
+		 * 读取指定文件，返回对应字符串形式
+		 */
+		static String readFile(String infile) throws IOException {
+			BufferedReader reader = new BufferedReader(new FileReader(infile));
+			StringBuilder builder = new StringBuilder();
+			int ch;
+			while ((ch = reader.read()) != -1) {
+				builder.append((char)ch);
+			}
+			reader.close();
+			return builder.toString();
+		}
+
+		/**
+		 * 写文件
+		 */
+		static void writeFile(String result, String outfile) throws IOException {
+			BufferedWriter writer = Files.newBufferedWriter(Paths.get(outfile), StandardCharsets.UTF_8);
+			writer.write(result.toString());
+			writer.close();
+		}
+	}
+
+	/**
+	 * 输出内容硬编码
+	 */
+	private String getResult(String content){
+		StringBuilder result = new StringBuilder("characters: " + Lib.countCharNum(content) + "\n"
 				+ "words: " + Lib.countWordNum(content) + "\n"
 				+ "lines: " + Lib.countValidLineNum(content) + "\n");
-		BufferedWriter writer = Files.newBufferedWriter(Paths.get(outfile), StandardCharsets.UTF_8);
 		List<HashMap.Entry<String, Integer>> wordsList = Lib.sortWordMap();
 		int count = 0;
 		for (HashMap.Entry entry: wordsList) {
 			count++;
-			str.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+			result.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
 			if (count >= 10)
 				break;
 		}
-		writer.write(str.toString());
-		writer.close();
+		return result.toString();
+	}
+
+	/**
+	 * 统计
+	 */
+	private void process(String infile, String outfile) throws IOException {
+		String content = IOUtil.readFile(infile);
+		IOUtil.writeFile(getResult(content),outfile);
+
 	}
 
 	public static void main(String[] args) throws IOException {
 		if (args.length < 2) {
 			System.out.println("2 parameters needed");
 			return;
-		}
-		new WordCount().writeFile(args[0],args[1]);
+		} else if (args.length > 2)
+			System.out.println("choose tow font paths");
+
+		new WordCount().process(args[0],args[1]);
 	}
 }
