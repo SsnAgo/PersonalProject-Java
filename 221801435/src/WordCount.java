@@ -1,4 +1,4 @@
-import java.io.File;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
@@ -22,18 +22,34 @@ public class WordCount {
             return;
         }
 
-        Lib lib = new Lib();
-        String file_info = lib.fileToString(args[0]);
-        System.out.print(lib.getAsciiCount(file_info)+"\n");
-        System.out.print(lib.getWordsCount(file_info)+"\n");
-        System.out.print(lib.getLinesCount(args[0])+"\n");
-        List<Map.Entry<String,Integer>> words_arr = lib.getMostFrequentlyWords(file_info);
-        //判断一下是否有十个单词
-        int len = words_arr.size()>=10?10:words_arr.size();
-        for (int i=0;i<len;i++){
-            Map.Entry<String,Integer> entry = words_arr.get(i);
-            System.out.print(entry.getKey()+": "+entry.getValue());
-            if (i!=len-1) System.out.print("\n");
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(args[1])));
+            Lib lib = new Lib();
+            String file_info = lib.fileToString(args[0]);
+            writer.write(lib.getAsciiCount(file_info)+"\n");
+            writer.write(lib.getWordsCount(file_info)+"\n");
+            writer.write(lib.getLinesCount(args[0])+"\n");
+            List<Map.Entry<String,Integer>> words_arr = lib.getMostFrequentlyWords(file_info);
+            //判断一下是否有十个单词
+            int len = words_arr.size()>=10?10:words_arr.size();
+            for (int i=0;i<len;i++){
+                Map.Entry<String,Integer> entry = words_arr.get(i);
+                writer.write(entry.getKey()+": "+entry.getValue());
+                if (i!=len-1) writer.write("\n");
+            }
+        }catch (FileNotFoundException e){
+            System.err.println(args[1]+"文件不存在");
+        }catch (Exception e){
+            System.err.println(args[1]+"文件创建失败");
+        } finally {
+            if (writer!=null){
+                try {
+                    writer.close();
+                }catch (IOException e){
+                    System.err.println(args[1]+"文件关闭失败");
+                }
+            }
         }
     }
 }
