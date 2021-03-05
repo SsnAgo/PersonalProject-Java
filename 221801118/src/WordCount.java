@@ -1,12 +1,9 @@
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
+
 
 public class WordCount
 {
-
     public static void main(String[] args) throws IOException
     {
         Lib lib = new Lib();
@@ -14,14 +11,14 @@ public class WordCount
         String path = null;    // 文件路径
         Scanner scanner = new Scanner(System.in);
         path = scanner.nextLine();
-        BufferedReader br = null;
-        br = lib.readFile(path);
-
+        BufferedReader br = lib.getBufferedReader(path);
+        lib.resultStr = lib.readToString(path).toString();    //获得文章字符串
         lib.lineCount(br);
-        System.out.println("文本一共有" + lib.sumLines + "行");
+        lib.charCount();
+
+
+        System.out.println(lib.sumLines);
+        System.out.println(lib.sumChars);
 
     }
-
-
 }
-

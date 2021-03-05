@@ -6,7 +6,6 @@ public class Lib
     int sumChars = 0;   /*总字符数*/
     int sumWords = 0;   /*总单词数*/
     String resultStr = "";    /*文章拼接而成的字符串*/
-    byte[] resultByte = new byte[30 * 1024];
 
     /*根据文件路径获得BufferReader*/
     public static BufferedReader getBufferedReader(String path)
@@ -59,19 +58,11 @@ public class Lib
     }
 
     /*统计文章字符数*/
-    public void charCount(FileInputStream fis) throws IOException
+    public void charCount()
     {
-        int length = this.resultByte.length;
-        int i;
-        //this.sumChars = 0;
-        while ((i = fis.read()) != -1)
-        {
-            //this.sumChars += i;
-            this.resultStr += (char)i;
-            //this.resultByte, 0, this.resultByte.length
-            //System.out.print((char) i);
-        }
-
+        this.resultStr = this.resultStr.replace('\r', ' ');
+        this.resultStr = this.resultStr.replace('\n', ' ');
+        this.sumChars = this.resultStr.length();
     }
 
     /*统计文章行数*/
