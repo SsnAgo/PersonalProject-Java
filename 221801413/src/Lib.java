@@ -185,4 +185,62 @@ public class Lib
             return list;
         }
     }
+
+    /**
+     * 将处理后的信息进行统合，得到字符串
+     *
+     * @ param words,lines,characters,
+     * @ return list
+     * */
+    public static String outMessage(int words, int lines, int characters, List<Map.Entry<String, Integer>> topTenWords) {
+        //拼接信息
+        String outMessage = "characters:"+characters+"\nwords:"+words+"\nlines:"+lines+"\n";
+
+
+        for(Map.Entry<String,Integer> map : topTenWords) {
+            outMessage += map.getKey()+":"+map.getValue()+"\n";
+        }
+        return outMessage;
+    }
+    /**
+     * 将单词数，有效行数以及词频信息写入文件
+     *
+     * @ param wordMap
+     * @ return list
+     * */
+
+    public static void writeFile(String outMessage, String filePath) {
+        FileOutputStream fileOutputStream = null;
+        OutputStreamWriter streamWriter = null;
+        BufferedWriter bufferedWriter = null;
+        try {
+            fileOutputStream = new FileOutputStream(filePath);
+            streamWriter = new OutputStreamWriter(fileOutputStream,"UTF-8");
+            bufferedWriter = new BufferedWriter(streamWriter);
+
+            bufferedWriter.write(outMessage);
+            bufferedWriter.flush();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("File not found!!!");
+            e.printStackTrace();
+        }
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                fileOutputStream.close();
+                streamWriter.close();
+                bufferedWriter.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }
