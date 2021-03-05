@@ -9,13 +9,11 @@ public class Lib
     private String inFileName;
     private String outFileName;
     private String fileContent;//存放输入文件内容的字符串
-    private ArrayList<String> wordList;//存放文件中筛选出的有效单词
 
     public Lib(String inFileName,String outFileName)
     {
         this.inFileName = inFileName;
         this.outFileName = outFileName;
-        wordList = new ArrayList<>();
     }
 
     public String getInFileName()
@@ -123,7 +121,6 @@ public class Lib
             String[] toJudgeWords = fileContent.split("[^0-9a-zA-Z]+");//存放分隔开后的各个字符串，等待判断是否为单词
             for (int i = 0; i < toJudgeWords.length; i++) {
                 if (isWord(toJudgeWords[i])) {
-                    wordList.add(toJudgeWords[i]);//将符合条件的单词放入单词列表中，便于接下来统计词频
                     wordNum++;
                 }
             }
@@ -136,16 +133,21 @@ public class Lib
     {
         Map<String, Integer> wordMap = new HashMap<>();
         Set<String> wordSet = wordMap.keySet();
-        for (int i = 0;i < wordList.size();i++)
+
+        /* 将合法的单词录入wordList 并逐个录入map*/
+        TurnFileToString();
+        String[] toJudgeWords = fileContent.split("[^0-9a-zA-Z]+");
+        for (int i = 0; i < toJudgeWords.length; i++)
         {
-            String str = wordList.get(i);
-            if (wordSet.contains(str))//假如该单词在map里已录入,直接更新它对应的value,否则录入map
+            String s = toJudgeWords[i];
+            if (isWord(s) && wordSet.contains(s))
             {
-                int num = wordMap.get(str) + 1;
-                wordMap.put(str,num);
+                int num = wordMap.get(s) + 1;
+                wordMap.put(s,num);
             }
-            else wordMap.put(str,1);
+            else wordMap.put(s,1);
         }
+
         /* 录入之后排序，频率相同的单词，优先输出字典序靠前的单词 */
         List<Map.Entry<String, Integer>> entryList = new ArrayList<>(wordMap.entrySet());
         entryList.sort(new Comparator<Map.Entry<String, Integer>>()
