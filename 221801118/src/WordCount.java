@@ -20,7 +20,7 @@ public class WordCount
         result += "words: " + lib.sumWords + "\n";
         result += "lines: " + lib.sumLines + "\n";
         result += lib.sortResultStr;
-
+        lib.outputFile(result);
         System.out.println(result);
 
     }

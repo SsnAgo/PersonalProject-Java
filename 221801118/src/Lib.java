@@ -181,7 +181,27 @@ public class Lib
             sum++;
             if(sum == 10)  break;
         }
+    }
 
+    /*将结果文本输出到文件*/
+    public static void outputFile(String result)
+    {
+        PrintWriter writer = null;    //指定路径、编码方式
+        try
+        {
+            writer = new PrintWriter(new OutputStreamWriter(
+                    new FileOutputStream("C:\\Users\\HUAWEI\\Desktop\\output.txt"), "utf-8"));
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        writer.print(result);    //写入内容不换行
+        writer.close();
     }
 
 }
