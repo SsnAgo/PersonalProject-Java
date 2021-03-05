@@ -34,7 +34,7 @@ public class WordCount
 	        
 	        writeNum(charNum,wordNum,lineNum,wordsSort,outPath);
 	        
-	        //System.out.print(charNum);
+	       
 	}
 	
 	public static void writeNum(int charNum,int wordNum,int lineNum,String wordsSort,String outPath)throws IOException 
@@ -45,7 +45,7 @@ public class WordCount
         
         bufferedWriter.write("characters:"+charNum+"\nwords:"+wordNum+"\nlines:"+lineNum+"\n"+wordsSort);
         
-        //System.out.print(charNum+wordNum+lineNum+wordsSort);//
+        
         bufferedWriter.flush();
         
         bufferedWriter.close();
