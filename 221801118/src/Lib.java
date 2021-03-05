@@ -5,8 +5,8 @@ import java.io.IOException;
 
 public class Lib
 {
-    int sumLines = 0;   /*总行数*/
     int sumChars = 0;   /*总字符数*/
+    int sumLines = 0;   /*总行数*/
     int sumWords = 0;   /*总单词数*/
     String resultStr = "";    /*文章拼接而成的字符串*/
 
