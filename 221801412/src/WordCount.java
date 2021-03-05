@@ -8,13 +8,18 @@ public class WordCount {
 	    File output;
 	    if(args.length<2){
 	        input=new File("src/input.txt");
-	        output=new File("sec/output.txt");
+	        output=new File("src/output.txt");
         }
         else {
             input = new File(args[0]);
             output = new File(args[1]);
         }
         CountData cd = new CountData();
+
+        Lib.countChar(input);
+        Lib.openFile(input);
+        cd = Lib.getCd();
+
         int countChar = cd.getCountChar();
         int countLine = cd.getCountLine();
         int countWord = cd.getCountWord();
