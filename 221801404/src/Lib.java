@@ -1,18 +1,14 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lib
 {
-    private int wordNum;
-    private HashMap<String,Integer> map;
+    static Map<String,Integer> wordsMap=new HashMap<>();
     //获取单词数
-    public int getWordNum()
-    {
-        return wordNum;
-    }
     //从文件中读取数据
     public static String readFile(String filePath)
     {
@@ -68,20 +64,29 @@ public class Lib
         return linesNum;
     }
     //统计单词
-    public void getWordNum(String string)
-    {
-        String temp;
-        int wordNum = 0;
-        String[] content = string.split("[^a-zA-Z0-9]");
-        for (String element:content)
+    static int getWordsNum(String str){
+
+        int WordsNum=0;
+        String[] temp=str.split("\\s+");
+        String regexs="^[a-zA-Z]{4,}.*";
+
+        for(int i=0;i<temp.length;i++)
         {
-            temp = element.toLowerCase();
-            if (temp.matches("[a-zA-Z]{4}[a-zA-Z0-9]*"))
-            {
-                map.merge(temp, 1, Integer::sum);
-                wordNum++;
+            if(temp[i].matches(regexs)){
+                WordsNum++;
+                String insertKey=temp[i].toLowerCase();
+                if (wordsMap.containsKey(insertKey)){
+                    int j=wordsMap.get(insertKey);
+                    wordsMap.put(insertKey,j+1);
+                }else {
+                    wordsMap.put(insertKey,1);
+                }
             }
         }
-        System.out.println(wordNum);
+
+        return WordsNum;
     }
+
+
+    //对单词进行排序
 }

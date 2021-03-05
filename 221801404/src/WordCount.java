@@ -24,10 +24,10 @@ public class WordCount
 */
         try {
             writer = new FileWriter(args[1]);
-            for(int i = 0;i < 100000;i++)
-            {
-                writer.write(content);
-            }
+            //for(int i = 0;i < 100000;i++)
+            //{
+            writer.write(content);
+            // }
             writer.write(content);
             writer.flush();
             writer.close();
@@ -38,5 +38,7 @@ public class WordCount
         System.out.println("字符数："+charactersNum);
         int linesNum = Lib.getLinesNum(content);
         System.out.println("行数："+linesNum);
+        int a = Lib.getWordsNum(content);
+        System.out.println("单词数："+a);
     }
 }
