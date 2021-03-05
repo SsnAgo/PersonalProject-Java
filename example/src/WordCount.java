@@ -55,6 +55,7 @@ public class Count {
         		}
 			}
         }
+        //输出所有单词数
         Set<String>keys = map.keySet();
         for(String key : keys)
         	System.out.println(key + "有：" + map.get(key) + "个.");
