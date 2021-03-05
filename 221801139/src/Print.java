@@ -9,8 +9,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class Print {
+    String outputfile;
 
-    public static void SortMap(Map<String,Integer> oldmap,int wordline,int wordcount,int characterscount) throws IOException {  
+    Print(String file) {
+        outputfile = file;
+    }
+
+    public void SortMap(Map<String,Integer> oldmap,int wordline,int wordcount,int characterscount) throws IOException {  
           
         ArrayList<Map.Entry<String,Integer>> list = new ArrayList<Map.Entry<String,Integer>>(oldmap.entrySet());  
           
@@ -21,7 +26,8 @@ public class Print {
             }  
         }); 
         //输出结果保存到output.txt
-        File file = new File("output.txt");
+        
+        File file = new File(outputfile);
         BufferedWriter bw = new BufferedWriter(new FileWriter(file));
         bw.write("characters: "+characterscount+"\r\n");
         bw.write("words: "+wordcount+"\r\n");
@@ -32,7 +38,8 @@ public class Print {
                 break;
             } 
         	if(list.get(i).getKey().length()>=4) {
-        		bw.write("<"+list.get(i).getKey()+">"+ ": " +list.get(i).getValue()+"\r\n"); 
+
+        		bw.write(list.get(i).getKey()+ ": " +list.get(i).getValue()+"\r\n"); 
             }
         	flag++;
         }

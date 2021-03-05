@@ -10,13 +10,9 @@ import java.util.TreeMap;
 public class WordCount {  
   
     public static void main(String[] args) throws Exception {  
-        File file = new File("input.txt");
-    	String tempathname = file.getPath();
-    	
-    	 new Read();
-		 String pathname = Read.ReadFile(tempathname);
+        String inputfile = args[0];
     	    	
-    	BufferedReader br = new BufferedReader(new FileReader(pathname));  
+    	BufferedReader br = new BufferedReader(new FileReader(inputfile));  
     	
     	int characterscount=0;
         int wordline = 0;
@@ -25,6 +21,7 @@ public class WordCount {
         String readLine = null;
 		while((readLine = br.readLine()) != null) {  
 			wordline++;
+            readLine = readLine.toLowerCase();
             String[] wordsArr1 = readLine.split("[^a-zA-Z0-9]");  //切割筛选单词
             
             characterscount+=readLine.length();//统计每行的字符数
@@ -54,7 +51,8 @@ public class WordCount {
   
         }  
           
-        Print.SortMap(wordsCount,wordline,wordcount,characterscount+wordline-1);  //排序并输出
+        Print p = new Print(args[1]);
+        p.SortMap(wordsCount,wordline,wordcount,characterscount+wordline);  //排序并输出
     }
 
 
