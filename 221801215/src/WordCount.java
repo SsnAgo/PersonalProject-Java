@@ -31,10 +31,8 @@ class  WordCount{
      */
     private static void generateOutputFile(int characters, int words, int lines
             , List<Map.Entry<String,Integer> > wordWithCount, File outputFile) {
-        try {
-            PrintWriter outputWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(outputFile,false),Config.CHARSET
-            )));
+        try (PrintWriter outputWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(outputFile,false),Config.CHARSET)))) {
             outputWriter.println("characters: " + characters);
             outputWriter.println("words: " + words);
             outputWriter.println("lines: " + lines);
@@ -42,7 +40,7 @@ class  WordCount{
                 outputWriter.println(wordPair.getKey() + ": " + wordPair.getValue());
             }
             outputWriter.flush();
-            outputWriter.close();
+            System.out.println(Config.COMMANDLINE_SUCCESS_TIP);
         } catch (IOException ioException) {
             System.out.println(Config.IO_EXCEPTION_TIP);
             ioException.printStackTrace();
@@ -54,10 +52,10 @@ class  WordCount{
         WordProcessor wordProcessor = new WordProcessor();
         EffectiveLineCounter effectiveLineCounter = new EffectiveLineCounter();
         List<Map.Entry<String, Integer>> sortedWordCountList = new ArrayList<>();
-        try {
-            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(inputFile),Config.CHARSET);
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader
+                (new FileInputStream(inputFile),Config.CHARSET))) {
             int currentChar;
-            while ((currentChar = inputStreamReader.read()) != -1) {
+            while ((currentChar = bufferedReader.read()) != -1) {
                 if (asciiCharCounter.isAsciiChar(currentChar)) {
                     asciiCharCount++;
                 }
@@ -68,18 +66,17 @@ class  WordCount{
                     }
                 }
             }
+            effectiveLineCounter.countEffectiveLine((char)currentChar,true);
             if (wordProcessor.buildPossibleWord((char)currentChar,true)) {
-                effectiveLineCounter.countEffectiveLine((char)currentChar,true);
                 if (wordProcessor.allWordSumUp()) {
                     wordProcessor.individualWordSumUp(wordProcessor.possibleWord.toString());
                 }
             }
             sortedWordCountList= wordProcessor.getSortedWordCountList();
-            sortedWordCountList = sortedWordCountList.size()>10?sortedWordCountList.subList(0,9)
+            sortedWordCountList = sortedWordCountList.size()>10?sortedWordCountList.subList(0,10)
                     : sortedWordCountList;
             generateOutputFile(asciiCharCount,wordProcessor.getWordSum(),effectiveLineCounter.effectiveLineNumber
                     ,sortedWordCountList,outputFile);
-            inputStreamReader.close();
         }catch (FileNotFoundException fileNotFoundException) {
             System.out.println(Config.FILE_NOT_FOUND_EXCEPTION_TIP);
             fileNotFoundException.printStackTrace();

@@ -1,5 +1,3 @@
-import com.sun.xml.internal.ws.util.StringUtils;
-
 /**
  * 计算有效行类
  */
@@ -10,8 +8,9 @@ public class EffectiveLineCounter {
     public int effectiveLineNumber=0;
 
     private boolean isNewLine=true;
-    private static StringBuffer lineContent;
+    private static StringBuilder lineContent;
     private final int INIT_LINE_MAX_LENGTH =200;
+    private int test = 0;
 
     /**
      * 计算非空白行的数量
@@ -24,7 +23,7 @@ public class EffectiveLineCounter {
     public void countEffectiveLine(char lineChar, boolean isEndOfFile) {
         if (isNewLine) {
             isNewLine = false;
-            lineContent = new StringBuffer(INIT_LINE_MAX_LENGTH);
+            lineContent = new StringBuilder(INIT_LINE_MAX_LENGTH);
         }
         if (lineChar==Config.NEW_LINE_CHAR||isEndOfFile) {
             isNewLine = true;

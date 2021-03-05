@@ -8,4 +8,5 @@ public class Config {
     public static final String IO_EXCEPTION_TIP = "文件读写出错，请稍后重试";
 
     public static final String COMMANDLINE_HELP = "请输入正确的执行命令：\n" + "java WordCount <输入文件路径> <输出文件路径>";
+    public static final String COMMANDLINE_SUCCESS_TIP = "执行完成";
 }

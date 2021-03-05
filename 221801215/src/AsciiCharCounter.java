@@ -14,10 +14,10 @@ public class AsciiCharCounter {
      */
     public int countAsciiChar(File file) {
         int asciiCharNumber =0;
-        try{
-            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file),Config.CHARSET);
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader
+                (new FileInputStream(file),Config.CHARSET))) {
             int currentChar;
-            while ((currentChar = inputStreamReader.read()) != -1) {
+            while ((currentChar = bufferedReader.read()) != -1) {
                 if (isAsciiChar(currentChar)) {
                     asciiCharNumber++;
                 }

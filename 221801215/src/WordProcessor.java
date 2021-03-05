@@ -7,7 +7,7 @@ public class WordProcessor {
     private boolean isInPossibleWord = false;
     private final int INIT_WORD_MAX_LENGTH = 200;
     private boolean isPossibleWordAvailable;
-    private Map<String,Integer> wordSumMap = new TreeMap<>();
+    private Map<String,Integer> wordSumMap = new HashMap<>();
 
     /**
      * 单词-频数对比较器
@@ -31,7 +31,7 @@ public class WordProcessor {
     /**
      * The Possible word.
      */
-    public StringBuffer possibleWord;
+    public StringBuilder possibleWord;
     /**
      * The Word sum.
      */
@@ -47,22 +47,23 @@ public class WordProcessor {
      * eg.
      * file123是一个单词， 123file不是一个单词。</p>
      *
-     * @param stringBufferToBeExam the stringBuffer 需要检测的字符串
+     * @param stringBuilderToBeExam the stringBuilder 需要检测的字符串
      * @return the boolean 字符串检测的结果
      */
-    public boolean isLegalWord(StringBuffer stringBufferToBeExam) {
+    public boolean isLegalWord(StringBuilder stringBuilderToBeExam) {
         boolean isLegal = true;
-        int wordLength = stringBufferToBeExam.length();
+        int wordLength = stringBuilderToBeExam.length();
         if(wordLength>3) {
             int i = 0;
             for ( ; i < 4; i++) {
-                if (!(isLetterChar(stringBufferToBeExam.charAt(i)))) {
+                if (!(isLetterChar(stringBuilderToBeExam.charAt(i)))) {
                     isLegal = false;
                     break;
                 }
             }
             for ( ; i < wordLength && isLegal; i++) {
-                if ((!isLetterChar(stringBufferToBeExam.charAt(i))) && (!isDigitChar(stringBufferToBeExam.charAt(i)))) {
+                char currentChar = stringBuilderToBeExam.charAt(i);
+                if ((!isLetterChar(currentChar)) && (!isDigitChar(currentChar))) {
                     isLegal = false;
                     break;
                 }
@@ -78,8 +79,8 @@ public class WordProcessor {
      *
      * <p>可能的单词为仅由字母和数字组成的字符串</p>
      *
-     * @param scanChar    the scan char
-     * @param isEndOfFile the is end of file
+     * @param scanChar    the scan char 读入的字符
+     * @param isEndOfFile the is end of file 是否读到文件结尾
      * @return the boolean
      */
     public boolean buildPossibleWord(char scanChar,boolean isEndOfFile) {
@@ -88,7 +89,7 @@ public class WordProcessor {
             if (isLetterChar(scanChar) || isDigitChar(scanChar)) {
                 if (!isInPossibleWord) {
                     isInPossibleWord = true;
-                    possibleWord = new StringBuffer(INIT_WORD_MAX_LENGTH);
+                    possibleWord = new StringBuilder(INIT_WORD_MAX_LENGTH);
                 }
                 possibleWord.append(scanChar);
             } else {
@@ -146,7 +147,7 @@ public class WordProcessor {
     /**
      * 获取排序后的单词频数对数组
      * <p>
-     * 使用{@link WordProcessor#wordComparator}比较器对数组进行排序
+     * 使用{@link WordProcessor#wordComparator}比较器对数组进行排序</p>
      *
      * @return the sorted word count list
      */

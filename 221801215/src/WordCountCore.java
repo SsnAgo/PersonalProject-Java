@@ -26,10 +26,10 @@ public class WordCountCore {
      */
     public int countWord(File inputFile) {
         WordProcessor wordProcessor = new WordProcessor();
-        try {
-            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(inputFile),Config.CHARSET);
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader
+                (new FileInputStream(inputFile),Config.CHARSET))) {
             int currentChar;
-            while ((currentChar = inputStreamReader.read()) != -1) {
+            while ((currentChar = bufferedReader.read()) != -1) {
                 if (wordProcessor.buildPossibleWord((char)currentChar,false)) {
                     if (wordProcessor.allWordSumUp()) {
                         wordProcessor.individualWordSumUp(wordProcessor.possibleWord.toString());
@@ -41,7 +41,6 @@ public class WordCountCore {
                     wordProcessor.individualWordSumUp(wordProcessor.possibleWord.toString());
                 }
             }
-            inputStreamReader.close();
         }catch (FileNotFoundException fileNotFoundException) {
             System.out.println(Config.FILE_NOT_FOUND_EXCEPTION_TIP);
             fileNotFoundException.printStackTrace();
@@ -64,10 +63,10 @@ public class WordCountCore {
     public List<Map.Entry<String,Integer> > countTopTenWordWithSum(File inputFile) {
         WordProcessor wordProcessor = new WordProcessor();
         List<Map.Entry<String, Integer>> sortedWordCountList = new ArrayList<>();
-        try {
-            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(inputFile),Config.CHARSET);
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader
+                (new FileInputStream(inputFile),Config.CHARSET))) {
             int currentChar;
-            while ((currentChar = inputStreamReader.read()) != -1) {
+            while ((currentChar = bufferedReader.read()) != -1) {
                 if (wordProcessor.buildPossibleWord((char)currentChar,false)) {
                     if (wordProcessor.allWordSumUp()) {
                         wordProcessor.individualWordSumUp(wordProcessor.possibleWord.toString());
@@ -80,9 +79,8 @@ public class WordCountCore {
                 }
             }
             sortedWordCountList= wordProcessor.getSortedWordCountList();
-            sortedWordCountList = sortedWordCountList.size()>10?sortedWordCountList.subList(0,9)
+            sortedWordCountList = sortedWordCountList.size()>10?sortedWordCountList.subList(0,10)
                     : sortedWordCountList;
-            inputStreamReader.close();
         }catch (FileNotFoundException fileNotFoundException) {
             System.out.println(Config.FILE_NOT_FOUND_EXCEPTION_TIP);
             fileNotFoundException.printStackTrace();
