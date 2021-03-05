@@ -67,7 +67,7 @@ public class Lib
         this.sumChars = this.resultStr.length();
     }
 
-    /*delete some character*/
+    /*delete trim characters*/
     public String stringTrimAll(String input)
     {
         if (null == input)
