@@ -54,10 +54,15 @@ public class Lib
     public static int charactersNumberCount(String str)
     {
 
-        int num=0;
-        
-        num=str.length();
-
+    	int num = 0;
+        char[] ch = str.toCharArray();
+        for(int i = 0; i < ch.length; i++) {
+            if(ch[i] >= 0 && ch[i] <= 127) {
+                num++;
+            }
+            else 
+            	continue;
+        }
         return num;
     }
     
@@ -112,11 +117,13 @@ public class Lib
     			String line;
     			while((line = in.readLine()) != null)
     			{
+    				//忽略空行
     				if(!line.equals("") )
     				{
     					count ++;
     				}
     			}
+    			//System.out.print(count);
     			in.close();
     		}
     		catch(FileNotFoundException e)
@@ -161,18 +168,7 @@ public class Lib
         return wordList;
     }
     
-    public static void writeNum(int charNum,int wordNum,int lineNum,String wordsSort,String outPath)throws IOException 
-	{
-		FileOutputStream fileOutputStream=new FileOutputStream(outPath);
-        OutputStreamWriter outputStreamWriter=new OutputStreamWriter(fileOutputStream,"UTF-8");
-        BufferedWriter bufferedWriter=new BufferedWriter(outputStreamWriter);
-        
-        bufferedWriter.write("characters:"+charNum+"\nwords:"+wordNum+"\nlines:"+lineNum+"\n"+wordsSort);
-        
-        bufferedWriter.flush();
-        
-        bufferedWriter.close();
-	}
+    
 
 
     
