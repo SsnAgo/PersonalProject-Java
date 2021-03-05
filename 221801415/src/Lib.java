@@ -7,10 +7,8 @@ public class Lib
 
     static Map<String,Integer> wordsMap=new HashMap<>();
 
-
-    
     //获取文件的所有内容
-    public static String charactersCount(String filePath)
+    public static String charactersCount(String filePath) throws IOException
     {
 
         BufferedReader bReader=null;
@@ -34,17 +32,8 @@ public class Lib
         catch (IOException e) 
         {
             e.printStackTrace();
-        }finally 
-        {
-            try 
-            {
-                bReader.close();
-            } 
-            catch (IOException e) 
-            {
-                e.printStackTrace();
-            }
         }
+        bReader.close();
 
         return str.toString();
     }
@@ -54,15 +43,15 @@ public class Lib
     public static int charactersNumberCount(String str)
     {
 
-    	int num = 0;
+    	//将字符串改为字符
         char[] ch = str.toCharArray();
+        int num = 0;
         for(int i = 0; i < ch.length; i++) {
             if(ch[i] >= 0 && ch[i] <= 127) {
                 num++;
             }
-            else 
-            	continue;
         }
+        
         return num;
     }
     
@@ -123,7 +112,6 @@ public class Lib
     					count ++;
     				}
     			}
-    			//System.out.print(count);
     			in.close();
     		}
     		catch(FileNotFoundException e)
@@ -168,10 +156,5 @@ public class Lib
         return wordList;
     }
     
-    
-
-
-    
-
 }
 
