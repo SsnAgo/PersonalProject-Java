@@ -123,7 +123,7 @@ public class Lib {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
 
             while((line = bufferedReader.readLine()) != null){
-                if(!line.equals(""))
+                if(!line.trim().equals(""))
                     lines++;
             }
 
