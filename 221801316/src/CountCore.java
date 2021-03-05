@@ -81,13 +81,12 @@ public class CountCore {
      * @return 非空白行的数量
      */
     public static int lineCount(BufferedReader bufferedReader){
-        //正则表达式,匹配至少一个非空白字符
-        String regex="\\S+";
+        String regex="\\s*";
         int lines=0;
         try {
             String str;
             while((str=bufferedReader.readLine())!=null){
-                if(Pattern.matches(regex,str))lines++;
+                if(!Pattern.matches(regex,str))lines++;
             }
         }  catch (IOException e) {
             e.printStackTrace();
