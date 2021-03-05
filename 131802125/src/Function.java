@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Function {
     public Function()
-    {
+    {  
     }
     
     public boolean IsEmptyLine(String wordLine)

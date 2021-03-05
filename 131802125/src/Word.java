@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Word {
+public class Word {  
     private String words;
     private int frequent;
     

@@ -23,6 +23,6 @@ public class CompareRule implements Comparator<Word>
         {
             return 1;
         }
-        
+         
     }
 }
