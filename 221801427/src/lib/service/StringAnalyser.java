@@ -42,4 +42,64 @@ public class StringAnalyser
         }
         return words;
     }
+    
+    /**
+     * @param content
+     * @return words
+     */
+    public static HashMap<String, Integer> analyseContent(String content)
+    {
+        char c;
+        int cnt;
+        String tempWord = "";
+        HashMap<String, Integer> words = new HashMap<String, Integer>();
+        for (int i = 0; i < content.length(); i++)
+        {
+            c = content.charAt(i);
+
+            if (Character.isLetterOrDigit(c))
+            {
+                tempWord += c;
+            }
+            else
+            {
+                if (isWord(tempWord))
+                {
+                    String word = tempWord.toLowerCase();
+                    if (words.containsKey(word))
+                    {
+                        // 单词已统计到过
+                        cnt = words.get(word);
+                        words.put(word, cnt + 1);
+                    }
+                    else
+                    {
+                        // 单词初次统计到
+                        words.put(word, 1);
+                    }
+                }
+                tempWord = "";
+            }
+        }
+        return words;
+    }
+
+    public static boolean isWord(String tempWord)
+    {
+        if (tempWord.length() >= 4)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (!Character.isLetter(tempWord.charAt(i)))
+                {
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            return false;
+        }
+        return true;
+    }
 }

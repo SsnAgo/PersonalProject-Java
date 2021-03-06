@@ -1,4 +1,4 @@
-﻿# PersonalProject-Java
+# PersonalProject-Java
 
 
 ----------
@@ -26,7 +26,7 @@ word2: number <br>
 ## 运行方式
 运行cmd
 
-    javac WordCount.java
+    javac -encoding UTF-8 WordCount.java
     java WordCount input.txt output.txt
 
 
