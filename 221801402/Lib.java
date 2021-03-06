@@ -102,15 +102,15 @@ public class Lib {
             int n = list.size();
             System.out.println("一共有" + n + "种单词");
             //输出到目标文件
-            out.write("characters:"+charNum+"\n");
-            out.write("words:"+sum+"\n");
-            out.write("lines:"+lineNum+"\n");
+            out.write("characters: "+charNum+"\n");
+            out.write("words: "+sum+"\n");
+            out.write("lines: "+lineNum+"\n");
             if (n>10){
                 n=10;
             }
             for (int i = 0; i < n; i++) {
                 System.out.println(list.get(i).getKey() + ":" + list.get(i).getValue());
-                out.write(list.get(i).getKey()+":"+list.get(i).getValue()+"\n");
+                out.write(list.get(i).getKey()+": "+list.get(i).getValue()+"\n");
             }
             out.flush();
             out.close();
