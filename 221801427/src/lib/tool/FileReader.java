@@ -28,7 +28,7 @@ public class FileReader
             // 通过RandomAccessFile获取FileChannel，并通过FileChannel.map方法，把文件映射到虚拟内存，返回逻辑地址。
             if (mappedByteBuffer != null)
             {
-                return StandardCharsets.UTF_8.decode(mappedByteBuffer).toString().toLowerCase(); // 转换为全小写的字符串
+                return StandardCharsets.UTF_8.decode(mappedByteBuffer).toString(); 
             }
             else
             {
