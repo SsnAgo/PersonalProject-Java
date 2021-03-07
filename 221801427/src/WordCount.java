@@ -27,7 +27,7 @@ public class WordCount
     public void Count()
     {
         final String content = FileReader.readFile(inputFileName);// 从文件读取字符串
-        final HashMap<String, Integer> words = StringAnalyser.analyseContent(content);// 从字符串拆分有效单词，统计入HashMap
+        final HashMap<String, Integer> words = StringAnalyser.analyseString(content);// 从字符串拆分有效单词，统计入HashMap
 
         ExecutorService executor = Executors.newCachedThreadPool();
 
