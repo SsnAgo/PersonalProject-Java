@@ -58,7 +58,17 @@ public class Count {
 		//用户输入要读取和输出的文件路径
 		Scanner doc = new Scanner(System.in);	
 		input = doc.nextLine();
-		output = doc.nextLine();
+		output = doc.nextLine();	
+		File file = new File(output);		
+		if(!file.exists())  
+	    {  
+	        try {  
+	            file.createNewFile();  
+	        } catch (IOException e) {  
+	            // TODO Auto-generated catch block  
+	            e.printStackTrace();  
+	        }  
+	    } 
 		FileInputStream fis = new FileInputStream(input);
     	//创建类进行文件的读取
     	InputStreamReader read = new InputStreamReader(fis);    	
