@@ -22,6 +22,8 @@ public class Count {
 	static int count_line=0;//有效行数
 	static int count_Word_Frequency=10;//输出词频最高的单词数
 	static Map<String,Integer> map = new HashMap<String,Integer>();//记录单词出现的次数
+	static String input;
+	static String output;
 	//计算十个词频最高的单词并写入文件
 	static void countWordFrequency() throws FileNotFoundException
 	{
@@ -43,17 +45,21 @@ public class Count {
         for(int i=0;i<map.size();i++)
             result.add(list.get(i).getKey());
         //将所有所需数据输出到文件中
-        File file = new File("C:\\Users\\ling\\Desktop\\1.txt");		
+        File file = new File(output);		
 		try (PrintWriter output = new PrintWriter(file);) {
 			output.println("characters:"+count_char);
-			output.println("words:"+count_word);
+			output.println("words:"+map.size());
 			output.println("line:"+count_line);
 			for(int i=0;i<count_Word_Frequency;i++)
 				output.println(list.get(i).getKey()+":"+list.get(i).getValue());
 		}
 	}
 	public static void main(String[] args) throws Exception {
-		FileInputStream fis = new FileInputStream("C:\\Users\\ling\\Desktop\\新建文本文档.txt");
+		//用户输入要读取和输出的文件路径
+		Scanner doc = new Scanner(System.in);	
+		input = doc.nextLine();
+		output = doc.nextLine();
+		FileInputStream fis = new FileInputStream(input);
     	//创建类进行文件的读取
     	InputStreamReader read = new InputStreamReader(fis);    	
     	//可用于读取指定文件   
