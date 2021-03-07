@@ -6,7 +6,7 @@
 
 > WordCount.java
 >
-> Libs.java
+> Lib.java
 
 ## 如何运行
 
@@ -17,7 +17,7 @@
 ```
 // 命令行运行程序流程
 javac -encoding UTF-8 WordCount.java
-javac -encoding UTF-8 Libs.java
+javac -encoding UTF-8 Lib.java
     
 java WordCount.java input.txt output.txt
 ```
