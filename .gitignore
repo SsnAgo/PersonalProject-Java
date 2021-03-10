@@ -1,3 +1,4 @@
+
 *.class
 *.log
 *.lock
@@ -25,3 +26,4 @@ bin/
 
 *.log
 tmp/
+
