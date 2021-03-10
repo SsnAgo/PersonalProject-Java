@@ -1,4 +1,5 @@
 
+
 *.class
 *.log
 *.lock
@@ -27,10 +28,12 @@ bin/
 *.log
 tmp/
 
+
 *.zip
 *.class
 *.exe
 *.project
 *.jar
 *.txt
+
 
