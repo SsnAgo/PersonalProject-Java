@@ -5,10 +5,7 @@
 *.lock
 *.txt
 
-# Package Files #
-*.jar
-*.war
-*.ear
+
 target/
 
 # idea
@@ -35,4 +32,5 @@ tmp/
 *.project
 *.jar
 *.txt
+
 
