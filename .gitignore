@@ -1,12 +1,30 @@
 
-*.xml
+*.class
+*.log
+*.lock
+*.txt
+
+# Package Files #
+*.jar
+*.war
+*.ear
+target/
+
+# idea
+.idea/
 *.iml
-input.txt
-output.txt
-out
+
+### IntelliJ IDEA ###
+*.iml
+*.ipr
+*.iws
 .idea
-221801201/test/LibTest.java
-inputTest.txt
-outPutTest
-outPutTest.txt
-input1.txt
+.classpath
+.project
+.settings/
+bin/
+
+*.log
+tmp/
+
+
