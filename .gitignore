@@ -1,4 +1,11 @@
 
+*.class
+
+*.log
+*.lock
+*.txt
+
+
 target/
 
 # idea
