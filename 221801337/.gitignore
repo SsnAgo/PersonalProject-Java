@@ -1,0 +1,7 @@
+/.idea
+*.iml
+*.jfr
+*.txt
+/out
+META-INF
+test

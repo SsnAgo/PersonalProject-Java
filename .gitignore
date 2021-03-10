@@ -1,6 +1,36 @@
-.idea
+*.class
+*.log
+*.lock
+*.txt
+
+# Package Files #
+*.jar
+*.war
+*.ear
+target/
+
+# idea
+.idea/
 *.iml
-out
-log
-result
+
+### IntelliJ IDEA ###
+*.iml
+*.ipr
+*.iws
 .idea
+.classpath
+.project
+.settings/
+bin/
+
+*.log
+tmp/
+
+
+*.zip
+*.class
+*.exe
+*.project
+*.jar
+*.txt
+
