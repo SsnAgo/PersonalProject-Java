@@ -1,7 +1,31 @@
 
-221801306/src/LibTest.java
-*.xml
+
 *.class
+*.log
+*.lock
 *.txt
+
+# Package Files #
+*.jar
+*.war
+*.ear
+target/
+
+# idea
+.idea/
 *.iml
-221801306/.idea/.name
+
+### IntelliJ IDEA ###
+*.iml
+*.ipr
+*.iws
+.idea
+.classpath
+.project
+.settings/
+bin/
+
+*.log
+tmp/
+
+
