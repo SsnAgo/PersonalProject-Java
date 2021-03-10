@@ -1,5 +1,3 @@
-
-
 *.class
 *.log
 *.lock
@@ -35,5 +33,4 @@ tmp/
 *.project
 *.jar
 *.txt
-
 
