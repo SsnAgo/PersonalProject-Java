@@ -1,23 +1,39 @@
-# Default ignored files
-/workspace.xml
 
-#过滤整个.idea文件夹
-/221801431/.idea/
-
-#过滤整个test文件夹
-/221801431/test/
-
-#过滤整个out文件夹
-/221801431/out/
-
-#过滤所有.txt文件
-*.txt
-
-#过滤所有.class文件
 *.class
 
-#过滤所有.jar文件
-*.jar
+*.log
+*.lock
+*.txt
 
-#过滤所有.exe文件
+# Package Files #
+*.jar
+*.war
+*.ear
+target/
+
+# idea
+.idea/
+*.iml
+
+### IntelliJ IDEA ###
+*.iml
+*.ipr
+*.iws
+.idea
+.classpath
+.project
+.settings/
+bin/
+
+*.log
+tmp/
+
+
+*.zip
+*.class
 *.exe
+*.project
+*.jar
+*.txt
+
+
