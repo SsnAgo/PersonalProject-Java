@@ -1,38 +1,39 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
 
-# Folder config file
-Desktop.ini
 
-# java class file
 *.class
+*.log
+*.lock
+*.txt
 
 # Package Files #
+*.jar
 *.war
 *.ear
-/target
-/.settings
-/.classpath
-/.project
-/.idea
+target/
 
-# ignore Maven generated target folders
-target
-out
-
-# ignore eclipse files
-.project
-.classpath
-.settings
-.factorypath
-.metadata
-.idea
+# idea
+.idea/
 *.iml
 
-# ignore log files
-*.log
+### IntelliJ IDEA ###
+*.iml
+*.ipr
+*.iws
+.idea
+.classpath
+.project
+.settings/
+bin/
 
+*.log
+tmp/
+
+
+*.zip
+*.class
+*.exe
+*.project
+*.jar
 *.txt
-LibTest.java
+
 
