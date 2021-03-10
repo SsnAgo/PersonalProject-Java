@@ -1,6 +1,30 @@
 
-221801303/.idea/
-221801303/out/
-221801303/Test/
-221801303/input.txt
-221801303/output.txt
+
+*.class
+*.log
+*.lock
+*.txt
+
+# Package Files #
+*.jar
+*.war
+*.ear
+target/
+
+# idea
+.idea/
+*.iml
+
+### IntelliJ IDEA ###
+*.iml
+*.ipr
+*.iws
+.idea
+.classpath
+.project
+.settings/
+bin/
+
+*.log
+tmp/
+
