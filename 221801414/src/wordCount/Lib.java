@@ -82,4 +82,16 @@ public class Lib {
 	                    (e1, e2) -> e1, LinkedHashMap::new));
 	     List = new ArrayList<HashMap.Entry<String, Integer>>(hashMaps.entrySet());
 	}
+	public void printFile() throws IOException {
+		writer=new BufferedWriter(new FileWriter(fileOutPath));
+		writer.write("characters: " + charCount + "\n");
+		writer.write("words: " + wordCount + "\n");
+		writer.write("lines: " + lineCount + "\n");
+		 
+		for(HashMap.Entry<String, Integer> map:List)
+        {
+            writer.write(map.getKey() + ": " + map.getValue() + "\n");
+        }
+		writer.close();
+	}
 }
