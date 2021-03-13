@@ -9,6 +9,7 @@ public class Lib {
 	private int wordCount=0;
 	private int lineCount=0;
 	private static String wordMatch = "[a-zA-Z]{4,}[a-zA-Z0-9]*";
+	private static String lineMatch = "(^|\n)\\s*\\S+";
 	private BufferedReader reader=null;
 	private BufferedWriter writer=null;
 	private String fileInPath="";
@@ -52,4 +53,25 @@ public class Lib {
 			return false;
 	}
 
+	public void countLine() throws IOException {
+		int str;
+		StringBuilder builder = new StringBuilder();
+		try {
+			reader=new BufferedReader(new FileReader(fileInPath));
+			while ((str=reader.read())!=-1)
+			{
+				builder.append((char)str);
+			}
+			Pattern pattern = Pattern.compile(lineMatch);
+			Matcher matcher = pattern.matcher(builder);
+			while (matcher.find()){
+	        lineCount++;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally {
+			reader.close();
+		}
+	}
 }
