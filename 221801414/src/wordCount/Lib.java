@@ -9,7 +9,6 @@ public class Lib {
 	private int wordCount=0;
 	private int lineCount=0;
 	private StringBuilder builder = new StringBuilder();
-	private final static String wordMatch = "[a-zA-Z]{4,}[a-zA-Z0-9]*";
 	private final static String lineMatch = "(^|\n)\\s*\\S+";
 	private BufferedReader reader=null;
 	private BufferedWriter writer=null;
@@ -52,10 +51,25 @@ public class Lib {
         reader.close();
     }
 	public boolean isWord(String buffer) {
-		if(buffer.matches(wordMatch))
+		if (buffer.length()>=4)
+	    {
+			char buf[] = buffer.toCharArray();
+			for(char temp:buf) {
+				if(!Character.isLetterOrDigit(temp)) {
+					return false;
+				}
+			}
+			return true;
+	    }
+	    else
+	    {
+	        return false;
+	    }
+		/*if(buffer.matches(wordMatch))
 			return true;
 		else
 			return false;
+		*/
 	}
 	public void countLine() throws IOException {
 		Pattern pattern = Pattern.compile(lineMatch);
@@ -63,6 +77,7 @@ public class Lib {
 		while (matcher.find()){
 	    lineCount++;
 	    }
+	    
 	}
 	public void sortWordOccurs() {
 	    hashMaps = hashMap.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue()
