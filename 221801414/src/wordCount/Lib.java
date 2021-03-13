@@ -15,6 +15,8 @@ public class Lib {
 	private String fileInPath="";
 	private String fileOutPath="";
 	private HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
+	private HashMap<String, Integer> hashMaps = new HashMap<String, Integer>();
+	private ArrayList<HashMap.Entry<String, Integer>> List;
 	Lib(String fileIn,String fileOut){
 		fileInPath=fileIn;
 		fileOutPath=fileOut;
@@ -52,7 +54,6 @@ public class Lib {
 		else
 			return false;
 	}
-
 	public void countLine() throws IOException {
 		int str;
 		StringBuilder builder = new StringBuilder();
@@ -73,5 +74,12 @@ public class Lib {
 		finally {
 			reader.close();
 		}
+	}
+	public void sortWordOccurs() {
+	    hashMaps = hashMap.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue()
+	            .reversed().thenComparing(Map.Entry.comparingByKey())).limit(10)                      
+	            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+	                    (e1, e2) -> e1, LinkedHashMap::new));
+	     List = new ArrayList<HashMap.Entry<String, Integer>>(hashMaps.entrySet());
 	}
 }
