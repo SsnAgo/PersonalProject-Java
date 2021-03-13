@@ -8,8 +8,9 @@ public class Lib {
 	private int charCount=0;
 	private int wordCount=0;
 	private int lineCount=0;
-	private static String wordMatch = "[a-zA-Z]{4,}[a-zA-Z0-9]*";
-	private static String lineMatch = "(^|\n)\\s*\\S+";
+	private StringBuilder builder = new StringBuilder();
+	private final static String wordMatch = "[a-zA-Z]{4,}[a-zA-Z0-9]*";
+	private final static String lineMatch = "(^|\n)\\s*\\S+";
 	private BufferedReader reader=null;
 	private BufferedWriter writer=null;
 	private String fileInPath="";
@@ -25,14 +26,16 @@ public class Lib {
 		int str;
         String buffer="";
         reader=new BufferedReader(new FileReader(fileInPath));
+		
         while((str=reader.read())>=0 && str<=127 ) {
         	charCount++;
+        	builder.append((char)str);
             if(Character.isLetterOrDigit(str)) {
             	buffer+=(char)str;
             }
             else {
             	if(isWord(buffer)) {
-            		wordCount++; 
+            		wordCount++;
             		String buf = buffer.toLowerCase();
             		if (hashMap.containsKey(buf)) {
             			int occurs=hashMap.get(buf);
@@ -55,25 +58,11 @@ public class Lib {
 			return false;
 	}
 	public void countLine() throws IOException {
-		int str;
-		StringBuilder builder = new StringBuilder();
-		try {
-			reader=new BufferedReader(new FileReader(fileInPath));
-			while ((str=reader.read())!=-1)
-			{
-				builder.append((char)str);
-			}
-			Pattern pattern = Pattern.compile(lineMatch);
-			Matcher matcher = pattern.matcher(builder);
-			while (matcher.find()){
-	        lineCount++;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		finally {
-			reader.close();
-		}
+		Pattern pattern = Pattern.compile(lineMatch);
+		Matcher matcher = pattern.matcher(builder);
+		while (matcher.find()){
+	    lineCount++;
+	    }
 	}
 	public void sortWordOccurs() {
 	    hashMaps = hashMap.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue()
@@ -87,11 +76,11 @@ public class Lib {
 		writer.write("characters: " + charCount + "\n");
 		writer.write("words: " + wordCount + "\n");
 		writer.write("lines: " + lineCount + "\n");
-		 
+		
 		for(HashMap.Entry<String, Integer> map:List)
         {
             writer.write(map.getKey() + ": " + map.getValue() + "\n");
         }
-		writer.close();
+		writer.close(); 
 	}
 }
