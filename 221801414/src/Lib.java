@@ -1,4 +1,4 @@
-package wordCount;
+package WordCount;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -47,8 +47,7 @@ public class Lib {
             		if (hashMap.containsKey(lowerBuffer)) {
             			int occurs = hashMap.get(lowerBuffer);
             			hashMap.put(lowerBuffer, occurs+1);
-            		}
-            		else {
+            		} else {
             			hashMap.put(lowerBuffer, 1);
             		}
             		lowerBuffer = "";
@@ -56,6 +55,16 @@ public class Lib {
             	buffer = "";
             }
 	    }
+        if (isWord(buffer)) {      //统计最后一个单词
+    		wordCount++;
+    		String lowerBuffer = buffer.toLowerCase();
+    		if (hashMap.containsKey(lowerBuffer)) {
+    			int occurs = hashMap.get(lowerBuffer);
+    			hashMap.put(lowerBuffer, occurs+1);
+    		} else {
+    		hashMap.put(lowerBuffer, 1);
+    		}
+        }
         reader.close();
     }
 	/*
@@ -64,9 +73,9 @@ public class Lib {
 	public boolean isWord(String buffer) {
 		if (buffer.length() >= 4)
 	    {
-			char buf[] = buffer.toCharArray();
-			for (char temp : buf) {
-				if (!Character.isLetterOrDigit(temp)) {
+			char charArrayBuf[] = buffer.toCharArray();
+			for (int i = 0; i < 4; i++) {
+				if (!Character.isLetter(charArrayBuf[i])) {
 					return false;
 				}
 			}

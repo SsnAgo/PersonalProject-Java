@@ -1,4 +1,4 @@
-package wordCount;
+package WordCount;
 import java.io.*;
 import java.util.*;
 public class WordCount {
