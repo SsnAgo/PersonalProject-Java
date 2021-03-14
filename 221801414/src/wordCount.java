@@ -1,15 +1,17 @@
 package wordCount;
 import java.io.*;
 import java.util.*;
-public class wordCount {
+public class WordCount {
 	private String fileIn;
 	private String fileOut;
-	public wordCount(String fileInPath,String fileOutPath) {
-		this.fileIn=fileInPath;
-		this.fileOut=fileOutPath;
+	
+	public WordCount(String fileInPath, String fileOutPath) {
+		this.fileIn = fileInPath;
+		this.fileOut = fileOutPath;
 	}
 	public void Counting() {
-		Lib lib=new Lib(fileIn,fileOut);
+		Lib lib = new Lib(fileIn, fileOut);
+		
 		try { 
 			lib.countCharWord();
 			lib.countLine();
@@ -20,7 +22,7 @@ public class wordCount {
 		}
 	}
 	public static void main(String[] args) {
-		wordCount wordcount=new wordCount(args[0],args[1]);
+		WordCount wordcount = new WordCount(args[0],args[1]);
 		wordcount.Counting();
 	}
 }
