@@ -22,11 +22,13 @@ public class Lib {
 	private HashMap<String, Integer> hashMaps = new HashMap<String, Integer>();
 	private ArrayList<HashMap.Entry<String, Integer>> List;
 	
-	Lib(String fileIn, String fileOut) {
+	public Lib(String fileIn, String fileOut) {
 		fileInPath = fileIn;
 		fileOutPath = fileOut;
 	}
-	
+	/*
+	 * 统计字符数和单词数
+	 */
 	public void countCharWord() throws IOException {
 		int str;
         String buffer = "";
@@ -56,6 +58,9 @@ public class Lib {
 	    }
         reader.close();
     }
+	/*
+	 * 判断是否为单词
+	 */
 	public boolean isWord(String buffer) {
 		if (buffer.length() >= 4)
 	    {
@@ -78,6 +83,9 @@ public class Lib {
 		*/
 	}
 	
+	/*
+	 * 统计行数
+	 */
 	public void countLine() throws IOException {
 		Matcher matcher = linePattern.matcher(builder);
 		while (matcher.find()) {
@@ -86,6 +94,9 @@ public class Lib {
 	    
 	}
 	
+	/*
+	 * 将hashMap中的单词排序
+	 */
 	public void sortWordOccurs() {
 	    hashMaps = hashMap.entrySet().stream()
 	    		.sorted(Map.Entry.<String, Integer>comparingByValue()
@@ -95,6 +106,9 @@ public class Lib {
 	     List = new ArrayList <HashMap.Entry <String, Integer> > (hashMaps.entrySet());
 	}
 	
+	/*
+	 * 按要求打印内容至输出文件
+	 */
 	public void printFile() throws IOException {
 		writer=new BufferedWriter(new FileWriter(fileOutPath));
 		writer.write("characters: " + charCount + "\n");

@@ -2,8 +2,8 @@ package wordCount;
 import java.io.*;
 import java.util.*;
 public class WordCount {
-	private String fileIn;
-	private String fileOut;
+	private String fileIn;     //输入文件名
+	private String fileOut;    //输出文件名
 	
 	public WordCount(String fileInPath, String fileOutPath) {
 		this.fileIn = fileInPath;
