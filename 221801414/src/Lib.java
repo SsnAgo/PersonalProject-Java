@@ -39,8 +39,7 @@ public class Lib {
         	builder.append((char)str);
             if (Character.isLetterOrDigit(str)) {
             	buffer += (char)str;
-            }
-            else {
+            } else {
             	if (isWord(buffer)) {
             		wordCount++;
             		String lowerBuffer = buffer.toLowerCase();
@@ -55,14 +54,14 @@ public class Lib {
             	buffer = "";
             }
 	    }
-        if (isWord(buffer)) {      //统计最后一个单词
+        if (isWord(buffer)) {            //判断最后一个字符串
     		wordCount++;
     		String lowerBuffer = buffer.toLowerCase();
     		if (hashMap.containsKey(lowerBuffer)) {
     			int occurs = hashMap.get(lowerBuffer);
     			hashMap.put(lowerBuffer, occurs+1);
     		} else {
-    		hashMap.put(lowerBuffer, 1);
+    			hashMap.put(lowerBuffer, 1);
     		}
         }
         reader.close();
@@ -80,9 +79,7 @@ public class Lib {
 				}
 			}
 			return true;
-	    }
-	    else
-	    {
+	    } else {
 	        return false;
 	    }
 		/*if(buffer.matches(WORD_REGEX_RULE))
