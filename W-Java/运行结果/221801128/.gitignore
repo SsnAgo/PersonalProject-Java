@@ -1,0 +1,17 @@
+/bin/
+
+/.idea/
+
+*.iml
+
+*.project
+
+input.txt
+
+output.txt
+
+*.classpath
+
+*.class
+
+LibTest.java
